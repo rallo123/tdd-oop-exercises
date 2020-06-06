@@ -24,6 +24,20 @@ namespace Lecture_1_Tests.Helpers
             );
         }
 
+        public static void TestMemberIsMethod(Type type, string name)
+        {
+            TestMemberIsMethod(type, new string[] { name });
+        }
+        public static void TestMemberIsMethod(Type type, string[] path)
+        {
+            TestMemberExists(type, path);
+
+            Assert.IsTrue(
+                TryGetInfo(type, path) is MethodInfo,
+                $"{FormatPath(type, path)} is not a method"
+            );
+        }
+
         public static void TestMemberIsProperty(Type type, string name)
         {
             TestMemberIsProperty(type, new string[] { name });
@@ -37,7 +51,7 @@ namespace Lecture_1_Tests.Helpers
                 $"{FormatPath(type, path)} is not a property"
             );
         }
-
+        
         public static void TestMemberIsPropertyWithGetMethod(
             Type type,
             string name,

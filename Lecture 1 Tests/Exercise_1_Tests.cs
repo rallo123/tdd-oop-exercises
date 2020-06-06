@@ -100,10 +100,10 @@ namespace Lecture_1_Tests
         public void MotherThrowsIfYoungerThanChild()
         {
             Person mother = new Person();
-            MemberHelper.SetValue(mother, "Age", 0);
-
+            TestHelper.TestValidAssignment(mother, "Age", 0);
+            
             Person child = new Person();
-            MemberHelper.SetValue(child, "Age", 1);
+            TestHelper.TestValidAssignment(child, "Age", 1);
 
             TestHelper.TestInvalidAssignment<ArgumentException>(child, "Mother", mother);
         }
@@ -111,10 +111,10 @@ namespace Lecture_1_Tests
         public void FatherThrowsIfYoungerThanChild()
         {
             Person father = new Person();
-            MemberHelper.SetValue(father, "Age", 0);
+            TestHelper.TestValidAssignment(father, "Age", 0);
 
             Person child = new Person();
-            MemberHelper.SetValue(child, "Age", 1);
+            TestHelper.TestValidAssignment(child, "Age", 1);
 
             TestHelper.TestInvalidAssignment<ArgumentException>(child, "Mother", father);
         }
@@ -155,12 +155,14 @@ namespace Lecture_1_Tests
         
         private Person GetRoot()
         {
-            //TODO add tests
+            TestHelper.TestMemberIsMethod(typeof(FamilyGenerator), "GenerateFamily");
+
             return (Person)MemberHelper.TryCallMethod(new FamilyGenerator(), "GenerateFamily");
         }
         private Person GetNode(string path)
         {
-            //TODO add tests
+            TestHelper.TestMemberIsPropertyWithGetMethod(typeof(Person), path.Split("."));
+            
             return (Person) MemberHelper.TryGetValue(GetRoot(), path.Split("."));
         }
         private string PersonToString(Person p)
@@ -192,18 +194,13 @@ namespace Lecture_1_Tests
         }
         
         [TestMethod]
-        public void ChildIsRobin() {
-            TestFamilyMember(
-                "Child", 
-                robin, 
-                GetRoot());
-        }
-
+        public void ChildIsRobin() => TestFamilyMember("Child", robin, GetRoot());
+        
         [TestMethod]
         public void MotherIsAnna() => TestFamilyMember("Mother", anna, GetNode("Mother"));
 
         [TestMethod]
-        public void FatherIsWarren() => TestFamilyMember("Mother", robin, GetNode("Father"));
+        public void FatherIsWarren() => TestFamilyMember("Mother", warren, GetNode("Father"));
 
         [TestMethod]
         public void GrandMotherIsElsa() => TestFamilyMember("Grandmother", elsa, GetNode("Father.Mother"));

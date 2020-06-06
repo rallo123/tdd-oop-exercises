@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Exercise 1\\Lecture 1.csproj": {}
+    "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Lecture 1\\Lecture 1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Exercise 1\\Lecture 1.csproj": {
+    "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Lecture 1\\Lecture 1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Exercise 1\\Lecture 1.csproj",
+        "projectUniqueName": "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Lecture 1\\Lecture 1.csproj",
         "projectName": "Lecture 1",
-        "projectPath": "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Exercise 1\\Lecture 1.csproj",
+        "projectPath": "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Lecture 1\\Lecture 1.csproj",
         "packagesPath": "C:\\Users\\Ole van Santen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Exercise 1\\obj\\",
+        "outputPath": "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Lecture 1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -5707,8 +5707,8 @@
     },
     "Lecture 1/1.0.0": {
       "type": "project",
-      "path": "../Exercise 1/Lecture 1.csproj",
-      "msbuildProject": "../Exercise 1/Lecture 1.csproj"
+      "path": "../Lecture 1/Lecture 1.csproj",
+      "msbuildProject": "../Lecture 1/Lecture 1.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5750,8 +5750,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Exercise 1\\Lecture 1.csproj": {
-              "projectPath": "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Exercise 1\\Lecture 1.csproj"
+            "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Lecture 1\\Lecture 1.csproj": {
+              "projectPath": "C:\\Users\\Ole van Santen\\Desktop\\OOP Kursus 2.0\\Lecture 1\\Lecture 1.csproj"
             }
           }
         }
