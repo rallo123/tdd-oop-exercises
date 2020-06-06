@@ -1,0 +1,13 @@
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\obj\Debug\netcoreapp3.1\Lecture 1.csprojAssemblyReference.cache
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\obj\Debug\netcoreapp3.1\Lecture 1.AssemblyInfoInputs.cache
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\obj\Debug\netcoreapp3.1\Lecture 1.AssemblyInfo.cs
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\obj\Debug\netcoreapp3.1\Lecture 1.csproj.CoreCompileInputs.cache
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\bin\Debug\netcoreapp3.1\Lecture 1.exe
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\bin\Debug\netcoreapp3.1\Lecture 1.deps.json
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\bin\Debug\netcoreapp3.1\Lecture 1.runtimeconfig.json
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\bin\Debug\netcoreapp3.1\Lecture 1.runtimeconfig.dev.json
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\bin\Debug\netcoreapp3.1\Lecture 1.dll
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\bin\Debug\netcoreapp3.1\Lecture 1.pdb
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\obj\Debug\netcoreapp3.1\Lecture 1.dll
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\obj\Debug\netcoreapp3.1\Lecture 1.pdb
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Exercise 1\obj\Debug\netcoreapp3.1\Lecture 1.genruntimeconfig.cache
