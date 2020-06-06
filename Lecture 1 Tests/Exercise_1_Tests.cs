@@ -3,22 +3,97 @@ using Lecture_1_Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Text;
-using static Lecture_1_Tests.Exercise_1_SharedTests;
+using static Lecture_1_Tests.Exercise_1_Helper;
 
 namespace Lecture_1_Tests
 {
-    public static class Exercise_1_SharedTests
+    public static class Exercise_1_Helper
     {
-        public static void TestPersonMemberIsProperty(string name) => TestHelper.TestMemberIsProperty(typeof(Person), name);
-        
-        public static void TestPersonMemberIsPropertyWithPublicGetAndSetMethods(string name) => TestHelper.TestMemberIsPropertyWithGetAndSetMethods(typeof(Person), name, isPublic: true);
-
-        public static void TestPersonMemberIsOfType(string name, Type type) => TestHelper.TestMemberIsOfType(typeof(Person), name, type);
-
-        public static void TestInvalidAssigmentToPersonMember<TException>(string name, object value) where TException : Exception
+        public static void TestPersonMemberIsProperty(string name)
         {
-            TestHelper.TestInvalidAssignment<TException>(new Person(), name, value);
+            TestHelper.TestMemberIsProperty(typeof(Person), name);
         }
+
+        public static void TestPersonMemberIsPropertyWithPublicGetAndSetMethods(string name)
+        {
+            TestHelper.TestMemberIsPropertyWithGetAndSetMethods(typeof(Person), name, isPublic: true);
+        }
+
+        public static void TestPersonMemberIsOfType(string name, Type type)
+        {
+            TestHelper.TestMemberIsOfType(typeof(Person), name, type);
+        }
+
+        public static void TestIgnoredAssigmentToPersonMember(string name, object value)
+        {
+            TestHelper.TestIgnoredAssignment(new Person(), name, value);
+        }
+
+        public static void TestFamilyMember(string role, Person expected, Person actual)
+        {
+            Assert.IsNotNull(
+                actual,
+                $"{role} is missing"
+            );
+            Assert.IsTrue(
+                ArePersonsEqual(expected, actual),
+                $"{role} {PersonToString(actual)} does not match {PersonToString(expected)}"
+            );
+        }
+
+        public static bool ArePersonsEqual(Person p1, Person p2)
+        {
+            if (!MemberHelper.TryGetValue(p1, "FirstName").Equals(MemberHelper.TryGetValue(p2, "FirstName")))
+                return false;
+            if (!MemberHelper.TryGetValue(p1, "LastName").Equals(MemberHelper.TryGetValue(p2, "LastName")))
+                return false;
+            if (!MemberHelper.TryGetValue(p1, "Age").Equals(MemberHelper.TryGetValue(p2, "Age")))
+                return false;
+
+            return true;
+        }
+
+        public static string PersonToString(Person p)
+        {
+            return $"{MemberHelper.TryGetValue(p, "FirstName")} {MemberHelper.TryGetValue(p, "LastName")} ({MemberHelper.TryGetValue(p, "Age")})";
+        }
+
+        public static Person adam = new Person()
+        {
+            FirstName = "Adam",
+            LastName = "Smith",
+            Age = 36
+        };
+        public static Person gustav = new Person()
+        {
+            FirstName = "Gustav",
+            LastName = "Rich",
+            Age = 66
+        };
+        public static Person elsa = new Person()
+        {
+            FirstName = "Gustav",
+            LastName = "Rich",
+            Age = 66
+        };
+        public static Person warren = new Person()
+        {
+            FirstName = "Warren",
+            LastName = "Rich",
+            Age = 36
+        };
+        public static Person anna = new Person()
+        {
+            FirstName = "Anna",
+            LastName = "Smith",
+            Age = 38
+        };
+        public static Person robin = new Person()
+        {
+            FirstName = "Robin",
+            LastName = "Rich",
+            Age = 10
+        };
     }
 
     [TestClass]
@@ -54,27 +129,27 @@ namespace Lecture_1_Tests
         public void AgeIsOfTypeInt() => TestPersonMemberIsOfType("Age", typeof(int));
         
         [TestMethod]
-        public void FirstNameThrowsOnNull() => TestInvalidAssigmentToPersonMember<ArgumentNullException>("FirstName", null);
+        public void FirstNameAssignmentIgnoredOnNull() => TestIgnoredAssigmentToPersonMember("FirstName", null);
         [TestMethod]
-        public void LastNameThrowsOnNull() => TestInvalidAssigmentToPersonMember<ArgumentNullException>("LastName", null);
+        public void LastNameAssignmentIgnoredOnNull() => TestIgnoredAssigmentToPersonMember("LastName", null);
 
         [TestMethod]
-        public void FirstNameThrowsOnEmptyString() => TestInvalidAssigmentToPersonMember<ArgumentException>("FirstName", "");
+        public void FirstNameAssignmentIgnoredOnEmptyString() => TestIgnoredAssigmentToPersonMember("FirstName", "");
         [TestMethod]
-        public void LastNameThrowsOnEmptyString() => TestInvalidAssigmentToPersonMember<ArgumentException>("LastName", "");
+        public void LastNameAssignmentIgnoredOnEmptyString() => TestIgnoredAssigmentToPersonMember("LastName", "");
 
         [TestMethod]
-        public void FirstNameThrowsOnNumbers() => TestInvalidAssigmentToPersonMember<ArgumentException>("FirstName", "123456789");
+        public void FirstNameAssignmentIgnoredOnNumberCharachter() => TestIgnoredAssigmentToPersonMember("FirstName", "123456789");
         [TestMethod]
-        public void LastNameThrowsOnNumbers() => TestInvalidAssigmentToPersonMember<ArgumentException>("LastName", "123456789");
+        public void LastNameAssignmentIgnoredOnNumbers() => TestIgnoredAssigmentToPersonMember("LastName", "123456789");
 
         [TestMethod]
-        public void FirstNameThrowsOnStringWithLength101() => TestInvalidAssigmentToPersonMember<ArgumentException>("FirstName", GenerateStringOfLength(101));
+        public void FirstNameAssigmentIgnoredOnStringWithLength101() => TestIgnoredAssigmentToPersonMember("FirstName", GenerateStringOfLength(101));
         [TestMethod]
-        public void LastNameThrowsOnStringWithLength101() => TestInvalidAssigmentToPersonMember<ArgumentException>("LastName", GenerateStringOfLength(101));
+        public void LastNameAssignmentIgnoredOnStringWithLength101() => TestIgnoredAssigmentToPersonMember("LastName", GenerateStringOfLength(101));
 
         [TestMethod]
-        public void AgeThrowsOnNegativeInt() => TestInvalidAssigmentToPersonMember<ArgumentException>("Age", -1);
+        public void AgeIgnoresOnNegativeInt() => TestIgnoredAssigmentToPersonMember("Age", -1);
     }
 
     [TestClass]
@@ -85,11 +160,9 @@ namespace Lecture_1_Tests
         [TestMethod]
         public void FatherIsProperty() => TestPersonMemberIsProperty("Father");
 
-
         public void MotherIsPublicProperty() => TestPersonMemberIsPropertyWithPublicGetAndSetMethods("Mother");
         [TestMethod]
         public void FatherIsPublicProperty() => TestPersonMemberIsPropertyWithPublicGetAndSetMethods("Father");
-
 
         [TestMethod]
         public void MotherIsOfTypePerson() => TestPersonMemberIsOfType("Mother", typeof(Person));
@@ -97,7 +170,7 @@ namespace Lecture_1_Tests
         public void FatherIsOfTypePerson() => TestPersonMemberIsOfType("Father", typeof(Person));
 
         [TestMethod]
-        public void MotherThrowsIfYoungerThanChild()
+        public void MotherAssignmentIgnoredIfYoungerThanChild()
         {
             Person mother = new Person();
             TestHelper.TestValidAssignment(mother, "Age", 0);
@@ -105,10 +178,10 @@ namespace Lecture_1_Tests
             Person child = new Person();
             TestHelper.TestValidAssignment(child, "Age", 1);
 
-            TestHelper.TestInvalidAssignment<ArgumentException>(child, "Mother", mother);
+            TestHelper.TestIgnoredAssignment(child, "Mother", mother);
         }
         [TestMethod]
-        public void FatherThrowsIfYoungerThanChild()
+        public void FatherAssignmentIgnoredIfYoungerThanChild()
         {
             Person father = new Person();
             TestHelper.TestValidAssignment(father, "Age", 0);
@@ -116,81 +189,40 @@ namespace Lecture_1_Tests
             Person child = new Person();
             TestHelper.TestValidAssignment(child, "Age", 1);
 
-            TestHelper.TestInvalidAssignment<ArgumentException>(child, "Mother", father);
+            TestHelper.TestIgnoredAssignment(child, "Mother", father);
         }
     }
+    
     [TestClass]
     public class Exercise_1C_Tests
     {
-        readonly Person gustav = new Person()
+        [TestMethod]
+        public void PersonIsSmith()
         {
-            FirstName = "Gustav",
-            LastName = "Rich",
-            Age = 66
-        };
-        readonly Person elsa = new Person()
-        {
-            FirstName = "Gustav",
-            LastName = "Rich",
-            Age = 66
-        };
-        readonly Person warren = new Person()
-        {
-            FirstName = "Warren",
-            LastName = "Rich",
-            Age = 36
-        };
-        readonly Person anna = new Person()
-        {
-            FirstName = "Anna",
-            LastName = "Smith",
-            Age = 38
-        };
-        readonly Person robin = new Person()
-        {
-            FirstName = "Robin",
-            LastName = "Rich",
-            Age = 10
-        };
-        
+            TestHelper.TestMemberIsMethod(typeof(PersonGenerator), "GeneratePerson");
+
+            Person actual = (Person)MemberHelper.TryCallMethod(new PersonGenerator(), "GeneratePerson");
+            Assert.IsTrue(
+                ArePersonsEqual(adam, actual),
+                $"{PersonToString(actual)} does not match {PersonToString(adam)}"
+            );
+        }
+    }
+
+    [TestClass]
+    public class Exercise_1D_Tests
+    {
         private Person GetRoot()
         {
-            TestHelper.TestMemberIsMethod(typeof(FamilyGenerator), "GenerateFamily");
+            TestHelper.TestMemberIsMethod(typeof(PersonGenerator), "GenerateFamily");
 
-            return (Person)MemberHelper.TryCallMethod(new FamilyGenerator(), "GenerateFamily");
+            return (Person)MemberHelper.TryCallMethod(new PersonGenerator(), "GenerateFamily");
         }
         private Person GetNode(string path)
         {
             TestHelper.TestMemberIsPropertyWithGetMethod(typeof(Person), path.Split("."));
             
             return (Person) MemberHelper.TryGetValue(GetRoot(), path.Split("."));
-        }
-        private string PersonToString(Person p)
-        {
-            return $"{MemberHelper.TryGetValue(p, "FirstName")} {MemberHelper.TryGetValue(p, "LastName")} ({MemberHelper.TryGetValue(p, "Age")})";
-        }
-        private bool ArePersonsEqual(Person p1, Person p2)
-        {
-            if (!MemberHelper.TryGetValue(p1, "FirstName").Equals(MemberHelper.TryGetValue(p2, "FirstName")))
-                return false;
-            if (!MemberHelper.TryGetValue(p1, "LastName").Equals(MemberHelper.TryGetValue(p2, "LastName")))
-                return false;
-            if (!MemberHelper.TryGetValue(p1, "Age").Equals(MemberHelper.TryGetValue(p2, "Age")))
-                return false;
-
-            return true;
-        }
-
-        private void TestFamilyMember(string role, Person expected, Person actual)
-        {
-            Assert.IsNotNull(
-                actual,
-                $"{role} is missing"
-            );
-            Assert.IsTrue(
-                ArePersonsEqual(expected, actual),
-                $"{role} {PersonToString(actual)} does not match {PersonToString(expected)}"
-            );
         }
         
         [TestMethod]
@@ -207,5 +239,48 @@ namespace Lecture_1_Tests
 
         [TestMethod]
         public void GrandFatherIsGustav() => TestFamilyMember("Grandfather", gustav, GetNode("Father.Father"));
+    }
+    
+    [TestClass]
+    public class Exercise_1E_Tests
+    {
+        [TestMethod]
+        public void PrintPersonProducesExpectedOutput()
+        {
+            TestHelper.TestMemberIsMethod(typeof(PersonPrinter), "PrintPerson");
+            
+            static void expected() => Console.Write("Adam Smith (36)");
+            static void actual() => MemberHelper.TryCallMethod(new PersonPrinter(), "PrintPerson", new object[] { adam });
+
+            TestHelper.TestConsoleOutput(expected, actual);
+        }
+    }
+
+    [TestClass]
+    public class Exercise_1F_Tests
+    {
+        [TestMethod]
+        public void PrintFamilyProducesExpectedOutput()
+        {
+            TestHelper.TestMemberIsPropertyWithSetMethod(typeof(Person), "Mother");
+            TestHelper.TestMemberIsPropertyWithSetMethod(typeof(Person), "Father");
+            TestHelper.TestMemberIsMethod(typeof(PersonPrinter), "PrintFamily");
+
+            MemberHelper.SetValue(robin, "Mother", anna);
+            MemberHelper.SetValue(robin, "Father", warren);
+            MemberHelper.SetValue(warren, "Mother", elsa);
+            MemberHelper.SetValue(warren, "Father", gustav);
+
+            static void expected() {
+                Console.WriteLine("Robin Rich (10)");
+                Console.WriteLine("  Warran Rich (36)");
+                Console.WriteLine("    Gustav Rich (66)");
+                Console.WriteLine("    Elsa Johnson (65)");
+                Console.WriteLine("  Anna Smith (38)");
+            };
+            static void actual() => MemberHelper.TryCallMethod(new PersonPrinter(), "PrintFamily", new object[] { robin });
+
+            TestHelper.TestConsoleOutput(expected, actual);
+        }
     }
 }

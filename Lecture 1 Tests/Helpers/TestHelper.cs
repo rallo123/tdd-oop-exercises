@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 using System.Reflection;
 using static Lecture_1_Tests.Helpers.MemberHelper;
 
@@ -7,9 +8,45 @@ namespace Lecture_1_Tests.Helpers
 {
     public static class TestHelper
     {
+        //# Console tests
+        private static string CaptureConsoleOutput(Action action)
+        {
+            string capturedOutput; 
+            
+            var originalConsoleOut = Console.Out;
+            using(var writer = new StringWriter())
+            {
+                Console.SetOut(writer);
+                action();
+                writer.Flush();
+                capturedOutput = writer.GetStringBuilder().ToString();
+            }
+            Console.SetOut(originalConsoleOut);
+
+            return capturedOutput;
+        }
+
+        public static void TestConsoleOutput(Action expected, Action actual)
+        {
+            string expectedOutput = CaptureConsoleOutput(expected);
+            string actualOutput = CaptureConsoleOutput(actual);
+
+            Console.WriteLine("# Expected");
+            Console.WriteLine((!string.IsNullOrEmpty(expectedOutput)) ? expectedOutput : "no output");
+            Console.WriteLine();
+            Console.WriteLine("# Actual");
+            Console.WriteLine((!string.IsNullOrEmpty(actualOutput)) ? actualOutput : "no output");
+
+            Assert.IsTrue(
+                expectedOutput.Trim().Equals(actualOutput.Trim()), 
+                "Expected and actual output (might) differ."
+            );
+        }
+
+        //# Structural tests
         private static string FormatPath(Type type, string[] path)
         {
-            return type.Name + "-instance." + String.Join(".", path);
+            return type.Name + "." + String.Join(".", path);
         }
 
         public static void TestMemberExists(Type type, string name)
@@ -52,23 +89,11 @@ namespace Lecture_1_Tests.Helpers
             );
         }
         
-        public static void TestMemberIsPropertyWithGetMethod(
-            Type type,
-            string name,
-            bool? isPrivate = null,
-            bool? isProtected = null,
-            bool? isPublic = null
-        )
+        public static void TestMemberIsPropertyWithGetMethod(Type type, string name, bool? isPrivate = null, bool? isProtected = null, bool? isPublic = null)
         {
             TestMemberIsPropertyWithGetMethod(type, name, isPrivate, isProtected, isPublic);
         }
-        public static void TestMemberIsPropertyWithGetMethod(
-            Type type, 
-            string[] path,
-            bool? isPrivate = null,
-            bool? isProtected = null,
-            bool? isPublic = null
-        )
+        public static void TestMemberIsPropertyWithGetMethod(Type type, string[] path, bool? isPrivate = null, bool? isProtected = null, bool? isPublic = null)
         {
             TestMemberIsProperty(type, path);
 
@@ -104,23 +129,11 @@ namespace Lecture_1_Tests.Helpers
             }
         }
 
-        public static void TestMemberIsPropertyWithSetMethod(
-            Type type,
-            string name,
-            bool? isPrivate = null,
-            bool? isProtected = null,
-            bool? isPublic = null
-        )
+        public static void TestMemberIsPropertyWithSetMethod(Type type, string name, bool? isPrivate = null, bool? isProtected = null, bool? isPublic = null)
         {
             TestMemberIsPropertyWithSetMethod(type, new string[] { name }, isPrivate, isProtected, isPublic);
         }
-        public static void TestMemberIsPropertyWithSetMethod(
-            Type type,
-            string[] path,
-            bool? isPrivate = null,
-            bool? isProtected = null,
-            bool? isPublic = null
-        )
+        public static void TestMemberIsPropertyWithSetMethod(Type type, string[] path, bool? isPrivate = null, bool? isProtected = null, bool? isPublic = null)
         {
             TestMemberIsProperty(type, path);
 
@@ -156,23 +169,11 @@ namespace Lecture_1_Tests.Helpers
             }
         }
 
-        public static void TestMemberIsPropertyWithGetAndSetMethods(
-            Type type,
-            string name,
-            bool? isPrivate = null,
-            bool? isProtected = null,
-            bool? isPublic = null
-        )
+        public static void TestMemberIsPropertyWithGetAndSetMethods(Type type, string name, bool? isPrivate = null, bool? isProtected = null, bool? isPublic = null)
         {
-            TestMemberIsPropertyWithGetAndSetMethod(type, new string[] { name }, isPrivate, isProtected, isPublic);
+            TestMemberIsPropertyWithGetAndSetMethods(type, new string[] { name }, isPrivate, isProtected, isPublic);
         }
-        public static void TestMemberIsPropertyWithGetAndSetMethod(
-            Type type,
-            string[] path,
-            bool? isPrivate = null,
-            bool? isProtected = null,
-            bool? isPublic = null
-        )
+        public static void TestMemberIsPropertyWithGetAndSetMethods(Type type, string[] path, bool? isPrivate = null, bool? isProtected = null, bool? isPublic = null)
         {
             TestMemberIsPropertyWithGetMethod(type, path, isPrivate, isProtected, isPublic);
             TestMemberIsPropertyWithSetMethod(type, path, isPrivate, isProtected, isPublic);
@@ -234,6 +235,36 @@ namespace Lecture_1_Tests.Helpers
             SetValue(instance, path, value);
         }
         
+        
+        public static void TestIgnoredAssignment(object instance, string name, object value)
+        {
+            TestIgnoredAssignment(instance, new string[] { name }, value);
+        }
+        public static void TestIgnoredAssignment(object instance, string[] path, object value)
+        {
+            TestMemberExists(instance.GetType(), path);
+
+            MemberInfo memberInfo = TryGetInfo(instance.GetType(), path);
+
+            if(memberInfo is FieldInfo)
+            {
+                throw new NotImplementedException("Fields are not supported yet");
+            }
+            else if (memberInfo is PropertyInfo)
+            {
+                TestMemberIsPropertyWithGetAndSetMethods(instance.GetType(), path);
+            }
+
+            object oldValue = GetValue(instance, path);
+            SetValue(instance, path, value);
+            object newValue = GetValue(instance, path);
+
+            Assert.IsTrue(
+                newValue?.Equals(oldValue) ?? false,
+                $"Assignment of {FormatPath(instance.GetType(), path)} with {value} changes value"
+            );
+        }
+
         public static void TestInvalidAssignment<TException>(object instance, string name, object value) where TException : Exception
         {
             TestInvalidAssignment<TException>(instance, new string[] { name }, value);
