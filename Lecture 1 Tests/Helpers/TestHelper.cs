@@ -65,7 +65,28 @@ namespace Lecture_1_Tests.Helpers
                 {
                     if (i != 0)
                         signatureBuilder.Append(", ");
-                    signatureBuilder.Append(type.Name + " par" + i);
+                    signatureBuilder.Append(parameterTypes[i].Name + " par" + (i + 1));
+                }
+            }
+            signatureBuilder.Append(")");
+
+            return signatureBuilder.ToString();
+        }
+
+        private static string FormatConstructor(Type type, Type[] parameterTypes)
+        {
+            StringBuilder signatureBuilder = new StringBuilder();
+            
+            signatureBuilder.Append(type.Name);
+
+            signatureBuilder.Append("(");
+            if (parameterTypes != null)
+            {
+                for (int i = 0; i < parameterTypes.Length; i++)
+                {
+                    if (i != 0)
+                        signatureBuilder.Append(", ");
+                    signatureBuilder.Append(parameterTypes[i] + " par" + (i + 1));
                 }
             }
             signatureBuilder.Append(")");
@@ -89,7 +110,7 @@ namespace Lecture_1_Tests.Helpers
         {
             Assert.IsNotNull(
                 TryGetConstructorInfo(type, parameterTypes),
-                $"Constructor {FormatMethod(type, type.Name, null, parameterTypes)} is missing"
+                $"Constructor {FormatConstructor(type, parameterTypes)} is missing"
             );
         }
 
@@ -123,7 +144,7 @@ namespace Lecture_1_Tests.Helpers
         
         public static void TestMemberIsPropertyWithGetMethod(Type type, string name, bool? isPrivate = null, bool? isProtected = null, bool? isPublic = null)
         {
-            TestMemberIsPropertyWithGetMethod(type, name, isPrivate, isProtected, isPublic);
+            TestMemberIsPropertyWithGetMethod(type, new string[] { name }, isPrivate, isProtected, isPublic);
         }
         public static void TestMemberIsPropertyWithGetMethod(Type type, string[] path, bool? isPrivate = null, bool? isProtected = null, bool? isPublic = null)
         {

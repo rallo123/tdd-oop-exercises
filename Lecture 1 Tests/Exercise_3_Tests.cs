@@ -13,7 +13,7 @@ namespace Lecture_1_Tests
     {
         public static ImmutableNumber CreateImmutableNumber(int value)
         {
-            TestHelper.TestConstructorExists(typeof(Number), new Type[] { typeof(int) });
+            TestHelper.TestConstructorExists(typeof(ImmutableNumber), new Type[] { typeof(int) });
 
             return (ImmutableNumber)MemberHelper.CreateInstance(typeof(ImmutableNumber), new object[] { value });
         }
@@ -93,7 +93,7 @@ namespace Lecture_1_Tests
     public class Exercise_3C_Tests
     {
         [TestMethod]
-        public void AddModifiesExistingValue()
+        public void AddCreatesNewValue()
         {
             TestHelper.TestMemberIsMethod(typeof(ImmutableNumber), "Add");
             TestHelper.TestMemberIsMethodOfSignature(typeof(ImmutableNumber), "Add", typeof(ImmutableNumber), new Type[] { typeof(ImmutableNumber) });
@@ -103,7 +103,7 @@ namespace Lecture_1_Tests
         }
 
         [TestMethod]
-        public void SubtractModifiesExistingValue()
+        public void SubtractCreatesNewValue()
         {
             TestHelper.TestMemberIsMethod(typeof(ImmutableNumber), "Subtract");
             TestHelper.TestMemberIsMethodOfSignature(typeof(ImmutableNumber), "Subtract", typeof(ImmutableNumber), new Type[] { typeof(ImmutableNumber) });
@@ -113,7 +113,7 @@ namespace Lecture_1_Tests
         }
 
         [TestMethod]
-        public void MultiplyModifiesExistingValue()
+        public void MultiplyCreatesNewValue()
         {
             TestHelper.TestMemberIsMethod(typeof(ImmutableNumber), "Multiply");
             TestHelper.TestMemberIsMethodOfSignature(typeof(ImmutableNumber), "Multiply", typeof(ImmutableNumber), new Type[] { typeof(ImmutableNumber) });
