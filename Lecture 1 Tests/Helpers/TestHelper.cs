@@ -89,7 +89,7 @@ namespace Lecture_1_Tests.Helpers
         {
             Assert.IsNotNull(
                 TryGetConstructorInfo(type, parameterTypes),
-                $"{FormatMethod(type, type.Name, null, parameterTypes)} is not constructor"
+                $"Constructor {FormatMethod(type, type.Name, null, parameterTypes)} is missing"
             );
         }
 

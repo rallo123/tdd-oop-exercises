@@ -337,4 +337,41 @@ namespace Lecture_1_Tests
             TestHelper.TestConsoleOutput(expected, actual);
         }
     }
+
+    [TestClass]
+    public class Exercise_1G_Tests
+    {
+        [TestMethod]
+        public void OriginalPersonConstructorTakesNoArguments() => TestHelper.TestConstructorExists(typeof(Person), null);
+        
+        [TestMethod]
+        public void AdditionalPersonConstructorTakesParentsAsArgument() => TestHelper.TestConstructorExists(typeof(Person), new Type[] { typeof(Person), typeof(Person) });
+    }
+    
+    [TestClass]
+    public class Exercise_1H_Tests
+    {
+        [TestMethod]
+        public void PersonIDIsProperty() => TestPersonMemberIsProperty("PersonID");
+        [TestMethod]
+        public void PersonIDIsPublicReadOnlyProperty() => TestHelper.TestMemberIsPropertyWithGetMethod(typeof(Person), "PersonID", isPublic: true);
+        [TestMethod]
+        public void PersonIDIsOfTypeInt() => TestPersonMemberIsOfType("PersonID", typeof(int));
+
+        [TestMethod]
+        public void PersonIDIncrementsOnNewPerson()
+        {
+            TestHelper.TestMemberIsPropertyWithGetMethod(typeof(Person), "PersonID");
+            TestHelper.TestMemberIsFieldOrPropertyOfType(typeof(Person), "PersonID", typeof(int));
+
+            int PersonID1 = (int)MemberHelper.GetValue(CreatePerson(), "PersonID");
+            int PersonID2 = (int)MemberHelper.GetValue(CreatePerson(), "PersonID");
+
+            Assert.IsTrue (
+                PersonID1 == PersonID2,
+                $"PersonID does not increment by 1 instead {PersonID1} -> {PersonID2}"
+            );
+        }
+        
+    }
 }

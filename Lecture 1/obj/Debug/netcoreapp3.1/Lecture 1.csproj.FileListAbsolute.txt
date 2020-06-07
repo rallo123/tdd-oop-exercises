@@ -23,3 +23,4 @@ C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Lecture 1\obj\Debug\netcoreapp3.1
 C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Lecture 1\obj\Debug\netcoreapp3.1\Lecture 1.dll
 C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Lecture 1\obj\Debug\netcoreapp3.1\Lecture 1.pdb
 C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Lecture 1\obj\Debug\netcoreapp3.1\Lecture 1.genruntimeconfig.cache
+C:\Users\Ole van Santen\Desktop\OOP Kursus 2.0\Lecture 1\obj\Debug\netcoreapp3.1\Lecture 1.csprojAssemblyReference.cache
