@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using static Lecture_1_Tests.Helpers.MemberHelper;
 
 namespace Lecture_1_Tests.Helpers
@@ -48,6 +49,29 @@ namespace Lecture_1_Tests.Helpers
         {
             return type.Name + "." + String.Join(".", path);
         }
+        private static string FormatMethod(Type type, string name, Type returnType, Type[] parameterTypes)
+        {
+            StringBuilder signatureBuilder = new StringBuilder();
+
+            signatureBuilder.Append(returnType != null ? returnType.Name : "void");
+            signatureBuilder.Append(" ");
+
+            signatureBuilder.Append(name);
+
+            signatureBuilder.Append("(");
+            if (parameterTypes != null)
+            {
+                for (int i = 0; i < parameterTypes.Length; i++)
+                {
+                    if (i != 0)
+                        signatureBuilder.Append(", ");
+                    signatureBuilder.Append(type.Name + " par" + i);
+                }
+            }
+            signatureBuilder.Append(")");
+
+            return signatureBuilder.ToString();
+        }
 
         public static void TestMemberExists(Type type, string name)
         {
@@ -58,6 +82,14 @@ namespace Lecture_1_Tests.Helpers
             Assert.IsNotNull(
                 TryGetInfo(type, path),
                 $"{FormatPath(type, path)} is not a member"
+            );
+        }
+
+        public static void TestConstructorExists(Type type, Type[] parameterTypes = null)
+        {
+            Assert.IsNotNull(
+                TryGetConstructorInfo(type, parameterTypes),
+                $"{FormatMethod(type, type.Name, null, parameterTypes)} is not constructor"
             );
         }
 
@@ -179,11 +211,11 @@ namespace Lecture_1_Tests.Helpers
             TestMemberIsPropertyWithSetMethod(type, path, isPrivate, isProtected, isPublic);
         }
 
-        public static void TestMemberIsOfType(Type type, string name, Type memberType)
+        public static void TestMemberIsFieldOrPropertyOfType(Type type, string name, Type memberType)
         {
-            TestMemberIsOfType(type, new string[] { name }, memberType);
+            TestMemberIsFieldOrPropertyOfType(type, new string[] { name }, memberType);
         }
-        public static void TestMemberIsOfType(Type type, string[] path, Type memberType)
+        public static void TestMemberIsFieldOrPropertyOfType(Type type, string[] path, Type memberType)
         {
             TestMemberExists(type, path);
 
@@ -203,14 +235,38 @@ namespace Lecture_1_Tests.Helpers
                     $"{FormatPath(type, path)} is not of type {memberType.Name}"
                 );
             }
-            else if (memberInfo is MethodInfo methodInfo)
-            {
-                Assert.IsTrue(
-                    methodInfo.ReturnType == memberType,
-                    $"{FormatPath(type, path)} return type is not {memberType.Name}"
-                );
-            }
             else throw new ArgumentException("Member is not field or property");
+        }
+
+        public static void TestMemberIsMethodOfSignature(Type type, string name, Type returnType, Type[] parameterTypes = null)
+        {
+            TestMemberIsMethodOfSignature(type, new string[] { name }, returnType, parameterTypes);
+        }
+        public static void TestMemberIsMethodOfSignature(Type type, string[] path, Type returnType, Type[] parameterTypes = null)
+        {
+            TestMemberIsMethod(type, path);
+            
+            MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            foreach (var method in methods)
+            {
+                if (!method.Name.Equals(path[^1]))
+                    continue;
+
+                ParameterInfo[] parameters = method.GetParameters();
+                bool parametersMatch = parameters.Length == (parameterTypes?.Length ?? 0);
+
+                int i = 0;
+                while (parametersMatch && i < parameters.Length)
+                {
+                    if (parameters[i].ParameterType != parameterTypes[i])
+                        parametersMatch = false;
+                    i++;
+                }
+
+                if (parametersMatch)
+                    return;
+            }
+            Assert.Fail($"{FormatMethod(type, FormatPath(type, path), returnType, parameterTypes)} is missing");
         }
 
         public static void TestValidAssignment(object instance, string name, object value)
@@ -225,7 +281,8 @@ namespace Lecture_1_Tests.Helpers
 
             if(memberInfo is FieldInfo)
             {
-                throw new NotImplementedException("Fields are not supported yet");
+                //readonly fields might pose a problem
+                //throw new NotImplementedException("Fields are not supported yet");
             }
             else if(memberInfo is PropertyInfo)
             {
@@ -234,7 +291,6 @@ namespace Lecture_1_Tests.Helpers
 
             SetValue(instance, path, value);
         }
-        
         
         public static void TestIgnoredAssignment(object instance, string name, object value)
         {
@@ -248,7 +304,7 @@ namespace Lecture_1_Tests.Helpers
 
             if(memberInfo is FieldInfo)
             {
-                throw new NotImplementedException("Fields are not supported yet");
+                //throw new NotImplementedException("Fields are not supported yet");
             }
             else if (memberInfo is PropertyInfo)
             {

@@ -9,7 +9,7 @@ namespace Lecture_1_Tests.Helpers
     public static class MemberHelper
     {
         private static readonly BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
-
+        
         public static MemberInfo GetInfo(Type type, string[] path)
         {
             Type current = type;
@@ -30,6 +30,34 @@ namespace Lecture_1_Tests.Helpers
             }
 
             return current.GetMember(path[^1], bindingAttr).FirstOrDefault();
+        }
+        public static ConstructorInfo GetConstructorInfo(Type type, Type[] parameterTypes)
+        {
+            ConstructorInfo[] constructors = type.GetConstructors();
+
+            foreach(var constructor in constructors)
+            {
+                ParameterInfo[] parameters = constructor.GetParameters();
+                bool parametersMatch = parameters.Length == (parameterTypes?.Length ?? 0);
+
+                int i = 0;
+                while (parametersMatch && i < parameters.Length)
+                {
+                    if (parameters[i].ParameterType != parameterTypes[i]) 
+                        parametersMatch = false;
+                    i++;
+                }
+
+                if (parametersMatch)
+                    return constructor;
+            }
+            throw new ArgumentException("no such constructor exists");
+        }
+        public static object CreateInstance(Type type, object[] parameters = null)
+        {
+            Type[] parameterTypes = parameters?.Select(par => par.GetType())?.ToArray();
+            
+            return GetConstructorInfo(type, parameterTypes).Invoke(parameters);
         }
         public static object GetValue(object instance, string[] path)
         {
@@ -99,6 +127,16 @@ namespace Lecture_1_Tests.Helpers
             try { return GetInfo(type, path); }
             catch { return null; }
         }
+        public static ConstructorInfo TryGetConstructorInfo(Type type, Type[] parameterTypes)
+        {
+            try { return GetConstructorInfo(type, parameterTypes); }
+            catch { return null; }
+        }
+        public static object TryCreateInstance(Type type, object[] parameters = null)
+        {
+            try { return CreateInstance(type, parameters); }
+            catch { return null; }
+        }
         public static object TryGetValue(object instance, string[] path)
         {
             try { return GetValue(instance, path); }
@@ -113,7 +151,7 @@ namespace Lecture_1_Tests.Helpers
         {
             try { return CallMethod(instance, path, parameters); }
             catch { return null; }
-        }
+        } 
 
         //Safe single element path versions
         public static MemberInfo TryGetInfo(Type type, string name)
