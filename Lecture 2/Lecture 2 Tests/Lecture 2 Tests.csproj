@@ -19,8 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\TestTools\TestTools\TestTools.csproj" />
-    <ProjectReference Include="..\Lecture 1 Potential Solutions\Lecture 1 Exercises solutions.csproj" />
-    <ProjectReference Include="..\Lecture 1\Lecture 1 Exercises.csproj" />
+    <ProjectReference Include="..\Lecture 2 Exercises\Lecture 2 Exercises.csproj" />
+    <ProjectReference Include="..\Lecture 2 Solutions\Lecture 2 Solutions.csproj" />
   </ItemGroup>
 
 </Project>
