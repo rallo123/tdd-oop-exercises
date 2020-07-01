@@ -26,8 +26,8 @@ namespace TestTools_Tests.Structure
         public void ThrowsOnTooFewArguments()
         {
             Class @class = new Class(3);
-            AssertThrowsExactException<AssertFailedException>(
-                "Too few arguments",
+            AssertThrowsExactException<ArgumentException>(
+                "INTERNAL: Too few arguments",
                 () => GetMethodDefinition().Invoke(@class, new object[] {})
             );
         }

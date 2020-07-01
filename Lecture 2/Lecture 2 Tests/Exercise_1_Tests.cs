@@ -1,28 +1,28 @@
 using Lecture_1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Runtime.CompilerServices;
 using System.Text;
 using TestTools;
 using TestTools.ConsoleSession;
 using TestTools.Operation;
 using TestTools.Structure;
+using TestTools.Structure.Generic;
 
 namespace Lecture_1_Tests
 {
     [TestClass]
     public class Exercise_1_Tests
     {
-        private NamespaceDefinition @namespace => new NamespaceDefinition("Lecture_1");
-
-        private ClassDefinition person => new ClassDefinition(typeof(Person));
-        private PropertyDefinition personFirstName => person.Property("FirstName", typeof(string), new GetMethod(AccessLevel.Public), new SetMethod(AccessLevel.Public));
-        private PropertyDefinition personLastName => person.Property("LastName", typeof(string), new GetMethod(AccessLevel.Public), new SetMethod(AccessLevel.Public));
-        private PropertyDefinition personAge => person.Property("Age", typeof(int), new GetMethod(AccessLevel.Public), new SetMethod(AccessLevel.Public));
-        private PropertyDefinition personMother => person.Property("Mother", person.Type, new GetMethod(AccessLevel.Public), new SetMethod(AccessLevel.Public));
-        private PropertyDefinition personFather => person.Property("Father", person.Type, new GetMethod(AccessLevel.Public), new SetMethod(AccessLevel.Public));
-        private PropertyDefinition personFatherMother => personFather.Property("Mother", person.Type, new GetMethod(AccessLevel.Public), new SetMethod(AccessLevel.Public));
-        private PropertyDefinition personFatherFather => personFather.Property("Father", person.Type, new GetMethod(AccessLevel.Public), new SetMethod(AccessLevel.Public));
-        private PropertyDefinition personID => person.Property("ID", typeof(int), new GetMethod(AccessLevel.Public));
+        private ClassDefinition<Person> person => new ClassDefinition<Person>();
+        private PropertyDefinition<Person, string> personFirstName => person.Property<string>("FirstName", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
+        private PropertyDefinition<Person, string> personLastName => person.Property<string>("LastName", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
+        private PropertyDefinition<Person, int> personAge => person.Property<int>("Age", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
+        private PropertyDefinition<Person, Person> personMother => person.Property<Person>("Mother", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
+        private PropertyDefinition<Person, Person> personFather => person.Property<Person>("Father", get: new PropertyAccessor(AccessLevel.Public), new PropertyAccessor(AccessLevel.Public));
+        private PropertyDefinition<Person, Person> personFatherMother => personFather.Property<Person>("Mother", new PropertyAccessor(AccessLevel.Public), new PropertyAccessor(AccessLevel.Public));
+        private PropertyDefinition<Person, Person> personFatherFather => personFather.Property<Person>("Father", new PropertyAccessor(AccessLevel.Public), new PropertyAccessor(AccessLevel.Public));
+        private PropertyDefinition<Person, int> personID => person.Property<int>("ID", get: new PropertyAccessor(AccessLevel.Public));
 
         private string CreateName(int length)
         {
@@ -31,9 +31,10 @@ namespace Lecture_1_Tests
                 builder.Append("a");
             return builder.ToString();
         }
+
         private Person CreatePerson(string firstName = null, string lastName = null, int? age = null, Person mother = null, Person father = null)
         {
-            object instance = person.Constructor().Invoke();
+            Person instance = person.Constructor().Invoke();
 
             if(firstName != null)
                 personFirstName.Set(instance, firstName);
@@ -49,21 +50,15 @@ namespace Lecture_1_Tests
             return (Person) instance;
         }
 
-        private ClassDefinition generator => new ClassDefinition(typeof(PersonGenerator));
-        private MethodDefinition generatorGeneratePerson => generator.Method("GeneratePerson", typeof(Person), accessLevel: AccessLevel.Public);
-        private MethodDefinition generatorGenerateFamily => generator.Method("GenerateFamily", typeof(Person), accessLevel: AccessLevel.Public);
-        private object CreateGenerator()
-        {
-            return (PersonGenerator)generator.Constructor().Invoke();
-        }
+        private ClassDefinition<PersonGenerator> generator => new ClassDefinition<PersonGenerator>();
+        private MethodDefinition<PersonGenerator, Person> generatorGeneratePerson => generator.Method<Person>("GeneratePerson", accessLevel: AccessLevel.Public);
+        private MethodDefinition<PersonGenerator, Person> generatorGenerateFamily => generator.Method<Person>("GenerateFamily", accessLevel: AccessLevel.Public);
+        private PersonGenerator CreateGenerator() => generator.Constructor().Invoke();
 
-        private ClassDefinition printer => new ClassDefinition(typeof(PersonPrinter));
+        private ClassDefinition<PersonPrinter> printer => new ClassDefinition<PersonPrinter>();
         private MethodDefinition printerPrintPerson => printer.Method("PrintPerson", typeof(void), new Type[] { typeof(Person) }, AccessLevel.Public);
         private MethodDefinition printerPrintFamily => printer.Method("PrintFamily", typeof(void), new Type[] { typeof(Person) }, AccessLevel.Public);
-        private object CreatePrinter()
-        {
-            return (PersonPrinter)printer.Constructor().Invoke();
-        }
+        private PersonPrinter CreatePrinter() => printer.Constructor().Invoke();
 
         private void DoNothing(object par) { }
 
@@ -71,11 +66,16 @@ namespace Lecture_1_Tests
         {
             bool PersonEquals(object obj1, object obj2)
             {
-                if (personFirstName.Get(obj1) != personFirstName.Get(obj2))
+                Person person1 = obj1 as Person;
+                Person person2 = obj2 as Person;
+
+                if (person1 == null || person2 == null)
                     return false;
-                if (personLastName.Get(obj1) != personLastName.Get(obj2))
+                if (personFirstName.Get(person1) != personFirstName.Get(person2))
                     return false;
-                if ((int)personAge.Get(obj1) != (int)personAge.Get(obj2))
+                if (personLastName.Get(person1) != personLastName.Get(person2))
+                    return false;
+                if (personAge.Get(person1) != personAge.Get(person2))
                     return false;
                 return true;
             }
@@ -211,10 +211,10 @@ namespace Lecture_1_Tests
         {
             Person mother = CreatePerson();
             Person father = CreatePerson();
-            Person child = (Person) person.Constructor(new Type[] { person.Type, person.Type }).Invoke(new object[] { mother, father });
+            Person child = person.Constructor<Person, Person>().Invoke(mother, father);
 
-            Person motherValue = (Person) personMother.Get(child);
-            Person fatherValue = (Person) personFather.Get(child);
+            Person motherValue = personMother.Get(child);
+            Person fatherValue = personFather.Get(child);
 
             if (mother == motherValue && father == fatherValue)
                 return;
@@ -234,7 +234,7 @@ namespace Lecture_1_Tests
             Person person1 = CreatePerson();
             Person person2 = CreatePerson();
 
-            int increase = ((int)personID.Get(person2)) - ((int)personID.Get(person1));
+            int increase = personID.Get(person2) - personID.Get(person1);
 
             if (increase != 1)
                 Assert.Fail($"ID changes by {increase} instead of 1 for each new person");

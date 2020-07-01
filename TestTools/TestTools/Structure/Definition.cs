@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using static TestTools.Structure.Helper;
+using TestTools.Helpers;
 
 namespace TestTools.Structure
 {
@@ -17,14 +17,20 @@ namespace TestTools.Structure
             {
                 if(instance == null)
                 {
-                    string chain = FormatDefinitionChain(PreviousDefinition);
-                    throw new AssertFailedException($"{chain} cannot be null");
+                    string errorMessage = String.Format(
+                        ErrorCodes.ElementIsNull,
+                        FormatHelper.FormatDefinitionChain(PreviousDefinition)
+                    );
+                    throw new AssertFailedException(errorMessage);
                 }
-                else if (!Helper.IsOfType(instance, classDefinition.Type))
+                else if (!TypeHelper.IsOfType(classDefinition.Type, instance))
                 {
-                    string formattedInstance = ObjectMethodRegistry.ToString(instance);
-                    string formattedClass = FormatType(classDefinition.Type);
-                    throw new AssertFailedException($"{formattedInstance} is not of type {formattedClass}");
+                    string errorMessage = String.Format(
+                        ErrorCodes.ObjectIsWrongType,
+                        ObjectMethodRegistry.ToString(instance),
+                        FormatHelper.FormatType(classDefinition.Type)
+                    );
+                    throw new AssertFailedException(errorMessage);
                 }
             }
             return instance;

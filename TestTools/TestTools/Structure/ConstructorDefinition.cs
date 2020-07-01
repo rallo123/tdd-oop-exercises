@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Reflection;
+using TestTools.Helpers;
 
 namespace TestTools.Structure
 {
@@ -14,12 +15,9 @@ namespace TestTools.Structure
         public ConstructorInfo Info { get; set; }
         public override string Name => Info.Name;
 
-        public object Invoke(object[] parameters = null)
+        public object Invoke(params object[] parameters)
         {
-            if (!Helper.IsEachArgumentOfType(Info.GetParameters(), parameters))
-                throw new AssertFailedException("Wrong arguments");
-
-            return Info.Invoke(parameters);
+            return StructureHelper.Invoke(Info, parameters);
         }
     }
 }

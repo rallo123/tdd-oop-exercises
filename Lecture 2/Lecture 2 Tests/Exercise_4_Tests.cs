@@ -1,19 +1,16 @@
 ﻿using Lecture_1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using TestTools.Structure;
+using TestTools.Structure.Generic;
 
 namespace Lecture_1_Tests
 {
     [TestClass]
     public class Exercise_4_Tests
     {
-        private NamespaceDefinition @namespace => new NamespaceDefinition("Lecture_1");
-
-        private ClassDefinition number => new ClassDefinition(typeof(Number));
-        private MethodDefinition numberEquals => number.Method("Equals", typeof(bool), new Type[] { typeof(object) });
-        private MethodDefinition numberGetHashCode => number.Method("GetHashCode", typeof(int));
-        private Number CreateNumber(int value) => (Number)number.Constructor(new Type[] { typeof(int) }).Invoke(new object[] { value });
+        private ClassDefinition<Number> number => new ClassDefinition<Number>();
+        private MethodDefinition<Number, bool, object> numberEquals => number.Method<bool, object>("Equals");
+        private MethodDefinition<Number, int> numberGetHashCode => number.Method<int>("GetHashCode");
+        private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
 
         /* Exercise 4B */
         [TestMethod("a. Equals does not equate 4 and 5"), TestCategory("Exercise 4B")]
@@ -22,7 +19,7 @@ namespace Lecture_1_Tests
             Number four = CreateNumber(4);
             Number five = CreateNumber(5);
 
-            bool isEquated = (bool)numberEquals.Invoke(four, new object[] { five });
+            bool isEquated = numberEquals.Invoke(four, five);
 
             if (isEquated)
                 Assert.Fail("Equals equates 4 and 5");
@@ -34,7 +31,7 @@ namespace Lecture_1_Tests
             Number five1 = CreateNumber(5);
             Number five2 = CreateNumber(5);
 
-            bool isEquated = (bool)numberEquals.Invoke(five1, new object[] { five2 });
+            bool isEquated = numberEquals.Invoke(five1, five2);
 
             if (!isEquated)
                 Assert.Fail("Equals does not equate 5 and 5");
@@ -59,7 +56,7 @@ namespace Lecture_1_Tests
             Number five1 = CreateNumber(5);
             Number five2 = CreateNumber(5);
 
-            bool isEquated = (int)numberGetHashCode.Invoke(five1) == (int)numberGetHashCode.Invoke(five2);
+            bool isEquated = numberGetHashCode.Invoke(five1) == numberGetHashCode.Invoke(five2);
 
             if (!isEquated)
                 Assert.Fail("GetHashCode does not equate 5 and 5");

@@ -3,20 +3,19 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools;
 using TestTools.Structure;
+using TestTools.Structure.Generic;
 
 namespace Lecture_1_Tests
 {
     [TestClass]
     public class Exercise_2_Tests
     {
-        private NamespaceDefinition @namespace => new NamespaceDefinition("Lecture_1");
-
-        private ClassDefinition number => new ClassDefinition(typeof(Number));
-        private PropertyDefinition numberValue => number.Property("Value", typeof(int), new GetMethod(AccessLevel.Public));
+        private ClassDefinition<Number> number => new ClassDefinition<Number>();
+        private PropertyDefinition<Number, int> numberValue => number.Property<int>("Value", get: new PropertyAccessor(AccessLevel.Public));
         private MethodDefinition numberAdd => number.Method("Add", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
         private MethodDefinition numberSubtract => number.Method("Subtract", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
         private MethodDefinition numberMultiply => number.Method("Multiply", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
-        private Number CreateNumber(int value) => (Number)number.Constructor(new Type[] { typeof(int) }).Invoke(new object[] { value });
+        private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
 
         private void DoNothing(object par) { }
         private void TestNumberOperation(Action<Number, Number> operation, int op1, int op2, int expectedResult, string symbol = "?")
@@ -26,7 +25,7 @@ namespace Lecture_1_Tests
 
             operation(n1, n2);
 
-            int actualResult = (int)numberValue.Get(n1);
+            int actualResult = numberValue.Get(n1);
 
             if (actualResult != expectedResult)
                 Assert.Fail($"Produces unexpected result, {op1} {symbol} {op2} = {actualResult}");

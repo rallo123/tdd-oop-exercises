@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using TestTools.Helpers;
 using TestTools.Structure;
 
 namespace TestTools.Structure
@@ -14,13 +15,10 @@ namespace TestTools.Structure
         public MethodInfo Info { get; set; }
         public override string Name => Info.Name;
 
-        public object Invoke(object instance, object[] parameters = null)
+        public object Invoke(object instance, object[] arguments)
         {
             instance = GetValueOfPreviousDefinition(instance);
-            
-            Helper.CheckEachArgumentIsOfType(Info.GetParameters(), parameters);
-
-            return Info.Invoke(instance, Helper.GetArguments(Info.GetParameters(), parameters));
+            return StructureHelper.Invoke(Info, instance, arguments);
         }
     }
 }
