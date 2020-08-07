@@ -10,7 +10,6 @@ namespace Lecture_1_Tests
     [TestClass]
     public class Exercise_3_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
         private ClassDefinition<ImmutableNumber> immutableNumber => new ClassDefinition<ImmutableNumber>();
         private PropertyDefinition<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>("Value", new PropertyAccessor(AccessLevel.Public));
         private MethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.Method<ImmutableNumber, ImmutableNumber>("Add");
@@ -29,8 +28,7 @@ namespace Lecture_1_Tests
             if (actualResult != expectedResult)
                 Assert.Fail($"Produces unexpected result, {op1} {symbol} {op2} = {actualResult}");
         }
-#pragma warning restore IDE1006 // Naming Styles
-
+        
         public Exercise_3_Tests()
         {
             bool ImmutableNumberEquals(object obj1, object obj2) => immutableNumberValue.Get(obj1).Equals(immutableNumberValue.Get(obj2));

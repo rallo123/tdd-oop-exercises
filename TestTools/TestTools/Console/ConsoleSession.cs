@@ -70,15 +70,17 @@ namespace TestTools.ConsoleSession
 
         private static bool AreExpectedAndActualEqual(string expected, string actual)
         {
-            string[] expectedLines = expected.Trim().Split(Environment.NewLine).Select(l => l.Trim()).ToArray();
-            string[] actualLines = actual.Trim().Split(Environment.NewLine).Select(l => l.Trim()).ToArray();
+            string[] splitIntoLines(string input) => input.Trim().Split(Environment.NewLine).Select(l => l.Trim()).ToArray();
+
+            string[] expectedLines = splitIntoLines(expected);
+            string[] actualLines = splitIntoLines(actual);
 
             if (expectedLines.Length != actualLines.Length)
                 return false;
 
             for(int i = 0; i < expectedLines.Length; i++)
             {
-                if (!expectedLines[i].Equals(actualLines[i]))
+                if (expectedLines[i] != actualLines[i])
                     return false;
             }
 

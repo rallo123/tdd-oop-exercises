@@ -1,4 +1,4 @@
-using Lecture_1;
+using Lecture_2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Runtime.CompilerServices;
@@ -14,7 +14,6 @@ namespace Lecture_1_Tests
     [TestClass]
     public class Exercise_1_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
         private ClassDefinition<Person> person => new ClassDefinition<Person>();
         private PropertyDefinition<Person, string> personFirstName => person.Property<string>("FirstName", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
         private PropertyDefinition<Person, string> personLastName => person.Property<string>("LastName", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
@@ -62,7 +61,6 @@ namespace Lecture_1_Tests
         private PersonPrinter CreatePrinter() => printer.Constructor().Invoke();
 
         private void DoNothing(object par) { }
-#pragma warning restore IDE1006 // Naming Styles
 
         public Exercise_1_Tests()
         {
@@ -212,9 +210,7 @@ namespace Lecture_1_Tests
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
         {
             Person mother = CreatePerson();
-            personAge.Set(mother, 37);
             Person father = CreatePerson();
-            personAge.Set(father, 37);
             Person child = person.Constructor<Person, Person>().Invoke(mother, father);
 
             Person motherValue = personMother.Get(child);
