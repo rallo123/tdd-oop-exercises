@@ -14,7 +14,9 @@ namespace Lecture_1_Tests
     [TestClass]
     public class Exercise_1_Tests
     {
+#pragma warning disable IDE1006 // Naming Styles
         private ClassDefinition<Person> person => new ClassDefinition<Person>();
+
         private PropertyDefinition<Person, string> personFirstName => person.Property<string>("FirstName", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
         private PropertyDefinition<Person, string> personLastName => person.Property<string>("LastName", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
         private PropertyDefinition<Person, int> personAge => person.Property<int>("Age", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
@@ -61,6 +63,7 @@ namespace Lecture_1_Tests
         private PersonPrinter CreatePrinter() => printer.Constructor().Invoke();
 
         private void DoNothing(object par) { }
+#pragma warning restore IDE1006 // Naming Styles
 
         public Exercise_1_Tests()
         {

@@ -10,6 +10,7 @@ namespace Lecture_1_Tests
     [TestClass]
     public class Exercise_2_Tests
     {
+#pragma warning disable IDE1006 // Naming Styles
         private ClassDefinition<Number> number => new ClassDefinition<Number>();
         private PropertyDefinition<Number, int> numberValue => number.Property<int>("Value", get: new PropertyAccessor(AccessLevel.Public));
         private MethodDefinition numberAdd => number.Method("Add", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
@@ -30,6 +31,7 @@ namespace Lecture_1_Tests
             if (actualResult != expectedResult)
                 Assert.Fail($"Produces unexpected result, {op1} {symbol} {op2} = {actualResult}");
         }
+#pragma warning restore IDE1006 // Naming Styles
 
         public Exercise_2_Tests()
         {

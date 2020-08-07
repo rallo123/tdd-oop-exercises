@@ -7,10 +7,12 @@ namespace Lecture_1_Tests
     [TestClass]
     public class Exercise_4_Tests
     {
+#pragma warning disable IDE1006 // Naming Styles
         private ClassDefinition<Number> number => new ClassDefinition<Number>();
         private MethodDefinition<Number, bool, object> numberEquals => number.Method<bool, object>("Equals");
         private MethodDefinition<Number, int> numberGetHashCode => number.Method<int>("GetHashCode");
         private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
+#pragma warning restore IDE1006 // Naming Styles
 
         /* Exercise 4B */
         [TestMethod("a. Equals does not equate 4 and 5"), TestCategory("Exercise 4B")]
