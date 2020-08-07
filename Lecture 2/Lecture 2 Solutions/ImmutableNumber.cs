@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_1_Potential_Solutions
+namespace Lecture_1_Solutions
 {
     public class ImmutableNumber
     {

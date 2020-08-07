@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_1_Potential_Solutions
+namespace Lecture_1_Solutions
 {
     public class Person
     {
-        private string firstName;
-        private string lastName;
-        private int age;
-        private Person mother;
-        private Person father;
-        private static int nextID;
+        private string _firstName;
+        private string _lastName;
+        private int _age;
+        private Person _mother;
+        private Person _father;
+        private static int _nextID;
 
         public Person()
         {
-            ID = nextID;
-            nextID++;
+            ID = _nextID;
+            _nextID++;
         }
 
         public Person(Person mother, Person father) : this()
@@ -29,12 +29,12 @@ namespace Lecture_1_Potential_Solutions
         {
             get
             {
-                return firstName;
+                return _firstName;
             }
             set
             {
                 if (IsValidName(value))
-                    firstName = value;
+                    _firstName = value;
             }
         }
 
@@ -42,12 +42,12 @@ namespace Lecture_1_Potential_Solutions
         {
             get
             {
-                return lastName;
+                return _lastName;
             }
             set
             {
                 if (IsValidName(value))
-                    lastName = value;
+                    _lastName = value;
             }
         }
 
@@ -55,12 +55,12 @@ namespace Lecture_1_Potential_Solutions
         {
             get
             {
-                return age;
+                return _age;
             }
             set
             {
                 if (value >= 0)
-                    age = value;
+                    _age = value;
             }
         }
 
@@ -70,12 +70,12 @@ namespace Lecture_1_Potential_Solutions
         {
             get
             {
-                return mother;
+                return _mother;
             }
             set
             {
                 if (IsValidParent(value))
-                    mother = value;
+                    _mother = value;
             }
         }
 
@@ -83,12 +83,12 @@ namespace Lecture_1_Potential_Solutions
         {
             get
             {
-                return father;
+                return _father;
             }
             set
             {
                 if (IsValidParent(value))
-                    father = value;
+                    _father = value;
             }
         }
 
@@ -111,12 +111,9 @@ namespace Lecture_1_Potential_Solutions
         private bool IsValidParent(Person parent)
         {
             if (parent == null)
-                return false;
+                return true;
 
-            if (parent.Age < Age)
-                return false;
-
-            return true;
+            return parent.Age > Age;
         }
     }
 }

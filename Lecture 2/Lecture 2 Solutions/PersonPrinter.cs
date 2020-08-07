@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_1_Potential_Solutions
+namespace Lecture_1_Solutions
 {
     public class PersonPrinter
     {
         public void PrintPerson(Person p)
         {
-            Console.WriteLine($"{p.FirstName} {p.LastName} ({p.Age})");
+            Console.WriteLine(p.FirstName + " " + p.LastName + " (" + p.Age + ")");
         }
 
         public void PrintFamily(Person p, int generation = 0)

@@ -2,57 +2,48 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_1_Potential_Solutions
+namespace Lecture_1_Solutions
 {
     public class PersonGenerator
     {
         public Person GeneratePerson()
         {
-            return new Person()
-            {
-                FirstName = "Adam",
-                LastName = "Smith",
-                Age = 36
-            };
+            Person person = new Person();
+            person.FirstName = "Adam";
+            person.LastName = "Smith";
+            person.Age = 36;
+
+            return person;
         }
 
         public Person GenerateFamily()
         {
-            //Grandparents 
-            Person gustav = new Person()
-            {
-                FirstName = "Gustav",
-                LastName = "Rich",
-                Age = 66
-            };
-            Person elsa = new Person()
-            {
-                FirstName = "Elsa",
-                LastName = "Johnson",
-                Age = 65
-            };
+            Person gustav = new Person();
+            gustav.FirstName = "Gustav";
+            gustav.LastName = "Rich";
+            gustav.Age = 66;
 
-            //Parents 
-            Person warren = new Person(elsa, gustav)
-            {
-                FirstName = "Warren",
-                LastName = "Rich",
-                Age = 36,
-            };
-            Person anna = new Person()
-            {
-                FirstName = "Anna",
-                LastName = "Smith",
-                Age = 38
-            };
+            Person elsa = new Person();
+            elsa.FirstName = "Elsa";
+            elsa.LastName = "Johnson";
+            elsa.Age = 65;
 
-            //Child
-            return new Person(anna, warren)
-            {
-                FirstName = "Robin",
-                LastName = "Rich",
-                Age = 10
-            };
+            Person warren = new Person(elsa, gustav);
+            warren.FirstName = "Warren";
+            warren.LastName = "Rich";
+            warren.Age = 36;
+
+            Person anna = new Person();
+            anna.FirstName = "Anna";
+            anna.LastName = "Smith";
+            anna.Age = 38;
+
+            Person robin = new Person(anna, warren);
+            robin.FirstName = "Robin";
+            robin.LastName = "Rich";
+            robin.Age = 10;
+
+            return robin;
         }
     }
 }

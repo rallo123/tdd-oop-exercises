@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_1_Potential_Solutions
+namespace Lecture_1_Solutions
 {
     public class Number
     {
@@ -30,11 +30,9 @@ namespace Lecture_1_Potential_Solutions
 
         public override bool Equals(object obj)
         {
-            if(obj is Number)
-            {
-                return ((Number)obj).Value == Value;
-            }
-            return false;
+            Number other = (Number)obj;
+
+            return other.Value == Value;
         }
 
         public override int GetHashCode()
