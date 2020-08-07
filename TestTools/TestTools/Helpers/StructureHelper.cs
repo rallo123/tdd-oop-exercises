@@ -13,10 +13,11 @@ namespace TestTools.Helpers
         {
             MemberInfo memberInfo = GetMembers(type, isStatic).FirstOrDefault(m => m.Name == fieldName);
 
-            AssertMemberExists(type, fieldName, isStatic, isStatic ? ErrorCodes.StaticMemberIsMissing : ErrorCodes.InstanceMemberIsMissing);
-            AssertMemberIs<FieldInfo>(type, memberInfo, isStatic ? ErrorCodes.StaticMemberIsWrongMemberType : ErrorCodes.InstanceMemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfo, fieldType, isStatic ? ErrorCodes.StaticFieldIsWrongType : ErrorCodes.InstanceFieldIsWrongType);
-            AssertMemberHasAccessLevel(type, memberInfo, accessLevel, isStatic ? ErrorCodes.StaticFieldHasWrongAccessLevel : ErrorCodes.InstanceFieldHasWrongAccessLevel);
+            AssertMemberExists(type, fieldName, ErrorCodes.MemberIsMissing);
+            AssertMemberIsInstanceOrStatic(type, fieldName, isStatic);
+            AssertMemberIs<FieldInfo>(type, memberInfo, ErrorCodes.MemberIsWrongMemberType);
+            AssertMemberIsOfType(type, memberInfo, fieldType, ErrorCodes.FieldIsWrongType);
+            AssertMemberHasAccessLevel(type, memberInfo, accessLevel, ErrorCodes.FieldHasWrongAccessLevel);
             
             return (FieldInfo)memberInfo;
         }
@@ -26,36 +27,36 @@ namespace TestTools.Helpers
             MemberInfo memberInfo = GetMembers(type, isStatic).FirstOrDefault(m => m.Name == propertyName);
             PropertyInfo propertyInfo = memberInfo as PropertyInfo;
 
-            AssertMemberExists(type, propertyName, isStatic, isStatic ? ErrorCodes.StaticMemberIsMissing : ErrorCodes.InstanceMemberIsMissing);
-            AssertMemberIs<PropertyInfo>(type, memberInfo, isStatic ? ErrorCodes.StaticMemberIsWrongMemberType : ErrorCodes.InstanceMemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfo, propertyType, isStatic ? ErrorCodes.StaticPropertyIsWrongType : ErrorCodes.InstancePropertyIsWrongType);
+            AssertMemberExists(type, propertyName, ErrorCodes.MemberIsMissing);
+            AssertMemberIsInstanceOrStatic(type, propertyName, isStatic);
+            AssertMemberIs<PropertyInfo>(type, memberInfo, ErrorCodes.MemberIsWrongMemberType);
+            AssertMemberIsOfType(type, memberInfo, propertyType, ErrorCodes.PropertyIsWrongType);
 
             if(get != null)
             {
                 if (!propertyInfo.CanRead)
                 {
                     string errorMessage = String.Format(
-                        isStatic ? ErrorCodes.StaticPropertyIsMissingGet : ErrorCodes.InstancePropertyIsMissingGet,
+                        ErrorCodes.PropertyIsMissingGet,
                         FormatHelper.FormatType(type),
                         propertyName
                     );
                     throw new AssertFailedException(errorMessage);
                 }
-                string messageTemplate = String.Format(isStatic ? ErrorCodes.StaticPropertyGetHasWrongAccessLevel : ErrorCodes.InstancePropertyGetHasWrongAccessLevel, "{0}", propertyName, "{2}");
+                string messageTemplate = String.Format(ErrorCodes.PropertyGetHasWrongAccessLevel, "{0}", propertyName, "{2}");
                 AssertMemberHasAccessLevel(type, propertyInfo.GetMethod, get.AccessLevel, messageTemplate);
             }
             if(set != null)
             {
                 if (!propertyInfo.CanWrite)
                 {
-                    string errorMessage = String.Format(
-                        isStatic ? ErrorCodes.StaticPropertyIsMissingSet : ErrorCodes.InstancePropertyIsMissingSet,
+                    string errorMessage = String.Format(ErrorCodes.PropertyIsMissingSet,
                         FormatHelper.FormatType(type),
                         propertyName
                     );
                     throw new AssertFailedException(errorMessage);
                 }
-                string messageTemplate = String.Format(isStatic ? ErrorCodes.StaticPropertySetHasWrongAccessLevel : ErrorCodes.InstancePropertySetHasWrongAccessLevel, "{0}", propertyName, "{2}");
+                string messageTemplate = String.Format(ErrorCodes.PropertySetHasWrongAccessLevel, "{0}", propertyName, "{2}");
                 AssertMemberHasAccessLevel(type, propertyInfo.SetMethod, set.AccessLevel, messageTemplate);
             }
 
@@ -64,7 +65,8 @@ namespace TestTools.Helpers
 
         public static MemberInfo GetFieldOrPropertyInfo(Type type, string memberName, Type memberType, AccessLevel? accessLevel = null, bool isStatic = false)
         {
-            AssertMemberExists(type, memberName, isStatic, isStatic ? ErrorCodes.StaticMemberIsMissing : ErrorCodes.InstanceMemberIsMissing);
+            AssertMemberExists(type, memberName, ErrorCodes.MemberIsMissing);
+            AssertMemberIsInstanceOrStatic(type, memberName, isStatic);
             MemberInfo memberInfo = GetMembers(type, isStatic).First(m => m.Name == memberName);
 
             if (memberInfo is FieldInfo)
@@ -73,7 +75,7 @@ namespace TestTools.Helpers
                 return GetPropertyInfo(type, memberName, memberType, get: new PropertyAccessor(accessLevel), set: new PropertyAccessor(accessLevel));
 
             string errorMessage = String.Format(
-                isStatic ? ErrorCodes.StaticMemberIsIsNotFieldOrProperty : ErrorCodes.InstanceMemberIsNotFieldOrProperty,
+                ErrorCodes.MemberIsNotFieldOrProperty,
                 FormatHelper.FormatType(type),
                 memberName,
                 FormatHelper.FormatMemberType(memberInfo.GetType())
@@ -90,21 +92,22 @@ namespace TestTools.Helpers
         {
             IEnumerable<MemberInfo> memberInfos = GetMembers(type, isStatic).Where(m => m.Name == methodName);
             
-            AssertMemberExists(type, methodName, isStatic, isStatic ? ErrorCodes.StaticMemberIsMissing : ErrorCodes.InstanceMemberIsMissing);
-            AssertMemberIs<MethodInfo>(type, memberInfos.First(), isStatic ? ErrorCodes.StaticMemberIsWrongMemberType : ErrorCodes.InstanceMemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfos.First(), returnType, isStatic ? ErrorCodes.StaticMethodIsWrongReturnType : ErrorCodes.InstanceMethodIsWrongReturnType);
+            AssertMemberExists(type, methodName, ErrorCodes.MemberIsMissing);
+            AssertMemberIsInstanceOrStatic(type, methodName, isStatic);
+            AssertMemberIs<MethodInfo>(type, memberInfos.First(), ErrorCodes.MemberIsWrongMemberType);
+            AssertMemberIsOfType(type, memberInfos.First(), returnType, ErrorCodes.MethodIsWrongReturnType);
 
             MethodInfo methodInfo = memberInfos.OfType<MethodInfo>().FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), parameterTypes));
             if(methodInfo == null)
             {
                 string errorMessage = String.Format(
-                    isStatic ? ErrorCodes.StaticMethodIsMissing : ErrorCodes.InstanceMethodIsMissing,
+                    ErrorCodes.MethodIsMissing,
                     FormatHelper.FormatType(type),
                     FormatHelper.FormatMethodDeclaration(methodName, returnType, parameterTypes)
                 );
                 throw new AssertFailedException(errorMessage);
             }
-            string messageTemplate = String.Format(isStatic ? ErrorCodes.StaticMethodHasWrongAccessLevel : ErrorCodes.InstanceMethodHasWrongAccessLevel, "{0}", FormatHelper.FormatMethodDeclaration(methodName, returnType, parameterTypes), "{2}");
+            string messageTemplate = String.Format(ErrorCodes.MethodHasWrongAccessLevel, "{0}", FormatHelper.FormatMethodDeclaration(methodName, returnType, parameterTypes), "{2}");
             AssertMemberHasAccessLevel(type, methodInfo, accessLevel, messageTemplate);
 
             return methodInfo;
@@ -229,18 +232,23 @@ namespace TestTools.Helpers
             }
         }
 
-        public static IEnumerable<MemberInfo> GetMembers(Type type, bool isStatic = false)
+        public static IEnumerable<MemberInfo> GetMembers(Type type, bool? isStatic = null)
         {
             BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Public;
 
-            flags |= isStatic ? BindingFlags.Static : BindingFlags.Instance;
+            if (isStatic == null)
+            {
+                flags |= BindingFlags.Static;
+                flags |= BindingFlags.Instance;
+            }
+            else flags |= ((bool)isStatic) ? BindingFlags.Static : BindingFlags.Instance;
 
             return type.GetMembers(flags);
         }
 
-        private static void AssertMemberExists(Type type, string memberName, bool isStatic, string messageTemplate)
+        private static void AssertMemberExists(Type type, string memberName, string messageTemplate)
         {
-            if(GetMembers(type, isStatic).Any(m => m.Name == memberName))
+            if(GetMembers(type).Any(m => m.Name == memberName))
                 return;
 
             string errorMessage = String.Format(
@@ -249,6 +257,19 @@ namespace TestTools.Helpers
                 memberName
             );
             throw new AssertFailedException(errorMessage);
+        }
+
+        private static void AssertMemberIsInstanceOrStatic(Type type, string memberName, bool isStatic)
+        {
+            if (GetMembers(type, isStatic).Any(m => m.Name == memberName))
+                return;
+
+            string errorMessage = String.Format(
+                isStatic ? ErrorCodes.MemberIsNonStaticMember : ErrorCodes.MemberIsNonInstanceMember,
+                FormatHelper.FormatType(type),
+                memberName
+            );
+            throw new AssertFailedException(errorMessage);  
         }
 
         private static void AssertMemberIs<TMemberInfo>(Type type, MemberInfo info, string messageTemplate) where TMemberInfo : MemberInfo
@@ -375,12 +396,26 @@ namespace TestTools.Helpers
             int i = 0; 
             foreach(ParameterInfo parameterInfo in infos)
             {
-                if (i < arguments.Length && TypeHelper.IsOfType(parameterInfo.ParameterType, arguments[i]))
+                if (i < arguments.Length)
                 {
+                    if (!TypeHelper.IsOfType(parameterInfo.ParameterType, arguments[i]))
+                    {
+                        string errorMessage = String.Format(
+                            "INTERNAL: Parameter {0} argument {1} is not of type {2}",
+                            parameterInfo.Name,
+                            ObjectMethodRegistry.ToString(arguments[i]),
+                            FormatHelper.FormatType(parameterInfo.ParameterType)
+                        );
+                        throw new ArgumentException(errorMessage);
+                    }
                     newArguments.Add(arguments[i]);
                     i++;
                 }
-                else newArguments.Add(parameterInfo.DefaultValue);
+                else if (parameterInfo.HasDefaultValue)
+                {
+                    newArguments.Add(parameterInfo.DefaultValue);
+                }
+                else throw new ArgumentException("INTERNAL: Too few arguments");
             }
             return newArguments.ToArray();
         }

@@ -13,26 +13,6 @@ namespace TestTools.Helpers
             return accessLevel.ToString().ToLower();
         }
 
-        public static string FormatMemberName(string memberName, bool isStatic)
-        {
-            return isStatic ? $"static member {memberName}" : $"instance member {memberName}";
-        }
-
-        public static string FormatFieldName(string fieldName, bool isStatic)
-        {
-            return isStatic ? $"static field {fieldName}" : $"instance field {fieldName}";
-        }
-
-        public static string FormatPropertyName(string propertyName, bool isStatic)
-        {
-            return isStatic ? $"static property {propertyName}" : $"instance property {propertyName}";
-        }
-
-        public static string FormatMethodName(string methodName, bool isStatic)
-        {
-            return isStatic ? $"static method {methodName}" : $"instance method {methodName}";
-        }
-
         public static string FormatMethodDeclaration(string methodName, Type returnType, Type[] parameterTypes)
         {
             return FormatType(returnType) + " " + methodName + "(" + FormatParameters(parameterTypes) + ")";

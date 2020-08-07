@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTools Tests", "TestTool
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTools", "TestTools\TestTools.csproj", "{F9E1F9D9-B09D-4058-B36A-D1052BFB1F5B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lecture 2 Tests", "..\Lecture 2\Lecture 2 Tests\Lecture 2 Tests.csproj", "{6E6FEC50-5D21-4DF5-8ACC-4C7DF6A03647}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lecture 3 Tests", "..\Lecture 3\Lecture 3 Tests\Lecture 3 Tests.csproj", "{8ED9B700-0ED1-49B7-A118-6BA1ED9CD100}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,12 @@ Global
 		{F9E1F9D9-B09D-4058-B36A-D1052BFB1F5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9E1F9D9-B09D-4058-B36A-D1052BFB1F5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9E1F9D9-B09D-4058-B36A-D1052BFB1F5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E6FEC50-5D21-4DF5-8ACC-4C7DF6A03647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E6FEC50-5D21-4DF5-8ACC-4C7DF6A03647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E6FEC50-5D21-4DF5-8ACC-4C7DF6A03647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ED9B700-0ED1-49B7-A118-6BA1ED9CD100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ED9B700-0ED1-49B7-A118-6BA1ED9CD100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ED9B700-0ED1-49B7-A118-6BA1ED9CD100}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

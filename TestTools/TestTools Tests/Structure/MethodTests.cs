@@ -36,8 +36,8 @@ namespace TestTools_Tests.Structure
         public void ThrowsOnTooManyArguments()
         {
             Class @class = new Class(3);
-            AssertThrowsExactException<AssertFailedException>(
-                "Too many arguments",
+            AssertThrowsExactException<ArgumentException>(
+                "INTERNAL: Too many arguments",
                 () => GetMethodDefinition().Invoke(@class, new object[] {0, 0})
             );
         }
@@ -46,8 +46,8 @@ namespace TestTools_Tests.Structure
         public void ThrowsOnWrongTypeArgument()
         {
             Class @class = new Class(3);
-            AssertThrowsExactException<AssertFailedException>(
-                "Parameter i argument null is not of type int",
+            AssertThrowsExactException<ArgumentException>(
+                "INTERNAL: Parameter i argument null is not of type int",
                 () => GetMethodDefinition().Invoke(@class, new object[] { null })
             );
         }
