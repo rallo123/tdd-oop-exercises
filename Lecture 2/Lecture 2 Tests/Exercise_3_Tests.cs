@@ -1,21 +1,21 @@
-﻿using Lecture_1;
+﻿using Lecture_2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 
-namespace Lecture_1_Tests
+namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_3_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
-        private ClassDefinition<ImmutableNumber> immutableNumber => new ClassDefinition<ImmutableNumber>();
-        private PropertyDefinition<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>("Value", new PropertyAccessor(AccessLevel.Public));
-        private MethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.Method<ImmutableNumber, ImmutableNumber>("Add");
-        private MethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.Method<ImmutableNumber, ImmutableNumber>("Subtract");
-        private MethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.Method<ImmutableNumber, ImmutableNumber>("Multiply");
+        private ClassElement<ImmutableNumber> immutableNumber => new ClassElement<ImmutableNumber>();
+        private PropertyElement<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>("Value", new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private FuncMethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Add");
+        private FuncMethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Subtract");
+        private FuncMethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Multiply");
         private ImmutableNumber CreateImmutableNumber(int value) => immutableNumber.Constructor<int>().Invoke(value);
 
         private void DoNothing(object par) { }

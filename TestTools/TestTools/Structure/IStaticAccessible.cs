@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public interface IStaticAccessible
+    public interface IStaticAccessible : IElement
     {
         object Get();
         object Set(object value);

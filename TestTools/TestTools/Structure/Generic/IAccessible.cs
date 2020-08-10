@@ -4,9 +4,9 @@ using System.Text;
 
 namespace TestTools.Structure.Generic
 {
-    public interface IAccessible<TClass, TMember> : IAccessible
+    public interface IAccessible<TRoot, TMember> : IAccessible
     {
-        public TMember Get(TClass instance);
-        public void Set(TClass instance, TMember value);
+        public TMember Get(TRoot instance);
+        public void Set(TRoot instance, TMember value);
     }
 }

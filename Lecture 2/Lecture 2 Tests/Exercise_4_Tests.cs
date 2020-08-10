@@ -1,16 +1,16 @@
-﻿using Lecture_1;
+﻿using Lecture_2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestTools.Structure.Generic;
 
-namespace Lecture_1_Tests
+namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_4_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
-        private ClassDefinition<Number> number => new ClassDefinition<Number>();
-        private MethodDefinition<Number, bool, object> numberEquals => number.Method<bool, object>("Equals");
-        private MethodDefinition<Number, int> numberGetHashCode => number.Method<int>("GetHashCode");
+        private ClassElement<Number> number => new ClassElement<Number>();
+        private FuncMethodDefinition<Number, object, bool> numberEquals => number.FuncMethod<object, bool>("Equals");
+        private FuncMethodElement<Number, int> numberGetHashCode => number.FuncMethod<int>("GetHashCode");
         private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
 #pragma warning restore IDE1006 // Naming Styles
 

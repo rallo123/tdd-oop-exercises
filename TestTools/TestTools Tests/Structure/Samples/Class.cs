@@ -5,7 +5,7 @@ using System.Text;
 namespace Namespace
 {
     public class Class
-    {   
+    {
         private int PrivateIntField;
         public int PublicIntField = 0;
         

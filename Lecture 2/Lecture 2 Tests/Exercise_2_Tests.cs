@@ -1,21 +1,21 @@
-﻿using Lecture_1;
+﻿using Lecture_2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 
-namespace Lecture_1_Tests
+namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_2_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
-        private ClassDefinition<Number> number => new ClassDefinition<Number>();
-        private PropertyDefinition<Number, int> numberValue => number.Property<int>("Value", get: new PropertyAccessor(AccessLevel.Public));
-        private MethodDefinition numberAdd => number.Method("Add", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
-        private MethodDefinition numberSubtract => number.Method("Subtract", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
-        private MethodDefinition numberMultiply => number.Method("Multiply", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
+        private ClassElement<Number> number => new ClassElement<Number>();
+        private PropertyElement<Number, int> numberValue => number.Property<int>("Value", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private ActionMethodElement<Number, Number> numberAdd => number.ActionMethod<Number>("Add", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private ActionMethodElement<Number, Number> numberSubtract => number.ActionMethod<Number>("Subtract", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private ActionMethodElement<Number, Number> numberMultiply => number.ActionMethod<Number>("Multiply", new MethodOptions() { AccessLevel = AccessLevel.Public });
         private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
 
         private void DoNothing(object par) { }

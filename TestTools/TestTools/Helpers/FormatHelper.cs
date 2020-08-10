@@ -88,11 +88,11 @@ namespace TestTools.Helpers
             else return type.Name;
         }
 
-        public static string FormatDefinitionChain(Definition definition)
+        public static string FormatDefinitionChain(IElement definition)
         {
             string prefix = "";
 
-            if (definition.PreviousDefinition != null)
+            if (definition.PreviousElement != null)
                 prefix += ".";
 
             return prefix + definition.Name;

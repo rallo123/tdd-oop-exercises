@@ -1,4 +1,4 @@
-using Lecture_1;
+using Lecture_2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Runtime.CompilerServices;
@@ -9,22 +9,22 @@ using TestTools.Operation;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 
-namespace Lecture_1_Tests
+namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_1_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
-        private ClassDefinition<Person> person => new ClassDefinition<Person>();
-
-        private PropertyDefinition<Person, string> personFirstName => person.Property<string>("FirstName", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
-        private PropertyDefinition<Person, string> personLastName => person.Property<string>("LastName", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
-        private PropertyDefinition<Person, int> personAge => person.Property<int>("Age", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
-        private PropertyDefinition<Person, Person> personMother => person.Property<Person>("Mother", get: new PropertyAccessor(AccessLevel.Public), set: new PropertyAccessor(AccessLevel.Public));
-        private PropertyDefinition<Person, Person> personFather => person.Property<Person>("Father", get: new PropertyAccessor(AccessLevel.Public), new PropertyAccessor(AccessLevel.Public));
-        private PropertyDefinition<Person, Person> personFatherMother => personFather.Property<Person>("Mother", new PropertyAccessor(AccessLevel.Public), new PropertyAccessor(AccessLevel.Public));
-        private PropertyDefinition<Person, Person> personFatherFather => personFather.Property<Person>("Father", new PropertyAccessor(AccessLevel.Public), new PropertyAccessor(AccessLevel.Public));
-        private PropertyDefinition<Person, int> personID => person.Property<int>("ID", get: new PropertyAccessor(AccessLevel.Public));
+        private ClassElement<Person> person => new ClassElement<Person>();
+        
+        private PropertyElement<Person, string> personFirstName => person.Property<string>("FirstName", get: new AccessorOptions { AccessLevel = AccessLevel.Public }, set: new AccessorOptions { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Person, string> personLastName => person.Property<string>("LastName", get: new AccessorOptions { AccessLevel = AccessLevel.Public }, set: new AccessorOptions { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Person, int> personAge => person.Property<int>("Age", get: new AccessorOptions { AccessLevel = AccessLevel.Public }, set: new AccessorOptions { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Person, Person> personMother => person.Property<Person>("Mother", get: new AccessorOptions { AccessLevel = AccessLevel.Public }, set: new AccessorOptions { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Person, Person> personFather => person.Property<Person>("Father", get: new AccessorOptions { AccessLevel = AccessLevel.Public }, set: new AccessorOptions { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Person, Person> personFatherMother => personFather.Property<Person>("Mother", get: new AccessorOptions { AccessLevel = AccessLevel.Public }, set: new AccessorOptions { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Person, Person> personFatherFather => personFather.Property<Person>("Father", get: new AccessorOptions { AccessLevel = AccessLevel.Public }, set: new AccessorOptions { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Person, int> personID => person.Property<int>("ID", get: new AccessorOptions { AccessLevel = AccessLevel.Public });
 
         private string CreateName(int length)
         {
@@ -49,17 +49,17 @@ namespace Lecture_1_Tests
             if (father != null)
                 personFather.Set(instance, father);
 
-            return (Person) instance;
+            return instance;
         }
 
-        private ClassDefinition<PersonGenerator> generator => new ClassDefinition<PersonGenerator>();
-        private MethodDefinition<PersonGenerator, Person> generatorGeneratePerson => generator.Method<Person>("GeneratePerson", accessLevel: AccessLevel.Public);
-        private MethodDefinition<PersonGenerator, Person> generatorGenerateFamily => generator.Method<Person>("GenerateFamily", accessLevel: AccessLevel.Public);
+        private ClassElement<PersonGenerator> generator => new ClassElement<PersonGenerator>();
+        private FuncMethodElement<PersonGenerator, Person> generatorGeneratePerson => generator.FuncMethod<Person>("GeneratePerson", new MethodOptions { AccessLevel = AccessLevel.Public });
+        private FuncMethodElement<PersonGenerator, Person> generatorGenerateFamily => generator.FuncMethod<Person>("GenerateFamily", new MethodOptions { AccessLevel = AccessLevel.Public });
         private PersonGenerator CreateGenerator() => generator.Constructor().Invoke();
 
-        private ClassDefinition<PersonPrinter> printer => new ClassDefinition<PersonPrinter>();
-        private MethodDefinition printerPrintPerson => printer.Method("PrintPerson", typeof(void), new Type[] { typeof(Person) }, AccessLevel.Public);
-        private MethodDefinition printerPrintFamily => printer.Method("PrintFamily", typeof(void), new Type[] { typeof(Person) }, AccessLevel.Public);
+        private ClassElement<PersonPrinter> printer => new ClassElement<PersonPrinter>();
+        private ActionMethodElement<PersonPrinter, Person> printerPrintPerson => printer.ActionMethod<Person>("PrintPerson", new MethodOptions { AccessLevel = AccessLevel.Public });
+        private ActionMethodElement<PersonPrinter, Person> printerPrintFamily => printer.ActionMethod<Person>("PrintFamily", new MethodOptions { AccessLevel = AccessLevel.Public });
         private PersonPrinter CreatePrinter() => printer.Constructor().Invoke();
 
         private void DoNothing(object par) { }
@@ -176,7 +176,7 @@ namespace Lecture_1_Tests
             ConsoleSession session = new ConsoleSession();
             session.Out("Adam Smith (36)");
 
-            session.Start(() => printerPrintPerson.Invoke(CreatePrinter(), new object[] { CreatePerson("Adam", "Smith", 36) }));
+            session.Start(() => printerPrintPerson.Invoke(CreatePrinter(), CreatePerson("Adam", "Smith", 36)));
         }
 
         /* Exercise 1F */
@@ -195,11 +195,11 @@ namespace Lecture_1_Tests
 
             Person gustav = CreatePerson("Gustav", "Rich", 66);
             Person elsa = CreatePerson("Elsa", "Johnson", 65);
-            Person warren = CreatePerson("Warran", "Rich", 36, elsa, gustav);
+            Person warren = CreatePerson("Warren", "Rich", 36, elsa, gustav);
             Person anna = CreatePerson("Anna", "Smith", 38);
             Person robin = CreatePerson("Robin", "Rich", 10, anna, warren);
 
-            session.Start(() => printerPrintFamily.Invoke(CreatePrinter(), new object[] { robin }));
+            session.Start(() => printerPrintFamily.Invoke(CreatePrinter(), robin));
         }
 
         /* Exercise 1G */
@@ -207,7 +207,7 @@ namespace Lecture_1_Tests
         public void PersonHasConstructorWhichTakesNoArguments() => DoNothing(person.Constructor());
 
         [TestMethod("b. Person has constructor which two persons as arguments"), TestCategory("Exercise 1G")]
-        public void PersonHasconstructorWhichTakesTwoPersonsAsArguments() => DoNothing(person.Constructor(new Type[] { typeof(Person), typeof(Person) }));
+        public void PersonHasconstructorWhichTakesTwoPersonsAsArguments() => DoNothing(person.Constructor<Person, Person>());
 
         [TestMethod("c. Person constructor with 2 persons as arguments sets mother and father property"), TestCategory("Exercise 1G")]
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
@@ -226,7 +226,7 @@ namespace Lecture_1_Tests
             if (mother == fatherValue && father == motherValue)
                 return;
 
-            Assert.Fail("Person constructor Person(Person par1, Person par2) does not set mother or father property");
+            throw new AssertFailedException("Person constructor Person(Person par1, Person par2) does not set mother or father property");
         }
 
         /* Exercise 1H */

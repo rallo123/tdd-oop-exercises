@@ -11,7 +11,7 @@ namespace TestTools_Tests.Structure
     [TestClass]
     public class FieldTests
     {
-        private static FieldDefinition GetFieldDefinition() => new FieldDefinition(typeof(Class).GetField("PublicIntField"));
+        private static FieldElement GetFieldDefinition() => new FieldElement(typeof(Class).GetField("PublicIntField"));
         
         [TestMethod]
         public void GetsValue()
