@@ -16,9 +16,9 @@ namespace TestTools.Structure.Generic
         }
     }
 
-    public class FuncMethodDefinition<TRoot, T1, TResult> : FuncMethodElement, IFunc<TRoot, T1, TResult>
+    public class FuncMethodElement<TRoot, T1, TResult> : FuncMethodElement, IFunc<TRoot, T1, TResult>
     {
-        public FuncMethodDefinition(MethodInfo methodInfo) : base(methodInfo) { }
+        public FuncMethodElement(MethodInfo methodInfo) : base(methodInfo) { }
 
         public TResult Invoke(TRoot instance, T1 par1)
         {
@@ -26,9 +26,9 @@ namespace TestTools.Structure.Generic
         }
     }
 
-    public class FuncMethodDefinition<TRoot, T1, T2, TResult> : FuncMethodElement, IFunc<TRoot, T1, T2, TResult>
+    public class FuncMethodElement<TRoot, T1, T2, TResult> : FuncMethodElement, IFunc<TRoot, T1, T2, TResult>
     {
-        public FuncMethodDefinition(MethodInfo methodInfo) : base(methodInfo) { }
+        public FuncMethodElement(MethodInfo methodInfo) : base(methodInfo) { }
 
         public TResult Invoke(TRoot instance, T1 par1, T2 par2)
         {
@@ -36,9 +36,9 @@ namespace TestTools.Structure.Generic
         }
     }
 
-    public class FuncMethodDefinition<TRoot, T1, T2, T3, TResult> : FuncMethodElement, IFunc<TRoot, T1, T2, T3, TResult>
+    public class FuncMethodElement<TRoot, T1, T2, T3, TResult> : FuncMethodElement, IFunc<TRoot, T1, T2, T3, TResult>
     {
-        public FuncMethodDefinition(MethodInfo methodInfo) : base(methodInfo) { }
+        public FuncMethodElement(MethodInfo methodInfo) : base(methodInfo) { }
 
         public TResult Invoke(TRoot instance, T1 par1, T2 par2, T3 par3)
         {
@@ -46,9 +46,9 @@ namespace TestTools.Structure.Generic
         }
     }
 
-    public class FuncMethodDefinition<TRoot, T1, T2, T3, T4, TResult> : FuncMethodElement, IFunc<TRoot, T1, T2, T3, T4, TResult>
+    public class FuncMethodElement<TRoot, T1, T2, T3, T4, TResult> : FuncMethodElement, IFunc<TRoot, T1, T2, T3, T4, TResult>
     {
-        public FuncMethodDefinition(MethodInfo methodInfo) : base(methodInfo) { }
+        public FuncMethodElement(MethodInfo methodInfo) : base(methodInfo) { }
 
         public TResult Invoke(TRoot instance, T1 par1, T2 par2, T3 par3, T4 par4)
         {
@@ -57,9 +57,9 @@ namespace TestTools.Structure.Generic
         }
     }
 
-    public class FuncMethodDefinition<TRoot, T1, T2, T3, T4, T5, TResult> : FuncMethodElement, IFunc<TRoot, T1, T2, T3, T4, T5, TResult>
+    public class FuncMethodElement<TRoot, T1, T2, T3, T4, T5, TResult> : FuncMethodElement, IFunc<TRoot, T1, T2, T3, T4, T5, TResult>
     {
-        public FuncMethodDefinition(MethodInfo methodInfo) : base(methodInfo) { }
+        public FuncMethodElement(MethodInfo methodInfo) : base(methodInfo) { }
 
         public TResult Invoke(TRoot instance, T1 par1, T2 par2, T3 par3, T4 par4, T5 par5)
         {

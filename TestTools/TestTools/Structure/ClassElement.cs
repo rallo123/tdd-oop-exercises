@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Reflection;
 using TestTools.Helpers;
 
@@ -6,9 +7,14 @@ namespace TestTools.Structure
 {
     public class ClassElement : Element, IExtendable
     {
-        public ClassElement(Type type)
+        public ClassElement(Type type, ClassOptions options = null)
         {
             Type = type;
+
+            if (options?.BaseType != null && options.BaseType != Type.BaseType)
+                throw new AssertFailedException("Wrong base");
+            if (options?.IsAbstract != null && options.IsAbstract != Type.IsAbstract)
+                throw new AssertFailedException("Wrong abstract");
         }
 
         public Type Type { get; }

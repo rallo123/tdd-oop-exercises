@@ -36,11 +36,11 @@ namespace TestTools.Structure.Generic
         public ActionMethodElement<TRoot, T1, T2, T3, T4, T5> ActionMethod<T1, T2, T3, T4, T5>(string methodName, MethodOptions options = null) => Extendable.ActionMethod<TRoot, T1, T2, T3, T4, T5>(this, methodName, options);
 
         public FuncMethodElement<TRoot, TResult> FuncMethod<TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, TResult>(this, methodName, options);
-        public FuncMethodDefinition<TRoot, T1, TResult> FuncMethod<T1, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, TResult>(this, methodName, options);
-        public FuncMethodDefinition<TRoot, T1, T2, TResult> FuncMethod<T1, T2, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, T2, TResult>(this, methodName, options);
-        public FuncMethodDefinition<TRoot, T1, T2, T3, TResult> FuncMethod<T1, T2, T3, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, T2, T3, TResult>(this, methodName, options);
-        public FuncMethodDefinition<TRoot, T1, T2, T3, T4, TResult> FuncMethod<T1, T2, T3, T4, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, T2, T3, T4, TResult>(this, methodName, options);
-        public FuncMethodDefinition<TRoot, T1, T2, T3, T4, T5, TResult> FuncMethod<T1, T2, T3, T4, T5, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, T2, T3, T4, T5, TResult>(this, methodName, options);
+        public FuncMethodElement<TRoot, T1, TResult> FuncMethod<T1, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, TResult>(this, methodName, options);
+        public FuncMethodElement<TRoot, T1, T2, TResult> FuncMethod<T1, T2, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, T2, TResult>(this, methodName, options);
+        public FuncMethodElement<TRoot, T1, T2, T3, TResult> FuncMethod<T1, T2, T3, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, T2, T3, TResult>(this, methodName, options);
+        public FuncMethodElement<TRoot, T1, T2, T3, T4, TResult> FuncMethod<T1, T2, T3, T4, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, T2, T3, T4, TResult>(this, methodName, options);
+        public FuncMethodElement<TRoot, T1, T2, T3, T4, T5, TResult> FuncMethod<T1, T2, T3, T4, T5, TResult>(string methodName, MethodOptions options = null) => Extendable.FuncMethod<TRoot, T1, T2, T3, T4, T5, TResult>(this, methodName, options);
 
         public ActionMethodStaticElement<TRoot> StaticActionMethod(string methodName, MethodOptions options = null) => Extendable.StaticActionMethod<TRoot>(this, methodName, options);
         public ActionMethodStaticElement<TRoot, T1> StaticActionMethod<T1>(string methodName, MethodOptions options = null) => Extendable.StaticActionMethod<TRoot, T1>(this, methodName, options);

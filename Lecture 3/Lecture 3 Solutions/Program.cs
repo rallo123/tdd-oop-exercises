@@ -1,12 +1,15 @@
 ﻿using System;
 
-namespace Lecture_1_Potential_Solutions
+namespace Lecture_3_Solutions
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Car car = new Car(35.00);
+            Console.Write($"Refueling car with ID {car.ID} from fuel level {car.FuelLevel}");
+            car.Refill(50);
+            Console.WriteLine($" to fuel level {car.FuelLevel}");
         }
     }
 }

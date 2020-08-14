@@ -66,30 +66,30 @@ namespace TestTools.Structure.Generic
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(typeof(TRoot), methodName, typeof(TResult), options, isStatic: false);
             return new FuncMethodElement<TRoot, TResult>(methodInfo) { PreviousElement = instance };
         }
-        public static FuncMethodDefinition<TRoot, T1, TResult> FuncMethod<TRoot, T1, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
+        public static FuncMethodElement<TRoot, T1, TResult> FuncMethod<TRoot, T1, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
         {
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(typeof(TRoot), methodName, typeof(TResult), new Type[] { typeof(T1) }, options, isStatic: false);
-            return new FuncMethodDefinition<TRoot, T1, TResult>(methodInfo) { PreviousElement = instance };
+            return new FuncMethodElement<TRoot, T1, TResult>(methodInfo) { PreviousElement = instance };
         }
-        public static FuncMethodDefinition<TRoot, T1, T2, TResult> FuncMethod<TRoot, T1, T2, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
+        public static FuncMethodElement<TRoot, T1, T2, TResult> FuncMethod<TRoot, T1, T2, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
         {
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(typeof(TRoot), methodName, typeof(TResult), new Type[] { typeof(T1), typeof(T2) }, options, isStatic: false);
-            return new FuncMethodDefinition<TRoot, T1, T2, TResult>(methodInfo) { PreviousElement = instance };
+            return new FuncMethodElement<TRoot, T1, T2, TResult>(methodInfo) { PreviousElement = instance };
         }
-        public static FuncMethodDefinition<TRoot, T1, T2, T3, TResult> FuncMethod<TRoot, T1, T2, T3, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
+        public static FuncMethodElement<TRoot, T1, T2, T3, TResult> FuncMethod<TRoot, T1, T2, T3, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
         {
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(typeof(TRoot), methodName, typeof(TResult), new Type[] { typeof(T1), typeof(T2), typeof(T3) }, options, isStatic: false);
-            return new FuncMethodDefinition<TRoot, T1, T2, T3, TResult>(methodInfo) { PreviousElement = instance };
+            return new FuncMethodElement<TRoot, T1, T2, T3, TResult>(methodInfo) { PreviousElement = instance };
         }
-        public static FuncMethodDefinition<TRoot, T1, T2, T3, T4, TResult> FuncMethod<TRoot, T1, T2, T3, T4, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
+        public static FuncMethodElement<TRoot, T1, T2, T3, T4, TResult> FuncMethod<TRoot, T1, T2, T3, T4, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
         {
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(typeof(TRoot), methodName, typeof(TResult), new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) }, options, isStatic: false);
-            return new FuncMethodDefinition<TRoot, T1, T2, T3, T4, TResult>(methodInfo) { PreviousElement = instance };
+            return new FuncMethodElement<TRoot, T1, T2, T3, T4, TResult>(methodInfo) { PreviousElement = instance };
         }
-        public static FuncMethodDefinition<TRoot, T1, T2, T3, T4, T5, TResult> FuncMethod<TRoot, T1, T2, T3, T4, T5, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
+        public static FuncMethodElement<TRoot, T1, T2, T3, T4, T5, TResult> FuncMethod<TRoot, T1, T2, T3, T4, T5, TResult>(IExtendable<TRoot> instance, string methodName, MethodOptions options)
         {
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(typeof(TRoot), methodName, typeof(TResult), new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5) }, options, isStatic: false);
-            return new FuncMethodDefinition<TRoot, T1, T2, T3, T4, T5, TResult>(methodInfo) { PreviousElement = instance };
+            return new FuncMethodElement<TRoot, T1, T2, T3, T4, T5, TResult>(methodInfo) { PreviousElement = instance };
         }
 
         public static ActionMethodStaticElement<TRoot> StaticActionMethod<TRoot>(this IExtendable<TRoot> instance, string methodName, MethodOptions options)

@@ -13,9 +13,9 @@ namespace Lecture_2_Tests
 #pragma warning disable IDE1006 // Naming Styles
         private ClassElement<ImmutableNumber> immutableNumber => new ClassElement<ImmutableNumber>();
         private PropertyElement<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>("Value", new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Add");
-        private FuncMethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Subtract");
-        private FuncMethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Multiply");
+        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Add");
+        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Subtract");
+        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Multiply");
         private ImmutableNumber CreateImmutableNumber(int value) => immutableNumber.Constructor<int>().Invoke(value);
 
         private void DoNothing(object par) { }
@@ -41,14 +41,14 @@ namespace Lecture_2_Tests
         }
 
         /* Exercise 3A */
-        [TestMethod("Value is public readonly int property"), TestCategory("Exercise 3A")]
+        [TestMethod("a. ImmutableNumber.Value is public readonly int property"), TestCategory("Exercise 3A")]
         public void ValueIsPublicReadonlyProperty() => DoNothing(immutableNumberValue);
 
         /* Exercise 3B */
-        [TestMethod("a. Number constructor takes int as argument"), TestCategory("Exercise 3B")]
+        [TestMethod("a. ImmutableNumber.Number constructor takes int as argument"), TestCategory("Exercise 3B")]
         public void ImmutableNumberConstructorTakesIntAsArgument() => DoNothing(CreateImmutableNumber(0));
 
-        [TestMethod("b. Number constructor with int as argument sets value property"), TestCategory("Exercise 3B")]
+        [TestMethod("b. ImmutableNumber constructor with int as argument sets value property"), TestCategory("Exercise 3B")]
         public void ImmutableNumberConstructorWithIntAsArgumentSetsValueProperty()
         {
             ImmutableNumber n = CreateImmutableNumber(2);
@@ -58,22 +58,22 @@ namespace Lecture_2_Tests
         }
 
         /* Exercise 2C*/
-        [TestMethod("a. Add takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
+        [TestMethod("a. ImmutableNumber.Add takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
         public void AddTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberAdd);
 
-        [TestMethod("b. Add performs 1 + 2 = 3"), TestCategory("Exercise 3C")]
+        [TestMethod("b. ImmutableNumber.Add performs 1 + 2 = 3"), TestCategory("Exercise 3C")]
         public void AddProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberAdd.Invoke(n1, n2), 1, 2, 3, symbol: "+");
 
-        [TestMethod("c. Subtract takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
+        [TestMethod("c. ImmutableNumber.Subtract takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
         public void SubtractTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberSubtract);
 
-        [TestMethod("d. Subtract performs 8 - 3 = 5"), TestCategory("Exercise 3C")]
+        [TestMethod("d. ImmutableNumber.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 3C")]
         public void SubstractProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberSubtract.Invoke(n1, n2), 8, 3, 5, symbol: "-");
 
-        [TestMethod("e. Multiply takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
+        [TestMethod("e. ImmutableNumber.Multiply takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
         public void MultiplyTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberMultiply);
 
-        [TestMethod("f. Multiply performs 2 * 3 = 6"), TestCategory("Exercise 3C")]
+        [TestMethod("f. ImmutableNumber.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 3C")]
         public void MultiplyProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberMultiply.Invoke(n1, n2), 2, 3, 6, symbol: "*");
     }
 }

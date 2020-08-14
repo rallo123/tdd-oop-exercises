@@ -158,7 +158,7 @@ namespace TestTools.Helpers
             AssertMemberIsInstanceOrStatic(type, methodName, isStatic);
             AssertMemberIs<MethodInfo>(type, memberInfos.First(), ErrorCodes.MemberIsWrongMemberType);
             AssertMemberIsOfType(type, memberInfos.First(), returnType, ErrorCodes.MethodIsWrongReturnType);
-
+            
             MethodInfo methodInfo = memberInfos.OfType<MethodInfo>().FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), parameterTypes));
             if(methodInfo == null)
             {
@@ -171,6 +171,7 @@ namespace TestTools.Helpers
             }
             string messageTemplate = String.Format(ErrorCodes.MethodHasWrongAccessLevel, "{0}", FormatHelper.FormatMethodDeclaration(methodName, returnType, parameterTypes), "{2}");
             AssertMemberHasAccessLevel(type, methodInfo, options?.AccessLevel, messageTemplate);
+            AssertMemberIsNonStaticOrStatic(type, methodInfo, options.IsAbstract);
 
             return methodInfo;
         }
@@ -240,7 +241,7 @@ namespace TestTools.Helpers
             );
             throw new AssertFailedException(errorMessage);  
         }
-
+        
         private static void AssertMemberIs<TMemberInfo>(Type type, MemberInfo info, string messageTemplate) where TMemberInfo : MemberInfo
         {
             if (TypeHelper.IsOfType(typeof(TMemberInfo), info))
@@ -268,6 +269,18 @@ namespace TestTools.Helpers
                 FormatHelper.FormatType(expectedType)
             );
             throw new AssertFailedException(errorMessage);
+        }
+
+        private static void AssertMemberIsNonStaticOrStatic(Type type, MethodInfo memberInfo, bool isAbstract)
+        {
+            if (IsÁbstract(memberInfo) == isAbstract)
+                return;
+
+            if ((bool)isAbstract)
+            {
+                throw new AssertFailedException($"{FormatHelper.FormatType(type)} {memberInfo.Name} was not expected to have an implementation");
+            }
+            else throw new AssertFailedException($"{FormatHelper.FormatType(type)} {memberInfo.Name} was expected to have an implementation");
         }
 
         private static void AssertMemberHasAccessLevel(Type type, MemberInfo memberInfo, AccessLevel? accessLevel, string messageTemplate)
@@ -353,6 +366,13 @@ namespace TestTools.Helpers
                 if (methodInfo.IsPublic)
                     return AccessLevel.Public;
             }
+            throw new NotImplementedException($"Unsupported MemberInfo type {memberInfo.GetType().Name}");
+        }
+
+        private static bool IsÁbstract(MemberInfo memberInfo)
+        {
+            if (memberInfo is MethodInfo methodInfo)
+                return methodInfo.IsAbstract;
             throw new NotImplementedException($"Unsupported MemberInfo type {memberInfo.GetType().Name}");
         }
 

@@ -22,11 +22,11 @@ namespace TestTools.Structure.Generic
         ActionMethodElement<TRoot, T1, T2, T3, T4, T5> ActionMethod<T1, T2, T3, T4, T5>(string methodName, MethodOptions options = null);
 
         FuncMethodElement<TRoot, TResult> FuncMethod<TResult>(string methodName, MethodOptions options = null);
-        FuncMethodDefinition<TRoot, T1, TResult> FuncMethod<T1, TResult>(string methodName, MethodOptions options = null);
-        FuncMethodDefinition<TRoot, T1, T2, TResult> FuncMethod<T1, T2, TResult>(string methodName, MethodOptions options = null);
-        FuncMethodDefinition<TRoot, T1, T2, T3, TResult> FuncMethod<T1, T2, T3, TResult>(string methodName, MethodOptions options = null);
-        FuncMethodDefinition<TRoot, T1, T2, T3, T4, TResult> FuncMethod<T1, T2, T3, T4, TResult>(string methodName, MethodOptions options = null);
-        FuncMethodDefinition<TRoot, T1, T2, T3, T4, T5, TResult> FuncMethod<T1, T2, T3, T4, T5, TResult>(string methodName, MethodOptions options = null);
+        FuncMethodElement<TRoot, T1, TResult> FuncMethod<T1, TResult>(string methodName, MethodOptions options = null);
+        FuncMethodElement<TRoot, T1, T2, TResult> FuncMethod<T1, T2, TResult>(string methodName, MethodOptions options = null);
+        FuncMethodElement<TRoot, T1, T2, T3, TResult> FuncMethod<T1, T2, T3, TResult>(string methodName, MethodOptions options = null);
+        FuncMethodElement<TRoot, T1, T2, T3, T4, TResult> FuncMethod<T1, T2, T3, T4, TResult>(string methodName, MethodOptions options = null);
+        FuncMethodElement<TRoot, T1, T2, T3, T4, T5, TResult> FuncMethod<T1, T2, T3, T4, T5, TResult>(string methodName, MethodOptions options = null);
 
         ActionMethodStaticElement<TRoot> StaticActionMethod(string methodName, MethodOptions options = null);
         ActionMethodStaticElement<TRoot, T1> StaticActionMethod<T1>(string methodName, MethodOptions options = null);
