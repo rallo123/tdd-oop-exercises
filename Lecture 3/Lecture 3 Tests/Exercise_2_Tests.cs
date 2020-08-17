@@ -1,12 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Lecture_3;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TestTools;
-using TestTools.Structure;
-using TestTools.Structure.Generic;
-using Lecture_3_Solutions;
-using TestTools.Operation;
 using System.Collections.Generic;
 using System.Linq;
+using TestTools.Operation;
+using TestTools.Structure;
+using TestTools.Structure.Generic;
 
 namespace Lecture_3_Tests
 {
@@ -142,9 +141,9 @@ namespace Lecture_3_Tests
             {
                 staff.Add(employee);
 
-                if (employee is Manager manager)
+                if (employee.GetType() == typeof(Manager))
                 {
-                    expectedCosts += managerCalculateYearlySalary.Invoke(manager);
+                    expectedCosts += managerCalculateYearlySalary.Invoke((Manager)(object)employee);
                 }
                 else expectedCosts += employeeCalculateYearlySalary.Invoke(employee);
             }
@@ -157,7 +156,7 @@ namespace Lecture_3_Tests
                    "Company.CalculateYearlySalaryCosts() returns {0} instead of {1} for Company.Employees.Count = {2}",
                    actualCosts,
                    expectedCosts,
-                   company.Employees.Count
+                   companyEmployees.Get(company).Count()
                 );
                 throw new AssertFailedException(message);
             }
@@ -277,7 +276,7 @@ namespace Lecture_3_Tests
             companyHire.Invoke(company, employee);
 
             if (!employees.Any(e => e == employee))
-                throw new AssertFailedException($"Company.Hire(Employee e) does not add Employee {employee.Name} ({employee.Title}) to Employees");
+                throw new AssertFailedException($"Company.Hire(Employee e) does not add Employee {employeeName.Get(employee)} ({employeeTitle.Get(employee)}) to Employees");
         }
 
         [TestMethod("c. Company.Fire(Employee e) removes employee to Employees"), TestCategory("Exercise 2E")]
@@ -291,14 +290,14 @@ namespace Lecture_3_Tests
             companyFire.Invoke(company, employee);
 
             if (employees.Any(e => e == employee))
-                throw new AssertFailedException($"Company.Hire(Employee e) does not remove Employee {employee.Name} ({employee.Title}) from Employees");
+                throw new AssertFailedException($"Company.Hire(Employee e) does not remove Employee {employeeName.Get(employee)} ({employeeTitle.Get(employee)} from Employees");
         }
 
 
         [TestMethod("d. Company.Hire(Employee e) adds manager to Employees"), TestCategory("Exercise 2E")]
         public void CompanyHireAddsManagerToEmployees()
         {
-            Manager manager = CreateManager("Katja Holmes", "Programmer Manager");
+            Employee manager = (Employee)(object)CreateManager("Katja Holmes", "Programmer Manager");
             Company company = CreateCompany();
             List<Employee> employees = companyEmployees.Get(company);
 
@@ -311,7 +310,7 @@ namespace Lecture_3_Tests
         [TestMethod("e. Company.Fire(Employee e) removes manager to Employees"), TestCategory("Exercise 2E")]
         public void CompanyFireAddsManagerToEmployees()
         {
-            Manager manager = CreateManager("Katja Holmes", "Programmer Manager");
+            Employee manager = (Employee)(object)CreateManager("Katja Holmes", "Programmer Manager");
             Company company = CreateCompany();
             List<Employee> employees = companyEmployees.Get(company);
             employees.Add(manager);
@@ -323,13 +322,13 @@ namespace Lecture_3_Tests
         }
 
         /* Exercise 2F */
-        [TestMethod("a. Company.CalculateYearlySalaryCosts() returns 0 for company without employees")]
+        [TestMethod("a. Company.CalculateYearlySalaryCosts() returns 0 for company without employees"), TestCategory("Exercise 2F")]
         public void CompanyCalculateYearlySalaryCostsReturnsZeroForCompanyWithoutEmployees() => TestCompanyCalculateYearlySalaryCosts();
 
-        [TestMethod("b. Company.CalculateYearlySalaryCosts() returns expected output for company with 1 Employee")]
+        [TestMethod("b. Company.CalculateYearlySalaryCosts() returns expected output for company with 1 Employee"), TestCategory("Exercise 2F")]
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithOneEmployee() => TestCompanyCalculateYearlySalaryCosts(CreateEmployee("Allan Walker", "IT Support", 30000, 4));
 
-        [TestMethod("c. Company.CalculateYearlySalaryCosts() returns expected output for company with 2 Employees")]
+        [TestMethod("c. Company.CalculateYearlySalaryCosts() returns expected output for company with 2 Employees"), TestCategory("Exercise 2F")]
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithTwoEmployee() => TestCompanyCalculateYearlySalaryCosts(CreateEmployee("Allan Walker", "IT Support", 30000, 4), CreateEmployee("Amy Walker", "IT Support", 30000, 7));
     }
 }

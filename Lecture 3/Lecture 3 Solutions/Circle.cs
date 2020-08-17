@@ -32,7 +32,7 @@ namespace Lecture_3_Solutions
             if (p == null)
                 return false;
 
-            return Radius >= Math.Sqrt(Math.Pow(p.X, 2) + Math.Pow(p.Y, 2));
+            return Radius >= Math.Sqrt(Math.Pow(p.X - Center.X, 2) + Math.Pow(p.Y - Center.Y, 2));
         }
     }
 }

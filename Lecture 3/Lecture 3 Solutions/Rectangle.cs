@@ -32,16 +32,18 @@ namespace Lecture_3_Solutions
 
         public override bool Contains(Point p)
         {
-            Point topLeft = new Point(Math.Max(P1.X, P2.X), Math.Max(P1.Y, P2.Y));
-            Point bottomRight = new Point(Math.Min(P1.X, P2.X), Math.Min(P1.Y, P2.Y));
+            double right = Math.Max(P1.X, P2.X);
+            double left = Math.Min(P1.X, P2.X);
+            double top = Math.Max(P1.Y, P2.Y);
+            double bottom = Math.Min(P1.Y, P2.Y);
 
-            if (p.X <= Math.Max(P1.X, P2.X))
+            if (p.X > right)
                 return false;
-            if (p.X >= Math.Min(P1.X, P2.X))
+            if (p.X < left)
                 return false;
-            if (p.Y >= Math.Max(P1.Y, P2.Y))
+            if (p.Y > top)
                 return false;
-            if (p.Y <= Math.Max(P1.Y, P2.Y))
+            if (p.Y < bottom)
                 return false;
 
             return true;

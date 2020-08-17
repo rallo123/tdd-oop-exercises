@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Lecture_3
 {
-    class Employee
+    public class Employee
     {
     }
 }

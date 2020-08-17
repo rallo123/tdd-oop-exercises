@@ -1,4 +1,4 @@
-﻿using Lecture_3_Solutions;
+﻿using Lecture_3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
@@ -34,7 +34,7 @@ namespace Lecture_3_Tests
 
 
         /* Exercise 4A */
-        [TestMethod("a. Employee.ToString() returns expected output"), TestCategory("4A")]
+        [TestMethod("a. Employee.ToString() returns expected output"), TestCategory("Exercise 4A")]
         public void EmployeeToStringReturnsExpectedOutput()
         {
             string actual = employeeToString.Invoke(CreateEmployee("Joe Stevens", "Programmer"));
@@ -52,7 +52,7 @@ namespace Lecture_3_Tests
         }
 
         /* Exercise 4B */
-        [TestMethod("a. Manager.ToString() returns expected output"), TestCategory("4B")]
+        [TestMethod("a. Manager.ToString() returns expected output"), TestCategory("Exercise 4B")]
         public void ManagerToStringReturnsExpectedOutput()
         {
             string actual = managerToString.Invoke(CreateManager("Mary Stevens", "Software Engineer"));

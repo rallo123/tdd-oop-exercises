@@ -1,10 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Lecture_3;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TestTools;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
-using Lecture_3_Solutions;
-using TestTools.Operation;
 
 namespace Lecture_3_Tests
 {
@@ -57,17 +55,17 @@ namespace Lecture_3_Tests
         public void FigureContainsIsAbstractMethod() => DoNothing(figureContains);
 
         /* Exercise 3B */
-        [TestMethod("a. Circle is subclass of Figure"), TestCategory("3B")]
+        [TestMethod("a. Circle is subclass of Figure"), TestCategory("Exercise 3B")]
         public void CircleIsSubclassOfFigure() => DoNothing(circle);
 
-        [TestMethod("b. Rectangle is subclass of Figure"), TestCategory("3B")]
+        [TestMethod("b. Rectangle is subclass of Figure"), TestCategory("Exercise 3B")]
         public void RectangleIsSubclassOfFigure() => DoNothing(rectangle);
 
         /* Exercise 3C */
-        [TestMethod("a. Circle.Center is public Point property"), TestCategory("3C")]
+        [TestMethod("a. Circle.Center is public Point property"), TestCategory("Exercise 3C")]
         public void CenterIsPublicPointProperty() => DoNothing(circleCenter);
 
-        [TestMethod("b. Circle.Radius is public double property"), TestCategory("3C")]
+        [TestMethod("b. Circle.Radius is public double property"), TestCategory("Exercise 3C")]
         public void RadiusIsPublicDoubleProperty() => DoNothing(circleRadius);
         /*
         [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("3C")]
@@ -77,20 +75,20 @@ namespace Lecture_3_Tests
         public void RadiusIgnoresAssigmentOfMinusOne() => Assignment.Ignored(CreateCircle(), circleRadius, -1.0);
         */
         /* Exercise 3D */
-        [TestMethod("a. Rectangle.P1 is public Point property"), TestCategory("3D")]
+        [TestMethod("a. Rectangle.P1 is public Point property"), TestCategory("Exercise 3D")]
         public void P1IsPublicPointProperty() => DoNothing(rectangleP1);
 
-        [TestMethod("b. Regtangle.P2 is public Point property"), TestCategory("3D")]
+        [TestMethod("b. Regtangle.P2 is public Point property"), TestCategory("Exercise 3D")]
         public void P2IsPublicPointProperty() => DoNothing(rectangleP2);
         
-        [TestMethod("c. Rectangle(Point p1, Point p2) ignores p1 = null"), TestCategory("3D")]
+        [TestMethod("c. Rectangle(Point p1, Point p2) ignores p1 = null"), TestCategory("Exercise 3D")]
         public void RectangleConstructorIgnoresP1ValueNull() => DoNothing(rectangleP1);
 
-        [TestMethod("d. Rectangle(Point p1, Point p2) ignores p2 = null"), TestCategory("3D")]
+        [TestMethod("d. Rectangle(Point p1, Point p2) ignores p2 = null"), TestCategory("Exercise 3D")]
         public void RegtangleConstructorIgnoresP1ValueNull() => DoNothing(rectangleP2);
 
         /* Exercise 3E */
-        [TestMethod("a. Circle.CalculateArea() returns expected output"), TestCategory("3E")]
+        [TestMethod("a. Circle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
         public void CircleCalculateAreaReturnsExpectedOutput()
         {
             double r = 42.3;
@@ -110,7 +108,7 @@ namespace Lecture_3_Tests
             }
         }
 
-        [TestMethod("b. Circle.Contains(Point p) returns true for point within circle"), TestCategory("3E")]
+        [TestMethod("b. Circle.Contains(Point p) returns true for point within circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnTrueForPointWithinCircle()
         {
             Circle circle = CreateCircle(CreatePoint(2, 3), 1);
@@ -124,7 +122,7 @@ namespace Lecture_3_Tests
             }
         }
 
-        [TestMethod("c. Circle.Contains(Point p) returns true for point on perimeter of circle"), TestCategory("3E")]
+        [TestMethod("c. Circle.Contains(Point p) returns true for point on perimeter of circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnTrueForPointOnPerimeterOfCircle()
         {
             Circle circle = CreateCircle(CreatePoint(2, 3), 1);
@@ -138,7 +136,7 @@ namespace Lecture_3_Tests
             }
         }
         
-        [TestMethod("d. Circle.Contains(Point p) returns false for point outside of circle"), TestCategory("3E")]
+        [TestMethod("d. Circle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnFalseForPointOutsideOfCircle()
         {
             Circle circle = CreateCircle(CreatePoint(2, 3), 1);
@@ -152,7 +150,7 @@ namespace Lecture_3_Tests
             }
         }
 
-        [TestMethod("e. Rectangle.CalculateArea() returns expected output"), TestCategory("3E")]
+        [TestMethod("e. Rectangle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
         public void RectangleCalculateAreaReturnsExpectedOutput()
         {
             Rectangle instance = CreateRectangle(CreatePoint(0, 0), CreatePoint(2, 3));
@@ -170,7 +168,7 @@ namespace Lecture_3_Tests
             }
         }
 
-        [TestMethod("f. Rectangle.Contains(Point p) returns true for point within rectangle"), TestCategory("3E")]
+        [TestMethod("f. Rectangle.Contains(Point p) returns true for point within rectangle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnTrueForPointWithinRectangle()
         {
             Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));
@@ -184,7 +182,7 @@ namespace Lecture_3_Tests
             }
         }
 
-        [TestMethod("g. Rectangle.Contains(Point p) returns true for point on perimeter of rectangle"), TestCategory("3E")]
+        [TestMethod("g. Rectangle.Contains(Point p) returns true for point on perimeter of rectangle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnTrueForPointOnPerimeterOfRectangle()
         {
             Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));
@@ -198,7 +196,7 @@ namespace Lecture_3_Tests
             }
         }
 
-        [TestMethod("h. Rectangle.Contains(Point p) returns false for point outside of circle"), TestCategory("3E")]
+        [TestMethod("h. Rectangle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnFalseForPointOutsideOfRectangle()
         {
             Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));

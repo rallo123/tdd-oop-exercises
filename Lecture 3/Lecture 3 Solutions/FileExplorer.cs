@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace Lecture_1_Potential_Solutions
+namespace Lecture_3_Solutions
 {
     public class FileExplorer
     {
@@ -33,6 +33,7 @@ namespace Lecture_1_Potential_Solutions
             {
                 PrintPadding(depth + 1);
                 Console.WriteLine(subDirectory.Name);
+                PrintTree(subDirectory, depth + 1);
             }
             foreach (FileInfo file in info.GetFiles())
             {
