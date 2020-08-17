@@ -23,4 +23,10 @@
     <ProjectReference Include="..\Lecture 2 Solutions\Lecture 2 Solutions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="TestTools">
+      <HintPath>..\..\TestTools\TestTools\bin\Release\netcoreapp3.1\TestTools.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
