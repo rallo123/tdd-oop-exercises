@@ -2,18 +2,31 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_1_Potential_Solutions
+namespace Lecture_3_Solutions
 {
     public class Company
     {
-        public List<Employee> Employees { get; };
+        private string _name;
+        
 
         public Company()
         {
             Employees = new List<Employee>();
         }
 
-        public decimal CalculateYearlyExpenses()
+        public List<Employee> Employees { get; }
+
+        public void Hire(Employee employee)
+        {
+            Employees.Add(employee);
+        }
+
+        public void Fire(Employee employee)
+        {
+            Employees.Remove(employee);
+        }
+
+        public decimal CalculateYearlySalaryCosts()
         {
             decimal total = 0;
 

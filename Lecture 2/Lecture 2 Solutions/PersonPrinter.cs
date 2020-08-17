@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_1_Solutions
+namespace Lecture_2_Solutions
 {
     public class PersonPrinter
     {
@@ -11,17 +11,22 @@ namespace Lecture_1_Solutions
             Console.WriteLine(p.FirstName + " " + p.LastName + " (" + p.Age + ")");
         }
 
-        public void PrintFamily(Person p, int generation = 0)
+        public void PrintFamily(Person p)
         {
-            for (int i = 0; i < generation; i++)
+            PrintFamilyWithIndent(p, 0);
+        }
+
+        private void PrintFamilyWithIndent(Person p, int indent)
+        {
+            for (int i = 0; i < indent; i++)
                 Console.Write("  ");
 
             PrintPerson(p);
 
             if(p.Father != null)
-                PrintFamily(p.Father, generation + 1);
+                PrintFamilyWithIndent(p.Father, indent + 1);
             if(p.Mother != null)
-                PrintFamily(p.Mother, generation + 1);
+                PrintFamilyWithIndent(p.Mother, indent + 1);
         }
     }
 }

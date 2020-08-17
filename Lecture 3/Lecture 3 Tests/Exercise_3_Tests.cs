@@ -1,77 +1,213 @@
-﻿using Lecture_1;
+﻿using Lecture_3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TestTools;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 
-namespace Lecture_1_Tests
+namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_3_Tests
     {
-        private ClassDefinition<ImmutableNumber> immutableNumber => new ClassDefinition<ImmutableNumber>();
-        private PropertyDefinition<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>("Value", new PropertyAccessor(AccessLevel.Public));
-        private MethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.Method<ImmutableNumber, ImmutableNumber>("Add");
-        private MethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.Method<ImmutableNumber, ImmutableNumber>("Subtract");
-        private MethodDefinition<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.Method<ImmutableNumber, ImmutableNumber>("Multiply");
-        private ImmutableNumber CreateImmutableNumber(int value) => immutableNumber.Constructor<int>().Invoke(value);
+#pragma warning disable IDE1006 // Naming Stylesw
+        private ClassElement<Point> point => new ClassElement<Point>();
+        private PropertyElement<Point, double> pointX => point.Property<double>("X", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Point, double> pointY => point.Property<double>("Y", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private Point CreatePoint(double x, double y)
+        {
+            return point.Constructor<double, double>().Invoke(x, y);
+        }
 
+        private ClassElement<Figure> figure => new ClassElement<Figure>(new ClassOptions() { IsAbstract = true });
+        private FuncMethodElement<Figure, double> figureCalculateArea => figure.FuncMethod<double>("CalculateArea", new MethodOptions() { AccessLevel = AccessLevel.Public, IsAbstract = true });
+        private FuncMethodElement<Figure, Point, bool> figureContains => figure.FuncMethod<Point, bool>("Contains", new MethodOptions() { AccessLevel = AccessLevel.Public, IsAbstract = true });
+
+        private ClassElement<Circle> circle => new ClassElement<Circle>(new ClassOptions() { BaseType = typeof(Figure) });
+        private PropertyElement<Circle, Point> circleCenter => circle.Property<Point>("Center", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Circle, double> circleRadius => circle.Property<double>("Radius", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private FuncMethodElement<Circle, double> circleCalculateArea => circle.FuncMethod<double>("CalculateArea", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private FuncMethodElement<Circle, Point, bool> circleContains => circle.FuncMethod<Point, bool>("Contains", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private Circle CreateCircle(Point center = null, double? radius = null)
+        {
+            return circle.Constructor<Point, double>().Invoke(center ?? new Point(0, 0), radius ?? 1);
+        } 
+
+        private ClassElement<Rectangle> rectangle => new ClassElement<Rectangle>(new ClassOptions() { BaseType = typeof(Figure) });
+        private PropertyElement<Rectangle, Point> rectangleP1 => rectangle.Property<Point>("P1", new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Rectangle, Point> rectangleP2 => rectangle.Property<Point>("P2", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private FuncMethodElement<Rectangle, double> rectangleCalculateArea => rectangle.FuncMethod<double>("CalculateArea", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private FuncMethodElement<Rectangle, Point, bool> rectangleContains => rectangle.FuncMethod<Point, bool>("Contains", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private Rectangle CreateRectangle(Point p1 = null, Point p2 = null)
+        {
+            return rectangle.Constructor<Point, Point>().Invoke(p1 ?? new Point(0, 0), p2 ?? new Point(0, 0));
+        }
         private void DoNothing(object par) { }
-        private void TestImmutableNumberOperation(Func<ImmutableNumber, ImmutableNumber, ImmutableNumber> operation, int op1, int op2, int expectedResult, string symbol = "?")
-        {
-            ImmutableNumber n1 = CreateImmutableNumber(op1);
-            ImmutableNumber n2 = CreateImmutableNumber(op2);
-
-            int actualResult = immutableNumberValue.Get(operation(n1, n2));
-
-            if (actualResult != expectedResult)
-                Assert.Fail($"Produces unexpected result, {op1} {symbol} {op2} = {actualResult}");
-        }
-        
-        public Exercise_3_Tests()
-        {
-            bool ImmutableNumberEquals(object obj1, object obj2) => immutableNumberValue.Get(obj1).Equals(immutableNumberValue.Get(obj2));
-            string ImmutableNumberToString(object obj) => $"immutable number {immutableNumberValue.Get(obj)}";
-
-            ObjectMethodRegistry.RegisterEquals(immutableNumber.Type, ImmutableNumberEquals);
-            ObjectMethodRegistry.RegisterToString(immutableNumber.Type, ImmutableNumberToString);
-        }
+#pragma warning restore IDE1006 // Naming Styles
 
         /* Exercise 3A */
-        [TestMethod("Value is public readonly int property"), TestCategory("Exercise 3A")]
-        public void ValueIsPublicReadonlyProperty() => DoNothing(immutableNumberValue);
+        [TestMethod("a. Figure is abstract class"), TestCategory("Exercise 3A")]
+        public void FigureIsAbstractClass() => DoNothing(figure);
+
+        [TestMethod("b. Figure.CalculateArea() is abstract method"), TestCategory("Exercise 3A")]
+        public void FigureCalculateAreaIsAbstractMethod() => DoNothing(figureCalculateArea);
+
+        [TestMethod("c. Figure.Contains() is abstract method"), TestCategory("Exercise 3A")]
+        public void FigureContainsIsAbstractMethod() => DoNothing(figureContains);
 
         /* Exercise 3B */
-        [TestMethod("a. Number constructor takes int as argument"), TestCategory("Exercise 3B")]
-        public void ImmutableNumberConstructorTakesIntAsArgument() => DoNothing(CreateImmutableNumber(0));
+        [TestMethod("a. Circle is subclass of Figure"), TestCategory("Exercise 3B")]
+        public void CircleIsSubclassOfFigure() => DoNothing(circle);
 
-        [TestMethod("b. Number constructor with int as argument sets value property"), TestCategory("Exercise 3B")]
-        public void ImmutableNumberConstructorWithIntAsArgumentSetsValueProperty()
+        [TestMethod("b. Rectangle is subclass of Figure"), TestCategory("Exercise 3B")]
+        public void RectangleIsSubclassOfFigure() => DoNothing(rectangle);
+
+        /* Exercise 3C */
+        [TestMethod("a. Circle.Center is public Point property"), TestCategory("Exercise 3C")]
+        public void CenterIsPublicPointProperty() => DoNothing(circleCenter);
+
+        [TestMethod("b. Circle.Radius is public double property"), TestCategory("Exercise 3C")]
+        public void RadiusIsPublicDoubleProperty() => DoNothing(circleRadius);
+        /*
+        [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("3C")]
+        public void CenterIgnoresAssigmentOfNull() => Assignment.Ignored(CreateCircle(), circleCenter, null);
+
+        [TestMethod("d. Circle(Point center, double radius) ignores radius = -1.0"), TestCategory("3C")]
+        public void RadiusIgnoresAssigmentOfMinusOne() => Assignment.Ignored(CreateCircle(), circleRadius, -1.0);
+        */
+        /* Exercise 3D */
+        [TestMethod("a. Rectangle.P1 is public Point property"), TestCategory("Exercise 3D")]
+        public void P1IsPublicPointProperty() => DoNothing(rectangleP1);
+
+        [TestMethod("b. Regtangle.P2 is public Point property"), TestCategory("Exercise 3D")]
+        public void P2IsPublicPointProperty() => DoNothing(rectangleP2);
+        
+        [TestMethod("c. Rectangle(Point p1, Point p2) ignores p1 = null"), TestCategory("Exercise 3D")]
+        public void RectangleConstructorIgnoresP1ValueNull() => DoNothing(rectangleP1);
+
+        [TestMethod("d. Rectangle(Point p1, Point p2) ignores p2 = null"), TestCategory("Exercise 3D")]
+        public void RegtangleConstructorIgnoresP1ValueNull() => DoNothing(rectangleP2);
+
+        /* Exercise 3E */
+        [TestMethod("a. Circle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
+        public void CircleCalculateAreaReturnsExpectedOutput()
         {
-            ImmutableNumber n = CreateImmutableNumber(2);
+            double r = 42.3;
+            Circle instance = CreateCircle(radius: r);
+            double actualArea = circleCalculateArea.Invoke(instance);
+            double expectedArea = Math.Pow(r, 2) * Math.PI;
 
-            if (immutableNumberValue.Get(n) != 2)
-                Assert.Fail("ImmutableNumber constructor ImmutableNumber(int par) does not set value");
+            if (Math.Abs(actualArea - expectedArea) > 0.3)
+            {
+                string message = string.Format(
+                    "Circle.CalculateArea() returns {0} instead of {1} for Radius = {2}",
+                    actualArea,
+                    expectedArea,
+                    r
+                );
+                throw new AssertFailedException(message);
+            }
         }
 
-        /* Exercise 2C*/
-        [TestMethod("a. Add takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void AddTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberAdd);
+        [TestMethod("b. Circle.Contains(Point p) returns true for point within circle"), TestCategory("Exercise 3E")]
+        public void CircleContainsReturnTrueForPointWithinCircle()
+        {
+            Circle circle = CreateCircle(CreatePoint(2, 3), 1);
 
-        [TestMethod("b. Add performs 1 + 2 = 3"), TestCategory("Exercise 3C")]
-        public void AddProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberAdd.Invoke(n1, n2), 1, 2, 3, symbol: "+");
+            if (!circleContains.Invoke(circle, CreatePoint(2.5, 3)))
+            {
+                string message = string.Format(
+                    "Circle.Contains(Point p) returns false instead if true for Center = (2, 3), Radius = 1 & p = (2.5, 3)"
+                );
+                throw new AssertFailedException(message);
+            }
+        }
 
-        [TestMethod("c. Subtract takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void SubtractTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberSubtract);
+        [TestMethod("c. Circle.Contains(Point p) returns true for point on perimeter of circle"), TestCategory("Exercise 3E")]
+        public void CircleContainsReturnTrueForPointOnPerimeterOfCircle()
+        {
+            Circle circle = CreateCircle(CreatePoint(2, 3), 1);
 
-        [TestMethod("d. Subtract performs 8 - 3 = 5"), TestCategory("Exercise 3C")]
-        public void SubstractProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberSubtract.Invoke(n1, n2), 8, 3, 5, symbol: "-");
+            if (!circleContains.Invoke(circle, CreatePoint(3, 3)))
+            {
+                string message = string.Format(
+                    "Circle.Contains(Point p) returns false instead if true for Center = (2, 3), Radius = 1 & p = (3, 3)"
+                );
+                throw new AssertFailedException(message);
+            }
+        }
+        
+        [TestMethod("d. Circle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
+        public void CircleContainsReturnFalseForPointOutsideOfCircle()
+        {
+            Circle circle = CreateCircle(CreatePoint(2, 3), 1);
 
-        [TestMethod("e. Multiply takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void MultiplyTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberMultiply);
+            if (circleContains.Invoke(circle, CreatePoint(4, 3)))
+            {
+                string message = string.Format(
+                    "Circle.Contains(Point p) returns false instead if true for Center = (2, 3), Radius = 1 & p = (4, 3)"
+                );
+                throw new AssertFailedException(message);
+            }
+        }
 
-        [TestMethod("f. Multiply performs 2 * 3 = 6"), TestCategory("Exercise 3C")]
-        public void MultiplyProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberMultiply.Invoke(n1, n2), 2, 3, 6, symbol: "*");
+        [TestMethod("e. Rectangle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
+        public void RectangleCalculateAreaReturnsExpectedOutput()
+        {
+            Rectangle instance = CreateRectangle(CreatePoint(0, 0), CreatePoint(2, 3));
+            double actualArea = rectangleCalculateArea.Invoke(instance);
+            double expectedArea = 2 * 3;
+
+            if (actualArea != expectedArea)
+            {
+                string message = string.Format(
+                    "Rectangle.CalculateArea() returns {0} instead of {1} for P1 = (0, 0) & P2 = (2, 3)",
+                    actualArea,
+                    expectedArea
+                );
+                throw new AssertFailedException(message);
+            }
+        }
+
+        [TestMethod("f. Rectangle.Contains(Point p) returns true for point within rectangle"), TestCategory("Exercise 3E")]
+        public void RectangleContainsReturnTrueForPointWithinRectangle()
+        {
+            Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));
+
+            if (!rectangleContains.Invoke(rect, CreatePoint(2.5, 3)))
+            {
+                string message = string.Format(
+                    "Rectangle.Contains(Point p) returns false instead if true for P1 = (2, 3), P2 = (3, 5) & p = (2.5, 3)"
+                );
+                throw new AssertFailedException(message);
+            }
+        }
+
+        [TestMethod("g. Rectangle.Contains(Point p) returns true for point on perimeter of rectangle"), TestCategory("Exercise 3E")]
+        public void RectangleContainsReturnTrueForPointOnPerimeterOfRectangle()
+        {
+            Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));
+
+            if (!rectangleContains.Invoke(rect, CreatePoint(3, 3)))
+            {
+                string message = string.Format(
+                    "Rectangle.Contains(Point p) returns false instead if true for P1 = (2, 3), P2 = (3, 5) & p = (3, 3)"
+                );
+                throw new AssertFailedException(message);
+            }
+        }
+
+        [TestMethod("h. Rectangle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
+        public void RectangleContainsReturnFalseForPointOutsideOfRectangle()
+        {
+            Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));
+
+            if (rectangleContains.Invoke(rect, CreatePoint(4, 3)))
+            {
+                string message = string.Format(
+                    "Circle.Contains(Point p) returns false instead if true for P1 = (2, 3), P2 = (3, 5) & p = (4, 3)"
+                );
+                throw new AssertFailedException(message);
+            }
+        }
     }
 }

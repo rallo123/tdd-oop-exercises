@@ -11,7 +11,7 @@ namespace TestTools_Tests.Structure
     [TestClass]
     public class PropertyTests
     {
-        private static PropertyDefinition GetPropertyDefinition() => new PropertyDefinition(typeof(Class).GetProperty("PublicIntProperty"));
+        private static PropertyElement GetPropertyDefinition() => new PropertyElement(typeof(Class).GetProperty("PublicIntProperty"));
 
         [TestMethod]
         public void GetsValue()

@@ -1,21 +1,21 @@
-﻿using Lecture_1;
+﻿using Lecture_2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 
-namespace Lecture_1_Tests
+namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_2_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
-        private ClassDefinition<Number> number => new ClassDefinition<Number>();
-        private PropertyDefinition<Number, int> numberValue => number.Property<int>("Value", get: new PropertyAccessor(AccessLevel.Public));
-        private MethodDefinition numberAdd => number.Method("Add", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
-        private MethodDefinition numberSubtract => number.Method("Subtract", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
-        private MethodDefinition numberMultiply => number.Method("Multiply", typeof(void), new Type[] { number.Type }, AccessLevel.Public);
+        private ClassElement<Number> number => new ClassElement<Number>();
+        private PropertyElement<Number, int> numberValue => number.Property<int>("Value", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private ActionMethodElement<Number, Number> numberAdd => number.ActionMethod<Number>("Add", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private ActionMethodElement<Number, Number> numberSubtract => number.ActionMethod<Number>("Subtract", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private ActionMethodElement<Number, Number> numberMultiply => number.ActionMethod<Number>("Multiply", new MethodOptions() { AccessLevel = AccessLevel.Public });
         private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
 
         private void DoNothing(object par) { }
@@ -43,7 +43,7 @@ namespace Lecture_1_Tests
         }
 
         /* Exercise 2A */
-        [TestMethod("Value is public readonly int property"), TestCategory("Exercise 2A")]
+        [TestMethod("Number.Value is public readonly int property"), TestCategory("Exercise 2A")]
         public void ValueIsPublicReadonlyIntProperty() => DoNothing(numberValue);
 
         /* Exercise 2B */
@@ -60,22 +60,22 @@ namespace Lecture_1_Tests
         }
 
         /* Exercise 2C */
-        [TestMethod("a. Add takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
+        [TestMethod("a. Number.Add takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void AddTakesNumberAsArgumentsAndReturnsNothing() => DoNothing(numberAdd);
 
-        [TestMethod("b. Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
+        [TestMethod("b. Number.Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
         public void AddProducesExpectedResult() => TestNumberOperation((n1, n2) => numberAdd.Invoke(n1, new object[] { n2 }), 1, 2, 3, symbol: "+");
 
-        [TestMethod("c. Subtract takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
+        [TestMethod("c. Number.Subtract takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void SubtractTakesNumberAsArgumentAndReturnsNothing() => DoNothing(numberSubtract);
 
-        [TestMethod("d. Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
+        [TestMethod("d. Number.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
         public void SubtractProducesExpectedResult() => TestNumberOperation((n1, n2) => numberSubtract.Invoke(n1, new object[] { n2 }), 8, 3, 5, symbol: "-");
 
-        [TestMethod("e. Multiply takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
+        [TestMethod("e. Number.Multiply takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void MultiplyTakesNumberAsArgumentAndReturnsNothing() => DoNothing(numberMultiply);
 
-        [TestMethod("Multiply performs 2 * 3 = 6"), TestCategory("Exercise 2C")]
+        [TestMethod("f. Number.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 2C")]
         public void MultiplyProducesExpectedResult() => TestNumberOperation((n1, n2) => numberMultiply.Invoke(n1, new object[] { n2 }), 2, 3, 6, symbol: "*");
     }
 }

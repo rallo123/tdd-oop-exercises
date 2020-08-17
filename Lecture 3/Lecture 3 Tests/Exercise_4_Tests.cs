@@ -1,65 +1,72 @@
-﻿using Lecture_1;
+﻿using Lecture_3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestTools.Structure;
 using TestTools.Structure.Generic;
 
-namespace Lecture_1_Tests
+namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_4_Tests
     {
-        private ClassDefinition<Number> number => new ClassDefinition<Number>();
-        private MethodDefinition<Number, bool, object> numberEquals => number.Method<bool, object>("Equals");
-        private MethodDefinition<Number, int> numberGetHashCode => number.Method<int>("GetHashCode");
-        private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
+#pragma warning disable IDE1006 // Naming Stylesw
+
+        private ClassElement<Employee> employee => new ClassElement<Employee>();
+        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>("Title", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private FuncMethodElement<Employee, string> employeeToString => employee.FuncMethod<string>("ToString", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private Employee CreateEmployee(string name, string title)
+        {
+            Employee instance = employee.Constructor<string>().Invoke(name);
+            employeeTitle.Set(instance, title);
+            return instance;
+        }
+
+        private ClassElement<Manager> manager => new ClassElement<Manager>(new ClassOptions() { BaseType = typeof(Employee) });
+        private PropertyElement<Manager, string> managerTitle => manager.Property<string>("Title", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private FuncMethodElement<Manager, string> managerToString => manager.FuncMethod<string>("ToString", new MethodOptions() { AccessLevel = AccessLevel.Public });
+
+        private Manager CreateManager(string name, string title)
+        {
+            Manager instance = manager.Constructor<string>().Invoke(name);
+            managerTitle.Set(instance, title);
+            return instance;
+        }
+#pragma warning restore IDE1006 // Naming Styles
+
+
+        /* Exercise 4A */
+        [TestMethod("a. Employee.ToString() returns expected output"), TestCategory("Exercise 4A")]
+        public void EmployeeToStringReturnsExpectedOutput()
+        {
+            string actual = employeeToString.Invoke(CreateEmployee("Joe Stevens", "Programmer"));
+            string expected = "Employee Joe Stevens (Programmer)";
+
+            if (actual == expected)
+            {
+                string message = string.Format(
+                    "Employee.ToString() returns \"{0}\" instead of \"{1}\"",
+                    actual,
+                    expected
+                );
+                throw new AssertFailedException(message);
+            }
+        }
 
         /* Exercise 4B */
-        [TestMethod("a. Equals does not equate 4 and 5"), TestCategory("Exercise 4B")]
-        public void EqualsDoesNotEquateFourAndFive()
+        [TestMethod("a. Manager.ToString() returns expected output"), TestCategory("Exercise 4B")]
+        public void ManagerToStringReturnsExpectedOutput()
         {
-            Number four = CreateNumber(4);
-            Number five = CreateNumber(5);
+            string actual = managerToString.Invoke(CreateManager("Mary Stevens", "Software Engineer"));
+            string expected = "Manager Mary Stevens (Software Engineer)";
 
-            bool isEquated = numberEquals.Invoke(four, five);
-
-            if (isEquated)
-                Assert.Fail("Equals equates 4 and 5");
-        }
-
-        [TestMethod("b. Equals equates 5 and 5"), TestCategory("Exercise 4B")]
-        public void EqualsEquatesFiveAndFive()
-        {
-            Number five1 = CreateNumber(5);
-            Number five2 = CreateNumber(5);
-
-            bool isEquated = numberEquals.Invoke(five1, five2);
-
-            if (!isEquated)
-                Assert.Fail("Equals does not equate 5 and 5");
-        }
-
-        /* Exercise 4C */
-        [TestMethod("a. GetHashCode does not equate 4 and 5"), TestCategory("Exercise 4C")]
-        public void GetHashCodeDoesNotEquateFourAndFive()
-        {
-            Number four = CreateNumber(4);
-            Number five = CreateNumber(5);
-
-            bool isEquated = numberGetHashCode.Invoke(four) == numberGetHashCode.Invoke(five);
-
-            if (isEquated)
-                Assert.Fail("Equals equates 4 and 5");
-        }
-
-        [TestMethod("b. GetHashCode equates 5 and 5"), TestCategory("Exercise 4C")]
-        public void GetHashCodeEquatesFiveAndFice()
-        {
-            Number five1 = CreateNumber(5);
-            Number five2 = CreateNumber(5);
-
-            bool isEquated = numberGetHashCode.Invoke(five1) == numberGetHashCode.Invoke(five2);
-
-            if (!isEquated)
-                Assert.Fail("GetHashCode does not equate 5 and 5");
+            if (actual == expected)
+            {
+                string message = string.Format(
+                    "Manager.ToString() returns \"{0}\" instead of \"{1}\"",
+                    actual,
+                    expected
+                );
+                throw new AssertFailedException(message);
+            }
         }
     }
 }

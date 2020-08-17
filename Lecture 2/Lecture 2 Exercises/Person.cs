@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Lecture_1
+namespace Lecture_2
 {
     public class Person
     {

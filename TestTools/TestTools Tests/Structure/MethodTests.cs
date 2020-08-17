@@ -10,7 +10,7 @@ namespace TestTools_Tests.Structure
     [TestClass]
     public class MethodTests
     {
-        private MethodDefinition GetMethodDefinition() => new MethodDefinition(typeof(Class).GetMethod("PublicMethodWithParameters"));
+        private FuncMethodElement GetMethodDefinition() => new FuncMethodElement(typeof(Class).GetMethod("PublicMethodWithParameters"));
 
         [TestMethod]
         public void ReturnsValue(){

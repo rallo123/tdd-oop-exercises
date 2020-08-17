@@ -15,20 +15,20 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Namespace EmptyNamespace does not contain any members",
-                () => new NamespaceDefinition("EmptyNamespace")
+                () => new NamespaceElement("EmptyNamespace")
             );
         }
 
         [TestMethod]
         public void DetectsInternalClass()
         {
-            new NamespaceDefinition("Namespace").Class("InternalClass");
+            new NamespaceElement("Namespace").Class("InternalClass");
         }
 
         [TestMethod]
         public void DetectsPublicClass()
         {
-            new NamespaceDefinition("Namespace").Class("PublicClass");
+            new NamespaceElement("Namespace").Class("PublicClass");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lecture_1_Solutions
+namespace Lecture_2_Solutions
 {
     class Program
     {
