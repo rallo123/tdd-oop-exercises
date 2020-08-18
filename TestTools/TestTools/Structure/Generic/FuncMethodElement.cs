@@ -12,7 +12,7 @@ namespace TestTools.Structure.Generic
 
         public TResult Invoke(TRoot instance)
         {
-            return (TResult)base.Invoke(instance, new object[] { });
+            return (TResult)base.Invoke(instance, new object[] { }); ;
         }
     }
 

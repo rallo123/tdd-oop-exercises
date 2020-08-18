@@ -28,7 +28,7 @@ namespace TestTools.Helpers
             catch (Exception ex)
             {
                 //rethrow of exception makes reflection transparent to user
-                throw new AssertFailedException(ex.ToString());
+                throw new AssertFailedException(ex.ToString(), ex);
             }
         }
 
@@ -55,7 +55,7 @@ namespace TestTools.Helpers
             catch (Exception ex)
             {
                 //rethrow of exception makes reflection transparent to user
-                throw new AssertFailedException(ex.ToString());
+                throw new AssertFailedException(ex.ToString(), ex);
             }
         }
 
@@ -86,7 +86,7 @@ namespace TestTools.Helpers
             catch (Exception ex)
             {
                 //rethrow of exception makes reflection transparent to user
-                throw new AssertFailedException(ex.ToString());
+                throw new AssertFailedException(ex.InnerException.ToString(), ex.InnerException);
             }
         }
 
@@ -171,7 +171,7 @@ namespace TestTools.Helpers
             }
             string messageTemplate = String.Format(ErrorCodes.MethodHasWrongAccessLevel, "{0}", FormatHelper.FormatMethodDeclaration(methodName, returnType, parameterTypes), "{2}");
             AssertMemberHasAccessLevel(type, methodInfo, options?.AccessLevel, messageTemplate);
-            AssertMemberIsNonStaticOrStatic(type, methodInfo, options.IsAbstract);
+            AssertMemberIsNonStaticOrStatic(type, methodInfo, options?.IsAbstract ?? false);
 
             return methodInfo;
         }
