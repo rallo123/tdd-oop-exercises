@@ -11,12 +11,12 @@ namespace Lecture_3_Tests
     {
 #pragma warning disable IDE1006 // Naming Stylesw
         private ClassElement<BankAccount> bankAccount => new ClassElement<BankAccount>();
-        private PropertyElement<BankAccount, decimal> bankAccountBalance => bankAccount.Property<decimal>("Balance", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions());
-        private PropertyElement<BankAccount, decimal> bankAccountBorrowingRate => bankAccount.Property<decimal>("BorrowingRate", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<BankAccount, decimal> bankAccountSavingsRate => bankAccount.Property<decimal>("SavingsRate", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<BankAccount, decimal> bankAccountDeposit => bankAccount.ActionMethod<decimal>("Deposit", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<BankAccount, decimal> bankAccountWithdraw => bankAccount.ActionMethod<decimal>("Withdraw", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<BankAccount, decimal> bankAccountAccrueOrChargeInterest => bankAccount.ActionMethod<decimal>("AccrueOrChargeInterest", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<BankAccount, decimal> bankAccountBalance => bankAccount.Property<decimal>("Balance", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions());
+        private PropertyElement<BankAccount, decimal> bankAccountBorrowingRate => bankAccount.Property<decimal>("BorrowingRate", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<BankAccount, decimal> bankAccountSavingsRate => bankAccount.Property<decimal>("SavingsRate", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private ActionMethodElement<BankAccount, decimal> bankAccountDeposit => bankAccount.ActionMethod<decimal>("Deposit", new MethodOptions() { IsPublic = true });
+        private ActionMethodElement<BankAccount, decimal> bankAccountWithdraw => bankAccount.ActionMethod<decimal>("Withdraw", new MethodOptions() { IsPublic = true });
+        private ActionMethodElement<BankAccount, decimal> bankAccountAccrueOrChargeInterest => bankAccount.ActionMethod<decimal>("AccrueOrChargeInterest", new MethodOptions() { IsPublic = true });
         private BankAccount CreateBankAccount(decimal? balance = null, decimal? borrowingRate = null, decimal? savingsRate = null)
         {
             BankAccount instance = bankAccount.Constructor().Invoke();

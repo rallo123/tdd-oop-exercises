@@ -15,11 +15,11 @@ namespace Lecture_3_Tests
 #pragma warning disable IDE1006 // Naming Stylesw
         private ClassElement<Employee> employee => new ClassElement<Employee>();
 
-        private PropertyElement<Employee, string> employeeName => employee.Property<string>("Name", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>("Title", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Employee, decimal> employeeMonthlySalary => employee.Property<decimal>("MonthlySalary", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Employee, int> employeeSeniority => employee.Property<int>("Seniority", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Employee, decimal> employeeCalculateYearlySalary => employee.FuncMethod<decimal>("CalculateYearlySalary", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Employee, string> employeeName => employee.Property<string>("Name", get: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>("Title", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Employee, decimal> employeeMonthlySalary => employee.Property<decimal>("MonthlySalary", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Employee, int> employeeSeniority => employee.Property<int>("Seniority", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private FuncMethodElement<Employee, decimal> employeeCalculateYearlySalary => employee.FuncMethod<decimal>("CalculateYearlySalary", new MethodOptions() { IsPublic = true });
 
         private Employee CreateEmployee(string name = "Allan", string title = null, decimal? monthlySalary = null, int? seniority = null)
         {
@@ -76,12 +76,12 @@ namespace Lecture_3_Tests
 
         private ClassElement<Manager> manager => new ClassElement<Manager>(new ClassOptions() { BaseType = typeof(Employee) });
 
-        private PropertyElement<Manager, string> managerName => manager.Property<string>("Name", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Manager, string> managerTitle => manager.Property<string>("Title", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Manager, decimal> managerMonthlySalary => manager.Property<decimal>("MonthlySalary", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Manager, int> managerSeniority => manager.Property<int>("Seniority", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Manager, decimal> managerBonus => manager.Property<decimal>("Bonus", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Manager, decimal> managerCalculateYearlySalary => manager.FuncMethod<decimal>("CalculateYearlySalary", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Manager, string> managerName => manager.Property<string>("Name", get: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Manager, string> managerTitle => manager.Property<string>("Title", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Manager, decimal> managerMonthlySalary => manager.Property<decimal>("MonthlySalary", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Manager, int> managerSeniority => manager.Property<int>("Seniority", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Manager, decimal> managerBonus => manager.Property<decimal>("Bonus", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private FuncMethodElement<Manager, decimal> managerCalculateYearlySalary => manager.FuncMethod<decimal>("CalculateYearlySalary", new MethodOptions() { IsPublic = true });
 
         private Manager CreateManager(string name = "abc", string title = null, decimal? monthlySalary = null, int? seniority = null, decimal? bonus = null)
         {
@@ -121,10 +121,10 @@ namespace Lecture_3_Tests
 
         private ClassElement<Company> company => new ClassElement<Company>();
 
-        private PropertyElement<Company, List<Employee>> companyEmployees => company.Property<List<Employee>>("Employees", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<Company, Employee> companyHire => company.ActionMethod<Employee>("Hire", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<Company, Employee> companyFire => company.ActionMethod<Employee>("Fire", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Company, decimal> companyCalculateYearlySalaryCosts => company.FuncMethod<decimal>("CalculateYearlySalaryCosts", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Company, List<Employee>> companyEmployees => company.Property<List<Employee>>("Employees", get: new AccessorOptions() { IsPublic = true });
+        private ActionMethodElement<Company, Employee> companyHire => company.ActionMethod<Employee>("Hire", new MethodOptions() { IsPublic = true });
+        private ActionMethodElement<Company, Employee> companyFire => company.ActionMethod<Employee>("Fire", new MethodOptions() { IsPublic = true });
+        private FuncMethodElement<Company, decimal> companyCalculateYearlySalaryCosts => company.FuncMethod<decimal>("CalculateYearlySalaryCosts", new MethodOptions() { IsPublic = true });
 
         private Company CreateCompany()
         {

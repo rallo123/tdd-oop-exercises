@@ -11,8 +11,8 @@ namespace Lecture_3_Tests
 #pragma warning disable IDE1006 // Naming Stylesw
 
         private ClassElement<Employee> employee => new ClassElement<Employee>();
-        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>("Title", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Employee, string> employeeToString => employee.FuncMethod<string>("ToString", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>("Title", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private FuncMethodElement<Employee, string> employeeToString => employee.FuncMethod<string>("ToString", new MethodOptions() { IsPublic = true });
         private Employee CreateEmployee(string name, string title)
         {
             Employee instance = employee.Constructor<string>().Invoke(name);
@@ -21,8 +21,8 @@ namespace Lecture_3_Tests
         }
 
         private ClassElement<Manager> manager => new ClassElement<Manager>(new ClassOptions() { BaseType = typeof(Employee) });
-        private PropertyElement<Manager, string> managerTitle => manager.Property<string>("Title", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Manager, string> managerToString => manager.FuncMethod<string>("ToString", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Manager, string> managerTitle => manager.Property<string>("Title", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
+        private FuncMethodElement<Manager, string> managerToString => manager.FuncMethod<string>("ToString", new MethodOptions() { IsPublic = true });
 
         private Manager CreateManager(string name, string title)
         {

@@ -12,10 +12,10 @@ namespace Lecture_2_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
         private ClassElement<Number> number => new ClassElement<Number>();
-        private PropertyElement<Number, int> numberValue => number.Property<int>("Value", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<Number, Number> numberAdd => number.ActionMethod<Number>("Add", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<Number, Number> numberSubtract => number.ActionMethod<Number>("Subtract", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<Number, Number> numberMultiply => number.ActionMethod<Number>("Multiply", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Number, int> numberValue => number.Property<int>("Value", get: new AccessorOptions() { IsPublic = true });
+        private ActionMethodElement<Number, Number> numberAdd => number.ActionMethod<Number>("Add", new MethodOptions() { IsPublic = true });
+        private ActionMethodElement<Number, Number> numberSubtract => number.ActionMethod<Number>("Subtract", new MethodOptions() { IsPublic = true });
+        private ActionMethodElement<Number, Number> numberMultiply => number.ActionMethod<Number>("Multiply", new MethodOptions() { IsPublic = true });
         private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
 
         private void DoNothing(object par) { }

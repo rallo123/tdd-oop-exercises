@@ -6,6 +6,8 @@ namespace TestTools.Structure
 {
     public class ConstructorOptions
     {
-        public AccessLevel? AccessLevel { get; set; }
+        public bool? IsPrivate { get; set; }
+        public bool? IsFamily { get; set; }
+        public bool? IsPublic { get; set; }
     }
 }

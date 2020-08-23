@@ -12,7 +12,7 @@ namespace Lecture_2_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
         private ClassElement<ImmutableNumber> immutableNumber => new ClassElement<ImmutableNumber>();
-        private PropertyElement<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>("Value", new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>("Value", new AccessorOptions() { IsPublic = true });
         private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Add");
         private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Subtract");
         private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Multiply");

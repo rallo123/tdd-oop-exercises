@@ -14,8 +14,8 @@ namespace Lecture_3_Tests
     public class Exercise_6_Tests
     {
         private ClassElement<FileExplorer> fileExplorer => new ClassElement<FileExplorer>();
-        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintDirectory => fileExplorer.ActionMethod<DirectoryInfo>("PrintDirectory", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintTree => fileExplorer.ActionMethod<DirectoryInfo>("PrintTree", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintDirectory => fileExplorer.ActionMethod<DirectoryInfo>("PrintDirectory", new MethodOptions() { IsPublic = true });
+        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintTree => fileExplorer.ActionMethod<DirectoryInfo>("PrintTree", new MethodOptions() { IsPublic = true });
 
         private FileExplorer CreateFileExplorer()
         {

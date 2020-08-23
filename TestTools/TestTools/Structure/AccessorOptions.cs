@@ -4,8 +4,7 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class AccessorOptions
+    public class AccessorOptions : MethodOptions
     {
-        public AccessLevel? AccessLevel { get; set; }
     }
 }

@@ -18,6 +18,11 @@ namespace TestTools.Helpers
             return FormatType(returnType) + " " + methodName + "(" + FormatParameters(parameterTypes) + ")";
         }
 
+        public static string FormatMethodAccess(Type classType, string methodName, Type[] parameterTypes)
+        {
+            return methodName + "(" + FormatParameters(parameterTypes) + ")";
+        }
+
         public static string FormatConstructorDeclaration(Type classType, Type[] parameterTypes)
         {
             return FormatType(classType) + "(" + FormatParameters(parameterTypes) + ")";

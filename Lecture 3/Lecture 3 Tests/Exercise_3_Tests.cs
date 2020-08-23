@@ -11,32 +11,32 @@ namespace Lecture_3_Tests
     {
 #pragma warning disable IDE1006 // Naming Stylesw
         private ClassElement<Point> point => new ClassElement<Point>();
-        private PropertyElement<Point, double> pointX => point.Property<double>("X", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Point, double> pointY => point.Property<double>("Y", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Point, double> pointX => point.Property<double>("X", get: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Point, double> pointY => point.Property<double>("Y", get: new AccessorOptions() { IsPublic = true });
         private Point CreatePoint(double x, double y)
         {
             return point.Constructor<double, double>().Invoke(x, y);
         }
 
         private ClassElement<Figure> figure => new ClassElement<Figure>(new ClassOptions() { IsAbstract = true });
-        private FuncMethodElement<Figure, double> figureCalculateArea => figure.FuncMethod<double>("CalculateArea", new MethodOptions() { AccessLevel = AccessLevel.Public, IsAbstract = true });
-        private FuncMethodElement<Figure, Point, bool> figureContains => figure.FuncMethod<Point, bool>("Contains", new MethodOptions() { AccessLevel = AccessLevel.Public, IsAbstract = true });
+        private FuncMethodElement<Figure, double> figureCalculateArea => figure.FuncMethod<double>("CalculateArea", new MethodOptions() { IsPublic = true, IsAbstract = true });
+        private FuncMethodElement<Figure, Point, bool> figureContains => figure.FuncMethod<Point, bool>("Contains", new MethodOptions() { IsPublic = true, IsAbstract = true });
 
         private ClassElement<Circle> circle => new ClassElement<Circle>(new ClassOptions() { BaseType = typeof(Figure) });
-        private PropertyElement<Circle, Point> circleCenter => circle.Property<Point>("Center", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Circle, double> circleRadius => circle.Property<double>("Radius", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Circle, double> circleCalculateArea => circle.FuncMethod<double>("CalculateArea", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Circle, Point, bool> circleContains => circle.FuncMethod<Point, bool>("Contains", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Circle, Point> circleCenter => circle.Property<Point>("Center", get: new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Circle, double> circleRadius => circle.Property<double>("Radius", get: new AccessorOptions() { IsPublic = true });
+        private FuncMethodElement<Circle, double> circleCalculateArea => circle.FuncMethod<double>("CalculateArea", new MethodOptions() { IsPublic = true });
+        private FuncMethodElement<Circle, Point, bool> circleContains => circle.FuncMethod<Point, bool>("Contains", new MethodOptions() { IsPublic = true });
         private Circle CreateCircle(Point center = null, double? radius = null)
         {
             return circle.Constructor<Point, double>().Invoke(center ?? new Point(0, 0), radius ?? 1);
         } 
 
         private ClassElement<Rectangle> rectangle => new ClassElement<Rectangle>(new ClassOptions() { BaseType = typeof(Figure) });
-        private PropertyElement<Rectangle, Point> rectangleP1 => rectangle.Property<Point>("P1", new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Rectangle, Point> rectangleP2 => rectangle.Property<Point>("P2", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Rectangle, double> rectangleCalculateArea => rectangle.FuncMethod<double>("CalculateArea", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Rectangle, Point, bool> rectangleContains => rectangle.FuncMethod<Point, bool>("Contains", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Rectangle, Point> rectangleP1 => rectangle.Property<Point>("P1", new AccessorOptions() { IsPublic = true });
+        private PropertyElement<Rectangle, Point> rectangleP2 => rectangle.Property<Point>("P2", get: new AccessorOptions() { IsPublic = true });
+        private FuncMethodElement<Rectangle, double> rectangleCalculateArea => rectangle.FuncMethod<double>("CalculateArea", new MethodOptions() { IsPublic = true });
+        private FuncMethodElement<Rectangle, Point, bool> rectangleContains => rectangle.FuncMethod<Point, bool>("Contains", new MethodOptions() { IsPublic = true });
         private Rectangle CreateRectangle(Point p1 = null, Point p2 = null)
         {
             return rectangle.Constructor<Point, Point>().Invoke(p1 ?? new Point(0, 0), p2 ?? new Point(0, 0));
