@@ -33,14 +33,11 @@ namespace TestTools.Structure
         }
 
         public FieldElement Field(FieldOptions options) => Extendable.Field(this, options);
-        public FieldElement StaticField(FieldOptions options) => Extendable.StaticField(this, options);
 
         public PropertyElement Property(PropertyOptions options) => Extendable.Property(this, options);
-        public PropertyElement StaticProperty(PropertyOptions options) => Extendable.StaticProperty(this, options);
 
         public ActionMethodElement ActionMethod(MethodOptions options) => Extendable.ActionMethod(this, options);
-        public ActionMethodElement StaticActionMethod(MethodOptions options) => Extendable.StaticActionMethod(this, options);
+        
         public FuncMethodElement FuncMethod(MethodOptions options) => Extendable.FuncMethod(this, options);
-        public FuncMethodElement StaticFuncMethod(MethodOptions options) => Extendable.StaticFuncMethod(this, options);
     }
 }

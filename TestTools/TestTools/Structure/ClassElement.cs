@@ -22,16 +22,34 @@ namespace TestTools.Structure
         public override string Name => FormatHelper.FormatType(Type);
 
         public FieldElement Field(FieldOptions options) => Extendable.Field(this, options);
-        public FieldElement StaticField(FieldOptions options) => Extendable.StaticField(this, options);
+        public FieldElement StaticField(FieldOptions options) {
+            FieldInfo fieldInfo = ReflectionHelper.GetFieldInfo(Type, options, isStatic: true);
+            return new FieldElement(fieldInfo) { PreviousElement = this };
+        }
 
         public PropertyElement Property(PropertyOptions options) => Extendable.Property(this, options);
-        public PropertyElement StaticProperty(PropertyOptions options) => Extendable.StaticProperty(this, options);
+        public PropertyElement StaticProperty(PropertyOptions options) {
+            PropertyInfo propertyInfo = ReflectionHelper.GetPropertyInfo(Type, options, isStatic: true);
+            return new PropertyElement(propertyInfo) { PreviousElement = this };
+        }
 
         public ActionMethodElement ActionMethod(MethodOptions options) => Extendable.ActionMethod(this, options);
-        public ActionMethodElement StaticActionMethod(MethodOptions options) => Extendable.StaticActionMethod(this, options);
+        public ActionMethodElement StaticActionMethod(MethodOptions options) {
+            options.ReturnType = typeof(void);
+
+            MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(Type, options, isStatic: true);
+            return new ActionMethodElement(methodInfo) { PreviousElement = this };
+        }
 
         public FuncMethodElement FuncMethod(MethodOptions options) => Extendable.FuncMethod(this, options);
-        public FuncMethodElement StaticFuncMethod(MethodOptions options) => Extendable.StaticFuncMethod(this, options);
+        public FuncMethodElement StaticFuncMethod(MethodOptions options)
+        {
+            if (options.ReturnType == typeof(void))
+                throw new ArgumentException("INTERNAL: StaticFuncMethod is not intended for void return type. Use StaticActionMethod instead");
+
+            MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(Type, options, isStatic: true);
+            return new FuncMethodElement(methodInfo) { PreviousElement = this };
+        }
 
         public ConstructorElement Constructor(ConstructorOptions options)
         {

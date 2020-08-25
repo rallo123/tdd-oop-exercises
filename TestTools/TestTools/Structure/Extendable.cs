@@ -15,37 +15,17 @@ namespace TestTools.Helpers
             return new FieldElement(fieldInfo) { PreviousElement = instance };
         }
 
-        public static FieldElement StaticField(IExtendable instance, FieldOptions options)
-        {
-            FieldInfo fieldInfo = ReflectionHelper.GetFieldInfo(instance.Type, options, isStatic: true);
-            return new FieldElement(fieldInfo) { PreviousElement = instance };
-        }
-
         public static PropertyElement Property(IExtendable instance, PropertyOptions options)
         {
             PropertyInfo propertyInfo = ReflectionHelper.GetPropertyInfo(instance.Type, options, isStatic: false);
             return new PropertyElement(propertyInfo) { PreviousElement = instance };
         }
 
-        public static PropertyElement StaticProperty(IExtendable instance, PropertyOptions options)
-        {
-            PropertyInfo propertyInfo = ReflectionHelper.GetPropertyInfo(instance.Type, options, isStatic: true);
-            return new PropertyElement(propertyInfo) { PreviousElement = instance };
-        }
-        
         public static ActionMethodElement ActionMethod(IExtendable instance, MethodOptions options)
         {
             options.ReturnType = typeof(void);
 
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(instance.Type, options, isStatic: false);
-            return new ActionMethodElement(methodInfo) { PreviousElement = instance };
-        }
-
-        public static ActionMethodElement StaticActionMethod(IExtendable instance, MethodOptions options)
-        {
-            options.ReturnType = typeof(void);
-
-            MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(instance.Type, options, isStatic: true);
             return new ActionMethodElement(methodInfo) { PreviousElement = instance };
         }
 
@@ -55,15 +35,6 @@ namespace TestTools.Helpers
                 throw new ArgumentException("INTERNAL: FuncMethod is not intended for void methods. Use ActionMethod instead");
 
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(instance.Type, options, isStatic: false);
-            return new FuncMethodElement(methodInfo) { PreviousElement = instance };
-        }
-
-        public static FuncMethodElement StaticFuncMethod(IExtendable instance, MethodOptions options)
-        {
-            if (options.ReturnType == typeof(void))
-                throw new ArgumentException("INTERNAL: StaticFuncMethod is not intended for void return type. Use StaticActionMethod instead");
-
-            MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(instance.Type, options, isStatic: true);
             return new FuncMethodElement(methodInfo) { PreviousElement = instance };
         }
     }
