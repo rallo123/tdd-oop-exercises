@@ -28,16 +28,15 @@ namespace TestTools.Structure
             ReflectionHelper.SetValue(Info, instance, value);
         }
 
-        public FieldElement Field(string fieldName, Type fieldType = null, FieldOptions options = null) => Extendable.Field(this, fieldName, fieldType, options);
-        public FieldStaticElement StaticField(string fieldName, Type fieldType = null, FieldOptions options = null) => Extendable.StaticField(this, fieldName, fieldType, options);
+        public FieldElement Field(FieldOptions options) => Extendable.Field(this, options);
+        public FieldStaticElement StaticField(FieldOptions options) => Extendable.StaticField(this, options);
 
-        public PropertyElement Property(string propertyName, Type propertyType = null, AccessorOptions get = null, AccessorOptions set = null) => Extendable.Property(this, propertyName, propertyType, get, set);
-        public PropertyStaticElement StaticProperty(string propertyName, Type propertyType, AccessorOptions get = null, AccessorOptions set = null) => Extendable.StaticProperty(this, propertyName, propertyType, get, set);
-        
-        public ActionMethodElement ActionMethod(string methodName, Type[] parameterTypes, MethodOptions options = null) => Extendable.ActionMethod(this, methodName, parameterTypes, options);
-        public ActionMethodStaticElement StaticActionMethod(string methodName, Type[] parameterTypes, MethodOptions options = null) => Extendable.StaticActionMethod(this, methodName, parameterTypes, options);
+        public PropertyElement Property(PropertyOptions options) => Extendable.Property(this, options);
+        public PropertyStaticElement StaticProperty(PropertyOptions options) => Extendable.StaticProperty(this, options);
 
-        public FuncMethodElement FuncMethod(string methodName, Type returnType, Type[] parameterTypes, MethodOptions options = null) => Extendable.FuncMethod(this, methodName, returnType, parameterTypes, options);
-        public FuncMethodStaticElement StaticFuncMethod(string methodName, Type returnType, Type[] parameterTypes, MethodOptions options = null) => Extendable.StaticFuncMethod(this, methodName, returnType, parameterTypes, options);
+        public ActionMethodElement ActionMethod(MethodOptions options) => Extendable.ActionMethod(this, options);
+        public ActionMethodStaticElement StaticActionMethod(MethodOptions options) => Extendable.StaticActionMethod(this, options);
+        public FuncMethodElement FuncMethod(MethodOptions options) => Extendable.FuncMethod(this, options);
+        public FuncMethodStaticElement StaticFuncMethod(MethodOptions options) => Extendable.StaticFuncMethod(this, options);
     }
 }

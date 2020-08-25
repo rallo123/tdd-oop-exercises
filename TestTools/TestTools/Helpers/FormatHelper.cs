@@ -13,32 +13,39 @@ namespace TestTools.Helpers
             return accessLevel.ToString().ToLower();
         }
 
-        public static string FormatMethodDeclaration(string methodName, Type returnType, Type[] parameterTypes)
+        public static string FormatMethodDeclaration(string methodName, MethodOptions options)
         {
-            return FormatType(returnType) + " " + methodName + "(" + FormatParameters(parameterTypes) + ")";
+            return FormatType(options.ReturnType) + " " + methodName + "(" + FormatParameters(options.Parameters) + ")";
         }
 
-        public static string FormatMethodAccess(Type classType, string methodName, Type[] parameterTypes)
+        public static string FormatMethodAccess(Type classType, MethodOptions options)
         {
-            return methodName + "(" + FormatParameters(parameterTypes) + ")";
+            return options.Name + "(" + FormatParameters(options.Parameters) + ")";
         }
 
-        public static string FormatConstructorDeclaration(Type classType, Type[] parameterTypes)
+        public static string FormatConstructorDeclaration(Type classType,  ConstructorOptions options)
         {
-            return FormatType(classType) + "(" + FormatParameters(parameterTypes) + ")";
+            return FormatType(classType) + "(" + FormatParameters(options.Parameters) + ")";
         }
 
-        private static string FormatParameters(Type[] parameterTypes)
+        private static string FormatParameters(ParameterOptions[] parameters)
         {
             StringBuilder builder = new StringBuilder();
 
-            for (int i = 0; i < parameterTypes.Length; i++)
+            int i = 0; 
+            foreach(ParameterOptions parameter in parameters)
             {
                 if (i != 0)
                     builder.Append(", ");
 
-                builder.Append($"{FormatType(parameterTypes[i])} par{i + 1}");
+                if (parameter.Name != null)
+                {
+                    builder.Append(string.Format("{0} {1}", FormatType(parameter.ParameterType), parameter.Name));
+                }
+                else builder.Append(string.Format("{0} par{1}", FormatType(parameter.ParameterType), i + 1));
+                i++;
             }
+
             return builder.ToString();
         }
 
@@ -47,7 +54,7 @@ namespace TestTools.Helpers
             if (memberType == null)
                 throw new ArgumentNullException(nameof(memberType));
             if (memberType.IsSubclassOf(memberType))
-                throw new ArgumentException($"Type {memberType.Name} is subtype of MemberInfo");
+                throw new ArgumentException($"Type {memberType.Name} is not subtype of MemberInfo");
 
             if (TypeHelper.IsType(typeof(FieldInfo), memberType))
                 return "field";

@@ -9,17 +9,17 @@ namespace Lecture_3_Tests
     [TestClass]
     public class Exercise_5_Tests
     {
-#pragma warning disable IDE1006 // Naming Stylesw
+#pragma warning disable IDE1006 // Naming Styles
         private ClassElement<BankAccount> bankAccount => new ClassElement<BankAccount>();
-        private PropertyElement<BankAccount, decimal> bankAccountBalance => bankAccount.Property<decimal>("Balance", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions());
-        private PropertyElement<BankAccount, decimal> bankAccountBorrowingRate => bankAccount.Property<decimal>("BorrowingRate", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private PropertyElement<BankAccount, decimal> bankAccountSavingsRate => bankAccount.Property<decimal>("SavingsRate", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private ActionMethodElement<BankAccount, decimal> bankAccountDeposit => bankAccount.ActionMethod<decimal>("Deposit", new MethodOptions() { IsPublic = true });
-        private ActionMethodElement<BankAccount, decimal> bankAccountWithdraw => bankAccount.ActionMethod<decimal>("Withdraw", new MethodOptions() { IsPublic = true });
-        private ActionMethodElement<BankAccount, decimal> bankAccountAccrueOrChargeInterest => bankAccount.ActionMethod<decimal>("AccrueOrChargeInterest", new MethodOptions() { IsPublic = true });
+        private PropertyElement<BankAccount, decimal> bankAccountBalance => bankAccount.Property<decimal>(new PropertyOptions("Balance") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() });
+        private PropertyElement<BankAccount, decimal> bankAccountBorrowingRate => bankAccount.Property<decimal>(new PropertyOptions("BorrowingRate") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<BankAccount, decimal> bankAccountSavingsRate => bankAccount.Property<decimal>(new PropertyOptions("SavingsRate") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private ActionMethodElement<BankAccount, decimal> bankAccountDeposit => bankAccount.ActionMethod<decimal>(new MethodOptions("Deposit") { IsPublic = true });
+        private ActionMethodElement<BankAccount, decimal> bankAccountWithdraw => bankAccount.ActionMethod<decimal>(new MethodOptions("Withdraw") { IsPublic = true });
+        private ActionMethodElement<BankAccount, decimal> bankAccountAccrueOrChargeInterest => bankAccount.ActionMethod<decimal>(new MethodOptions("AccrueOrChargeInterest") { IsPublic = true });
         private BankAccount CreateBankAccount(decimal? balance = null, decimal? borrowingRate = null, decimal? savingsRate = null)
         {
-            BankAccount instance = bankAccount.Constructor().Invoke();
+            BankAccount instance = bankAccount.Constructor(new ConstructorOptions()).Invoke();
 
             if (balance != null)
                 bankAccountBalance.Set(instance, balance);
@@ -43,16 +43,16 @@ namespace Lecture_3_Tests
         public void BankAccountSavingsRateIsPublicDecimalProperty() => DoNothing(bankAccountSavingsRate);
 
         [TestMethod("d. BankAccount.Balance ignores assignment of -100001M"), TestCategory("Exercise 5A")]
-        public void BankAccountBalanceIgnoresAssignmentOfMinusOneHundredThousand() => Assignment.Ignored(CreateBankAccount(), bankAccountBalance, -100001M);
+        public void BankAccountBalanceIgnoresAssignmentOfMinusOneHundredThousand() => Assignment.Ignored(CreateBankAccount(balance: 0), bankAccountBalance, -100001M);
 
         [TestMethod("e. BankAccount.Balance ignores assignment of 250001M"), TestCategory("Exercise 5A")]
-        public void BankAccountBalanceIgnoresAssignmentOfTwoHundredThousand() => Assignment.Ignored(CreateBankAccount(), bankAccountBalance, 250001M);
+        public void BankAccountBalanceIgnoresAssignmentOfTwoHundredThousand() => Assignment.Ignored(CreateBankAccount(balance: 0M), bankAccountBalance, 250001M);
 
         [TestMethod("f. BankAccount.BorrowingRate ignores assignment of 0.05M"), TestCategory("Exercise 5A")]
-        public void BankAccountBorrowingRateIgnoresAssignmentOfFivePercent() => Assignment.Ignored(CreateBankAccount(), bankAccountBorrowingRate, 0.05M);
+        public void BankAccountBorrowingRateIgnoresAssignmentOfFivePercent() => Assignment.Ignored(CreateBankAccount(borrowingRate: 0.06M), bankAccountBorrowingRate, 0.05M);
 
         [TestMethod("g. BankAccount.SavingsRate ignores assignment of 0.03M"), TestCategory("Exercise 5A")]
-        public void BankAccountSavingsRateIgnoresAssignmentOfThreePercent() => Assignment.Ignored(CreateBankAccount(), bankAccountSavingsRate, 0.03M);
+        public void BankAccountSavingsRateIgnoresAssignmentOfThreePercent() => Assignment.Ignored(CreateBankAccount(borrowingRate: 0.02M), bankAccountSavingsRate, 0.03M);
 #pragma warning restore IDE1006 // Naming Styles
 
         /* Exercise 5B */

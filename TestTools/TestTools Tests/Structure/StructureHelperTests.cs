@@ -16,7 +16,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Field")]
         public void DetectsPrivateField()
         {
-            ReflectionHelper.GetFieldInfo(typeof(Class), "PrivateIntField", typeof(int), null);
+            ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PrivateIntField", typeof(int)));
         }
 
         [TestMethod, TestCategory("Field")]
@@ -24,7 +24,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class does not contain member FakeField",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), "FakeField", typeof(int), null)
+                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("FakeField", typeof(int)))
             );
         }
 
@@ -33,7 +33,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PublicIntField is not of type string",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), "PublicIntField", typeof(string), null)
+                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PublicIntField", typeof(string)))
             );
         }
 
@@ -42,7 +42,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PublicIntField is not private",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), "PublicIntField", typeof(int), new FieldOptions() { IsPrivate = true })
+                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PublicIntField", typeof(int)) { IsPrivate = true })
             );
         }
 
@@ -51,7 +51,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateIntField is not protected",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), "PrivateIntField", typeof(int), new FieldOptions() { IsFamily = true })
+                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PrivateIntField", typeof(int)) { IsFamily = true })
             );
         }
 
@@ -60,7 +60,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateIntField is not public",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), "PrivateIntField", typeof(int), new FieldOptions() { IsPublic = true })
+                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PrivateIntField", typeof(int)) { IsPublic = true })
             );
         }
 
@@ -68,19 +68,19 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void DetectsPrivateProperty()
         {
-            ReflectionHelper.GetPropertyInfo(typeof(Class), "PrivateIntProperty", typeof(int), get: null, set: null);
+            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)));
         }
 
         [TestMethod, TestCategory("Property")]
         public void DetectsPrivateReadonlyProperty()
         {
-            ReflectionHelper.GetPropertyInfo(typeof(Class), "PrivateReadonlyIntProperty", typeof(int), get: new AccessorOptions() { IsPrivate = true }, set: null);
+            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateReadonlyIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPrivate = true } });
         }
 
         [TestMethod, TestCategory("Property")]
         public void DetectsPrivateWriteonlyProperty()
         {
-            ReflectionHelper.GetPropertyInfo(typeof(Class), "PrivateWriteonlyIntProperty", typeof(int), get: null, set: new AccessorOptions() { IsPrivate = true });
+            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateWriteonlyIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPrivate = true } });
         }
 
         [TestMethod, TestCategory("Property")]
@@ -88,7 +88,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class does not contain member FakeProperty",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), "FakeProperty", typeof(int), get: null, set: null)
+                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("FakeProperty", typeof(int)))
             );
         }
 
@@ -97,7 +97,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PublicIntProperty is not of type string",
-                 () => ReflectionHelper.GetPropertyInfo(typeof(Class), "PublicIntProperty", typeof(string), get: null, set: null)
+                 () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PublicIntProperty", typeof(string)))
             );
         }
 
@@ -106,7 +106,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PublicIntProperty's get accessor is not private",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), "PublicIntProperty", typeof(int), get: new AccessorOptions() { IsPrivate = true }, set: null)
+                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PublicIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPrivate = true } })
             );
         }
 
@@ -115,7 +115,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateIntProperty's get accessor is not protected",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), "PrivateIntProperty", typeof(int), get: new AccessorOptions() { IsFamily = true }, set: null)
+                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsFamily = true } })
             );
         }
 
@@ -124,7 +124,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateIntProperty's get accessor is not public",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), "PrivateIntProperty", typeof(int), get: new AccessorOptions() { IsPublic = true }, set: null)
+                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPublic = true } })
             );
         }
 
@@ -133,7 +133,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PublicIntProperty's set accessor is not private",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), "PublicIntProperty", typeof(int), get: null, set: new AccessorOptions() { IsPrivate = true })
+                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PublicIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPrivate = true } })
             );
         }
 
@@ -142,7 +142,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateIntProperty's set accessor is not protected",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), "PrivateIntProperty", typeof(int), get: null, set: new AccessorOptions() { IsFamily = true })
+                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsFamily = true } })
             );
         }
 
@@ -151,7 +151,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateIntProperty's set accessor is not public",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), "PrivateIntProperty", typeof(int), get: null, set: new AccessorOptions() { IsPublic = true })
+                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPublic = true } })
             );
         }
 
@@ -159,13 +159,13 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Method")]
         public void DetectsPrivateMethodWithoutParameters()
         {
-            ReflectionHelper.GetMethodInfo(typeof(Class), "PrivateMethodWithoutParameters", typeof(void), new Type[] { }, null);
+            ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]));
         }
 
         [TestMethod, TestCategory("Method")]
         public void DetectsPrivateMethodWithParameters()
         {
-            ReflectionHelper.GetMethodInfo(typeof(Class), "PrivateMethodWithParameters", typeof(int), new Type[] { typeof(int) }, null);
+            ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithParameters", typeof(int), new Type[] { typeof(int) }));
         }
 
         [TestMethod, TestCategory("Method")]
@@ -173,7 +173,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class does not contain member FakeMethod",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), "FakeMethod", typeof(void), new Type[] { }, null)
+                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("FakeMethod", typeof(void), new Type[0]))
             );
         }
 
@@ -182,7 +182,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateMethodWithParameters's return type is not string",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), "PrivateMethodWithParameters", typeof(string), new Type[] { typeof(int) }, null)
+                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithParameters", typeof(string), new Type[] { typeof(int) }))
             );
         }
 
@@ -191,7 +191,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PublicMethodWithParameters's return type is not string",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), "PublicMethodWithParameters", typeof(string), new Type[] { }, null)
+                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PublicMethodWithParameters", typeof(string), new Type[0]))
             );
         }
 
@@ -200,7 +200,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PublicMethodWithoutParameters() is not private",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), "PublicMethodWithoutParameters", typeof(void), new MethodOptions() { IsPrivate = true })
+                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PublicMethodWithoutParameters", typeof(void), new Type[0]) { IsPrivate = true })
             );
         }
 
@@ -209,7 +209,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateMethodWithoutParameters() is not protected",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), "PrivateMethodWithoutParameters", typeof(void), new MethodOptions() { IsFamily = true })
+                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsFamily = true })
             );
         }
 
@@ -218,7 +218,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class.PrivateMethodWithoutParameters() is not public",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), "PrivateMethodWithoutParameters", typeof(void), new MethodOptions() { IsPublic = true })
+                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsPublic = true })
             );
         }
 
@@ -226,7 +226,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Constructor")]
         public void DetectsPrivateConstructor()
         {
-            ReflectionHelper.GetConstructorInfo(typeof(Class), null);
+            ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorOptions());
         }
 
         [TestMethod, TestCategory("Constructor")]
@@ -234,7 +234,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class does not contain constructor Class(string par1)",
-                () => ReflectionHelper.GetConstructorInfo(typeof(Class), new Type[] { typeof(string) }, null)
+                () => ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorOptions(new Type[] { typeof(string) }))
             );
         }
 
@@ -243,7 +243,7 @@ namespace TestTools_Tests.Structure
         {
             AssertThrowsExactException<AssertFailedException>(
                 "Class constructor Class(int par1) is not private",
-                () => ReflectionHelper.GetConstructorInfo(typeof(Class), new Type[] { typeof(int) }, new ConstructorOptions() { IsPrivate = true })
+                () => ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorOptions(new Type[] { typeof(int) }) { IsPrivate = true })
             );
         }
 

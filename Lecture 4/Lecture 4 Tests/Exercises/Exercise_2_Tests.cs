@@ -12,16 +12,16 @@ namespace Lecture_4_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
         private ClassElement<Person> person => new ClassElement<Person>();
-        private PropertyElement<Person, string> personName => person.Property<string>("Name", get: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Person, double> personHeight => person.Property<double>("Height", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Person, double> personWeight => person.Property<double>("Weight", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private PropertyElement<Person, int> personAge => person.Property<int>("Age", get: new AccessorOptions() { AccessLevel = AccessLevel.Public }, set: new AccessorOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Person, double> personCalculateBMI => person.FuncMethod<double>("CalculateBMI", new MethodOptions() { AccessLevel = AccessLevel.Public });
-        private FuncMethodElement<Person, string> personGetClassification => person.FuncMethod<string>("GetClassification", new MethodOptions() { AccessLevel = AccessLevel.Public });
+        private PropertyElement<Person, string> personName => person.Property<string>(new PropertyOptions("Name") { GetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Person, double> personHeight => person.Property<double>(new PropertyOptions("Height") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Person, double> personWeight => person.Property<double>(new PropertyOptions("Weight") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Person, int> personAge => person.Property<int>(new PropertyOptions("Age") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private FuncMethodElement<Person, double> personCalculateBMI => person.FuncMethod<double>(new MethodOptions("CalculateBMI") { IsPublic = true });
+        private FuncMethodElement<Person, string> personGetClassification => person.FuncMethod<string>(new MethodOptions("GetClassification") { IsPublic = true });
 
         private Person CreatePerson(string name = "Allan", double? height = null, double? weight = null)
         {
-            Person instance = person.Constructor<string>().Invoke(name);
+            Person instance = person.Constructor<string>(new ConstructorOptions()).Invoke(name);
 
             if (height != null)
                 personHeight.Set(instance, height);

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using TestTools.Structure;
@@ -92,180 +93,179 @@ namespace TestTools.Helpers
         }
 
         // Infos
-        public static FieldInfo GetFieldInfo(Type type, string fieldName, Type fieldType, FieldOptions options, bool isStatic = false)
+        public static FieldInfo GetFieldInfo(Type type, FieldOptions options, bool isStatic = false)
         {
             string typeName = FormatHelper.FormatType(type);
-            MemberInfo memberInfo = GetMembers(type, isStatic).FirstOrDefault(m => m.Name == fieldName);
+            MemberInfo memberInfo = GetMembers(type, isStatic).FirstOrDefault(m => m.Name == options.Name);
             FieldInfo fieldInfo = memberInfo as FieldInfo;
 
-            AssertMemberExists(type, fieldName, ErrorCodes.MemberIsMissing);
-            AssertMemberIsInstanceOrStatic(type, fieldName, isStatic);
+            AssertMemberExists(type, options.Name, ErrorCodes.MemberIsMissing);
+            AssertMemberIsInstanceOrStatic(type, options.Name, isStatic);
             AssertMemberIs<FieldInfo>(type, memberInfo, ErrorCodes.MemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfo, fieldType, ErrorCodes.FieldIsWrongType);
+            AssertMemberIsOfType(type, memberInfo, options.FieldType, ErrorCodes.FieldIsWrongType);
 
-            if (options?.IsInitOnly != null && options.IsInitOnly != fieldInfo.IsInitOnly)
+            if (options.IsInitOnly != null && options.IsInitOnly != fieldInfo.IsInitOnly)
             {
                 if (options.IsInitOnly == false)
-                    throw new AssertFailedException(string.Format("{0}.{1} is readonly", typeName, fieldName));
+                    throw new AssertFailedException(string.Format("{0}.{1} is readonly", typeName, options.Name));
                 if (options.IsInitOnly == true)
-                    throw new AssertFailedException(string.Format("{0}.{1} is not readonly", typeName, fieldName));
+                    throw new AssertFailedException(string.Format("{0}.{1} is not readonly", typeName, options.Name));
             }
 
-            if (options?.IsPrivate != null && options.IsPrivate != fieldInfo.IsPrivate)
+            if (options.IsPrivate != null && options.IsPrivate != fieldInfo.IsPrivate)
             {
                 if (options.IsPrivate == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsPrivate, typeName, fieldName));
+                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsPrivate, typeName, options.Name));
                 if (options.IsPrivate == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonPrivate, typeName, fieldName));
+                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonPrivate, typeName, options.Name));
             }
-            if (options?.IsFamily != null && options.IsFamily != fieldInfo.IsFamily)
+            if (options.IsFamily != null && options.IsFamily != fieldInfo.IsFamily)
             {
                 if (options.IsFamily == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsProtected, typeName, fieldName));
+                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsProtected, typeName, options.Name));
                 if (options.IsFamily == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonProtected, typeName, fieldName));
+                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonProtected, typeName, options.Name));
             }
-            if (options?.IsPublic != null && options.IsPublic != fieldInfo.IsPublic)
+            if (options.IsPublic != null && options.IsPublic != fieldInfo.IsPublic)
             {
                 if (options.IsPublic == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsPublic, typeName, fieldName));
+                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsPublic, typeName, options.Name));
                 if (options.IsPublic == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonPublic, typeName, fieldName));
+                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonPublic, typeName, options.Name));
             }
             
             return (FieldInfo)memberInfo;
         }
 
-        public static PropertyInfo GetPropertyInfo(Type type, string propertyName, Type propertyType, AccessorOptions get, AccessorOptions set, bool isStatic = false)
+        public static PropertyInfo GetPropertyInfo(Type type, PropertyOptions options, bool isStatic = false)
         {
             string typeName = FormatHelper.FormatType(type);
-            MemberInfo memberInfo = GetMembers(type, isStatic).FirstOrDefault(m => m.Name == propertyName);
+            MemberInfo memberInfo = GetMembers(type, isStatic).FirstOrDefault(m => m.Name == options.Name);
             PropertyInfo propertyInfo = memberInfo as PropertyInfo;
             
             if (propertyInfo == null)
-                throw new AssertFailedException(string.Format(ErrorCodes.MemberIsMissing, typeName, propertyName));
+                throw new AssertFailedException(string.Format(ErrorCodes.MemberIsMissing, typeName, options.Name));
             
-            AssertMemberIsInstanceOrStatic(type, propertyName, isStatic);
+            AssertMemberIsInstanceOrStatic(type, options.Name, isStatic);
             AssertMemberIs<PropertyInfo>(type, memberInfo, ErrorCodes.MemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfo, propertyType, ErrorCodes.PropertyIsWrongType);
+            AssertMemberIsOfType(type, memberInfo, options.PropertyType, ErrorCodes.PropertyIsWrongType);
             
-            if (get != null)
+            if (options.GetMethod != null)
             {
+                MethodOptions get = (MethodOptions)options.GetMethod;
+
                 if (!propertyInfo.CanRead)
-                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyIsMissingGet, typeName, propertyName));
+                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyIsMissingGet, typeName, options.Name));
                 
-                if (set?.IsAbstract != null && get.IsAbstract != propertyInfo.GetMethod.IsAbstract)
+                if (get.IsAbstract != null && get.IsAbstract != propertyInfo.GetMethod.IsAbstract)
                 {
                     if (get.IsAbstract == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsAbstract, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsAbstract, typeName, options.Name));
                     if (get.IsAbstract == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonAbstract, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonAbstract, typeName, options.Name));
                 }
 
-                if (get?.IsVirtual != null && get.IsVirtual == propertyInfo.GetMethod.IsVirtual)
+                if (get.IsVirtual != null && get.IsVirtual == propertyInfo.GetMethod.IsVirtual)
                 {
                     if (get.IsVirtual == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsAbstract, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsAbstract, typeName, options.Name));
                     if (get.IsVirtual == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonAbstract, typeName, propertyName)); 
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonAbstract, typeName, options.Name)); 
                 }
 
-                if (get.DeclaringType != null && get.DeclaringType != propertyInfo.GetMethod.DeclaringType)
-                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetHasWrongDeclaringType, typeName, propertyName));
+                if (get.DeclaringType != null && options.GetMethod?.DeclaringType != propertyInfo.GetMethod.DeclaringType)
+                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetHasWrongDeclaringType, typeName, options.Name));
 
-                if (get?.IsPrivate != null && get.IsPrivate != propertyInfo.GetMethod.IsPrivate) {
+                if (get.IsPrivate != null && get.IsPrivate != propertyInfo.GetMethod.IsPrivate) {
                     if (get.IsPrivate == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsPrivate, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsPrivate, typeName, options.Name));
                     if (get.IsPrivate == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonPrivate, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonPrivate, typeName, options.Name));
                 }
-                if (get?.IsFamily != null && get.IsFamily != propertyInfo.GetMethod.IsFamily)
+                if (get.IsFamily != null && get.IsFamily != propertyInfo.GetMethod.IsFamily)
                 {
                     if (get.IsFamily == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsProtected, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsProtected, typeName, options.Name));
                     if (get.IsFamily == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonProtected, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonProtected, typeName, options.Name));
                 }
-                if (get?.IsPublic != null && get.IsPublic != propertyInfo.GetMethod.IsPublic)
+                if (get.IsPublic != null && get.IsPublic != propertyInfo.GetMethod.IsPublic)
                 {
                     if (get.IsPublic == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsPublic, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsPublic, typeName, options.Name));
                     if (get.IsPublic == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonPublic, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonPublic, typeName, options.Name));
                 }
             }
-            if(set != null)
+            if(options.SetMethod != null)
             {
-                if (!propertyInfo.CanWrite)
-                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyIsMissingSet, typeName, propertyName));
+                MethodOptions set = (MethodOptions)options.SetMethod;
 
-                if (set?.IsVirtual != null && set.IsAbstract != propertyInfo.SetMethod.IsAbstract)
+                if (!propertyInfo.CanWrite)
+                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyIsMissingSet, typeName, options.Name));
+
+                if (set.IsVirtual != null && set.IsAbstract != propertyInfo.SetMethod.IsAbstract)
                 {
                     if (set.IsAbstract == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsAbstract, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsAbstract, typeName, options.Name));
                     if (set.IsAbstract == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonAbstract, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonAbstract, typeName, options.Name));
                 }
 
-                if (set?.IsVirtual != null && set.IsVirtual != propertyInfo.SetMethod.IsVirtual)
+                if (set.IsVirtual != null && set.IsVirtual != propertyInfo.SetMethod.IsVirtual)
                 {
                     if (set.IsVirtual == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsVirtual, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsVirtual, typeName, options.Name));
                     if (set.IsVirtual == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.ProeprtySetIsNonVirtual, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.ProeprtySetIsNonVirtual, typeName, options.Name));
                 }
 
                 if (set.DeclaringType != null && set.DeclaringType != propertyInfo.SetMethod.DeclaringType)
-                    throw new AssertFailedException(string.Format(ErrorCodes.PropertySetHasWrongDeclaringType, typeName, propertyName));
+                    throw new AssertFailedException(string.Format(ErrorCodes.PropertySetHasWrongDeclaringType, typeName, options.Name));
 
-                if (set?.IsPrivate != null && set.IsPrivate != propertyInfo.SetMethod.IsPrivate)
+                if (set.IsPrivate != null && set.IsPrivate != propertyInfo.SetMethod.IsPrivate)
                 {
                     if (set.IsPrivate == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsPrivate, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsPrivate, typeName, options.Name));
                     if (set.IsPrivate == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonPrivate, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonPrivate, typeName, options.Name));
                 }
-                if (set?.IsFamily != null && set.IsFamily != propertyInfo.SetMethod.IsFamily)
+                if (set.IsFamily != null && set.IsFamily != propertyInfo.SetMethod.IsFamily)
                 {
                     if (set.IsFamily == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsProtected, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsProtected, typeName, options.Name));
                     if (set.IsFamily == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonProtexted, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonProtexted, typeName, options.Name));
                 }
-                if (set?.IsPublic != null && set.IsPublic != propertyInfo.SetMethod.IsPublic)
+                if (set.IsPublic != null && set.IsPublic != propertyInfo.SetMethod.IsPublic)
                 {
                     if (set.IsPublic == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsPublic, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsPublic, typeName, options.Name));
                     if (set.IsPublic == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonPublic, typeName, propertyName));
+                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonPublic, typeName, options.Name));
                 }
             }
 
             return propertyInfo;
         }
 
-        public static MethodInfo GetMethodInfo(Type type, string methodName, Type returnType, MethodOptions options, bool isStatic = false)
-        {
-            return GetMethodInfo(type, methodName, returnType, new Type[] { }, options, isStatic);
-        }
-
-        public static MethodInfo GetMethodInfo(Type type, string methodName, Type returnType, Type[] parameterTypes, MethodOptions options, bool isStatic = false)
+        public static MethodInfo GetMethodInfo(Type type, MethodOptions options, bool isStatic = false)
         {
             string typeName = FormatHelper.FormatType(type);
-            string methodDeclaration = FormatHelper.FormatMethodAccess(type, methodName, parameterTypes);
-            IEnumerable<MemberInfo> memberInfos = GetMembers(type, isStatic).Where(m => m.Name == methodName);
+            string methodDeclaration = FormatHelper.FormatMethodAccess(type, options);
+            IEnumerable<MemberInfo> memberInfos = GetMembers(type, isStatic).Where(m => m.Name == options.Name);
             
-            AssertMemberExists(type, methodName, ErrorCodes.MemberIsMissing);
-            AssertMemberIsInstanceOrStatic(type, methodName, isStatic);
+            AssertMemberExists(type, options.Name, ErrorCodes.MemberIsMissing);
+            AssertMemberIsInstanceOrStatic(type, options.Name, isStatic);
             AssertMemberIs<MethodInfo>(type, memberInfos.First(), ErrorCodes.MemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfos.First(), returnType, ErrorCodes.MethodIsWrongReturnType);
+            AssertMemberIsOfType(type, memberInfos.First(), options.ReturnType, ErrorCodes.MethodIsWrongReturnType);
             
-            MethodInfo methodInfo = memberInfos.OfType<MethodInfo>().FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), parameterTypes));
+            MethodInfo methodInfo = memberInfos.OfType<MethodInfo>().FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), options.Parameters));
             
             if (methodInfo == null)
                 throw new AssertFailedException(string.Format(ErrorCodes.MethodIsMissing, typeName, methodDeclaration));
             
-            if (options?.IsVirtual != null && options.IsAbstract == methodInfo.IsAbstract)
+            if (options.IsVirtual != null && options.IsAbstract == methodInfo.IsAbstract)
             {
                 if (options.IsAbstract == false)
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsAbstract, typeName, methodDeclaration));
@@ -273,7 +273,7 @@ namespace TestTools.Helpers
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonAbstract, typeName, methodDeclaration));
             }
 
-            if (options?.IsVirtual != null && options.IsVirtual == methodInfo.IsVirtual)
+            if (options.IsVirtual != null && options.IsVirtual == methodInfo.IsVirtual)
             {
                 if (options.IsVirtual == false)
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsVirtual, typeName, methodDeclaration));
@@ -281,24 +281,24 @@ namespace TestTools.Helpers
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonVirtual, typeName, methodDeclaration));
             }
 
-            if (options?.DeclaringType != null && options.DeclaringType == methodInfo.DeclaringType)
+            if (options.DeclaringType != null && options.DeclaringType == methodInfo.DeclaringType)
                 throw new AssertFailedException(string.Format(ErrorCodes.MethodHasWrongDeclaringType, typeName, methodDeclaration));
 
-            if (options?.IsPrivate != null && options.IsPrivate != methodInfo.IsPrivate)
+            if (options.IsPrivate != null && options.IsPrivate != methodInfo.IsPrivate)
             {
                 if (options.IsPrivate == false)
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsPrivate, typeName, methodDeclaration));
                 if (options.IsPrivate == true)
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonPrivate, typeName, methodDeclaration));
             }
-            if (options?.IsFamily != null && options.IsFamily != methodInfo.IsFamily)
+            if (options.IsFamily != null && options.IsFamily != methodInfo.IsFamily)
             {
                 if (options.IsFamily == false)
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsProtected, typeName, methodDeclaration));
                 if (options.IsFamily == true)
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonProtected, typeName, methodDeclaration));
             }
-            if (options?.IsPublic != null && options.IsPublic != methodInfo.IsPublic)
+            if (options.IsPublic != null && options.IsPublic != methodInfo.IsPublic)
             {
                 if (options.IsPublic == false)
                     throw new AssertFailedException(string.Format(ErrorCodes.MethodIsPublic, typeName, methodDeclaration));
@@ -311,34 +311,29 @@ namespace TestTools.Helpers
 
         public static ConstructorInfo GetConstructorInfo(Type type, ConstructorOptions options)
         {
-            return GetConstructorInfo(type, new Type[] { }, options);
-        }
-
-        public static ConstructorInfo GetConstructorInfo(Type type, Type[] parameterTypes, ConstructorOptions options)
-        {
             string typeName = FormatHelper.FormatType(type);
-            string constructorDeclaration = FormatHelper.FormatConstructorDeclaration(type, parameterTypes);
+            string constructorDeclaration = FormatHelper.FormatConstructorDeclaration(type, options);
             IEnumerable <ConstructorInfo> constructorInfos = GetMembers(type, isStatic: false).OfType<ConstructorInfo>();
-            ConstructorInfo constructorInfo = constructorInfos.FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), parameterTypes));
+            ConstructorInfo constructorInfo = constructorInfos.FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), options.Parameters));
 
             if (constructorInfo == null)
                 throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsMissing, typeName, constructorDeclaration));
 
-            if (options?.IsPrivate != null && options.IsPrivate != constructorInfo.IsPrivate)
+            if (options.IsPrivate != null && options.IsPrivate != constructorInfo.IsPrivate)
             {
                 if (options.IsPrivate == false)
                     throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsPrivate, typeName, constructorDeclaration));
                 if (options.IsPrivate == true)
                     throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsNonPrivate, typeName, constructorDeclaration));
             }
-            if (options?.IsFamily != null && options.IsFamily != constructorInfo.IsFamily)
+            if (options.IsFamily != null && options.IsFamily != constructorInfo.IsFamily)
             {
                 if (options.IsFamily == false)
                     throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsProtected, typeName, constructorDeclaration));
                 if (options.IsFamily == true)
                     throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsNonProtected, typeName, constructorDeclaration));
             }
-            if (options?.IsPublic != null && options.IsPublic != constructorInfo.IsPublic)
+            if (options.IsPublic != null && options.IsPublic != constructorInfo.IsPublic)
             {
                 if (options.IsPublic == false)
                     throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsPublic, typeName, constructorDeclaration));
@@ -461,25 +456,25 @@ namespace TestTools.Helpers
         }
 
         // method helpers
-        private static bool IsEachParameterMatchesType(ParameterInfo[] parameterInfos, Type[] parameterTypes)
+        private static bool IsEachParameterMatchesType(ParameterInfo[] parameterInfos, ParameterOptions[] parameterOptions)
         {
             int i = 0; 
             foreach(ParameterInfo info in parameterInfos)
             {
-                if (i > parameterTypes.Length - 1)
+                if (i > parameterOptions.Length - 1)
                     break;
                 //too many parameters
                 if (i > parameterInfos.Length - 1)
                     return false;
                 //wrong parameter type
-                if (info.ParameterType != parameterTypes[i] && !info.IsOptional)
+                if (info.ParameterType != parameterOptions[i].ParameterType && !info.IsOptional)
                     return false;
                 //match
-                if (info.ParameterType == parameterTypes[i])
+                if (info.ParameterType == parameterOptions[i].ParameterType)
                     i++;
             }
             //too few parameters
-            if (i < parameterTypes.Length)
+            if (i < parameterOptions.Length)
                 return false;
 
             return true;

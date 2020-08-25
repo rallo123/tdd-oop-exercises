@@ -11,22 +11,22 @@ namespace Lecture_3_Tests
 #pragma warning disable IDE1006 // Naming Stylesw
 
         private ClassElement<Employee> employee => new ClassElement<Employee>();
-        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>("Title", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private FuncMethodElement<Employee, string> employeeToString => employee.FuncMethod<string>("ToString", new MethodOptions() { IsPublic = true });
+        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>(new PropertyOptions("Title") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private FuncMethodElement<Employee, string> employeeToString => employee.FuncMethod<string>(new MethodOptions("ToString") { IsPublic = true });
         private Employee CreateEmployee(string name, string title)
         {
-            Employee instance = employee.Constructor<string>().Invoke(name);
+            Employee instance = employee.Constructor<string>(new ConstructorOptions()).Invoke(name);
             employeeTitle.Set(instance, title);
             return instance;
         }
 
         private ClassElement<Manager> manager => new ClassElement<Manager>(new ClassOptions() { BaseType = typeof(Employee) });
-        private PropertyElement<Manager, string> managerTitle => manager.Property<string>("Title", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private FuncMethodElement<Manager, string> managerToString => manager.FuncMethod<string>("ToString", new MethodOptions() { IsPublic = true });
+        private PropertyElement<Manager, string> managerTitle => manager.Property<string>(new PropertyOptions("Title") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private FuncMethodElement<Manager, string> managerToString => manager.FuncMethod<string>(new MethodOptions("ToString") { IsPublic = true });
 
         private Manager CreateManager(string name, string title)
         {
-            Manager instance = manager.Constructor<string>().Invoke(name);
+            Manager instance = manager.Constructor<string>(new ConstructorOptions()).Invoke(name);
             managerTitle.Set(instance, title);
             return instance;
         }

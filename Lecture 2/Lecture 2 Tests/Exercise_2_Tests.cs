@@ -12,11 +12,11 @@ namespace Lecture_2_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
         private ClassElement<Number> number => new ClassElement<Number>();
-        private PropertyElement<Number, int> numberValue => number.Property<int>("Value", get: new AccessorOptions() { IsPublic = true });
-        private ActionMethodElement<Number, Number> numberAdd => number.ActionMethod<Number>("Add", new MethodOptions() { IsPublic = true });
-        private ActionMethodElement<Number, Number> numberSubtract => number.ActionMethod<Number>("Subtract", new MethodOptions() { IsPublic = true });
-        private ActionMethodElement<Number, Number> numberMultiply => number.ActionMethod<Number>("Multiply", new MethodOptions() { IsPublic = true });
-        private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
+        private PropertyElement<Number, int> numberValue => number.Property<int>(new PropertyOptions("Value") { GetMethod = new MethodOptions() { IsPublic = true } });
+        private ActionMethodElement<Number, Number> numberAdd => number.ActionMethod<Number>(new MethodOptions("Add") { IsPublic = true } );
+        private ActionMethodElement<Number, Number> numberSubtract => number.ActionMethod<Number>(new MethodOptions("Subtract") { IsPublic = true });
+        private ActionMethodElement<Number, Number> numberMultiply => number.ActionMethod<Number>(new MethodOptions("Multiply") { IsPublic = true });
+        private Number CreateNumber(int value) => number.Constructor<int>(new ConstructorOptions()).Invoke(value);
 
         private void DoNothing(object par) { }
         private void TestNumberOperation(Action<Number, Number> operation, int op1, int op2, int expectedResult, string symbol = "?")

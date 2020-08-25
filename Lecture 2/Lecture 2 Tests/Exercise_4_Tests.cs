@@ -1,6 +1,7 @@
 ﻿using Lecture_2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestTools.Structure.Generic;
+using TestTools.Structure;
 
 namespace Lecture_2_Tests
 {
@@ -9,9 +10,9 @@ namespace Lecture_2_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
         private ClassElement<Number> number => new ClassElement<Number>();
-        private FuncMethodElement<Number, object, bool> numberEquals => number.FuncMethod<object, bool>("Equals");
-        private FuncMethodElement<Number, int> numberGetHashCode => number.FuncMethod<int>("GetHashCode");
-        private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
+        private FuncMethodElement<Number, object, bool> numberEquals => number.FuncMethod<object, bool>(new MethodOptions("Equals"));
+        private FuncMethodElement<Number, int> numberGetHashCode => number.FuncMethod<int>(new MethodOptions("GetHashCode"));
+        private Number CreateNumber(int value) => number.Constructor<int>(new ConstructorOptions()).Invoke(value);
 #pragma warning restore IDE1006 // Naming Styles
 
         /* Exercise 4B */

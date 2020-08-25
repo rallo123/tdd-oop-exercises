@@ -12,11 +12,11 @@ namespace Lecture_2_Tests
     {
 #pragma warning disable IDE1006 // Naming Styles
         private ClassElement<ImmutableNumber> immutableNumber => new ClassElement<ImmutableNumber>();
-        private PropertyElement<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>("Value", new AccessorOptions() { IsPublic = true });
-        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Add");
-        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Subtract");
-        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>("Multiply");
-        private ImmutableNumber CreateImmutableNumber(int value) => immutableNumber.Constructor<int>().Invoke(value);
+        private PropertyElement<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>(new PropertyOptions("Value") { GetMethod = new MethodOptions() { IsPublic = true } });
+        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>(new MethodOptions("Add"));
+        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>(new MethodOptions("Subtract"));
+        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>(new MethodOptions("Multiply"));
+        private ImmutableNumber CreateImmutableNumber(int value) => immutableNumber.Constructor<int>(new ConstructorOptions()).Invoke(value);
 
         private void DoNothing(object par) { }
         private void TestImmutableNumberOperation(Func<ImmutableNumber, ImmutableNumber, ImmutableNumber> operation, int op1, int op2, int expectedResult, string symbol = "?")

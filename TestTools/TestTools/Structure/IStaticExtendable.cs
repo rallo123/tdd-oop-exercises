@@ -10,16 +10,16 @@ namespace TestTools.Structure
     {
         public Type Type { get; }
 
-        public FieldStaticElement Field(string fieldName, Type fieldType = null, FieldOptions options = null);
-        public FieldStaticElement StaticField(string fieldName, Type fieldType = null, FieldOptions options = null);
+        public FieldStaticElement Field(FieldOptions options);
+        public FieldStaticElement StaticField(FieldOptions options);
 
-        public PropertyStaticElement Property(string propertyName, Type propertyType, AccessorOptions get = null, AccessorOptions set = null);
-        public PropertyStaticElement StaticProperty(string propertyName, Type propertyType, AccessorOptions get = null, AccessorOptions set = null);
+        public PropertyStaticElement Property(PropertyOptions options);
+        public PropertyStaticElement StaticProperty(PropertyOptions options);
 
-        public ActionMethodStaticElement ActionMethod(string methodName, Type[] parameterTypes, MethodOptions options = null);
-        public ActionMethodStaticElement StaticActionMethod(string methodName, Type[] parameterTypes, MethodOptions options = null);
+        public ActionMethodStaticElement ActionMethod(MethodOptions options);
+        public ActionMethodStaticElement StaticActionMethod(MethodOptions options);
 
-        public FuncMethodStaticElement FuncMethod(string methodName, Type returnType, Type[] parameterTypes, MethodOptions options = null);
-        public FuncMethodStaticElement StaticFuncMethod(string methodName, Type returnType, Type[] parameterTypes, MethodOptions options = null);
+        public FuncMethodStaticElement FuncMethod(MethodOptions options);
+        public FuncMethodStaticElement StaticFuncMethod(MethodOptions options);
     }
 }

@@ -17,14 +17,14 @@ namespace Lecture_2_Tests
 #pragma warning disable IDE1006 // Naming Styles
         private ClassElement<Person> person => new ClassElement<Person>();
         
-        private PropertyElement<Person, string> personFirstName => person.Property<string>("FirstName", get: new AccessorOptions { IsPublic = true }, set: new AccessorOptions { IsPublic = true });
-        private PropertyElement<Person, string> personLastName => person.Property<string>("LastName", get: new AccessorOptions { IsPublic = true }, set: new AccessorOptions { IsPublic = true });
-        private PropertyElement<Person, int> personAge => person.Property<int>("Age", get: new AccessorOptions { IsPublic = true }, set: new AccessorOptions { IsPublic = true });
-        private PropertyElement<Person, Person> personMother => person.Property<Person>("Mother", get: new AccessorOptions { IsPublic = true }, set: new AccessorOptions { IsPublic = true });
-        private PropertyElement<Person, Person> personFather => person.Property<Person>("Father", get: new AccessorOptions { IsPublic = true }, set: new AccessorOptions { IsPublic = true });
-        private PropertyElement<Person, Person> personFatherMother => personFather.Property<Person>("Mother", get: new AccessorOptions { IsPublic = true }, set: new AccessorOptions { IsPublic = true });
-        private PropertyElement<Person, Person> personFatherFather => personFather.Property<Person>("Father", get: new AccessorOptions { IsPublic = true }, set: new AccessorOptions { IsPublic = true });
-        private PropertyElement<Person, int> personID => person.Property<int>("ID", get: new AccessorOptions { IsPublic = true });
+        private PropertyElement<Person, string> personFirstName => person.Property<string>(new PropertyOptions("FirstName") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Person, string> personLastName => person.Property<string>(new PropertyOptions("LastName") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
+        private PropertyElement<Person, int> personAge => person.Property<int>(new PropertyOptions("Age") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
+        private PropertyElement<Person, Person> personMother => person.Property<Person>(new PropertyOptions("Mother") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
+        private PropertyElement<Person, Person> personFather => person.Property<Person>(new PropertyOptions("Father") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
+        private PropertyElement<Person, Person> personFatherMother => personFather.Property<Person>(new PropertyOptions("Mother") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
+        private PropertyElement<Person, Person> personFatherFather => personFather.Property<Person>(new PropertyOptions("Father") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
+        private PropertyElement<Person, int> personID => person.Property<int>(new PropertyOptions("ID") { GetMethod = new MethodOptions { IsPublic = true } });
 
         private string CreateName(int length)
         {
@@ -36,7 +36,7 @@ namespace Lecture_2_Tests
 
         private Person CreatePerson(string firstName = null, string lastName = null, int? age = null, Person mother = null, Person father = null)
         {
-            Person instance = person.Constructor().Invoke();
+            Person instance = person.Constructor(new ConstructorOptions()).Invoke();
 
             if(firstName != null)
                 personFirstName.Set(instance, firstName);
@@ -53,14 +53,14 @@ namespace Lecture_2_Tests
         }
 
         private ClassElement<PersonGenerator> generator => new ClassElement<PersonGenerator>();
-        private FuncMethodElement<PersonGenerator, Person> generatorGeneratePerson => generator.FuncMethod<Person>("GeneratePerson", new MethodOptions { IsPublic = true });
-        private FuncMethodElement<PersonGenerator, Person> generatorGenerateFamily => generator.FuncMethod<Person>("GenerateFamily", new MethodOptions { IsPublic = true });
-        private PersonGenerator CreateGenerator() => generator.Constructor().Invoke();
+        private FuncMethodElement<PersonGenerator, Person> generatorGeneratePerson => generator.FuncMethod<Person>(new MethodOptions("GeneratePerson") { IsPublic = true });
+        private FuncMethodElement<PersonGenerator, Person> generatorGenerateFamily => generator.FuncMethod<Person>(new MethodOptions("GenerateFamily") { IsPublic = true });
+        private PersonGenerator CreateGenerator() => generator.Constructor(new ConstructorOptions()).Invoke();
 
         private ClassElement<PersonPrinter> printer => new ClassElement<PersonPrinter>();
-        private ActionMethodElement<PersonPrinter, Person> printerPrintPerson => printer.ActionMethod<Person>("PrintPerson", new MethodOptions { IsPublic = true });
-        private ActionMethodElement<PersonPrinter, Person> printerPrintFamily => printer.ActionMethod<Person>("PrintFamily", new MethodOptions { IsPublic = true });
-        private PersonPrinter CreatePrinter() => printer.Constructor().Invoke();
+        private ActionMethodElement<PersonPrinter, Person> printerPrintPerson => printer.ActionMethod<Person>(new MethodOptions("PrintPerson") { IsPublic = true });
+        private ActionMethodElement<PersonPrinter, Person> printerPrintFamily => printer.ActionMethod<Person>(new MethodOptions("PrintFamily") { IsPublic = true });
+        private PersonPrinter CreatePrinter() => printer.Constructor(new ConstructorOptions()).Invoke();
 
         private void DoNothing(object par) { }
 #pragma warning restore IDE1006 // Naming Styles
@@ -204,10 +204,10 @@ namespace Lecture_2_Tests
 
         /* Exercise 1G */
         [TestMethod("a. Person has constructor which takes no arguments"), TestCategory("Exercise 1G")]
-        public void PersonHasConstructorWhichTakesNoArguments() => DoNothing(person.Constructor());
+        public void PersonHasConstructorWhichTakesNoArguments() => DoNothing(person.Constructor(new ConstructorOptions()));
 
         [TestMethod("b. Person has constructor which two persons as arguments"), TestCategory("Exercise 1G")]
-        public void PersonHasconstructorWhichTakesTwoPersonsAsArguments() => DoNothing(person.Constructor<Person, Person>());
+        public void PersonHasconstructorWhichTakesTwoPersonsAsArguments() => DoNothing(person.Constructor<Person, Person>(new ConstructorOptions()));
 
         [TestMethod("c. Person constructor with 2 persons as arguments sets mother and father property"), TestCategory("Exercise 1G")]
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
@@ -216,7 +216,7 @@ namespace Lecture_2_Tests
             personAge.Set(mother, 37);
             Person father = CreatePerson();
             personAge.Set(father, 37);
-            Person child = person.Constructor<Person, Person>().Invoke(mother, father);
+            Person child = person.Constructor<Person, Person>(new ConstructorOptions()).Invoke(mother, father);
 
             Person motherValue = personMother.Get(child);
             Person fatherValue = personFather.Get(child);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.CompilerServices;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -10,17 +11,17 @@ namespace TestTools.Structure
     {
         public Type Type { get; }
 
-        public FieldElement Field(string fieldName, Type fieldType = null, FieldOptions options = null);
-        public FieldStaticElement StaticField(string fieldName, Type fieldType = null, FieldOptions options = null);
+        public FieldElement Field(FieldOptions options);
+        public FieldStaticElement StaticField(FieldOptions options);
 
-        public PropertyElement Property(string propertyName, Type propertyType = null, AccessorOptions get = null, AccessorOptions set = null);
-        public PropertyStaticElement StaticProperty(string propertyName, Type propertyType, AccessorOptions get = null, AccessorOptions set = null);
+        public PropertyElement Property(PropertyOptions options);
+        public PropertyStaticElement StaticProperty(PropertyOptions options);
 
-        public ActionMethodElement ActionMethod(string methodName, Type[] parameterTypes, MethodOptions options = null);
-        public ActionMethodStaticElement StaticActionMethod(string methodName, Type[] parameterTypes, MethodOptions options = null);
+        public ActionMethodElement ActionMethod(MethodOptions options);
+        public ActionMethodStaticElement StaticActionMethod(MethodOptions options);
 
-        public FuncMethodElement FuncMethod(string methodName, Type returnType, Type[] parameterTypes, MethodOptions options = null);
-        public FuncMethodStaticElement StaticFuncMethod(string methodName, Type returnType, Type[] parameterTypes, MethodOptions options = null);
+        public FuncMethodElement FuncMethod(MethodOptions options);
+        public FuncMethodStaticElement StaticFuncMethod(MethodOptions options);
 
         //events
     }

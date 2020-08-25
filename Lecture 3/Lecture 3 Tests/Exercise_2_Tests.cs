@@ -15,15 +15,15 @@ namespace Lecture_3_Tests
 #pragma warning disable IDE1006 // Naming Stylesw
         private ClassElement<Employee> employee => new ClassElement<Employee>();
 
-        private PropertyElement<Employee, string> employeeName => employee.Property<string>("Name", get: new AccessorOptions() { IsPublic = true });
-        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>("Title", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private PropertyElement<Employee, decimal> employeeMonthlySalary => employee.Property<decimal>("MonthlySalary", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private PropertyElement<Employee, int> employeeSeniority => employee.Property<int>("Seniority", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private FuncMethodElement<Employee, decimal> employeeCalculateYearlySalary => employee.FuncMethod<decimal>("CalculateYearlySalary", new MethodOptions() { IsPublic = true });
+        private PropertyElement<Employee, string> employeeName => employee.Property<string>(new PropertyOptions("Name") { GetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>(new PropertyOptions("Title") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Employee, decimal> employeeMonthlySalary => employee.Property<decimal>(new PropertyOptions("MonthlySalary") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Employee, int> employeeSeniority => employee.Property<int>(new PropertyOptions("Seniority") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } } );
+        private FuncMethodElement<Employee, decimal> employeeCalculateYearlySalary => employee.FuncMethod<decimal>(new MethodOptions("CalculateYearlySalary") { IsPublic = true });
 
         private Employee CreateEmployee(string name = "Allan", string title = null, decimal? monthlySalary = null, int? seniority = null)
         {
-            Employee instance = employee.Constructor<string>().Invoke(name);
+            Employee instance = employee.Constructor<string>(new ConstructorOptions()).Invoke(name);
 
             if (title != null)
                 employeeTitle.Set(instance, title);
@@ -76,16 +76,16 @@ namespace Lecture_3_Tests
 
         private ClassElement<Manager> manager => new ClassElement<Manager>(new ClassOptions() { BaseType = typeof(Employee) });
 
-        private PropertyElement<Manager, string> managerName => manager.Property<string>("Name", get: new AccessorOptions() { IsPublic = true });
-        private PropertyElement<Manager, string> managerTitle => manager.Property<string>("Title", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private PropertyElement<Manager, decimal> managerMonthlySalary => manager.Property<decimal>("MonthlySalary", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private PropertyElement<Manager, int> managerSeniority => manager.Property<int>("Seniority", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private PropertyElement<Manager, decimal> managerBonus => manager.Property<decimal>("Bonus", get: new AccessorOptions() { IsPublic = true }, set: new AccessorOptions() { IsPublic = true });
-        private FuncMethodElement<Manager, decimal> managerCalculateYearlySalary => manager.FuncMethod<decimal>("CalculateYearlySalary", new MethodOptions() { IsPublic = true });
+        private PropertyElement<Manager, string> managerName => manager.Property<string>(new PropertyOptions("Name") { GetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Manager, string> managerTitle => manager.Property<string>(new PropertyOptions("Title") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Manager, decimal> managerMonthlySalary => manager.Property<decimal>(new PropertyOptions("MonthlySalary") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Manager, int> managerSeniority => manager.Property<int>(new PropertyOptions("Seniority") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private PropertyElement<Manager, decimal> managerBonus => manager.Property<decimal>(new PropertyOptions("Bonus") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
+        private FuncMethodElement<Manager, decimal> managerCalculateYearlySalary => manager.FuncMethod<decimal>(new MethodOptions("CalculateYearlySalary") { IsPublic = true });
 
         private Manager CreateManager(string name = "abc", string title = null, decimal? monthlySalary = null, int? seniority = null, decimal? bonus = null)
         {
-            Manager instance = manager.Constructor<string>().Invoke(name);
+            Manager instance = manager.Constructor<string>(new ConstructorOptions()).Invoke(name);
 
             if (title != null)
                 managerTitle.Set(instance, title);
@@ -121,14 +121,14 @@ namespace Lecture_3_Tests
 
         private ClassElement<Company> company => new ClassElement<Company>();
 
-        private PropertyElement<Company, List<Employee>> companyEmployees => company.Property<List<Employee>>("Employees", get: new AccessorOptions() { IsPublic = true });
-        private ActionMethodElement<Company, Employee> companyHire => company.ActionMethod<Employee>("Hire", new MethodOptions() { IsPublic = true });
-        private ActionMethodElement<Company, Employee> companyFire => company.ActionMethod<Employee>("Fire", new MethodOptions() { IsPublic = true });
-        private FuncMethodElement<Company, decimal> companyCalculateYearlySalaryCosts => company.FuncMethod<decimal>("CalculateYearlySalaryCosts", new MethodOptions() { IsPublic = true });
+        private PropertyElement<Company, List<Employee>> companyEmployees => company.Property<List<Employee>>(new PropertyOptions("Employees") { GetMethod = new MethodOptions() { IsPublic = true } });
+        private ActionMethodElement<Company, Employee> companyHire => company.ActionMethod<Employee>(new MethodOptions("Hire") { IsPublic = true });
+        private ActionMethodElement<Company, Employee> companyFire => company.ActionMethod<Employee>(new MethodOptions("Fire") { IsPublic = true });
+        private FuncMethodElement<Company, decimal> companyCalculateYearlySalaryCosts => company.FuncMethod<decimal>(new MethodOptions("CalculateYearlySalaryCosts") { IsPublic = true });
 
         private Company CreateCompany()
         {
-            return company.Constructor().Invoke();
+            return company.Constructor(new ConstructorOptions()).Invoke();
         }
 
         private void TestCompanyCalculateYearlySalaryCosts(params Employee[] employees)
@@ -184,7 +184,7 @@ namespace Lecture_3_Tests
         public void SeniorityIsPublicIntProperty() => DoNothing(employeeSeniority);
 
         [TestMethod("e. Employee constructor takes string as argument"), TestCategory("Exercise 2A")]
-        public void EmployeeConstructorTakesStringAsArgument() => DoNothing(employee.Constructor<string>());
+        public void EmployeeConstructorTakesStringAsArgument() => DoNothing(employee.Constructor<string>(new ConstructorOptions()));
 
         [TestMethod("e. Employee constructor(string name) sets name property"), TestCategory("Exercise 2A")]
         public void EmployeeConstructorNameSetsNameProperty()

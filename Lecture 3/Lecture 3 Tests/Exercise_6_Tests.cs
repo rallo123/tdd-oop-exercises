@@ -14,12 +14,12 @@ namespace Lecture_3_Tests
     public class Exercise_6_Tests
     {
         private ClassElement<FileExplorer> fileExplorer => new ClassElement<FileExplorer>();
-        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintDirectory => fileExplorer.ActionMethod<DirectoryInfo>("PrintDirectory", new MethodOptions() { IsPublic = true });
-        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintTree => fileExplorer.ActionMethod<DirectoryInfo>("PrintTree", new MethodOptions() { IsPublic = true });
+        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintDirectory => fileExplorer.ActionMethod<DirectoryInfo>(new MethodOptions("PrintDirectory") { IsPublic = true });
+        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintTree => fileExplorer.ActionMethod<DirectoryInfo>(new MethodOptions("PrintTree") { IsPublic = true });
 
         private FileExplorer CreateFileExplorer()
         {
-            return fileExplorer.Constructor().Invoke();
+            return fileExplorer.Constructor(new ConstructorOptions()).Invoke();
         }
 
         [TestMethod("FileExplorer.PrintDirectory(DirectoryInfo info) prints correct output"), TestCategory("Exercise 6A")]
