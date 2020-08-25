@@ -15,10 +15,10 @@ namespace TestTools.Helpers
             return new FieldElement(fieldInfo) { PreviousElement = instance };
         }
 
-        public static FieldStaticElement StaticField(IExtendable instance, FieldOptions options)
+        public static FieldElement StaticField(IExtendable instance, FieldOptions options)
         {
             FieldInfo fieldInfo = ReflectionHelper.GetFieldInfo(instance.Type, options, isStatic: true);
-            return new FieldStaticElement(fieldInfo) { PreviousElement = instance };
+            return new FieldElement(fieldInfo) { PreviousElement = instance };
         }
 
         public static PropertyElement Property(IExtendable instance, PropertyOptions options)
@@ -27,10 +27,10 @@ namespace TestTools.Helpers
             return new PropertyElement(propertyInfo) { PreviousElement = instance };
         }
 
-        public static PropertyStaticElement StaticProperty(IExtendable instance, PropertyOptions options)
+        public static PropertyElement StaticProperty(IExtendable instance, PropertyOptions options)
         {
             PropertyInfo propertyInfo = ReflectionHelper.GetPropertyInfo(instance.Type, options, isStatic: true);
-            return new PropertyStaticElement(propertyInfo) { PreviousElement = instance };
+            return new PropertyElement(propertyInfo) { PreviousElement = instance };
         }
         
         public static ActionMethodElement ActionMethod(IExtendable instance, MethodOptions options)
@@ -41,12 +41,12 @@ namespace TestTools.Helpers
             return new ActionMethodElement(methodInfo) { PreviousElement = instance };
         }
 
-        public static ActionMethodStaticElement StaticActionMethod(IExtendable instance, MethodOptions options)
+        public static ActionMethodElement StaticActionMethod(IExtendable instance, MethodOptions options)
         {
             options.ReturnType = typeof(void);
 
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(instance.Type, options, isStatic: true);
-            return new ActionMethodStaticElement(methodInfo) { PreviousElement = instance };
+            return new ActionMethodElement(methodInfo) { PreviousElement = instance };
         }
 
         public static FuncMethodElement FuncMethod(IExtendable instance, MethodOptions options)
@@ -58,13 +58,13 @@ namespace TestTools.Helpers
             return new FuncMethodElement(methodInfo) { PreviousElement = instance };
         }
 
-        public static FuncMethodStaticElement StaticFuncMethod(IExtendable instance, MethodOptions options)
+        public static FuncMethodElement StaticFuncMethod(IExtendable instance, MethodOptions options)
         {
             if (options.ReturnType == typeof(void))
                 throw new ArgumentException("INTERNAL: StaticFuncMethod is not intended for void return type. Use StaticActionMethod instead");
 
             MethodInfo methodInfo = ReflectionHelper.GetMethodInfo(instance.Type, options, isStatic: true);
-            return new FuncMethodStaticElement(methodInfo) { PreviousElement = instance };
+            return new FuncMethodElement(methodInfo) { PreviousElement = instance };
         }
     }
 }

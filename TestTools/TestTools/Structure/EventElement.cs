@@ -14,6 +14,7 @@ namespace TestTools.Structure
             Info = eventInfo;
         }
 
+        public object Invoke(object[] parameters) => Invoke(null, parameters);
         public object Invoke(object instance, object[] parameters)
         {
             throw new NotImplementedException("Events are not supported yet");

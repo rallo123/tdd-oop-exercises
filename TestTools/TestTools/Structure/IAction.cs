@@ -6,6 +6,7 @@ namespace TestTools.Structure
 {
     public interface IAction
     {
+        public abstract void Invoke(object[] parameters);
         public abstract void Invoke(object instance, object[] parameters);
     }
 }

@@ -15,6 +15,7 @@ namespace TestTools.Structure
         public MethodInfo Info { get; set; }
         public override string Name => Info.Name;
 
+        public object Invoke(object[] arguments) => Invoke(null, arguments);
         public object Invoke(object instance, object[] arguments)
         {
             instance = GetValueOfPreviousElement(instance);

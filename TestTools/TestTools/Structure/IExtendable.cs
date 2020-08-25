@@ -12,16 +12,16 @@ namespace TestTools.Structure
         public Type Type { get; }
 
         public FieldElement Field(FieldOptions options);
-        public FieldStaticElement StaticField(FieldOptions options);
+        public FieldElement StaticField(FieldOptions options);
 
         public PropertyElement Property(PropertyOptions options);
-        public PropertyStaticElement StaticProperty(PropertyOptions options);
+        public PropertyElement StaticProperty(PropertyOptions options);
 
         public ActionMethodElement ActionMethod(MethodOptions options);
-        public ActionMethodStaticElement StaticActionMethod(MethodOptions options);
+        public ActionMethodElement StaticActionMethod(MethodOptions options);
 
         public FuncMethodElement FuncMethod(MethodOptions options);
-        public FuncMethodStaticElement StaticFuncMethod(MethodOptions options);
+        public FuncMethodElement StaticFuncMethod(MethodOptions options);
 
         //events
     }

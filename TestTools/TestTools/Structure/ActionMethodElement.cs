@@ -15,9 +15,11 @@ namespace TestTools.Structure
         public MethodInfo Info { get; set; }
         public override string Name => Info.Name;
 
+        public void Invoke(object[] arguments) => Invoke(null, arguments);
         public void Invoke(object instance, object[] arguments)
         {
-            instance = GetValueOfPreviousElement(instance);
+            if (instance != null)
+                instance = GetValueOfPreviousElement(instance);
             ReflectionHelper.Invoke(Info, instance, arguments);
         }
     }

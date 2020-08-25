@@ -5,7 +5,7 @@ using TestTools.Helpers;
 
 namespace TestTools.Structure
 {
-    public class ConstructorElement : Element, IStaticFunc
+    public class ConstructorElement : Element, IFunc
     {
         public ConstructorElement(ConstructorInfo constructorInfo)
         {
@@ -18,6 +18,10 @@ namespace TestTools.Structure
         public object Invoke(params object[] parameters)
         {
             return ReflectionHelper.Invoke(Info, null, parameters);
+        }
+        public object Invoke(object instance, params object[] parameters)
+        {
+            return Invoke(parameters);
         }
     }
 }

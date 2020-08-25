@@ -6,6 +6,7 @@ namespace TestTools.Structure
 {
     public interface IFunc
     {
+        public abstract object Invoke(object[] parameters);
         public abstract object Invoke(object instance, object[] parameters);
     }
 }
