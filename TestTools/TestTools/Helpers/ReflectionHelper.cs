@@ -2,11 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using TestTools.Errors;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
+using TestTools.Structure.Exceptions;
 
 namespace TestTools.Helpers
 {
@@ -40,12 +39,14 @@ namespace TestTools.Helpers
 
             if (memberInfo is FieldInfo fieldInfo)
             {
-                AssertObjectIsOfType(fieldInfo.FieldType, value);
+                if (TypeHelper.IsOfType(fieldInfo.FieldType, value))
+                    throw new ArgumentException($"INTERNAL: value ${value} is not of type {fieldInfo.FieldType}");
                 setAction = () => fieldInfo.SetValue(instance, value);
             }
             else if (memberInfo is PropertyInfo propertyInfo)
             {
-                AssertObjectIsOfType(propertyInfo.PropertyType, value);
+                if (TypeHelper.IsOfType(propertyInfo.PropertyType, value))
+                    throw new ArgumentException($"INTERNAL: value ${value} is not of type {propertyInfo.PropertyType}");
                 setAction = () => propertyInfo.SetValue(instance, value);
             }
             else throw new ArgumentException("INTERNAL: memberInfo is not field or property");
@@ -96,154 +97,109 @@ namespace TestTools.Helpers
         public static FieldInfo GetFieldInfo(Type type, FieldOptions options, bool isStatic = false)
         {
             string typeName = FormatHelper.FormatType(type);
-            MemberInfo memberInfo = GetMembers(type, isStatic).FirstOrDefault(m => m.Name == options.Name);
+            MemberInfo memberInfo = TryGetMemberByName(type, options.Name);
             FieldInfo fieldInfo = memberInfo as FieldInfo;
 
-            AssertMemberExists(type, options.Name, ErrorCodes.MemberIsMissing);
-            AssertMemberIsInstanceOrStatic(type, options.Name, isStatic);
-            AssertMemberIs<FieldInfo>(type, memberInfo, ErrorCodes.MemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfo, options.FieldType, ErrorCodes.FieldIsWrongType);
+            if (memberInfo == null)
+                throw new Structure.Exceptions.MissingMemberException(type, options.Name);
+            
+            if (isStatic && !HasMemberWithName(type, options.Name, true))
+                throw new NonStaticMemberException(type, options.Name);
+            
+            if (!isStatic && !HasMemberWithName(type, options.Name, false))
+                throw new NonInstanceMemberException(type, options.Name);
+            
+            if (fieldInfo == null)
+                throw new InvalidMemberTypeException(type, options.Name, MemberTypes.Field, memberInfo.MemberType);
+            
+            if (fieldInfo.FieldType != options.FieldType)
+                throw new InvalidFieldTypeException(type, options);
 
             if (options.IsInitOnly != null && options.IsInitOnly != fieldInfo.IsInitOnly)
-            {
-                if (options.IsInitOnly == false)
-                    throw new AssertFailedException(string.Format("{0}.{1} is readonly", typeName, options.Name));
-                if (options.IsInitOnly == true)
-                    throw new AssertFailedException(string.Format("{0}.{1} is not readonly", typeName, options.Name));
-            }
+                throw new InvalidFieldModifierException(type, options, MemberModifiers.Readonly, (bool)options.IsInitOnly);
 
             if (options.IsPrivate != null && options.IsPrivate != fieldInfo.IsPrivate)
-            {
-                if (options.IsPrivate == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsPrivate, typeName, options.Name));
-                if (options.IsPrivate == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonPrivate, typeName, options.Name));
-            }
+                throw new InvalidFieldModifierException(type, options, MemberModifiers.Private, (bool)options.IsPrivate);
+
             if (options.IsFamily != null && options.IsFamily != fieldInfo.IsFamily)
-            {
-                if (options.IsFamily == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsProtected, typeName, options.Name));
-                if (options.IsFamily == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonProtected, typeName, options.Name));
-            }
+                throw new InvalidFieldModifierException(type, options, MemberModifiers.Protected, (bool)options.IsFamily);
+
             if (options.IsPublic != null && options.IsPublic != fieldInfo.IsPublic)
-            {
-                if (options.IsPublic == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsPublic, typeName, options.Name));
-                if (options.IsPublic == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.FieldIsNonPublic, typeName, options.Name));
-            }
+                throw new InvalidFieldModifierException(type, options, MemberModifiers.Public, (bool)options.IsPublic);
             
             return (FieldInfo)memberInfo;
         }
 
         public static PropertyInfo GetPropertyInfo(Type type, PropertyOptions options, bool isStatic = false)
         {
-            string typeName = FormatHelper.FormatType(type);
-            MemberInfo memberInfo = GetMembers(type, isStatic).FirstOrDefault(m => m.Name == options.Name);
+            MemberInfo memberInfo = TryGetMemberByName(type, options.Name, isStatic); 
             PropertyInfo propertyInfo = memberInfo as PropertyInfo;
-            
+
+            if (memberInfo == null)
+                throw new Structure.Exceptions.MissingMemberException(type, options.Name);
+
+            if (isStatic && !HasMemberWithName(type, options.Name, true))
+                throw new NonStaticMemberException(type, options.Name);
+
+            if (!isStatic && !HasMemberWithName(type, options.Name, false))
+                throw new NonInstanceMemberException(type, options.Name);
+           
             if (propertyInfo == null)
-                throw new AssertFailedException(string.Format(ErrorCodes.MemberIsMissing, typeName, options.Name));
-            
-            AssertMemberIsInstanceOrStatic(type, options.Name, isStatic);
-            AssertMemberIs<PropertyInfo>(type, memberInfo, ErrorCodes.MemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfo, options.PropertyType, ErrorCodes.PropertyIsWrongType);
+                throw new InvalidMemberTypeException(type, options.Name, MemberTypes.Property, memberInfo.MemberType);
+
+
+            if (propertyInfo.PropertyType != options.PropertyType)
+                throw new InvalidPropertyTypeException(type, options);
             
             if (options.GetMethod != null)
             {
-                MethodOptions get = (MethodOptions)options.GetMethod;
+                MethodOptions getOptions = options.GetMethod;
 
                 if (!propertyInfo.CanRead)
-                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyIsMissingGet, typeName, options.Name));
-                
-                if (get.IsAbstract != null && get.IsAbstract != propertyInfo.GetMethod.IsAbstract)
-                {
-                    if (get.IsAbstract == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsAbstract, typeName, options.Name));
-                    if (get.IsAbstract == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonAbstract, typeName, options.Name));
-                }
+                    throw new PropertyMissingGetException(type, options);
 
-                if (get.IsVirtual != null && get.IsVirtual == propertyInfo.GetMethod.IsVirtual)
-                {
-                    if (get.IsVirtual == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsAbstract, typeName, options.Name));
-                    if (get.IsVirtual == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonAbstract, typeName, options.Name)); 
-                }
+                if (getOptions.IsAbstract != null && getOptions.IsAbstract != propertyInfo.GetMethod.IsAbstract)
+                    throw new InvalidPropertyGetModifierException(type, options, MemberModifiers.Abstract, (bool)getOptions.IsAbstract);
 
-                if (get.DeclaringType != null && options.GetMethod?.DeclaringType != propertyInfo.GetMethod.DeclaringType)
-                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetHasWrongDeclaringType, typeName, options.Name));
+                if (getOptions.IsVirtual != null && getOptions.IsVirtual == propertyInfo.GetMethod.IsVirtual)
+                    throw new InvalidPropertyGetModifierException(type, options, MemberModifiers.Virtual, (bool)getOptions.IsVirtual);
 
-                if (get.IsPrivate != null && get.IsPrivate != propertyInfo.GetMethod.IsPrivate) {
-                    if (get.IsPrivate == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsPrivate, typeName, options.Name));
-                    if (get.IsPrivate == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonPrivate, typeName, options.Name));
-                }
-                if (get.IsFamily != null && get.IsFamily != propertyInfo.GetMethod.IsFamily)
-                {
-                    if (get.IsFamily == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsProtected, typeName, options.Name));
-                    if (get.IsFamily == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonProtected, typeName, options.Name));
-                }
-                if (get.IsPublic != null && get.IsPublic != propertyInfo.GetMethod.IsPublic)
-                {
-                    if (get.IsPublic == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsPublic, typeName, options.Name));
-                    if (get.IsPublic == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertyGetIsNonPublic, typeName, options.Name));
-                }
+                if (getOptions.DeclaringType != null && getOptions.DeclaringType != propertyInfo.GetMethod.DeclaringType)
+                    throw new InvalidPropertyGetDeclaringTypeException(type, options);
+
+                if (getOptions.IsPrivate != null && getOptions.IsPrivate != propertyInfo.GetMethod.IsPrivate)
+                    throw new InvalidPropertyGetModifierException(type, options, MemberModifiers.Private, (bool)getOptions.IsPrivate);
+
+                if (getOptions.IsFamily != null && getOptions.IsFamily != propertyInfo.GetMethod.IsFamily)
+                    throw new InvalidPropertyGetModifierException(type, options, MemberModifiers.Protected, (bool)getOptions.IsFamily);
+
+                if (getOptions.IsPublic != null && getOptions.IsPublic != propertyInfo.GetMethod.IsPublic)
+                    throw new InvalidPropertyGetModifierException(type, options, MemberModifiers.Public, (bool)getOptions.IsPublic);
             }
-            if(options.SetMethod != null)
+            if (options.SetMethod != null)
             {
-                MethodOptions set = (MethodOptions)options.SetMethod;
+                MethodOptions setOptions = options.SetMethod;
 
                 if (!propertyInfo.CanWrite)
-                    throw new AssertFailedException(string.Format(ErrorCodes.PropertyIsMissingSet, typeName, options.Name));
+                    throw new PropertyMissingSetException(type, options);
 
-                if (set.IsVirtual != null && set.IsAbstract != propertyInfo.SetMethod.IsAbstract)
-                {
-                    if (set.IsAbstract == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsAbstract, typeName, options.Name));
-                    if (set.IsAbstract == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonAbstract, typeName, options.Name));
-                }
+                if (setOptions.IsAbstract != null && setOptions.IsAbstract != propertyInfo.SetMethod.IsAbstract)
+                    throw new InvalidPropertySetModifierException(type, options, MemberModifiers.Abstract, (bool)setOptions.IsAbstract);
 
-                if (set.IsVirtual != null && set.IsVirtual != propertyInfo.SetMethod.IsVirtual)
-                {
-                    if (set.IsVirtual == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsVirtual, typeName, options.Name));
-                    if (set.IsVirtual == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.ProeprtySetIsNonVirtual, typeName, options.Name));
-                }
+                if (setOptions.IsVirtual != null && setOptions.IsVirtual != propertyInfo.SetMethod.IsVirtual)
+                    throw new InvalidPropertySetModifierException(type, options, MemberModifiers.Virtual, (bool)setOptions.IsAbstract);
 
-                if (set.DeclaringType != null && set.DeclaringType != propertyInfo.SetMethod.DeclaringType)
-                    throw new AssertFailedException(string.Format(ErrorCodes.PropertySetHasWrongDeclaringType, typeName, options.Name));
+                if (setOptions.DeclaringType != null && setOptions.DeclaringType != propertyInfo.SetMethod.DeclaringType)
+                    throw new InvalidPropertySetDeclaringTypeException(type, options);
 
-                if (set.IsPrivate != null && set.IsPrivate != propertyInfo.SetMethod.IsPrivate)
-                {
-                    if (set.IsPrivate == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsPrivate, typeName, options.Name));
-                    if (set.IsPrivate == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonPrivate, typeName, options.Name));
-                }
-                if (set.IsFamily != null && set.IsFamily != propertyInfo.SetMethod.IsFamily)
-                {
-                    if (set.IsFamily == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsProtected, typeName, options.Name));
-                    if (set.IsFamily == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonProtexted, typeName, options.Name));
-                }
-                if (set.IsPublic != null && set.IsPublic != propertyInfo.SetMethod.IsPublic)
-                {
-                    if (set.IsPublic == false)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsPublic, typeName, options.Name));
-                    if (set.IsPublic == true)
-                        throw new AssertFailedException(string.Format(ErrorCodes.PropertySetIsNonPublic, typeName, options.Name));
-                }
+                if (setOptions.IsPrivate != null && setOptions.IsPrivate != propertyInfo.SetMethod.IsPrivate)
+                    throw new InvalidPropertySetModifierException(type, options, MemberModifiers.Private, (bool)setOptions.IsPrivate);
+
+                if (setOptions.IsFamily != null && setOptions.IsFamily != propertyInfo.SetMethod.IsFamily)
+                    throw new InvalidPropertySetModifierException(type, options, MemberModifiers.Protected, (bool)setOptions.IsFamily);
+
+                if (setOptions.IsPublic != null && setOptions.IsPublic != propertyInfo.SetMethod.IsPublic)
+                    throw new InvalidPropertySetModifierException(type, options, MemberModifiers.Public, (bool)setOptions.IsPublic);
             }
 
             return propertyInfo;
@@ -253,58 +209,45 @@ namespace TestTools.Helpers
         {
             string typeName = FormatHelper.FormatType(type);
             string methodDeclaration = FormatHelper.FormatMethodAccess(type, options);
-            IEnumerable<MemberInfo> memberInfos = GetMembers(type, isStatic).Where(m => m.Name == options.Name);
-            
-            AssertMemberExists(type, options.Name, ErrorCodes.MemberIsMissing);
-            AssertMemberIsInstanceOrStatic(type, options.Name, isStatic);
-            AssertMemberIs<MethodInfo>(type, memberInfos.First(), ErrorCodes.MemberIsWrongMemberType);
-            AssertMemberIsOfType(type, memberInfos.First(), options.ReturnType, ErrorCodes.MethodIsWrongReturnType);
-            
-            MethodInfo methodInfo = memberInfos.OfType<MethodInfo>().FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), options.Parameters));
-            
+            IEnumerable<MemberInfo> memberInfos = GetMembersByName(type, options.Name);
+            IEnumerable<MethodInfo> methodInfos = memberInfos.OfType<MethodInfo>();
+            MethodInfo methodInfo = methodInfos.FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), options.Parameters));
+
+            if (!memberInfos.Any())
+                throw new Structure.Exceptions.MissingMemberException(type, options.Name);
+
+            if (isStatic && !HasMemberWithName(type, options.Name, true))
+                throw new NonStaticMemberException(type, options.Name);
+
+            if (!isStatic && !HasMemberWithName(type, options.Name, false))
+                throw new NonInstanceMemberException(type, options.Name);
+
+            if (!methodInfos.Any())
+                throw new InvalidMemberTypeException(type, options.Name, MemberTypes.Method, memberInfos.First().MemberType);
+
+            if (methodInfos.First().ReturnType != options.ReturnType)
+                throw new InvalidMethodReturnTypeException(type, options);
+
             if (methodInfo == null)
-                throw new AssertFailedException(string.Format(ErrorCodes.MethodIsMissing, typeName, methodDeclaration));
-            
-            if (options.IsVirtual != null && options.IsAbstract == methodInfo.IsAbstract)
-            {
-                if (options.IsAbstract == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsAbstract, typeName, methodDeclaration));
-                if (options.IsAbstract == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonAbstract, typeName, methodDeclaration));
-            }
+                throw new Structure.Exceptions.MissingMethodException(type, options);
+
+            if (options.IsAbstract != null && options.IsAbstract == methodInfo.IsAbstract)
+                throw new InvalidMethodModifierException(type, options, MemberModifiers.Abstract, (bool)options.IsAbstract);  
 
             if (options.IsVirtual != null && options.IsVirtual == methodInfo.IsVirtual)
-            {
-                if (options.IsVirtual == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsVirtual, typeName, methodDeclaration));
-                if (options.IsVirtual == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonVirtual, typeName, methodDeclaration));
-            }
+                throw new InvalidMethodModifierException(type, options, MemberModifiers.Virtual, (bool)options.IsVirtual);
 
             if (options.DeclaringType != null && options.DeclaringType == methodInfo.DeclaringType)
-                throw new AssertFailedException(string.Format(ErrorCodes.MethodHasWrongDeclaringType, typeName, methodDeclaration));
+                throw new InvalidMethodDeclaringTypeException(type, options);
 
             if (options.IsPrivate != null && options.IsPrivate != methodInfo.IsPrivate)
-            {
-                if (options.IsPrivate == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsPrivate, typeName, methodDeclaration));
-                if (options.IsPrivate == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonPrivate, typeName, methodDeclaration));
-            }
+                throw new InvalidMethodModifierException(type, options, MemberModifiers.Private, (bool)options.IsPrivate);
+
             if (options.IsFamily != null && options.IsFamily != methodInfo.IsFamily)
-            {
-                if (options.IsFamily == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsProtected, typeName, methodDeclaration));
-                if (options.IsFamily == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonProtected, typeName, methodDeclaration));
-            }
+                throw new InvalidMethodModifierException(type, options, MemberModifiers.Protected, (bool)options.IsFamily);
+
             if (options.IsPublic != null && options.IsPublic != methodInfo.IsPublic)
-            {
-                if (options.IsPublic == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsPublic, typeName, methodDeclaration));
-                if (options.IsPublic == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.MethodIsNonPublic, typeName, methodDeclaration));
-            }
+                throw new InvalidMethodModifierException(type, options, MemberModifiers.Public, (bool)options.IsPublic);
 
             return methodInfo;
         }
@@ -317,30 +260,17 @@ namespace TestTools.Helpers
             ConstructorInfo constructorInfo = constructorInfos.FirstOrDefault(info => IsEachParameterMatchesType(info.GetParameters(), options.Parameters));
 
             if (constructorInfo == null)
-                throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsMissing, typeName, constructorDeclaration));
+                throw new MissingConstructorException(type, options);
 
             if (options.IsPrivate != null && options.IsPrivate != constructorInfo.IsPrivate)
-            {
-                if (options.IsPrivate == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsPrivate, typeName, constructorDeclaration));
-                if (options.IsPrivate == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsNonPrivate, typeName, constructorDeclaration));
-            }
+                throw new InvalidConstructorModifierException(type, options, MemberModifiers.Private, (bool)options.IsPrivate);
+
             if (options.IsFamily != null && options.IsFamily != constructorInfo.IsFamily)
-            {
-                if (options.IsFamily == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsProtected, typeName, constructorDeclaration));
-                if (options.IsFamily == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsNonProtected, typeName, constructorDeclaration));
-            }
+                throw new InvalidConstructorModifierException(type, options, MemberModifiers.Protected, (bool)options.IsFamily);
+
             if (options.IsPublic != null && options.IsPublic != constructorInfo.IsPublic)
-            {
-                if (options.IsPublic == false)
-                    throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsPublic, typeName, constructorDeclaration));
-                if (options.IsPublic == true)
-                    throw new AssertFailedException(string.Format(ErrorCodes.ConstructorIsNonPublic, typeName, constructorDeclaration));
-            }
-            
+                throw new InvalidConstructorModifierException(type, options, MemberModifiers.Public, (bool)options.IsPublic);
+
             return constructorInfo;
         }
 
@@ -358,104 +288,21 @@ namespace TestTools.Helpers
             return type.GetMembers(flags);
         }
 
-        // Asserts
-        private static void AssertMemberExists(Type type, string memberName, string messageTemplate)
+        public static MemberInfo TryGetMemberByName(Type type, string memberName, bool? isStatic = null)
         {
-            if(GetMembers(type).Any(m => m.Name == memberName))
-                return;
-
-            string errorMessage = String.Format(
-                messageTemplate,
-                FormatHelper.FormatType(type),
-                memberName
-            );
-            throw new AssertFailedException(errorMessage);
+            return GetMembers(type, isStatic).FirstOrDefault(m => m.Name == memberName);
         }
 
-        private static void AssertMemberIsInstanceOrStatic(Type type, string memberName, bool isStatic)
+        public static IEnumerable<MemberInfo> GetMembersByName(Type type, string memberName, bool? isStatic = null)
         {
-            if (GetMembers(type, isStatic).Any(m => m.Name == memberName))
-                return;
-
-            string errorMessage = String.Format(
-                isStatic ? ErrorCodes.MemberIsNonStaticMember : ErrorCodes.MemberIsNonInstanceMember,
-                FormatHelper.FormatType(type),
-                memberName
-            );
-            throw new AssertFailedException(errorMessage);  
-        }
-        
-        private static void AssertMemberIs<TMemberInfo>(Type type, MemberInfo info, string messageTemplate) where TMemberInfo : MemberInfo
-        {
-            if (TypeHelper.IsOfType(typeof(TMemberInfo), info))
-                return;
-            
-            string errorMessage = String.Format(
-                messageTemplate,
-                FormatHelper.FormatType(type),
-                info.Name,
-                $"a {FormatHelper.FormatMemberType(info.GetType())}",
-                $"a {FormatHelper.FormatMemberType(typeof(TMemberInfo))}"
-            );
-            throw new AssertFailedException(errorMessage);
+            return GetMembers(type, isStatic).Where(m => m.Name == memberName);
         }
 
-        private static void AssertMemberIsOfType(Type type, MemberInfo memberInfo, Type expectedType, string messageTemplate)
+        public static bool HasMemberWithName(Type type, string memberName, bool? isStatic = null)
         {
-            if (GetType(memberInfo) == expectedType)
-                return;
-
-            string errorMessage = String.Format(
-                messageTemplate,
-                FormatHelper.FormatType(type),
-                memberInfo.Name,
-                FormatHelper.FormatType(expectedType)
-            );
-            throw new AssertFailedException(errorMessage);
+            return TryGetMemberByName(type, memberName, isStatic) != null;
         }
 
-        private static void AssertMemberIsNonStaticOrStatic(Type type, MethodInfo memberInfo, bool isAbstract)
-        {
-            if (IsÁbstract(memberInfo) == isAbstract)
-                return;
-
-            if ((bool)isAbstract)
-            {
-                throw new AssertFailedException($"{FormatHelper.FormatType(type)} {memberInfo.Name} was not expected to have an implementation");
-            }
-            else throw new AssertFailedException($"{FormatHelper.FormatType(type)} {memberInfo.Name} was expected to have an implementation");
-        }
-
-        private static void AssertMemberHasAccessLevel(Type type, MemberInfo memberInfo, AccessLevel? accessLevel, string messageTemplate)
-        {
-            if (accessLevel == null)
-                return;
-            if (GetAccessLevel(memberInfo) == accessLevel)
-                return;
-
-            string errorMessage = String.Format(
-                messageTemplate,
-                FormatHelper.FormatType(type),
-                memberInfo.Name,
-                FormatHelper.FormatAccessLevel(accessLevel ?? AccessLevel.Private)
-            );
-            throw new AssertFailedException(errorMessage);
-        }
-
-        private static void AssertObjectIsOfType(Type type, object value)
-        {
-            if (TypeHelper.IsOfType(type, value))
-                return;
-            
-            string errorMessage = String.Format(
-                ErrorCodes.ObjectIsWrongType,
-                ObjectMethodRegistry.ToString(value),
-                FormatHelper.FormatType(type)
-            );
-            throw new AssertFailedException(errorMessage);
-        }
-
-        // method helpers
         private static bool IsEachParameterMatchesType(ParameterInfo[] parameterInfos, ParameterOptions[] parameterOptions)
         {
             int i = 0; 
@@ -478,45 +325,6 @@ namespace TestTools.Helpers
                 return false;
 
             return true;
-        }
-
-        private static AccessLevel GetAccessLevel(MemberInfo memberInfo)
-        {
-            if (memberInfo is ConstructorInfo constructorInfo)
-            {
-                if (constructorInfo.IsPrivate)
-                    return AccessLevel.Private;
-                if (constructorInfo.IsFamily)
-                    return AccessLevel.Protected;
-                if (constructorInfo.IsPublic)
-                    return AccessLevel.Public;
-            }
-            if (memberInfo is FieldInfo fieldInfo)
-            {
-                if (fieldInfo.IsPrivate)
-                    return AccessLevel.Private;
-                if (fieldInfo.IsFamily)
-                    return AccessLevel.Protected;
-                if (fieldInfo.IsPublic)
-                    return AccessLevel.Public;
-            }
-            if (memberInfo is MethodInfo methodInfo)
-            {
-                if (methodInfo.IsPrivate)
-                    return AccessLevel.Private;
-                if (methodInfo.IsFamily)
-                    return AccessLevel.Protected;
-                if (methodInfo.IsPublic)
-                    return AccessLevel.Public;
-            }
-            throw new NotImplementedException($"Unsupported MemberInfo type {memberInfo.GetType().Name}");
-        }
-
-        private static bool IsÁbstract(MemberInfo memberInfo)
-        {
-            if (memberInfo is MethodInfo methodInfo)
-                return methodInfo.IsAbstract;
-            throw new NotImplementedException($"Unsupported MemberInfo type {memberInfo.GetType().Name}");
         }
 
         private static object[] GetArgumentsAndDefaults(ParameterInfo[] infos, object[] arguments)
@@ -550,35 +358,6 @@ namespace TestTools.Helpers
                 else throw new ArgumentException("INTERNAL: Too few arguments");
             }
             return newArguments.ToArray();
-        }
-
-        private static Type GetType(MemberInfo memberInfo)
-        {
-            if (memberInfo is FieldInfo fieldInfo)
-                return fieldInfo.FieldType;
-            if (memberInfo is PropertyInfo propertyInfo)
-                return propertyInfo.PropertyType;
-            if (memberInfo is MethodInfo methodInfo)
-                return methodInfo.ReturnType;
-
-            throw new NotImplementedException($"Unsupported MemberInfo type {memberInfo.GetType().Name}");
-        }
-
-        private static bool IsStatic(MemberInfo memberInfo)
-        {
-            if (memberInfo is FieldInfo fieldInfo)
-                return fieldInfo.IsStatic;
-            if (memberInfo is PropertyInfo propertyInfo)
-            {
-                if (propertyInfo.CanRead)
-                    return propertyInfo.GetMethod.IsStatic;
-                if (propertyInfo.CanWrite)
-                    return propertyInfo.SetMethod.IsStatic;
-            }
-            if (memberInfo is MethodInfo methodInfo)
-                return methodInfo.IsStatic;
-
-            throw new NotImplementedException($"Unsupported MemberInfo type {memberInfo.GetType().Name}");
         }
     }
 }

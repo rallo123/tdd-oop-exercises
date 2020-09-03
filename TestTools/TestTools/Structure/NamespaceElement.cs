@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using TestTools.Structure.Exceptions;
 
 namespace TestTools.Structure
 {
@@ -13,8 +15,8 @@ namespace TestTools.Structure
         {
             this.namespaceName = namespaceName;
 
-            if(!GetTypes().Any())
-                throw new AssertFailedException($"Namespace {namespaceName} does not contain any members");
+            if (!GetTypes().Any())
+                throw new EmptyNamespaceException(namespaceName);
         }
 
         public ClassElement Class(string className)

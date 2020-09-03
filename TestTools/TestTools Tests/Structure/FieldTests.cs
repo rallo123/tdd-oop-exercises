@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TestTools.Structure;
-using static TestTools_Tests.TestHelper;
 
 namespace TestTools_Tests.Structure
 {
@@ -31,17 +30,6 @@ namespace TestTools_Tests.Structure
 
             Assert.IsTrue(
                 (int)GetFieldDefinition().Get(@class) == @class.PublicIntField
-            );
-        }
-        
-        [TestMethod]
-        public void ThrowsOnInvalidAssignment()
-        {
-            Class @class = new Class(0);
-
-            AssertThrowsExactException<AssertFailedException>(
-                "null is not of type int",
-                () => GetFieldDefinition().Set(@class, null)
             );
         }
     }

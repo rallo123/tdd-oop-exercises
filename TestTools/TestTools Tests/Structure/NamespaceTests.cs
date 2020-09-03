@@ -2,21 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static TestTools_Tests.TestHelper;
 using TestTools.Structure;
+using TestTools.Structure.Exceptions;
 
 namespace TestTools_Tests.Structure
 {
     [TestClass]
     public class NamespaceTests
     {
+
         [TestMethod]
         public void ThrowsOnEmptyNamespace()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Namespace EmptyNamespace does not contain any members",
-                () => new NamespaceElement("EmptyNamespace")
-            );
+            Assert.ThrowsException<EmptyNamespaceException>(() => new NamespaceElement("EmptyNamespace"));
         }
 
         [TestMethod]

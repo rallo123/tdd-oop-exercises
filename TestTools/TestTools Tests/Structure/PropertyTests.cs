@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Namespace;
 using TestTools.Structure;
-using static TestTools_Tests.TestHelper;
 
 namespace TestTools_Tests.Structure
 {
@@ -31,17 +30,6 @@ namespace TestTools_Tests.Structure
 
             Assert.IsTrue(
                 (int)GetPropertyDefinition().Get(@class) == @class.PublicIntProperty
-            );
-        }
-
-        [TestMethod]
-        public void ThrowsOnInvalidAssignment()
-        {
-            Class @class = new Class(0);
-
-            AssertThrowsExactException<AssertFailedException>(
-                "null is not of type int",
-                () => GetPropertyDefinition().Set(@class, null)
             );
         }
     }

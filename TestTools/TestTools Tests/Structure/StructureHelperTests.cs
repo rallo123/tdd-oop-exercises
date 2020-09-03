@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using TestTools.Helpers;
 using TestTools.Structure;
-using static TestTools_Tests.TestHelper;
+using TestTools.Structure.Exceptions;
 
 namespace TestTools_Tests.Structure
 {
@@ -22,46 +22,85 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnNonExistentField()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class does not contain member FakeField",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("FakeField", typeof(int)))
-            );
+            try {
+                ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("FakeField", typeof(int)));
+                Assert.Fail("No exception was thrown");
+            }
+            catch (TestTools.Structure.Exceptions.MissingMemberException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreEqual("FakeField", ex.MemberName);
+            }
         }
 
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnWrongTypeField()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PublicIntField is not of type string",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PublicIntField", typeof(string)))
-            );
+            FieldOptions options = new FieldOptions("PublicIntField", typeof(string));
+            try
+            {
+                ReflectionHelper.GetFieldInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidFieldTypeException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+            }
         }
 
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnNonPrivateField()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PublicIntField is not private",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PublicIntField", typeof(int)) { IsPrivate = true })
-            );
+            FieldOptions options = new FieldOptions("PublicIntField", typeof(int)) { IsPrivate = true };
+            try
+            {
+                ReflectionHelper.GetFieldInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidFieldModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Private, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnNonProtectedField()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateIntField is not protected",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PrivateIntField", typeof(int)) { IsFamily = true })
-            );
+            FieldOptions options = new FieldOptions("PublicIntField", typeof(int)) { IsFamily = true };
+            try
+            {
+                ReflectionHelper.GetFieldInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidFieldModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Protected, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnNonPublicField()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateIntField is not public",
-                () => ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PrivateIntField", typeof(int)) { IsPublic = true })
-            );
+            FieldOptions options = new FieldOptions("PrivateIntField", typeof(int)) { IsPublic = true };
+            try
+            {
+                ReflectionHelper.GetFieldInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidFieldModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Public, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         /* == Property tests == */
@@ -86,73 +125,141 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonExistentProperty()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class does not contain member FakeProperty",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("FakeProperty", typeof(int)))
-            );
+            try
+            {
+                ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("FakeProperty", typeof(int)));
+                Assert.Fail("No exception was thrown");
+            }
+            catch (TestTools.Structure.Exceptions.MissingMemberException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreEqual("FakeProperty", ex.MemberName);
+            }
         }
 
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnWrongTypeProperty()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PublicIntProperty is not of type string",
-                 () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PublicIntProperty", typeof(string)))
-            );
+            PropertyOptions options = new PropertyOptions("PublicIntProperty", typeof(string));
+            try
+            {
+                ReflectionHelper.GetPropertyInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidPropertyTypeException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+            }
         }
 
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonPrivatePropertyGetAccessor()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PublicIntProperty's get accessor is not private",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PublicIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPrivate = true } })
-            );
+            PropertyOptions options = new PropertyOptions("PublicIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPrivate = true } };
+            try
+            {
+                ReflectionHelper.GetPropertyInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidPropertyGetModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Private, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonProtectedPropertyGetAccessor()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateIntProperty's get accessor is not protected",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsFamily = true } })
-            );
+
+            PropertyOptions options = new PropertyOptions("PrivateIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsFamily = true } };
+            try
+            {
+                ReflectionHelper.GetPropertyInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidPropertyGetModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Protected, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonPublicPropertyGetAccessor()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateIntProperty's get accessor is not public",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPublic = true } })
-            );
+            PropertyOptions options = new PropertyOptions("PrivateIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPublic = true } };
+            try
+            {
+                ReflectionHelper.GetPropertyInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidPropertyGetModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Public, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonPrivateSetAccessor()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PublicIntProperty's set accessor is not private",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PublicIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPrivate = true } })
-            );
+            PropertyOptions options = new PropertyOptions("PublicIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPrivate = true } };
+            try
+            {
+                ReflectionHelper.GetPropertyInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidPropertySetModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Private, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonProtectedPropertySetAccessor()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateIntProperty's set accessor is not protected",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsFamily = true } })
-            );
+            PropertyOptions options = new PropertyOptions("PrivateIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsFamily = true } };
+            try
+            {
+                ReflectionHelper.GetPropertyInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidPropertySetModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Protected, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonPublicPropertySetAccessor()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateIntProperty's set accessor is not public",
-                () => ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPublic = true } })
-            );
+            PropertyOptions options = new PropertyOptions("PrivateIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPublic = true } };
+            try
+            {
+                ReflectionHelper.GetPropertyInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidPropertySetModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Public, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         /* == Method tests == */
@@ -171,55 +278,102 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnNonExistentMethod()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class does not contain member FakeMethod",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("FakeMethod", typeof(void), new Type[0]))
-            );
+            try
+            {
+                ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("FakeMethod", typeof(void), new Type[0]));
+                Assert.Fail("No exception was thrown");
+            } 
+            catch (TestTools.Structure.Exceptions.MissingMemberException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreEqual("FakeMethod", ex.MemberName);
+            }
         }
 
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnWrongMethodReturnType()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateMethodWithParameters's return type is not string",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithParameters", typeof(string), new Type[] { typeof(int) }))
-            );
+            MethodOptions options = new MethodOptions("PrivateMethodWithParameters", typeof(string), new Type[] { typeof(int) });
+            try
+            {
+                ReflectionHelper.GetMethodInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidMethodReturnTypeException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+            }
         }
 
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnWrongMethodParameters()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PublicMethodWithParameters's return type is not string",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PublicMethodWithParameters", typeof(string), new Type[0]))
-            );
+            MethodOptions options = new MethodOptions("PrivateMethodWithParameters", typeof(int), new Type[] { typeof(string) });
+            try
+            {
+                ReflectionHelper.GetMethodInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (TestTools.Structure.Exceptions.MissingMethodException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+            }
         }
 
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnNonPrivateMethod()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PublicMethodWithoutParameters() is not private",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PublicMethodWithoutParameters", typeof(void), new Type[0]) { IsPrivate = true })
-            );
+            MethodOptions options = new MethodOptions("PublicMethodWithoutParameters", typeof(void), new Type[0]) { IsPrivate = true };
+            try
+            {
+                ReflectionHelper.GetMethodInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidMethodModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Private, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnNonProtectedMethod()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateMethodWithoutParameters() is not protected",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsFamily = true })
-            );
+            MethodOptions options = new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsFamily = true };
+            try
+            {
+                ReflectionHelper.GetMethodInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidMethodModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Protected, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnNonPublicMethod()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class.PrivateMethodWithoutParameters() is not public",
-                () => ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsPublic = true })
-            );
+            MethodOptions options = new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsPublic = true };
+            try
+            {
+                ReflectionHelper.GetMethodInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidMethodModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Public, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         /* == Constructor tests == */
@@ -232,37 +386,71 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Constructor")]
         public void ThrowsOnNonExistentConstructor()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class does not contain constructor Class(string par1)",
-                () => ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorOptions(new Type[] { typeof(string) }))
-            );
+            ConstructorOptions options = new ConstructorOptions(new Type[] { typeof(string) });
+            try
+            {
+                ReflectionHelper.GetConstructorInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (MissingConstructorException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+            }
         }
 
         [TestMethod, TestCategory("Constructor")]
         public void ThrowsOnNonPrivate()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class constructor Class(int par1) is not private",
-                () => ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorOptions(new Type[] { typeof(int) }) { IsPrivate = true })
-            );
+            ConstructorOptions options = new ConstructorOptions(new Type[] { typeof(int) }) { IsPrivate = true };
+            try
+            {
+                ReflectionHelper.GetConstructorInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch(InvalidConstructorModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Private, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Constructor")]
         public void ThrowsOnNonProtected()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class constructor Class() is not protected",
-                () => ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorOptions() { IsFamily = true })
-            );
+            ConstructorOptions options = new ConstructorOptions(new Type[0]) { IsFamily = true };
+            try
+            {
+                ReflectionHelper.GetConstructorInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidConstructorModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Protected, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
 
         [TestMethod, TestCategory("Constructor")]
         public void ThrowsOnNonPublic()
         {
-            AssertThrowsExactException<AssertFailedException>(
-                "Class constructor Class() is not public",
-                () => ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorOptions() { IsPublic = true })
-            );
+            ConstructorOptions options = new ConstructorOptions(new Type[0]) { IsPublic = true };
+            try
+            {
+                ReflectionHelper.GetConstructorInfo(typeof(Class), options);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (InvalidConstructorModifierException ex)
+            {
+                Assert.AreEqual(typeof(Class), ex.Type);
+                Assert.AreSame(options, ex.Options);
+                Assert.AreEqual(MemberModifiers.Public, ex.Modifier);
+                Assert.IsTrue(ex.ShouldHaveModifier);
+            }
         }
     }
 }

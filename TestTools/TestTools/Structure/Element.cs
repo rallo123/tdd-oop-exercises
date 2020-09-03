@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Helpers;
+using TestTools.Structure.Exceptions;
 
 namespace TestTools.Structure
 {
@@ -16,23 +17,10 @@ namespace TestTools.Structure
             
             else if (PreviousElement is ClassElement classDefinition)
             {
-                if(instance == null)
-                {
-                    string errorMessage = String.Format(
-                        ErrorCodes.ElementIsNull,
-                        FormatHelper.FormatDefinitionChain(PreviousElement)
-                    );
-                    throw new AssertFailedException(errorMessage);
-                }
+                if (instance == null)
+                    throw new ElementNullException(PreviousElement);
                 else if (!TypeHelper.IsOfType(classDefinition.Type, instance))
-                {
-                    string errorMessage = String.Format(
-                        ErrorCodes.ObjectIsWrongType,
-                        ObjectMethodRegistry.ToString(instance),
-                        FormatHelper.FormatType(classDefinition.Type)
-                    );
-                    throw new AssertFailedException(errorMessage);
-                }
+                    throw new Exception($"INTERNAL: Value {instance} is not an instance of {classDefinition.Type}");
             }
             return instance;
         }

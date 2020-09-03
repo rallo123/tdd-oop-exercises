@@ -8,14 +8,9 @@ namespace TestTools.Helpers
 {
     public static class FormatHelper
     {
-        public static string FormatAccessLevel(AccessLevel accessLevel)
+        public static string FormatMemberModifier(MemberModifiers modifier)
         {
-            return accessLevel.ToString().ToLower();
-        }
-
-        public static string FormatMethodDeclaration(string methodName, MethodOptions options)
-        {
-            return FormatType(options.ReturnType) + " " + methodName + "(" + FormatParameters(options.Parameters) + ")";
+            return modifier.ToString().ToLower();
         }
 
         public static string FormatMethodAccess(Type classType, MethodOptions options)
@@ -23,6 +18,11 @@ namespace TestTools.Helpers
             return options.Name + "(" + FormatParameters(options.Parameters) + ")";
         }
 
+        public static string FormatMethodDeclaration(MethodOptions options)
+        {
+            return FormatType(options.ReturnType) + " " + options.Name + "(" + FormatParameters(options.Parameters) + ")";
+        }
+        
         public static string FormatConstructorDeclaration(Type classType,  ConstructorOptions options)
         {
             return FormatType(classType) + "(" + FormatParameters(options.Parameters) + ")";
@@ -47,6 +47,11 @@ namespace TestTools.Helpers
             }
 
             return builder.ToString();
+        }
+
+        public static string FormatMemberType(MemberTypes memberType)
+        {
+            return memberType.ToString().ToLower();
         }
 
         public static string FormatMemberType(Type memberType)
