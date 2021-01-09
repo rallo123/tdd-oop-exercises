@@ -1,248 +1,382 @@
-using Lecture_2;
+using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Runtime.CompilerServices;
-using System.Text;
-using TestTools;
-using TestTools.ConsoleSession;
-using TestTools.Operation;
-using TestTools.Structure;
-using TestTools.Structure.Generic;
+using TestTools.Integrated;
 
 namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_1_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
-        private ClassElement<Person> person => new ClassElement<Person>();
-        
-        private PropertyElement<Person, string> personFirstName => person.Property<string>(new PropertyOptions("FirstName") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Person, string> personLastName => person.Property<string>(new PropertyOptions("LastName") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
-        private PropertyElement<Person, int> personAge => person.Property<int>(new PropertyOptions("Age") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
-        private PropertyElement<Person, Person> personMother => person.Property<Person>(new PropertyOptions("Mother") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
-        private PropertyElement<Person, Person> personFather => person.Property<Person>(new PropertyOptions("Father") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
-        private PropertyElement<Person, Person> personFatherMother => personFather.Property<Person>(new PropertyOptions("Mother") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
-        private PropertyElement<Person, Person> personFatherFather => personFather.Property<Person>(new PropertyOptions("Father") { GetMethod = new MethodOptions { IsPublic = true }, SetMethod = new MethodOptions { IsPublic = true } });
-        private PropertyElement<Person, int> personID => person.Property<int>(new PropertyOptions("ID") { GetMethod = new MethodOptions { IsPublic = true } });
+        TestFactory factory = new TestFactory("Lecture_2");
 
         private string CreateName(int length)
         {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < length; i++)
-                builder.Append("a");
-            return builder.ToString();
+            throw new NotImplementedException();
         }
-
-        private Person CreatePerson(string firstName = null, string lastName = null, int? age = null, Person mother = null, Person father = null)
-        {
-            Person instance = person.Constructor(new ConstructorOptions()).Invoke();
-
-            if(firstName != null)
-                personFirstName.Set(instance, firstName);
-            if(lastName != null)
-                personLastName.Set(instance, lastName);
-            if(age != null)
-                personAge.Set(instance, age);
-            if (mother != null)
-                personMother.Set(instance, mother);
-            if (father != null)
-                personFather.Set(instance, father);
-
-            return instance;
-        }
-
-        private ClassElement<PersonGenerator> generator => new ClassElement<PersonGenerator>();
-        private FuncMethodElement<PersonGenerator, Person> generatorGeneratePerson => generator.FuncMethod<Person>(new MethodOptions("GeneratePerson") { IsPublic = true });
-        private FuncMethodElement<PersonGenerator, Person> generatorGenerateFamily => generator.FuncMethod<Person>(new MethodOptions("GenerateFamily") { IsPublic = true });
-        private PersonGenerator CreateGenerator() => generator.Constructor(new ConstructorOptions()).Invoke();
-
-        private ClassElement<PersonPrinter> printer => new ClassElement<PersonPrinter>();
-        private ActionMethodElement<PersonPrinter, Person> printerPrintPerson => printer.ActionMethod<Person>(new MethodOptions("PrintPerson") { IsPublic = true });
-        private ActionMethodElement<PersonPrinter, Person> printerPrintFamily => printer.ActionMethod<Person>(new MethodOptions("PrintFamily") { IsPublic = true });
-        private PersonPrinter CreatePrinter() => printer.Constructor(new ConstructorOptions()).Invoke();
-
-        private void DoNothing(object par) { }
-#pragma warning restore IDE1006 // Naming Styles
-
-        public Exercise_1_Tests()
-        {
-            bool PersonEquals(object obj1, object obj2)
-            {
-                Person person1 = obj1 as Person;
-                Person person2 = obj2 as Person;
-
-                if (person1 == null || person2 == null)
-                    return false;
-                if (personFirstName.Get(person1) != personFirstName.Get(person2))
-                    return false;
-                if (personLastName.Get(person1) != personLastName.Get(person2))
-                    return false;
-                if (personAge.Get(person1) != personAge.Get(person2))
-                    return false;
-                return true;
-            }
-            string PersonToString(object obj)
-            {
-                return $"{personFirstName.Get(obj)} {personLastName.Get(obj)} ({personAge.Get(obj)})";
-            }
-
-            ObjectMethodRegistry.RegisterEquals(person.Type, PersonEquals);
-            ObjectMethodRegistry.RegisterToString(person.Type, PersonToString);
-        }
-
 
         /* Exercise 1A */
         [TestMethod("a. Person.FirstName is public string property"), TestCategory("Exercise 1A")]
-        public void FirstNameIsPublicStringProperty() => DoNothing(personFirstName);
+        public void FirstNameIsPublicStringProperty() => throw new NotImplementedException();
 
         [TestMethod("b. Person.LastName is public string property"), TestCategory("Exercise 1A")]
-        public void LastNameIsPublicStringProperty() => DoNothing(personLastName);
+        public void LastNameIsPublicStringProperty() => throw new NotImplementedException();
 
         [TestMethod("c. Person.Age is public int property"), TestCategory("Exercise 1A")]
-        public void AgeIsPublicIntProperty() => DoNothing(personAge);
-        
+        public void AgeIsPublicIntProperty() => throw new NotImplementedException();
+
         [TestMethod("d. Person.FirstName ignores assigment of null"), TestCategory("Exercise 1A")]
-        public void FirstNameIgnoresAssignmentOfNull() => Assignment.Ignored(CreatePerson(), personFirstName, null);
+        public void FirstNameIgnoresAssignmentOfNull() {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
+
+            test.Arrange(person, () => new Person());
+            test.ActAssign(person, p => p.FirstName, null);
+            test.AssertUnchanged(person, p => p.FirstName);
+
+            test.Execute();
+        }
 
         [TestMethod("e. Person.LastName ignores assigment of null"), TestCategory("Exercise 1A")]
-        public void LastNameIgnoresAssignmentOfNull() => Assignment.Ignored(CreatePerson(), personLastName, null);
-        
+        public void LastNameIgnoresAssignmentOfNull()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
+
+            test.Arrange(person, () => new Person());
+            test.ActAssign(person, p => p.LastName, null);
+            test.AssertUnchanged(person, p => p.LastName);
+
+            test.Execute();
+        }
+
         [TestMethod("f. Person.FirstName ignores assigment of \"123456789\""), TestCategory("Exercise 1A")]
-        public void AgeIgnoresAssignmentOf012345689() => Assignment.Ignored(CreatePerson(), personFirstName, "0123456789");
+        public void FirstNameIgnoresAssignmentOf012345689()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
+
+            test.Arrange(person, () => new Person());
+            test.ActAssign(person, p => p.FirstName, "123456789");
+            test.AssertUnchanged(person, p => p.FirstName);
+
+            test.Execute();
+        }
 
         [TestMethod("g. Person.LastName ignores assigment of \"123456789\""), TestCategory("Exercise 1A")]
-        public void LastNameIgnoresAssignmentOf012345689() => Assignment.Ignored(CreatePerson(), personLastName, "0123456789");
+        public void LastNameIgnoresAssignmentOf012345689()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
+
+            test.Arrange(person, () => new Person());
+            test.ActAssign(person, p => p.LastName, "123456789");
+            test.AssertUnchanged(person, p => p.LastName);
+
+            test.Execute();
+        }
 
         [TestMethod("h. Person.FirstName ignores assigment of string with length 101"), TestCategory("Exercise 1A")]
-        public void FirstNameIgnoresAssignmentOfStringWithLength101() => Assignment.Ignored(CreatePerson(), personFirstName, CreateName(101));
+        public void FirstNameIgnoresAssignmentOfStringWithLength101()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
-        [TestMethod("i. Person.FirstName ignores assignment of string with length 101"), TestCategory("Exercise 1A")]
-        public void LastNameIgnoresAssignmentOfStringWithLength101() => Assignment.Ignored(CreatePerson(), personLastName, CreateName(101));
-        
+            test.Arrange(person, () => new Person());
+            test.ActAssign(person, p => p.FirstName, CreateName(101)));
+            test.AssertUnchanged(person, p => p.FirstName);
+
+            test.Execute();
+        }
+
+        [TestMethod("i. Person.LastName ignores assignment of string with length 101"), TestCategory("Exercise 1A")]
+        public void LastNameIgnoresAssignmentOfStringWithLength101()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
+
+            test.Arrange(person, () => new Person());
+            test.ActAssign(person, p => p.LastName, CreateName(101)));
+            test.AssertUnchanged(person, p => p.LastName);
+
+            test.Execute();
+        }
+
         [TestMethod("j. Person.Age ignores assigment of -1"), TestCategory("Exercise 1A")]
-        public void AgeIgnoresAssignmentOfMinusOne() => Assignment.Ignored(CreatePerson(), personAge, -1);
+        public void AgeIgnoresAssignmentOfMinusOne()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
+            test.Arrange(person, () => new Person());
+            test.ActAssign(person, p => p.Age, -1));
+            test.AssertUnchanged(person, p => p.Age);
+
+            test.Execute();
+        }
 
         /* Exercise 1B */
         [TestMethod("a. Person.Mother is public Person property"), TestCategory("Exercise 1B")]
-        public void MotherIsPublicPersonProperty() => DoNothing(personMother);
+        public void MotherIsPublicPersonProperty() => throw new NotImplementedException();
 
         [TestMethod("b. Person.Father is public Person property"), TestCategory("Exercise 1B")]
-        public void FatherIsPublicPersonProperty() => DoNothing(personFather);
+        public void FatherIsPublicPersonProperty() => throw new NotImplementedException();
 
         [TestMethod("c. Person.Mother ignores assigment if mother is younger than child"), TestCategory("Exercise 1B")]
-        public void MotherIgnoresAssigmentIfMotherIsYoungerThanChild() => Assignment.Ignored(CreatePerson(age: 1), personMother, CreatePerson(age: 0));
+        public void MotherIgnoresAssigmentIfMotherIsYoungerThanChild()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> child = test.Create<Person>("child");
+            TestObject<Person> mother = test.Create<Person>("mother");
 
+            test.Arrange(child, () => new Person() { Age = 1});
+            test.Arrange(mother, () => new Person() { Age = 0 });
+            test.ActAssign(child, p => p.Mother, mother);
+            test.AssertUnchanged(child, p => p.Mother);
+
+            test.Execute();
+        }
+        
         [TestMethod("d. Person.Father ignores assigment if mother is younger than child"), TestCategory("Exercise 1B")]
-        public void FatherIgnoresAssigmentIfMotherIsYoungerThanChild() => Assignment.Ignored(CreatePerson(age: 1), personFather, CreatePerson(age: 0));
+        public void FatherIgnoresAssigmentIfMotherIsYoungerThanChild()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> child = test.Create<Person>("child");
+            TestObject<Person> father = test.Create<Person>("father");
 
+            test.Arrange(child, () => new Person() { Age = 1 });
+            test.Arrange(father, () => new Person() { Age = 0 });
+            test.ActAssign(child, p => p.Father, father);
+            test.AssertUnchanged(child, p => p.Mother);
+
+            test.Execute();
+        }
 
         /* Exercise 1C */
         [TestMethod("a. PersonGenerator.GeneratePerson takes no arguments and returns Person"), TestCategory("Exercise 1C")]
-        public void GeneratePersonReturnsPerson() => DoNothing(generatorGeneratePerson);
+        public void GeneratePersonReturnsPerson() => throw new NotImplementedException();
 
         [TestMethod("b. PersonGenerator.GeneratePerson generates Adam Smith (36)"), TestCategory("Exercise 1C")]
-        public void GeneratePersonCreatesAdamSmith() => Equality.Equals(generatorGeneratePerson.Invoke(CreateGenerator()), CreatePerson("Adam", "Smith", 36));
+        public void GeneratePersonCreatesAdamSmith()
+        {
+            Test test = factory.CreateTest();
+            TestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
+            AnonymousTestObject<Person> person = test.CreateAnonymous<Person>("person");
+            
+            test.Arrange(generator, () => new PersonGenerator());
+            test.Arrange(person, generator, g => g.GeneratePerson());
+            
+            test.Assert(person, p => p.FirstName == "Adam");
+            test.Assert(person, p => p.LastName == "Smith");
+            test.Assert(person, p => p.Age == 36);
 
+            test.Execute();
+        }
 
         /* Exercise 1D */
         [TestMethod("a. PersonGenerator.GenerateFamily takes no arguments and returns Person "), TestCategory("Exercise 1D")]
-        public void GenerateFamilyReturnsPerson() => DoNothing(generatorGenerateFamily);
+        public void GenerateFamilyReturnsPerson() => throw new NotImplementedException();
 
         [TestMethod("b. PersonGenerator.GenerateFamily generates Robin Rich (10) as child"), TestCategory("Exercise 1D")]
-        public void GenerateFamilyCreatesRobinRichAsChild() => Equality.Equals(generatorGenerateFamily.Invoke(CreateGenerator()), CreatePerson("Robin", "Rich", 10));
+        public void GenerateFamilyCreatesRobinRichAsChild()
+        {
+            Test test = factory.CreateTest();
+            TestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
+            AnonymousTestObject<Person> child = test.CreateAnonymous<Person>("child");
+
+            test.Arrange(generator, () => new PersonGenerator());
+            test.Arrange(child, generator, g => g.GeneratePerson());
+
+            test.Assert(child, p => p.FirstName == "Robin");
+            test.Assert(child, p => p.LastName == "Rich");
+            test.Assert(child, p => p.Age == 10);
+
+            test.Execute();
+        }
+
 
         [TestMethod("c. PersonGenerator.GenerateFamily generates Waren Rich (36) as father"), TestCategory("Exercise 1D")]
-        public void GenerateFamilyCreatesWarenRichAsFather() => Equality.Equals(personFather.Get(generatorGenerateFamily.Invoke(CreateGenerator())), CreatePerson("Warren", "Rich" ,36));
+        public void GenerateFamilyCreatesRobinRichAsFather()
+        {
+            Test test = factory.CreateTest();
+            TestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
+            AnonymousTestObject<Person> father = test.CreateAnonymous<Person>("father");
+
+            test.Arrange(generator, () => new PersonGenerator());
+            test.Arrange(father, generator, g => g.GeneratePerson().Father);
+
+            test.Assert(father, p => p.FirstName == "Warren");
+            test.Assert(father, p => p.LastName == "Rich");
+            test.Assert(father, p => p.Age == 36);
+
+            test.Execute();
+        }
+
 
         [TestMethod("d. PersonGenerator.GenerateFamily generates Anna Smith (38) as mother"), TestCategory("Exercise 1D")]
-        public void GenerateFamilyCreatesAnnaSmithAsMother() => Equality.Equals(personMother.Get(generatorGenerateFamily.Invoke(CreateGenerator())), CreatePerson("Anna", "Smith", 38));
+        public void GenerateFamilyCreatesAnnaRichAsMother()
+        {
+            Test test = factory.CreateTest();
+            TestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
+            AnonymousTestObject<Person> mother = test.CreateAnonymous<Person>("mother");
+
+            test.Arrange(generator, () => new PersonGenerator());
+            test.Arrange(mother, generator, g => g.GeneratePerson().Mother);
+
+            test.Assert(mother, p => p.FirstName == "Anna");
+            test.Assert(mother, p => p.LastName == "Smith");
+            test.Assert(mother, p => p.Age == 38);
+
+            test.Execute();
+        }
+
 
         [TestMethod("e. PersonGenerator.GenerateFamily generates Gustav Rich (66) as grandfather"), TestCategory("Exercise 1D")]
-        public void GenerateFamilyCreatesGustavRichAsGrandfather() => Equality.Equals(personFatherFather.Get(generatorGenerateFamily.Invoke(CreateGenerator())), CreatePerson("Gustav", "Rich", 66));
+        public void GenerateFamilyCreatesGustavRichAsGrandfather()
+        {
+            Test test = factory.CreateTest();
+            TestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
+            AnonymousTestObject<Person> grandFather = test.CreateAnonymous<Person>("grandfather");
+
+            test.Arrange(generator, () => new PersonGenerator());
+            test.Arrange(grandFather, generator, g => g.GeneratePerson().Father.Father);
+
+            test.Assert(grandFather, p => p.FirstName == "Gustav");
+            test.Assert(grandFather, p => p.LastName == "Rich");
+            test.Assert(grandFather, p => p.Age == 66);
+
+            test.Execute();
+        }
 
         [TestMethod("g. PersonGenerator.GenerateFamily generates Elsa Johnson (65) as grandmother"), TestCategory("Exercise 1D")]
-        public void GenerateFamilyCreatesElsaJohnsonAsGrandMother() => Equality.Equals(personFatherMother.Get(generatorGenerateFamily.Invoke(CreateGenerator())), CreatePerson("Elsa", "Johnson", 65));
+        public void GenerateFamilyCreatesElsaJohnsonAsGrandMother()
+        {
+            Test test = factory.CreateTest();
+            TestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
+            AnonymousTestObject<Person> grandMother = test.CreateAnonymous<Person>("grandmother");
 
+            test.Arrange(generator, () => new PersonGenerator());
+            test.Arrange(grandMother, generator, g => g.GeneratePerson().Father.Mother);
+
+            test.Assert(grandMother, p => p.FirstName == "Elsa");
+            test.Assert(grandMother, p => p.LastName == "Johnson");
+            test.Assert(grandMother, p => p.Age == 65);
+
+            test.Execute();
+        }
 
         /* Exercise 1E */
         [TestMethod("a. PersonPrinter.PrintPerson takes person as argument and returns nothing"), TestCategory("Exercise 1E")]
-        public void PrintPersonTakesPersonAsArgumentAndReturnsNothing() => DoNothing(printerPrintPerson);
+        public void PrintPersonTakesPersonAsArgumentAndReturnsNothing() => throw new NotImplementedException();
 
         [TestMethod("b. PersonPrinter.PrintPrints prints correctly"), TestCategory("Exercise 1E")]
         public void PrintPersonPrintsCorrectly()
         {
-            ConsoleSession session = new ConsoleSession();
-            session.Out("Adam Smith (36)");
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.CreateAnonymous<Person>("person");
+            TestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
 
-            session.Start(() => printerPrintPerson.Invoke(CreatePrinter(), CreatePerson("Adam", "Smith", 36)));
+            test.Arrange(printer, () => new PersonPrinter());
+            test.Arrange(person, () => new Person() { FirstName = "Adam", LastName = "Smith", Age = 36 });
+
+            test.Act(printer, person, (p1, p2) => p1.PrintPerson(p2));
+
+            test.AssertWriteOut("Adam Smith (36)");
+
+            test.Execute();
         }
 
         /* Exercise 1F */
         [TestMethod("a. PersonPrinter.PrintFamily takes person as argument and returns nothing"), TestCategory("Exercise 1F")]
-        public void PrintFamilyTakesPersonAsArgumentAndReturnsNothing() => DoNothing(printerPrintFamily);
+        public void PrintFamilyTakesPersonAsArgumentAndReturnsNothing() => throw new NotImplementedException();
 
         [TestMethod("b. PersonPrinter.PrintFamily prints correctly"), TestCategory("Exercise 1F")]
         public void PrintFamilyPrintsCorrectly()
         {
-            ConsoleSession session = new ConsoleSession();
-            session.Out("Robin Rich (10)\n");
-            session.Out("  Warren Rich (36)\n");
-            session.Out("    Gustav Rich (66)\n");
-            session.Out("    Elsa Johnson (65)\n");
-            session.Out("  Anna Smith (38)\n");
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.CreateAnonymous<Person>("person");
+            TestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
 
-            Person gustav = CreatePerson("Gustav", "Rich", 66);
-            Person elsa = CreatePerson("Elsa", "Johnson", 65);
-            Person warren = CreatePerson("Warren", "Rich", 36, elsa, gustav);
-            Person anna = CreatePerson("Anna", "Smith", 38);
-            Person robin = CreatePerson("Robin", "Rich", 10, anna, warren);
+            test.Arrange(person, () => 
+                new Person() { 
+                    FirstName = "Warren",
+                    LastName = "Rich", 
+                    Age = 36, 
+                    Mother = new Person() { 
+                        FirstName = "Warren", 
+                        LastName = "Rich", 
+                        Age = 36 
+                    },
+                    Father = new Person() { 
+                        FirstName = "Warren", 
+                        LastName = "Rich", 
+                        Age = 36, 
+                        Mother = new Person() { 
+                            FirstName = "Elsa", 
+                            LastName = "Johnson", 
+                            Age = 65 
+                        }, 
+                        Father = new Person() { 
+                            FirstName = "Gustav",
+                            LastName = "Rich", 
+                            Age = 66 
+                        } 
+                    }
+                }
+            );
 
-            session.Start(() => printerPrintFamily.Invoke(CreatePrinter(), robin));
+            test.Act(printer, person, (p1, p2) => p1.PrintFamily(p2));
+
+            test.AssertWriteOut("Adam Smith (36)\n");
+            test.AssertWriteOut("Robin Rich (10)\n");
+            test.AssertWriteOut("  Warren Rich (36)\n");
+            test.AssertWriteOut("    Gustav Rich (66)\n");
+            test.AssertWriteOut("    Elsa Johnson (65)\n");
+            test.AssertWriteOut("  Anna Smith (38)\n");
+
+            test.Execute();
         }
 
         /* Exercise 1G */
         [TestMethod("a. Person has constructor which takes no arguments"), TestCategory("Exercise 1G")]
-        public void PersonHasConstructorWhichTakesNoArguments() => DoNothing(person.Constructor(new ConstructorOptions()));
+        public void PersonHasConstructorWhichTakesNoArguments() => throw new NotImplementedException();
 
         [TestMethod("b. Person has constructor which two persons as arguments"), TestCategory("Exercise 1G")]
-        public void PersonHasconstructorWhichTakesTwoPersonsAsArguments() => DoNothing(person.Constructor<Person, Person>(new ConstructorOptions()));
+        public void PersonHasconstructorWhichTakesTwoPersonsAsArguments() => throw new NotImplementedException();
 
         [TestMethod("c. Person constructor with 2 persons as arguments sets mother and father property"), TestCategory("Exercise 1G")]
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
         {
-            Person mother = CreatePerson();
-            personAge.Set(mother, 37);
-            Person father = CreatePerson();
-            personAge.Set(father, 37);
-            Person child = person.Constructor<Person, Person>(new ConstructorOptions()).Invoke(mother, father);
+            Test test = factory.CreateTest();
+            TestObject<Person> mother = new TestObject<Person>();
+            TestObject<Person> father = new TestObject<Person>();
+            TestObject<Person> child = new TestObject<Person>();
 
-            Person motherValue = personMother.Get(child);
-            Person fatherValue = personFather.Get(child);
+            test.Arrange(mother, () => new Person() { Age = 37 });
+            test.Arrange(father, () => new Person() { Age = 37 });
 
-            if (mother == motherValue && father == fatherValue)
-                return;
-            if (mother == fatherValue && father == motherValue)
-                return;
+            test.Act(child, mother, father, (p1, p2) => new Person(p1, p2));
 
-            throw new AssertFailedException("Person constructor Person(Person par1, Person par2) does not set mother or father property");
+            test.Assert<Person, Person>(child, mother, (p1, p2) => p1.Mother == p2);
+            test.Assert<Person, Person>(child, father, (p1, p2) => p1.Father == p2);
+
+            test.Execute();
         }
 
         /* Exercise 1H */
         [TestMethod("a. Person.ID is public read-only int property"), TestCategory("Exercise 1H")]
-        public void IDIsPublicReadonlyIntProperty() => DoNothing(personID);
+        public void IDIsPublicReadonlyIntProperty() => throw new NotImplementedException();
 
         [TestMethod("b. Person.ID increases by 1 for each new person"), TestCategory("Exercise 1H")]
         public void IDIncreasesByOneForEachNewPerson()
         {
-            Person person1 = CreatePerson();
-            Person person2 = CreatePerson();
+            Test test = factory.CreateTest();
+            TestObject<Person> person1 = new TestObject<Person>();
+            TestObject<Person> person2 = new TestObject<Person>();
 
-            int increase = personID.Get(person2) - personID.Get(person1);
+            test.AssertIncrease(person1, person2, p => p.ID);
 
-            if (increase != 1)
-                Assert.Fail($"ID changes by {increase} instead of 1 for each new person");
+            test.Execute();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using TestTools.Structure;
@@ -8,6 +10,54 @@ namespace TestTools.Helpers
 {
     public static class FormatHelper
     {
+        private readonly static Dictionary<Type, Func<object, string>> LiteralRepresentations = new Dictionary<Type, Func<object, string>>()
+        {
+            [null] = (o) => "null",
+            [typeof(bool)] = (o) => ((bool)o).ToString(),
+            [typeof(byte)] = (o) => $"(byte){(byte)o}",
+            [typeof(char)] = (o) => $"'{(char)o}'",
+            [typeof(decimal)] = (o) => $"{(decimal)o}M",
+            [typeof(float)] = (o) => $"{(float)o}F",
+            [typeof(int)] = (o) => ((int)o).ToString(),
+            [typeof(long)] = (o) =>  $"{(long)o}L",
+            [typeof(short)] = (o) => $"(short){(short)o}",
+            [typeof(string)] = (o) => $"\"{(string)o}\"",
+            [typeof(sbyte)] = (o) => $"(sbyte){(sbyte)o}",
+            [typeof(uint)] = (o) => $"{(uint)o}U",
+            [typeof(ulong)] = (o) => $"{(ulong)o}UL",
+            [typeof(ushort)] = (o) => $"(ushort){(ushort)o}"
+        };
+
+        public static bool HasLiteralRepresentation(object value)
+        {
+            return HasLiteralRepresentation(value?.GetType());
+        }
+
+        public static bool HasLiteralRepresentation(Type type)
+        {
+            return LiteralRepresentations.ContainsKey(type);
+        }
+
+        public static string FormatAsLiteral(object value)
+        {
+            Type type = value?.GetType();
+
+            if (LiteralRepresentations.ContainsKey(type))
+                throw new ArgumentException($"INTERNAL: {value} cannot be represented as literal");
+            return LiteralRepresentations[type](value);
+        }
+        
+        public static string FormatList(string[] list)
+        {
+            StringBuilder builder = new StringBuilder();
+            for(int i = 0; i < list.Length; i++)
+            {
+                builder.Append(list[i]);
+                builder.Append((i < list.Length - 1) ? ", " : " & ");
+            }
+            return builder.ToString();
+        }
+
         public static string FormatMemberModifier(MemberModifiers modifier)
         {
             return modifier.ToString().ToLower();

@@ -7,7 +7,7 @@ namespace Lecture_2
 {
     public class Person
     {
-        string FirstName;
+        public string FirstName { get; set; }
         string LastName;
         int Age;
     }
