@@ -12,12 +12,12 @@ namespace TestTools.Integrated
 
         }
 
-        public void Act<T>(TestObject<T> obj, Func<T, Expression<Action>> action)
+        public void Act<T>(TestObject<T> obj, Expression<Action<T>> action)
         {
             throw new NotImplementedException();
         }
 
-        public void Act<T1, T2>(TestObject<T1> obj1, TestObject<T2> obj2, Func<T1, T2, Expression<Action>> action)
+        public void Act<T1, T2>(TestObject<T1> obj1, TestObject<T2> obj2, Expression<Action<T1, T2>> action)
         {
             throw new NotImplementedException();
         }
@@ -57,6 +57,11 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
+        public void Arrange<T1, T2, T3>(TestObject<T1> obj1, TestObject<T2> obj2, TestObject<T3> obj3, Expression<Func<T2, T3, T1>> setup)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Assert<T>(TestObject<T> obj, Expression<Func<T, bool>> assertion)
         {
             throw new NotImplementedException();
@@ -89,6 +94,11 @@ namespace TestTools.Integrated
         }
 
         public void AssertUnchanged<TObj, TProperty>(TestObject<TObj> obj, Expression<Func<TObj, TProperty>> locator)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertIncreased<TObj, TProperty>(TestObject<TObj> obj1, TestObject<TObj> obj2, Expression<Func<TObj, TProperty>> locator)
         {
             throw new NotImplementedException();
         }

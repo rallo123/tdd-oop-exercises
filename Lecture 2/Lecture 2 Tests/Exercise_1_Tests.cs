@@ -2,6 +2,7 @@ using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Integrated;
+using static TestTools.Helpers.ExpressionHelper;
 
 namespace Lecture_2_Tests
 {
@@ -31,7 +32,7 @@ namespace Lecture_2_Tests
             TestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person());
-            test.ActAssign(person, p => p.FirstName, null);
+            test.Act(person, Assignment<Person, string>(p => p.FirstName, null));
             test.AssertUnchanged(person, p => p.FirstName);
 
             test.Execute();
@@ -44,7 +45,7 @@ namespace Lecture_2_Tests
             TestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person());
-            test.ActAssign(person, p => p.LastName, null);
+            test.Act(person, Assignment<Person, string>(p => p.LastName, null));
             test.AssertUnchanged(person, p => p.LastName);
 
             test.Execute();
@@ -57,7 +58,7 @@ namespace Lecture_2_Tests
             TestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person());
-            test.ActAssign(person, p => p.FirstName, "123456789");
+            test.Act(person, Assignment<Person, string>(p => p.FirstName, "123456789"));
             test.AssertUnchanged(person, p => p.FirstName);
 
             test.Execute();
@@ -70,7 +71,7 @@ namespace Lecture_2_Tests
             TestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person());
-            test.ActAssign(person, p => p.LastName, "123456789");
+            test.Act(person, Assignment<Person, string>(p => p.LastName, "123456789"));
             test.AssertUnchanged(person, p => p.LastName);
 
             test.Execute();
@@ -83,7 +84,7 @@ namespace Lecture_2_Tests
             TestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person());
-            test.ActAssign(person, p => p.FirstName, CreateName(101)));
+            test.Act(person, Assignment<Person, string>(p => p.FirstName, CreateName(101)));
             test.AssertUnchanged(person, p => p.FirstName);
 
             test.Execute();
@@ -96,7 +97,7 @@ namespace Lecture_2_Tests
             TestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person());
-            test.ActAssign(person, p => p.LastName, CreateName(101)));
+            test.Act(person, Assignment<Person, string>(p => p.LastName, CreateName(101)));
             test.AssertUnchanged(person, p => p.LastName);
 
             test.Execute();
@@ -109,7 +110,7 @@ namespace Lecture_2_Tests
             TestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person());
-            test.ActAssign(person, p => p.Age, -1));
+            test.Act(person, Assignment<Person, int>(p => p.Age, -1));
             test.AssertUnchanged(person, p => p.Age);
 
             test.Execute();
@@ -131,7 +132,7 @@ namespace Lecture_2_Tests
 
             test.Arrange(child, () => new Person() { Age = 1});
             test.Arrange(mother, () => new Person() { Age = 0 });
-            test.ActAssign(child, p => p.Mother, mother);
+            test.Act(child, mother, Assignment<Person, Person, Person>(p => p.Mother, p => p));
             test.AssertUnchanged(child, p => p.Mother);
 
             test.Execute();
@@ -146,7 +147,7 @@ namespace Lecture_2_Tests
 
             test.Arrange(child, () => new Person() { Age = 1 });
             test.Arrange(father, () => new Person() { Age = 0 });
-            test.ActAssign(child, p => p.Father, father);
+            test.Act(child, father, Assignment<Person, Person, Person>(p => p.Father, p => p));
             test.AssertUnchanged(child, p => p.Mother);
 
             test.Execute();
@@ -164,7 +165,8 @@ namespace Lecture_2_Tests
             AnonymousTestObject<Person> person = test.CreateAnonymous<Person>("person");
             
             test.Arrange(generator, () => new PersonGenerator());
-            test.Arrange(person, generator, g => g.GeneratePerson());
+
+            test.Act(person, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson()));
             
             test.Assert(person, p => p.FirstName == "Adam");
             test.Assert(person, p => p.LastName == "Smith");
@@ -185,8 +187,7 @@ namespace Lecture_2_Tests
             AnonymousTestObject<Person> child = test.CreateAnonymous<Person>("child");
 
             test.Arrange(generator, () => new PersonGenerator());
-            test.Arrange(child, generator, g => g.GeneratePerson());
-
+            test.Act(child, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson()));
             test.Assert(child, p => p.FirstName == "Robin");
             test.Assert(child, p => p.LastName == "Rich");
             test.Assert(child, p => p.Age == 10);
@@ -203,8 +204,7 @@ namespace Lecture_2_Tests
             AnonymousTestObject<Person> father = test.CreateAnonymous<Person>("father");
 
             test.Arrange(generator, () => new PersonGenerator());
-            test.Arrange(father, generator, g => g.GeneratePerson().Father);
-
+            test.Act(father, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Father));
             test.Assert(father, p => p.FirstName == "Warren");
             test.Assert(father, p => p.LastName == "Rich");
             test.Assert(father, p => p.Age == 36);
@@ -221,8 +221,7 @@ namespace Lecture_2_Tests
             AnonymousTestObject<Person> mother = test.CreateAnonymous<Person>("mother");
 
             test.Arrange(generator, () => new PersonGenerator());
-            test.Arrange(mother, generator, g => g.GeneratePerson().Mother);
-
+            test.Act(mother, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Mother));
             test.Assert(mother, p => p.FirstName == "Anna");
             test.Assert(mother, p => p.LastName == "Smith");
             test.Assert(mother, p => p.Age == 38);
@@ -239,8 +238,7 @@ namespace Lecture_2_Tests
             AnonymousTestObject<Person> grandFather = test.CreateAnonymous<Person>("grandfather");
 
             test.Arrange(generator, () => new PersonGenerator());
-            test.Arrange(grandFather, generator, g => g.GeneratePerson().Father.Father);
-
+            test.Act(grandFather, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Father.Father));
             test.Assert(grandFather, p => p.FirstName == "Gustav");
             test.Assert(grandFather, p => p.LastName == "Rich");
             test.Assert(grandFather, p => p.Age == 66);
@@ -256,8 +254,9 @@ namespace Lecture_2_Tests
             AnonymousTestObject<Person> grandMother = test.CreateAnonymous<Person>("grandmother");
 
             test.Arrange(generator, () => new PersonGenerator());
-            test.Arrange(grandMother, generator, g => g.GeneratePerson().Father.Mother);
 
+            test.Act(grandMother, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Father.Mother));
+            
             test.Assert(grandMother, p => p.FirstName == "Elsa");
             test.Assert(grandMother, p => p.LastName == "Johnson");
             test.Assert(grandMother, p => p.Age == 65);
@@ -354,8 +353,7 @@ namespace Lecture_2_Tests
 
             test.Arrange(mother, () => new Person() { Age = 37 });
             test.Arrange(father, () => new Person() { Age = 37 });
-
-            test.Act(child, mother, father, (p1, p2) => new Person(p1, p2));
+            test.Arrange(child, mother, father, (p1, p2) => new Person(p1, p2));
 
             test.Assert<Person, Person>(child, mother, (p1, p2) => p1.Mother == p2);
             test.Assert<Person, Person>(child, father, (p1, p2) => p1.Father == p2);
@@ -374,7 +372,7 @@ namespace Lecture_2_Tests
             TestObject<Person> person1 = new TestObject<Person>();
             TestObject<Person> person2 = new TestObject<Person>();
 
-            test.AssertIncrease(person1, person2, p => p.ID);
+            test.AssertIncreased(person1, person2, p => p.ID);
 
             test.Execute();
         }
