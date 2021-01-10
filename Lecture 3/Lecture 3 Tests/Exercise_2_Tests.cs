@@ -44,44 +44,25 @@ namespace Lecture_3_Tests
         public void TestEmployeeCalculateYearlySalary(decimal monthlySalary, int senority)
         {
             Test test = factory.CreateTest();
-            TestObject<Employee> employee = test.Create<Employee>();
-
-            decimal expectedSalary = (new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority }).CalculateYearlySalary();
+            DualTestObject<Employee> employee = test.CreateDual<Employee>();
 
             test.Arrange(employee, () => new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority });
-            test.Assert(employee, e => e.CalculateYearlySalary() == expectedSalary);
+            test.AssertEqualToDual(employee, e => e.CalculateYearlySalary());
+
+            test.Execute();
         }
 
         public void TestManagerCalculateYearlySalary(decimal monthlySalary, decimal bonus, int senority)
         {
             Test test = factory.CreateTest();
-            TestObject<Manager> employee = test.Create<Manager>();
-
-            decimal expectedSalary = (new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority }).CalculateYearlySalary();
+            DualTestObject<Manager> employee = test.CreateDual<Manager>();
 
             test.Arrange(employee, () => new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority });
-            test.Assert(employee, e => e.CalculateYearlySalary() == expectedSalary);
-        }
-        
-        public void TestCompanyCalculateYearlySalaryCosts(IEnumerable<Employee> employees)
-        {
-            Test test = factory.CreateTest();
-            TestObject<Company> companyTestObject = test.Create<Company>();
-            Company company = new Company();
-
-            test.Arrange(companyTestObject, () => new Company());
-            foreach(var employee in employees)
-            {
-                TestObject<Employee> employeeTestObject = test.CreateAnonymous<Employee>();
-                test.Act(companyTestObject, employeeTestObject, (c, e) => c.Hire(e));
-                company.Hire(employee);
-            }
-            decimal expectedSalaryCosts = company.CalculateYearlySalaryCosts();
-            test.Assert(companyTestObject, c => c.CalculateYearlySalaryCosts() == expectedSalaryCosts);
+            test.AssertEqualToDual(employee, e => e.CalculateYearlySalary());
 
             test.Execute();
         }
-
+        
         /* Exercise 2A */
         [TestMethod("a. Name is public string property"), TestCategory("Exercise 2A")]
         public void NameIsPublicStringProperty() => throw new NotImplementedException();
@@ -257,18 +238,13 @@ namespace Lecture_3_Tests
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithOneEmployee()
         {
             Test test = factory.CreateTest();
-            TestObject<Company> companyTestObj = test.Create<Company>();
-            TestObject<Employee> employeeTestObj = test.Create<Employee>();
+            DualTestObject<Company> companyTestObj = test.CreateDual<Company>();
+            DualTestObject<Employee> employeeTestObj = test.CreateDual<Employee>();
             
-            Company company = new Company();
-            Employee employee = new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 };
-            company.Hire(employee);
-            decimal expectedCosts = company.CalculateYearlySalaryCosts();
-
             test.Arrange(companyTestObj, () => new Company());
             test.Arrange(employeeTestObj, () => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
             test.Act(companyTestObj, employeeTestObj, (c, e) => c.Hire(e));
-            test.Assert(companyTestObj, c => c.CalculateYearlySalaryCosts() == expectedCosts);
+            test.AssertEqualToDual(companyTestObj, c => c.CalculateYearlySalaryCosts());
 
             test.Execute();
         }
@@ -277,22 +253,16 @@ namespace Lecture_3_Tests
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithTwoEmployee() 
         {
             Test test = factory.CreateTest();
-            TestObject<Company> companyTestObj = test.Create<Company>();
-            TestObject<Employee> employee1TestObj = test.Create<Employee>();
-            TestObject<Employee> employee2TestObj = test.Create<Employee>();
-
-            Company company = new Company();
-            Employee employee1 = new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 };
-            Employee employee2 = new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 7 };
-            company.Hire(employee1);
-            decimal expectedCosts = company.CalculateYearlySalaryCosts();
+            DualTestObject<Company> companyTestObj = test.CreateDual<Company>();
+            DualTestObject<Employee> employee1TestObj = test.CreateDual<Employee>();
+            DualTestObject<Employee> employee2TestObj = test.CreateDual<Employee>();
 
             test.Arrange(companyTestObj, () => new Company());
             test.Arrange(employee1TestObj, () => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
             test.Arrange(employee2TestObj, () => new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 4 });
             test.Act(companyTestObj, employee1TestObj, (c, e) => c.Hire(e));
             test.Act(companyTestObj, employee2TestObj, (c, e) => c.Hire(e));
-            test.Assert(companyTestObj, c => c.CalculateYearlySalaryCosts() == expectedCosts);
+            test.AssertEqualToDual(companyTestObj, c => c.CalculateYearlySalaryCosts());
 
             test.Execute();
         }

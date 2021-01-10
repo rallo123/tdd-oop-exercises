@@ -128,6 +128,11 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
+        public void AssertEqualToDual<TObj, TProperty>(DualTestObject<TObj> obj, Expression<Func<TObj, TProperty>> locator)
+        {
+            throw new NotImplementedException();
+        }
+
         public TestConsole CaptureConsole()
         {
             throw new NotImplementedException();
@@ -138,7 +143,6 @@ namespace TestTools.Integrated
             return Create<T>(typeof(T).Name.ToLower());
         }
 
-        
         public TestObject<T> Create<T>(string nickname)
         {
             throw new NotImplementedException();
@@ -150,6 +154,26 @@ namespace TestTools.Integrated
         }
 
         public AnonymousTestObject<T> CreateAnonymous<T>(string nickname)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DualTestObject<T> CreateDual<T>()
+        {
+            return CreateDual<T>(typeof(T).Name.ToLower());
+        }
+
+        public DualTestObject<T> CreateDual<T>(string nickname)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AnonymousDualTestObject<T> CreateDualAnonymous<T>()
+        {
+            return CreateDualAnonymous<T>(typeof(T).Name.ToLower());
+        }
+
+        public AnonymousDualTestObject<T> CreateDualAnonymous<T>(string nickname)
         {
             throw new NotImplementedException();
         }
