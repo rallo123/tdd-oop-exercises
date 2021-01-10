@@ -6,7 +6,7 @@ namespace TestTools.Integrated
 {
     public class TestObject<T>
     {
-        
+        internal TestObject() {}
     }
 
     public class AnonymousTestObject<T> : TestObject<T>

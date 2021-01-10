@@ -19,5 +19,10 @@ namespace TestTools.Helpers
         public static Expression<Action<T1, T2>> Assignment<T1, T2, TValue>(Expression<Func<T1, TValue>> leftSide, Expression<Func<T2, TValue>> rightSide) {
             throw new NotImplementedException();
         }
+
+        public static Expression<Action<T1, T2, T3>> Assignment<T1, T2, T3, TValue>(Expression<Func<T1, TValue>> leftSide, Expression<Func<T2, T3, TValue>> rightSide)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

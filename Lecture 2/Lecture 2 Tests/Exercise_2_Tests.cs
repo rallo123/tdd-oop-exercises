@@ -1,81 +1,86 @@
-﻿using Lecture_2;
+﻿using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TestTools;
-using TestTools.Structure;
-using TestTools.Structure.Generic;
+using TestTools.Integrated;
 
 namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_2_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
-        private ClassElement<Number> number => new ClassElement<Number>();
-        private PropertyElement<Number, int> numberValue => number.Property<int>(new PropertyOptions("Value") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private ActionMethodElement<Number, Number> numberAdd => number.ActionMethod<Number>(new MethodOptions("Add") { IsPublic = true } );
-        private ActionMethodElement<Number, Number> numberSubtract => number.ActionMethod<Number>(new MethodOptions("Subtract") { IsPublic = true });
-        private ActionMethodElement<Number, Number> numberMultiply => number.ActionMethod<Number>(new MethodOptions("Multiply") { IsPublic = true });
-        private Number CreateNumber(int value) => number.Constructor<int>(new ConstructorOptions()).Invoke(value);
-
-        private void DoNothing(object par) { }
-        private void TestNumberOperation(Action<Number, Number> operation, int op1, int op2, int expectedResult, string symbol = "?")
-        {
-            Number n1 = CreateNumber(op1);
-            Number n2 = CreateNumber(op2);
-
-            operation(n1, n2);
-
-            int actualResult = numberValue.Get(n1);
-
-            if (actualResult != expectedResult)
-                Assert.Fail($"Produces unexpected result, {op1} {symbol} {op2} = {actualResult}");
-        }
-#pragma warning restore IDE1006 // Naming Styles
-
-        public Exercise_2_Tests()
-        {
-            bool NumberEquals(object obj1, object obj2) => numberValue.Get(obj1).Equals(numberValue.Get(obj2));
-            string NumberToString(object obj) => $"number {numberValue.Get(obj)}";
-
-            ObjectMethodRegistry.RegisterEquals(number.Type, NumberEquals);
-            ObjectMethodRegistry.RegisterToString(number.Type, NumberToString);
-        }
+        TestFactory factory = new TestFactory("Lecture_2");
 
         /* Exercise 2A */
         [TestMethod("Number.Value is public readonly int property"), TestCategory("Exercise 2A")]
-        public void ValueIsPublicReadonlyIntProperty() => DoNothing(numberValue);
+        public void ValueIsPublicReadonlyIntProperty() => throw new NotImplementedException();
 
         /* Exercise 2B */
         [TestMethod("a. Number constructor takes int as argument"), TestCategory("Exercise 2B")]
-        public void NumberConstructorTakesIntAsArgument() => DoNothing(CreateNumber(0));
+        public void NumberConstructorTakesIntAsArgument() => throw new NotImplementedException();
 
         [TestMethod("b. Number constructor with int as argument sets value property"), TestCategory("Exercise 2B")]
         public void NumberConstructorWithIntAsArgumentSetsValueProperty()
         {
-            Number n = CreateNumber(2);
+            Test test = factory.CreateTest();
+            TestObject<Number> number = test.Create<Number>("number");
 
-            if ((int)numberValue.Get(n) != 2)
-                Assert.Fail("Number constructor Number(int par) does not set value");
+            test.Arrange(number, () => new Number(2));
+            test.Assert(number, n => n.Value == 2);
+
+            test.Execute();
         }
 
         /* Exercise 2C */
         [TestMethod("a. Number.Add takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
-        public void AddTakesNumberAsArgumentsAndReturnsNothing() => DoNothing(numberAdd);
+        public void AddTakesNumberAsArgumentsAndReturnsNothing() => throw new NotImplementedException();
 
         [TestMethod("b. Number.Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
-        public void AddProducesExpectedResult() => TestNumberOperation((n1, n2) => numberAdd.Invoke(n1, new object[] { n2 }), 1, 2, 3, symbol: "+");
+        public void AddProducesExpectedResult() {
+            Test test = factory.CreateTest();
+            TestObject<Number> number1 = test.Create<Number>("number1");
+            TestObject<Number> number2 = test.Create<Number>("number2");
+
+            test.Arrange(number1, () => new Number(1));
+            test.Arrange(number2, () => new Number(2));
+            test.Act(number1, number2, (n1, n2) => n1.Add(n2));
+            test.Assert(number1, n => n.Value == 3);
+
+            test.Execute();
+        }
 
         [TestMethod("c. Number.Subtract takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
-        public void SubtractTakesNumberAsArgumentAndReturnsNothing() => DoNothing(numberSubtract);
+        public void SubtractTakesNumberAsArgumentAndReturnsNothing() => throw new NotImplementedException();
 
         [TestMethod("d. Number.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
-        public void SubtractProducesExpectedResult() => TestNumberOperation((n1, n2) => numberSubtract.Invoke(n1, new object[] { n2 }), 8, 3, 5, symbol: "-");
+        public void SubtractProducesExpectedResult() {
+            Test test = factory.CreateTest();
+            TestObject<Number> number1 = test.Create<Number>("number1");
+            TestObject<Number> number2 = test.Create<Number>("number2");
+
+            test.Arrange(number1, () => new Number(8));
+            test.Arrange(number2, () => new Number(3));
+            test.Act(number1, number2, (n1, n2) => n1.Subtract(n2));
+            test.Assert(number1, n => n.Value == 5);
+
+            test.Execute();
+        }
 
         [TestMethod("e. Number.Multiply takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
-        public void MultiplyTakesNumberAsArgumentAndReturnsNothing() => DoNothing(numberMultiply);
+        public void MultiplyTakesNumberAsArgumentAndReturnsNothing() => throw new NotImplementedException();
 
         [TestMethod("f. Number.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 2C")]
-        public void MultiplyProducesExpectedResult() => TestNumberOperation((n1, n2) => numberMultiply.Invoke(n1, new object[] { n2 }), 2, 3, 6, symbol: "*");
+        public void MultiplyProducesExpectedResult()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Number> number1 = test.Create<Number>("number1");
+            TestObject<Number> number2 = test.Create<Number>("number2");
+
+            test.Arrange(number1, () => new Number(2));
+            test.Arrange(number2, () => new Number(3));
+            test.Act(number1, number2, (n1, n2) => n1.Multiply(n2));
+            test.Assert(number1, n => n.Value == 6);
+
+            test.Execute();
+        }
     }
 }

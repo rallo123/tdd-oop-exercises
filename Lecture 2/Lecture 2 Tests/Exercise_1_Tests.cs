@@ -254,9 +254,7 @@ namespace Lecture_2_Tests
             AnonymousTestObject<Person> grandMother = test.CreateAnonymous<Person>("grandmother");
 
             test.Arrange(generator, () => new PersonGenerator());
-
             test.Act(grandMother, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Father.Mother));
-            
             test.Assert(grandMother, p => p.FirstName == "Elsa");
             test.Assert(grandMother, p => p.LastName == "Johnson");
             test.Assert(grandMother, p => p.Age == 65);
@@ -277,9 +275,7 @@ namespace Lecture_2_Tests
 
             test.Arrange(printer, () => new PersonPrinter());
             test.Arrange(person, () => new Person() { FirstName = "Adam", LastName = "Smith", Age = 36 });
-
             test.Act(printer, person, (p1, p2) => p1.PrintPerson(p2));
-
             test.AssertWriteOut("Adam Smith (36)");
 
             test.Execute();
@@ -323,9 +319,7 @@ namespace Lecture_2_Tests
                     }
                 }
             );
-
             test.Act(printer, person, (p1, p2) => p1.PrintFamily(p2));
-
             test.AssertWriteOut("Adam Smith (36)\n");
             test.AssertWriteOut("Robin Rich (10)\n");
             test.AssertWriteOut("  Warren Rich (36)\n");
@@ -347,14 +341,13 @@ namespace Lecture_2_Tests
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
         {
             Test test = factory.CreateTest();
-            TestObject<Person> mother = new TestObject<Person>();
-            TestObject<Person> father = new TestObject<Person>();
-            TestObject<Person> child = new TestObject<Person>();
+            TestObject<Person> mother = test.Create<Person>();
+            TestObject<Person> father = test.Create<Person>();
+            TestObject<Person> child = test.Create<Person>();
 
             test.Arrange(mother, () => new Person() { Age = 37 });
             test.Arrange(father, () => new Person() { Age = 37 });
             test.Arrange(child, mother, father, (p1, p2) => new Person(p1, p2));
-
             test.Assert<Person, Person>(child, mother, (p1, p2) => p1.Mother == p2);
             test.Assert<Person, Person>(child, father, (p1, p2) => p1.Father == p2);
 
@@ -369,8 +362,8 @@ namespace Lecture_2_Tests
         public void IDIncreasesByOneForEachNewPerson()
         {
             Test test = factory.CreateTest();
-            TestObject<Person> person1 = new TestObject<Person>();
-            TestObject<Person> person2 = new TestObject<Person>();
+            TestObject<Person> person1 = test.Create<Person>();
+            TestObject<Person> person2 = test.Create<Person>();
 
             test.AssertIncreased(person1, person2, p => p.ID);
 

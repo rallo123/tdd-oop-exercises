@@ -1,218 +1,133 @@
-﻿using Lecture_3;
+﻿using Lecture_3_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using TestTools.Integrated;
 using TestTools.Operation;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
+using static TestTools.Helpers.ExpressionHelper;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
-    public class Exercise_2_Tests
+    public class Exercise_2_Tests 
     {
-#pragma warning disable IDE1006 // Naming Stylesw
-        private ClassElement<Employee> employee => new ClassElement<Employee>();
-
-        private PropertyElement<Employee, string> employeeName => employee.Property<string>(new PropertyOptions("Name") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>(new PropertyOptions("Title") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Employee, decimal> employeeMonthlySalary => employee.Property<decimal>(new PropertyOptions("MonthlySalary") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Employee, int> employeeSeniority => employee.Property<int>(new PropertyOptions("Seniority") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } } );
-        private FuncMethodElement<Employee, decimal> employeeCalculateYearlySalary => employee.FuncMethod<decimal>(new MethodOptions("CalculateYearlySalary") { IsPublic = true });
-
-        private Employee CreateEmployee(string name = "Allan", string title = null, decimal? monthlySalary = null, int? seniority = null)
-        {
-            Employee instance = employee.Constructor<string>(new ConstructorOptions()).Invoke(name);
-
-            if (title != null)
-                employeeTitle.Set(instance, title);
-            if (monthlySalary != null)
-                employeeMonthlySalary.Set(instance, monthlySalary);
-            if (seniority != null)
-                employeeSeniority.Set(instance, seniority);
-
-            return instance;
-        }
-
-        private void TestEmployeeCalculateYearlySalary(decimal monthlySalary, int seniority)
-        {
-            Employee employee = CreateEmployee(monthlySalary: monthlySalary, seniority: seniority);
-            decimal actualYearlySalary = employeeCalculateYearlySalary.Invoke(employee);
-            decimal expectedYearlySalary = 12 * monthlySalary * (1M + GetSeniorityBonus(seniority));
-
-            if (actualYearlySalary == expectedYearlySalary)
-            {
-                string message = string.Format(
-                    "Employee.CalculateYearlySalary() returns {0} instead of {1} for MonthlySalary = {2} & Seniority = {3}",
-                    actualYearlySalary,
-                    expectedYearlySalary,
-                    monthlySalary,
-                    seniority
-                );
-                throw new AssertFailedException(message);
-            }
-        }
-        private decimal GetSeniorityBonus(int seniority)
-        {
-            switch (seniority)
-            {
-                case 1:
-                case 2:
-                    return 0.1M;
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                    return 0.3M;
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                    return 0.7M;
-                default: throw new ArgumentException();
-            }
-        }
-
-        private ClassElement<Manager> manager => new ClassElement<Manager>(new ClassOptions() { BaseType = typeof(Employee) });
-
-        private PropertyElement<Manager, string> managerName => manager.Property<string>(new PropertyOptions("Name") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Manager, string> managerTitle => manager.Property<string>(new PropertyOptions("Title") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Manager, decimal> managerMonthlySalary => manager.Property<decimal>(new PropertyOptions("MonthlySalary") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Manager, int> managerSeniority => manager.Property<int>(new PropertyOptions("Seniority") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Manager, decimal> managerBonus => manager.Property<decimal>(new PropertyOptions("Bonus") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<Manager, decimal> managerCalculateYearlySalary => manager.FuncMethod<decimal>(new MethodOptions("CalculateYearlySalary") { IsPublic = true });
-
-        private Manager CreateManager(string name = "abc", string title = null, decimal? monthlySalary = null, int? seniority = null, decimal? bonus = null)
-        {
-            Manager instance = manager.Constructor<string>(new ConstructorOptions()).Invoke(name);
-
-            if (title != null)
-                managerTitle.Set(instance, title);
-            if (monthlySalary != null)
-                managerMonthlySalary.Set(instance, monthlySalary);
-            if (seniority != null)
-                managerSeniority.Set(instance, seniority);
-            if (bonus != null)
-                managerBonus.Set(instance, bonus);
-            
-            return instance;
-        }
-
-        private void TestManagerCalculateYearlySalary(decimal monthlySalary, decimal bonus, int seniority)
-        {
-            Manager manager = CreateManager(monthlySalary: monthlySalary, seniority: seniority, bonus: bonus);
-            decimal actualYearlySalary = managerCalculateYearlySalary.Invoke(manager);
-            decimal expectedYearlySalary = 12 * monthlySalary * (1M + GetSeniorityBonus(seniority));
-
-            if (actualYearlySalary == expectedYearlySalary)
-            {
-                string message = string.Format(
-                    "Manager.CalculateYearlySalary() returns {0} instead of {1} for MonthlySalary = {2}, Bonus = {3} & Seniority = {4}",
-                    actualYearlySalary,
-                    expectedYearlySalary,
-                    monthlySalary,
-                    bonus,
-                    seniority
-                );
-                throw new AssertFailedException(message);
-            }
-        }
-
-        private ClassElement<Company> company => new ClassElement<Company>();
-
-        private PropertyElement<Company, List<Employee>> companyEmployees => company.Property<List<Employee>>(new PropertyOptions("Employees") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private ActionMethodElement<Company, Employee> companyHire => company.ActionMethod<Employee>(new MethodOptions("Hire") { IsPublic = true });
-        private ActionMethodElement<Company, Employee> companyFire => company.ActionMethod<Employee>(new MethodOptions("Fire") { IsPublic = true });
-        private FuncMethodElement<Company, decimal> companyCalculateYearlySalaryCosts => company.FuncMethod<decimal>(new MethodOptions("CalculateYearlySalaryCosts") { IsPublic = true });
-
-        private Company CreateCompany()
-        {
-            return company.Constructor(new ConstructorOptions()).Invoke();
-        }
-
-        private void TestCompanyCalculateYearlySalaryCosts(params Employee[] employees)
-        {
-            Company company = CreateCompany();
-            List<Employee> staff = companyEmployees.Get(company);
-
-            decimal expectedCosts = 0;
-            foreach (Employee employee in employees)
-            {
-                staff.Add(employee);
-
-                if (employee.GetType() == typeof(Manager))
-                {
-                    expectedCosts += managerCalculateYearlySalary.Invoke((Manager)(object)employee);
-                }
-                else expectedCosts += employeeCalculateYearlySalary.Invoke(employee);
-            }
-            decimal actualCosts = companyCalculateYearlySalaryCosts.Invoke(company);
-
-
-            if (actualCosts != expectedCosts)
-            {
-                string message = string.Format(
-                   "Company.CalculateYearlySalaryCosts() returns {0} instead of {1} for Company.Employees.Count = {2}",
-                   actualCosts,
-                   expectedCosts,
-                   companyEmployees.Get(company).Count()
-                );
-                throw new AssertFailedException(message);
-            }
-        }
-
-        private void DoNothing(object par) { }
-#pragma warning restore IDE1006 // Naming Styles
+        TestFactory factory = new TestFactory("Lecture_3");
         
-        public Exercise_2_Tests()
+        public void TestAssignmentOfEmployeePropertyIgnoresValue<T>(Expression<Func<Employee, T>> property, T value)
         {
+            Test test = factory.CreateTest();
+            TestObject<Employee> employee = test.Create<Employee>();
+
+            test.Arrange(employee, () => new Employee("abc"));
+            test.Act(employee, Assignment(property, value));
+            test.AssertUnchanged(employee, property);
+
+            test.Execute();
         }
 
+        public void TestAssignmentOfManagerPropertyIgnoresValue<T>(Expression<Func<Manager, T>> property, T value)
+        {
+            Test test = factory.CreateTest();
+            TestObject<Manager> manager = test.Create<Manager>();
+
+            test.Arrange(manager, () => new Manager("abc"));
+            test.Act(manager, Assignment(property, value));
+            test.AssertUnchanged(manager, property);
+
+            test.Execute();
+        }
+
+        public void TestEmployeeCalculateYearlySalary(decimal monthlySalary, int senority)
+        {
+            Test test = factory.CreateTest();
+            TestObject<Employee> employee = test.Create<Employee>();
+
+            decimal expectedSalary = (new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority }).CalculateYearlySalary();
+
+            test.Arrange(employee, () => new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority });
+            test.Assert(employee, e => e.CalculateYearlySalary() == expectedSalary);
+        }
+
+        public void TestManagerCalculateYearlySalary(decimal monthlySalary, decimal bonus, int senority)
+        {
+            Test test = factory.CreateTest();
+            TestObject<Manager> employee = test.Create<Manager>();
+
+            decimal expectedSalary = (new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority }).CalculateYearlySalary();
+
+            test.Arrange(employee, () => new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority });
+            test.Assert(employee, e => e.CalculateYearlySalary() == expectedSalary);
+        }
+        
+        public void TestCompanyCalculateYearlySalaryCosts(IEnumerable<Employee> employees)
+        {
+            Test test = factory.CreateTest();
+            TestObject<Company> companyTestObject = test.Create<Company>();
+            Company company = new Company();
+
+            test.Arrange(companyTestObject, () => new Company());
+            foreach(var employee in employees)
+            {
+                TestObject<Employee> employeeTestObject = test.CreateAnonymous<Employee>();
+                test.Act(companyTestObject, employeeTestObject, (c, e) => c.Hire(e));
+                company.Hire(employee);
+            }
+            decimal expectedSalaryCosts = company.CalculateYearlySalaryCosts();
+            test.Assert(companyTestObject, c => c.CalculateYearlySalaryCosts() == expectedSalaryCosts);
+
+            test.Execute();
+        }
 
         /* Exercise 2A */
         [TestMethod("a. Name is public string property"), TestCategory("Exercise 2A")]
-        public void NameIsPublicStringProperty() => DoNothing(employeeName);
+        public void NameIsPublicStringProperty() => throw new NotImplementedException();
 
         [TestMethod("b. Title is public string property"), TestCategory("Exercise 2A")]
-        public void TitleIsPublicStringProperty() => DoNothing(employeeTitle);
+        public void TitleIsPublicStringProperty() => throw new NotImplementedException();
 
         [TestMethod("c. MonthlySalary is public decimal property"), TestCategory("Exercise 2A")]
-        public void MonthlySalaryIsPublicDecimalProperty() => DoNothing(employeeMonthlySalary);
+        public void MonthlySalaryIsPublicDecimalProperty() => throw new NotImplementedException();
 
         [TestMethod("d. Seniority is public int property"), TestCategory("Exercise 2A")]
-        public void SeniorityIsPublicIntProperty() => DoNothing(employeeSeniority);
+        public void SeniorityIsPublicIntProperty() => throw new NotImplementedException();
 
         [TestMethod("e. Employee constructor takes string as argument"), TestCategory("Exercise 2A")]
-        public void EmployeeConstructorTakesStringAsArgument() => DoNothing(employee.Constructor<string>(new ConstructorOptions()));
+        public void EmployeeConstructorTakesStringAsArgument() => throw new NotImplementedException();
 
         [TestMethod("e. Employee constructor(string name) sets name property"), TestCategory("Exercise 2A")]
         public void EmployeeConstructorNameSetsNameProperty()
         {
-            Employee employee = CreateEmployee("abc");
+            Test test = factory.CreateTest();
+            TestObject<Employee> employee = test.Create<Employee>();
 
-            if (employeeName.Get(employee) != "abc")
-                throw new AssertFailedException("Employee constructor Employee(string name) do not set Name");
+            test.Arrange(employee, () => new Employee("abc"));
+            test.Assert(employee, e => e.Name == "abc");
+
+            test.Execute();
         }
 
         [TestMethod("f. Title ignores assignment of null"), TestCategory("Exercise 2A")]
-        public void TitleIgnoresAssignmentOfNull() => Assignment.Ignored(CreateEmployee(), employeeTitle, null);
+        public void TitleIgnoresAssignmentOfNull() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, null);
 
         [TestMethod("g. Title ignores assignment of empty string"), TestCategory("Exercise 2A")]
-        public void TitleIgnoresAssignmentOfEmptyString() => Assignment.Ignored(CreateEmployee(), employeeTitle, null);
-
+        public void TitleIgnoresAssignmentOfEmptyString() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, "");
+        
         [TestMethod("h. MonthlySalary ignores assignment of -1M"), TestCategory("Exercise 2A")]
-        public void MonthlySalaryIgnoresAssignmentOfMinusOne() => Assignment.Ignored(CreateEmployee(), employeeMonthlySalary, -1M);
+        public void MonthlySalaryIgnoresAssignmentOfMinusOne() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, null);
 
         [TestMethod("i. Seniority ignores assignment of 0"), TestCategory("Exercise 2A")]
-        public void SeniorityIgnoresAssignmentOfZero() => Assignment.Ignored(CreateEmployee(), employeeSeniority, 0);
+        public void SeniorityIgnoresAssignmentOfZero() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 0);
 
         [TestMethod("j. Seniority ignores assigment of 11"), TestCategory("Exercise 2A")]
-        public void SeniorityIgnoresAssignmentOfEleven() => Assignment.Ignored(CreateEmployee(), employeeSeniority, 11);
+        public void SeniorityIgnoresAssignmentOfEleven() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 11);
 
         /* Exercise 2B */
         [TestMethod("a. Employee.CalculateYearlySalary() returns expected output for seniority 1"), TestCategory("Exercise 2B")]
-        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelOne() => TestEmployeeCalculateYearlySalary(34000, 1);
+        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelOne()  => TestEmployeeCalculateYearlySalary(34000, 1);
 
         [TestMethod("b. Employee.CalculateYearlySalary() returns expected output for seniority 2"), TestCategory("Exercise 2B")]
         public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelTwo() => TestEmployeeCalculateYearlySalary(15340, 2);
@@ -231,17 +146,13 @@ namespace Lecture_3_Tests
 
         /* Exercise 2C */
         [TestMethod("a. Manager is subclass of Employee"), TestCategory("Exercise 2C")]
-        public void ManagerIsSubclassOfEmployee()
-        {
-            if (!typeof(Manager).IsSubclassOf(typeof(Employee)))
-                throw new AssertFailedException("Manager does not inherit from Employee");
-        }
+        public void ManagerIsSubclassOfEmployee() => throw new NotImplementedException();
 
         [TestMethod("b. Bonus is public decimal property"), TestCategory("Exercise 2C")]
-        public void BonusIsPublicDecimalProperty() => DoNothing(managerBonus);
+        public void BonusIsPublicDecimalProperty() => throw new NotImplementedException();
 
         [TestMethod("c. Bonus ignores assignment of -1M"), TestCategory("Exercise 2C")]
-        public void BonusIgnoresAssignmentOfMinusOne() => Assignment.Ignored(CreateManager(), managerBonus, -1M);
+        public void BonusIgnoresAssignmentOfMinusOne() => TestAssignmentOfManagerPropertyIgnoresValue(m => m.Bonus, -1);
 
         /* Exercise 2D */
         [TestMethod("a. Manager.CalculateYearlySalary() returns expected output for seniority 1"), TestCategory("Exercise 2D")]
@@ -264,71 +175,126 @@ namespace Lecture_3_Tests
 
         /* Exercise 2E */
         [TestMethod("a. Employees is a public List<Employee> property"), TestCategory("Exercise 2E")]
-        public void EmployeesIsPublicListEmployeeProperty() => DoNothing(companyEmployees);
+        public void EmployeesIsPublicListEmployeeProperty() => throw new NotImplementedException();
 
         [TestMethod("b. Company.Hire(Employee e) adds employee to Employees"), TestCategory("Exercise 2E")]
         public void CompanyHireAddsEmployeeToEmployees()
         {
-            Employee employee = CreateEmployee("Ellen Stevens", "Programmer");
-            Company company = CreateCompany();
-            List<Employee> employees = companyEmployees.Get(company);
+            Test test = factory.CreateTest();
+            TestObject<Employee> employee = test.Create<Employee>();
+            TestObject<Company> company = test.Create<Company>();
 
-            companyHire.Invoke(company, employee);
+            test.Arrange(employee, () => new Employee("Ellen Stevens"));
+            test.Arrange(company, () => new Company());
+            test.Act(company, employee, (c, e) => c.Hire(e));
+            test.AssertCollectionsContains(company, employee, c => c.Employees);
 
-            if (!employees.Any(e => e == employee))
-                throw new AssertFailedException($"Company.Hire(Employee e) does not add Employee {employeeName.Get(employee)} ({employeeTitle.Get(employee)}) to Employees");
+            test.Execute();
         }
 
-        [TestMethod("c. Company.Fire(Employee e) removes employee to Employees"), TestCategory("Exercise 2E")]
+        [TestMethod("c. Company.Fire(Employee e) removes employee from Employees"), TestCategory("Exercise 2E")]
         public void CompanyFireAddsEmployeeToEmployees()
         {
-            Employee employee = CreateEmployee("Ellen Stevens", "Programmer");
-            Company company = CreateCompany();
-            List<Employee> employees = companyEmployees.Get(company);
-            employees.Add(employee);
+            Test test = factory.CreateTest();
+            TestObject<Employee> employee = test.Create<Employee>();
+            TestObject<Company> company = test.Create<Company>();
 
-            companyFire.Invoke(company, employee);
+            test.Arrange(employee, () => new Employee("Ellen Stevens"));
+            test.Arrange(company, () => new Company());
+            test.Act(company, employee, (c, e) => c.Hire(e));
+            test.Act(company, employee, (c, e) => c.Fire(e));
+            test.AssertCollectionEmpty(company, c => c.Employees);
 
-            if (employees.Any(e => e == employee))
-                throw new AssertFailedException($"Company.Hire(Employee e) does not remove Employee {employeeName.Get(employee)} ({employeeTitle.Get(employee)} from Employees");
+            test.Execute();
         }
 
 
         [TestMethod("d. Company.Hire(Employee e) adds manager to Employees"), TestCategory("Exercise 2E")]
         public void CompanyHireAddsManagerToEmployees()
         {
-            Employee manager = (Employee)(object)CreateManager("Katja Holmes", "Programmer Manager");
-            Company company = CreateCompany();
-            List<Employee> employees = companyEmployees.Get(company);
+            Test test = factory.CreateTest();
+            TestObject<Manager> manager = test.Create<Manager>();
+            TestObject<Company> company = test.Create<Company>();
 
-            companyHire.Invoke(company, manager);
+            test.Arrange(manager, () => new Manager("Katja Holmes"));
+            test.Arrange(company, () => new Company());
+            test.Act(company, manager, (c, e) => c.Hire(e));
+            test.AssertCollectionsContains(company, manager, c => c.Employees);
 
-            if (!employees.Any(e => e == manager))
-                throw new AssertFailedException($"Company.Hire(Employee e) does not add Manager {employeeName.Get(employee)} ({employeeTitle.Get(employee)}) to Employees");
+            test.Execute();
         }
 
         [TestMethod("e. Company.Fire(Employee e) removes manager to Employees"), TestCategory("Exercise 2E")]
         public void CompanyFireAddsManagerToEmployees()
         {
-            Employee manager = (Employee)(object)CreateManager("Katja Holmes", "Programmer Manager");
-            Company company = CreateCompany();
-            List<Employee> employees = companyEmployees.Get(company);
-            employees.Add(manager);
+            Test test = factory.CreateTest();
+            TestObject<Manager> manager = test.Create<Manager>();
+            TestObject<Company> company = test.Create<Company>();
 
-            companyFire.Invoke(company, manager);
+            test.Arrange(manager, () => new Manager("Katja Holmes"));
+            test.Arrange(company, () => new Company());
+            test.Act(company, manager, (c, e) => c.Hire(e));
+            test.Act(company, manager, (c, e) => c.Fire(e));
+            test.AssertCollectionEmpty(company, c => c.Employees);
 
-            if (employees.Any(e => e == manager))
-                throw new AssertFailedException($"Company.Hire(Employee e) does not remove Manager {employeeName.Get(manager)} ({employeeTitle.Get(manager)}) from Employees");
+            test.Execute();
         }
 
         /* Exercise 2F */
         [TestMethod("a. Company.CalculateYearlySalaryCosts() returns 0 for company without employees"), TestCategory("Exercise 2F")]
-        public void CompanyCalculateYearlySalaryCostsReturnsZeroForCompanyWithoutEmployees() => TestCompanyCalculateYearlySalaryCosts();
+        public void CompanyCalculateYearlySalaryCostsReturnsZeroForCompanyWithoutEmployees()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Company> company = test.Create<Company>();
 
+            test.Arrange(company, () => new Company());
+            test.Assert(company, c => c.CalculateYearlySalaryCosts() == 0);
+
+            test.Execute();
+        }
+        
         [TestMethod("b. Company.CalculateYearlySalaryCosts() returns expected output for company with 1 Employee"), TestCategory("Exercise 2F")]
-        public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithOneEmployee() => TestCompanyCalculateYearlySalaryCosts(CreateEmployee("Allan Walker", "IT Support", 30000, 4));
+        public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithOneEmployee()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Company> companyTestObj = test.Create<Company>();
+            TestObject<Employee> employeeTestObj = test.Create<Employee>();
+            
+            Company company = new Company();
+            Employee employee = new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 };
+            company.Hire(employee);
+            decimal expectedCosts = company.CalculateYearlySalaryCosts();
 
-        [TestMethod("c. Company.CalculateYearlySalaryCosts() returns expected output for company with 2 Employees"), TestCategory("Exercise 2F")]
-        public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithTwoEmployee() => TestCompanyCalculateYearlySalaryCosts(CreateEmployee("Allan Walker", "IT Support", 30000, 4), CreateEmployee("Amy Walker", "IT Support", 30000, 7));
+            test.Arrange(companyTestObj, () => new Company());
+            test.Arrange(employeeTestObj, () => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
+            test.Act(companyTestObj, employeeTestObj, (c, e) => c.Hire(e));
+            test.Assert(companyTestObj, c => c.CalculateYearlySalaryCosts() == expectedCosts);
+
+            test.Execute();
+        }
+
+    [TestMethod("c. Company.CalculateYearlySalaryCosts() returns expected output for company with 2 Employees"), TestCategory("Exercise 2F")]
+        public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithTwoEmployee() 
+        {
+            Test test = factory.CreateTest();
+            TestObject<Company> companyTestObj = test.Create<Company>();
+            TestObject<Employee> employee1TestObj = test.Create<Employee>();
+            TestObject<Employee> employee2TestObj = test.Create<Employee>();
+
+            Company company = new Company();
+            Employee employee1 = new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 };
+            Employee employee2 = new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 7 };
+            company.Hire(employee1);
+            decimal expectedCosts = company.CalculateYearlySalaryCosts();
+
+            test.Arrange(companyTestObj, () => new Company());
+            test.Arrange(employee1TestObj, () => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
+            test.Arrange(employee2TestObj, () => new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 4 });
+            test.Act(companyTestObj, employee1TestObj, (c, e) => c.Hire(e));
+            test.Act(companyTestObj, employee2TestObj, (c, e) => c.Hire(e));
+            test.Assert(companyTestObj, c => c.CalculateYearlySalaryCosts() == expectedCosts);
+
+            test.Execute();
+        }
     }
 }

@@ -1,26 +1,15 @@
-﻿using Lecture_3;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using System.Text;
 using TestTools.ConsoleSession;
-using TestTools.Structure;
-using TestTools.Structure.Generic;
+using TestTools.Integrated;
+using Lecture_3_Solutions;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_6_Tests
     {
-        private ClassElement<FileExplorer> fileExplorer => new ClassElement<FileExplorer>();
-        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintDirectory => fileExplorer.ActionMethod<DirectoryInfo>(new MethodOptions("PrintDirectory") { IsPublic = true });
-        private ActionMethodElement<FileExplorer, DirectoryInfo> fileExplorerPrintTree => fileExplorer.ActionMethod<DirectoryInfo>(new MethodOptions("PrintTree") { IsPublic = true });
-
-        private FileExplorer CreateFileExplorer()
-        {
-            return fileExplorer.Constructor(new ConstructorOptions()).Invoke();
-        }
+        TestFactory factory = new TestFactory("Lecture_3");
 
         [TestMethod("FileExplorer.PrintDirectory(DirectoryInfo info) prints correct output"), TestCategory("Exercise 6A")]
         public void FileExplorerPrintDirectoryPrintsCorrectOutput()
@@ -38,44 +27,15 @@ namespace Lecture_3_Tests
                 return buffer; 
             }
 
-            ConsoleSession session = new ConsoleSession();
-            DirectoryInfo info = new DirectoryInfo("../../../");
-            session.Out(ProduceExpected(info));
-            session.Start(() => fileExplorerPrintDirectory.Invoke(CreateFileExplorer(), info));
+            Test test = factory.CreateTest();
+            TestObject<FileExplorer> explorer = test.Create<FileExplorer>();
+            DirectoryInfo directoryInfo = new DirectoryInfo("../../../");
+
+            test.Arrange(explorer, () => new FileExplorer());
+            test.Act(explorer, e => e.PrintDirectory(directoryInfo));
+            test.AssertWriteOut(ProduceExpected(directoryInfo));
+
+            test.Execute();
         }
-
-        /*
-        [TestMethod("FileExplorer.PrintTree(DirectoryInfo info) prints correct output"), TestCategory("Exercise 6B")]
-        public void FileExplorerPrintTreePrintsCorrectOutput()
-        {
-            string ProduceExpected(DirectoryInfo info, int depth)
-            {
-                string buffer = ""; 
-                
-                if (depth == 0)
-                    buffer += info.FullName;
-
-                foreach (DirectoryInfo subDirectory in info.GetDirectories())
-                {
-                    for (int i = 0; i < depth + 1; i++)
-                        buffer += (i == depth - 1) ? "|---" : "|   ";
-                    buffer += subDirectory.Name + "\n";
-                    buffer += ProduceExpected(subDirectory, depth + 1);
-                }
-                foreach (FileInfo file in info.GetFiles())
-                {
-                    for (int i = 0; i < depth + 1; i++)
-                        buffer += (i == depth - 1) ? "|---" : "|   ";
-                    buffer += file.Name + "\n";
-                }
-                return buffer; 
-            }
-
-            ConsoleSession session = new ConsoleSession();
-            DirectoryInfo info = new DirectoryInfo("../../");
-            session.Out(ProduceExpected(info, 0));
-            session.Start(() => fileExplorerPrintDirectory.Invoke(CreateFileExplorer(), info));
-        }
-        */
     }
 }
