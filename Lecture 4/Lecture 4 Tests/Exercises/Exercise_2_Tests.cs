@@ -4,6 +4,7 @@ using System;
 using TestTools.Operation;
 using TestTools.Integrated;
 using static TestTools.Helpers.ExpressionHelper;
+using TestTools.Structure;
 
 namespace Lecture_4_Tests
 {
@@ -11,16 +12,46 @@ namespace Lecture_4_Tests
     public class Exercise_2_Tests
     {
         TestFactory factory = new TestFactory("Lecture_4");
-        
+
         /* Exercise 2A */
         [TestMethod("a. Person.Name is public string property"), TestCategory("Exercise 2A")]
-        public void PersonNameIsStringProperty() => throw new NotImplementedException();
+        public void PersonNameIsStringProperty() 
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertProperty<Person, string>(
+                p => p.Name,
+                new PropertyOptions()
+                {
+                    GetMethod = new MethodOptions() { IsPublic = true },
+                    SetMethod = new MethodOptions() { IsPublic = true }
+                });
+        }
 
-        [TestMethod("b. Person.Height is public string property"), TestCategory("Exercise 2A")]
-        public void PersonHeightIsPublicStringProperty() => throw new NotImplementedException();
+        [TestMethod("b. Person.Height is public double property"), TestCategory("Exercise 2A")]
+        public void PersonHeightIsPublicDoubleProperty()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertProperty<Person, double>(
+                p => p.Height,
+                new PropertyOptions()
+                {
+                    GetMethod = new MethodOptions() { IsPublic = true },
+                    SetMethod = new MethodOptions() { IsPublic = true }
+                });
+        }
 
-        [TestMethod("c. Person.Weight is public string property"), TestCategory("Exercise 2A")]
-        public void PersonWeightIsPublicStringProperty() => throw new NotImplementedException();
+        [TestMethod("c. Person.Weight is public double property"), TestCategory("Exercise 2A")]
+        public void PersonWeightIsPublicDoubleProperty() 
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertProperty<Person, double>(
+                p => p.Weight,
+                new PropertyOptions()
+                {
+                    GetMethod = new MethodOptions() { IsPublic = true },
+                    SetMethod = new MethodOptions() { IsPublic = true }
+                });
+        }
 
         [TestMethod("d. Person(string name) assigns Name property"), TestCategory("Exercise 2A")]
         public void PersonConstructorAssignsNameProperty()

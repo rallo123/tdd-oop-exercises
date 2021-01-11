@@ -6,6 +6,12 @@ namespace TestTools.Structure
 {
     public class PropertyOptions
     {
+        public PropertyOptions()
+        {
+            Name = "";
+            PropertyType = null;
+        }
+
         public PropertyOptions(string name)
         {
             Name = name;

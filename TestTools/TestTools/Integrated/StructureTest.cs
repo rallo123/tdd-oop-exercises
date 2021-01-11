@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using TestTools.Structure;
 
 namespace TestTools.Integrated
 {
@@ -9,185 +10,89 @@ namespace TestTools.Integrated
     {
         internal StructureTest() { }
 
-        #region Constructor Assertions
-        public void AssertConstructorSignatureMatchesDual<T1>(Expression<Func<T1>> expression)
+        public void AssertClass<TClass>(ClassOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertConstructorPrivate<T1>(Expression<Func<T1>> expression)
+        public void AssertConstructor<TReturn>(Expression<Func<TReturn>> field, ConstructorOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertConstructorProtected<T1>(Expression<Func<T1>> expression)
+        public void AssertConstructor<TPar1, TReturn>(Expression<Func<TPar1, TReturn>> field, ConstructorOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertConstructorPublic<T1>(Expression<Func<T1>> expression)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Field Assertion
-        public void AssertField<T1, T2>(Expression<Func<T1, T2>> expression)
+        public void AssertConstructor<TPar1, TPar2, TReturn>(Expression<Func<TPar1, TPar2, >> field, ConstructorOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertFieldType<T1, T2>(Expression<Func<T1, T2>> expression, Type type)
+        public void AssertStaticField<TInstance>(Expression<Action<TInstance>> staticField, PropertyOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertFieldTypeMatchesDual<T1, T2>(Expression<Func<T1, T2>> expression, Type type)
+        public void AssertField<TInstance, TField>(Expression<Func<TInstance, TField>> field, PropertyOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertPrivateField<T1, T2>(Expression<Func<T1, T2>> expression)
+        public void AssertStaticMethod<TReturn>(Expression<Action<TReturn>> staticMethod, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertProtectedField<T1, T2>(Expression<Func<T1, T2>> expression)
+        public void AssertStaticMethod<TPar1, TReturn>(Expression<Action<TPar1, TReturn>> staticMethod, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertPublicField<T1, T2>(Expression<Func<T1, T2>> expression)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Method Assertions
-        public void AssertMethod<T1>(Expression<Action<T1>> expression)
-        {
-
-        }
-
-        public  void AssertMethod<T1, T2>(Expression<Func<T1, T2>> expression)
-        {
-
-        }
-
-        public void AssertPrivateMethod<T1>(Expression<Action<T1>> expression)
-        {
-
-        }
-
-        public  void AssertPrivateMethod<T1, T2>(Expression<Func<T1 , T2>> expression)
-        {
-
-        }
-
-        public void AssertProtectedMethod<T1>(Expression<Action<T1>> expression)
-        {
-
-        }
-
-        public  void AssertProtectedMethod<T1, T2>(Expression<Func<T1 , T2>> expression)
-        {
-
-        }
-
-        public void AssertPublicMethod<T1>(Expression<Action<T1>> expression)
-        {
-
-        }
-
-        public  void AssertPublicMethod<T1, T2>(Expression<Func<T1 , T2>> expression)
-        {
-
-        }
-
-        public void AssertMethodSignatureMatchesDual<T1>(Expression<Action<T1>> expression)
+        public void AssertStaticMethod<TPar1, TPar2, TReturn>(Expression<Action<TPar1, TPar2, TReturn>> staticMethod, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertMethodSignatureMatchesDual<T1, T2>(Expression<Func<T1, T2>> expression)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Property Assertions
-        public  void AssertProperty<T1, T2>(Expression<Func<T1 , T2>> expression)
+        public void AssertMethod<TInstance, TReturn>(Expression<Func<TInstance, TReturn>> field, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertReadOnlyProperty<T1, T2>(Expression<Func<T1 , T2>> expression)
+        public void AssertMethod<TInstance, TPar1, TReturn>(Expression<Func<TInstance, TPar1, TReturn>> field, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertWriteOnlyProperty<T1, T2>(Expression<Func<T1 , T2>> expression)
+        public void AssertMethod<TInstance, TPar1, TPar2, TReturn>(Expression<Func<TInstance, TPar1, TPar2, TReturn>> field, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertPropertyType<T1, T2>(Expression<Func<T1 , T2>> expression, Type propertyType)
-        {
-
-        }
-
-        public void AssertPropertyTypeMatchesDual<T1, T2>(Expression<Func<T1, T2>> expression)
-        {
-
-        }
-
-        public  void AssertPropertyGetterPrivate<T1, T2>(Expression<Func<T1 , T2>> expression)
+        public void AssertMethod<TInstance>(Expression<Action<TInstance>> field, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertPropertyGetterProtected<T1, T2>(Expression<Func<T1 , T2>> expression)
+        public void AssertMethod<TInstance, TPar1>(Expression<Action<TInstance, TPar1>> field, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertPropertyGetterPublic<T1, T2>(Expression<Func<T1 , T2>> expression)
+        public void AssertMethod<TInstance, TPar1, TPar2>(Expression<Action<TInstance, TPar1, TPar2>> field, MethodOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertPropertySetterPrivate<T1, T2>(Expression<Func<T1 , T2>> expression)
+        public void AssertStaticProperty<TReturn>(Expression<Action<TReturn>> staticProperty, PropertyOptions info)
         {
             throw new NotImplementedException();
         }
 
-        public  void AssertPropertySetterProtected<T1, T2>(Expression<Func<T1 , T2>> expression)
+        public void AssertProperty<TInstance, TProperty>(Expression<Func<TInstance, TProperty>> property, PropertyOptions info)
         {
             throw new NotImplementedException();
         }
-
-        public  void AssertPropertySetterPublic<T1, T2>(Expression<Func<T1 , T2>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
-        public  void AssertPropertyGetterAndSetterPrivate<T1, T2>(Expression<Func<T1 , T2>> expression)
-        {
-            AssertPropertyGetterPrivate(expression);
-            AssertPropertySetterPrivate(expression);
-        }
-
-        public  void AssertPropertyGetterAndSetterProtected<T1, T2>(Expression<Func<T1 , T2>> expression)
-        {
-            AssertPropertyGetterProtected(expression);
-            AssertPropertySetterProtected(expression);
-        }
-
-        public  void AssertPropertyGetterAndSetterPublic<T1, T2>(Expression<Func<T1 , T2>> expression)
-        {
-            AssertPropertyGetterPublic(expression);
-            AssertPropertySetterPublic(expression);
-        }
-        #endregion
     }
 }

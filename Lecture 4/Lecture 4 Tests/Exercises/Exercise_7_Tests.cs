@@ -14,7 +14,11 @@ namespace Lecture_4_Tests
 
         /* Exercise 7A */
         [TestMethod("a. NotOldEnoughException is subclass of Exception"), TestCategory("Exercise 7A")]
-        public void NotOldEnoughExceptionIsSubclassOfException() => throw new NotImplementedException();
+        public void NotOldEnoughExceptionIsSubclassOfException()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertClass<NotOldEnoughException>(new ClassOptions() { BaseType = typeof(Exception) });
+        }
 
         /* Exercise 7B */
         [TestMethod("a. NotOldEnoughException() results in Message = \"Person is too young\""), TestCategory("Exercise 7B")]
@@ -46,7 +50,17 @@ namespace Lecture_4_Tests
 
         /* Exercise 7D */
         [TestMethod("a. Person.Age is public int property"), TestCategory("Exercise 7D")]
-        public void PersonAgeIsPublicIntProperty() => throw new NotImplementedException();
+        public void PersonAgeIsPublicIntProperty()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertProperty<Person, int>(
+                p => p.Age,
+                new PropertyOptions()
+                {
+                    GetMethod = new MethodOptions() { IsPublic = true },
+                    SetMethod = new MethodOptions() { IsPublic = true }
+                });
+        }
 
         [TestMethod("b. Person.CalculateBMI() throws NotOldEnoughException for Height = 1.80, Weight = 80.0 & Age = 15"), TestCategory("Exercise 7D")]
         public void PersonCalculateBMIThrowsNotOldEnoughException()

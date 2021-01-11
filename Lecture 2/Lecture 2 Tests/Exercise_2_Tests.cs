@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Integrated;
+using TestTools.Structure;
 
 namespace Lecture_2_Tests
 {
@@ -12,11 +13,28 @@ namespace Lecture_2_Tests
 
         /* Exercise 2A */
         [TestMethod("Number.Value is public readonly int property"), TestCategory("Exercise 2A")]
-        public void ValueIsPublicReadonlyIntProperty() => throw new NotImplementedException();
+        public void ValueIsPublicReadonlyIntProperty()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertProperty<Number, int>(
+                n => n.Value,
+                new PropertyOptions()
+                {
+                    GetMethod = new MethodOptions() { IsPublic = true }
+                });
+        }
 
         /* Exercise 2B */
         [TestMethod("a. Number constructor takes int as argument"), TestCategory("Exercise 2B")]
-        public void NumberConstructorTakesIntAsArgument() => throw new NotImplementedException();
+        public void NumberConstructorTakesIntAsArgument() {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertConstructor<int, Number>(
+                i => new Number(i),
+                new ConstructorOptions()
+                {
+                    IsPublic = true
+                });
+        }
 
         [TestMethod("b. Number constructor with int as argument sets value property"), TestCategory("Exercise 2B")]
         public void NumberConstructorWithIntAsArgumentSetsValueProperty()
@@ -32,7 +50,15 @@ namespace Lecture_2_Tests
 
         /* Exercise 2C */
         [TestMethod("a. Number.Add takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
-        public void AddTakesNumberAsArgumentsAndReturnsNothing() => throw new NotImplementedException();
+        public void AddTakesNumberAsArgumentsAndReturnsNothing() {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertMethod<Number, Number>(
+                (n1, n2) => n1.Add(n2),
+                new MethodOptions()
+                {
+                    IsPublic = true
+                });
+        }
 
         [TestMethod("b. Number.Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
         public void AddProducesExpectedResult() {
@@ -49,7 +75,16 @@ namespace Lecture_2_Tests
         }
 
         [TestMethod("c. Number.Subtract takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
-        public void SubtractTakesNumberAsArgumentAndReturnsNothing() => throw new NotImplementedException();
+        public void SubtractTakesNumberAsArgumentAndReturnsNothing()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertMethod<Number, Number>(
+                (n1, n2) => n1.Subtract(n2),
+                new MethodOptions()
+                {
+                    IsPublic = true
+                });
+        }
 
         [TestMethod("d. Number.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
         public void SubtractProducesExpectedResult() {
@@ -66,7 +101,16 @@ namespace Lecture_2_Tests
         }
 
         [TestMethod("e. Number.Multiply takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
-        public void MultiplyTakesNumberAsArgumentAndReturnsNothing() => throw new NotImplementedException();
+        public void MultiplyTakesNumberAsArgumentAndReturnsNothing()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertMethod<Number, Number>(
+                (n1, n2) => n1.Multiply(n2),
+                new MethodOptions()
+                {
+                    IsPublic = true
+                });
+        }
 
         [TestMethod("f. Number.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 2C")]
         public void MultiplyProducesExpectedResult()

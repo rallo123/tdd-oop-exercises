@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools;
 using TestTools.Integrated;
+using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 
@@ -15,11 +16,29 @@ namespace Lecture_2_Tests
 
         /* Exercise 3A */
         [TestMethod("a. ImmutableNumber.Value is public readonly int property"), TestCategory("Exercise 3A")]
-        public void ValueIsPublicReadonlyProperty() => throw new NotImplementedException();
+        public void ValueIsPublicReadonlyProperty()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertProperty<ImmutableNumber, int>(
+                n => n.Value,
+                new PropertyOptions()
+                {
+                    GetMethod = new MethodOptions() { IsPublic = true }
+                });
+        }
 
         /* Exercise 3B */
         [TestMethod("a. ImmutableNumber.Number constructor takes int as argument"), TestCategory("Exercise 3B")]
-        public void ImmutableNumberConstructorTakesIntAsArgument() => throw new NotImplementedException();
+        public void ImmutableNumberConstructorTakesIntAsArgument() 
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertConstructor<int, ImmutableNumber>(
+                i => new ImmutableNumber(i),
+                new ConstructorOptions()
+                {
+                    IsPublic = true
+                });
+        }
 
         [TestMethod("b. ImmutableNumber constructor with int as argument sets value property"), TestCategory("Exercise 3B")]
         public void ImmutableNumberConstructorWithIntAsArgumentSetsValueProperty()
@@ -35,7 +54,16 @@ namespace Lecture_2_Tests
 
         /* Exercise 2C*/
         [TestMethod("a. ImmutableNumber.Add takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void AddTakesImmutableAsArgumentAndReturnsNothing() => throw new NotImplementedException();
+        public void AddTakesImmutableNumberAsArgumentAndReturnsImmutableNumber()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
+                (n1, n2) => n1.Add(n2),
+                new MethodOptions()
+                {
+                    IsPublic = true
+                });
+        }
 
         [TestMethod("b. ImmutableNumber.Add performs 1 + 2 = 3"), TestCategory("Exercise 3C")]
         public void AddProducesExpectedResult() {
@@ -53,7 +81,16 @@ namespace Lecture_2_Tests
         }
 
         [TestMethod("c. ImmutableNumber.Subtract takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void SubtractTakesImmutableAsArgumentAndReturnsNothing() => throw new NotImplementedException();
+        public void SubtractTakesImmutableNumberAsArgumentAndReturnsImmutableNumber() 
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
+                (n1, n2) => n1.Subtract(n2),
+                new MethodOptions()
+                {
+                    IsPublic = true
+                });
+        }
 
         [TestMethod("d. ImmutableNumber.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 3C")]
         public void SubstractProducesExpectedResult() {
@@ -70,7 +107,16 @@ namespace Lecture_2_Tests
         }
 
         [TestMethod("e. ImmutableNumber.Multiply takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void MultiplyTakesImmutableAsArgumentAndReturnsNothing() => throw new NotImplementedException();
+        public void MultiplyTakesImmutableAsArgumentAndReturnsNothing()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
+                (n1, n2) => n1.Multiply(n2),
+                new MethodOptions()
+                {
+                    IsPublic = true
+                });
+        }
 
         [TestMethod("f. ImmutableNumber.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 3C")]
         public void MultiplyProducesExpectedResult() {
