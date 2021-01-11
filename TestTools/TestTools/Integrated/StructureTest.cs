@@ -10,11 +10,14 @@ namespace TestTools.Integrated
     {
         internal StructureTest() { }
 
+        #region Class Assertions
         public void AssertClass<TClass>(ClassRequirements info)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
+        #region Constructor Assertions
         public void AssertConstructor<TReturn>(Expression<Func<TReturn>> field, ConstructorRequirements info)
         {
             throw new NotImplementedException();
@@ -25,7 +28,14 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
-        public void AssertConstructor<TPar1, TPar2, TReturn>(Expression<Func<TPar1, TPar2, >> field, ConstructorRequirements info)
+        public void AssertConstructor<TPar1, TPar2, TReturn>(Expression<Func<TPar1, TPar2, TReturn>> field, ConstructorRequirements info)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Field Assertions
+        public void AssertField<TInstance, TField>(Expression<Func<TInstance, TField>> field, PropertyRequirements info)
         {
             throw new NotImplementedException();
         }
@@ -34,27 +44,9 @@ namespace TestTools.Integrated
         {
             throw new NotImplementedException();
         }
+        #endregion
 
-        public void AssertField<TInstance, TField>(Expression<Func<TInstance, TField>> field, PropertyRequirements info)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AssertStaticMethod<TReturn>(Expression<Action<TReturn>> staticMethod, MethodRequirements info)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AssertStaticMethod<TPar1, TReturn>(Expression<Action<TPar1, TReturn>> staticMethod, MethodRequirements info)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AssertStaticMethod<TPar1, TPar2, TReturn>(Expression<Action<TPar1, TPar2, TReturn>> staticMethod, MethodRequirements info)
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Method Assertions
         public void AssertMethod<TInstance, TReturn>(Expression<Func<TInstance, TReturn>> field, MethodRequirements info)
         {
             throw new NotImplementedException();
@@ -85,14 +77,32 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
-        public void AssertStaticProperty<TReturn>(Expression<Action<TReturn>> staticProperty, PropertyRequirements info)
+        public void AssertStaticMethod<TReturn>(Expression<Action<TReturn>> staticMethod, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
+        public void AssertStaticMethod<TPar1, TReturn>(Expression<Action<TPar1, TReturn>> staticMethod, MethodRequirements info)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertStaticMethod<TPar1, TPar2, TReturn>(Expression<Action<TPar1, TPar2, TReturn>> staticMethod, MethodRequirements info)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Property Assertions
         public void AssertProperty<TInstance, TProperty>(Expression<Func<TInstance, TProperty>> property, PropertyRequirements info)
         {
             throw new NotImplementedException();
         }
+
+        public void AssertStaticProperty<TReturn>(Expression<Action<TReturn>> staticProperty, PropertyRequirements info)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }
