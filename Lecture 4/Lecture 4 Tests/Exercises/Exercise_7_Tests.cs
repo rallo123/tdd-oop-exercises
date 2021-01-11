@@ -1,6 +1,7 @@
-﻿using Lecture_4;
+﻿using Lecture_4_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using TestTools.Integrated;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 
@@ -9,105 +10,55 @@ namespace Lecture_4_Tests
     [TestClass]
     public class Exercise_7_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
-        private ClassElement<NotOldEnoughException> notOldEnoughException => new ClassElement<NotOldEnoughException>(new ClassOptions() { BaseType = typeof(Exception) });
-        private PropertyElement<NotOldEnoughException, string> notOldEnoughExceptionMessage => notOldEnoughException.Property<string>(new PropertyOptions("Message") { GetMethod = new MethodOptions() { IsPublic = true } });
-
-        private ClassElement<Person> person => new ClassElement<Person>();
-        private PropertyElement<Person, double> personHeight => person.Property<double>(new PropertyOptions("Height") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Person, double> personWeight => person.Property<double>(new PropertyOptions("Weight") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Person, int> personAge => person.Property<int>(new PropertyOptions("Age") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<Person, double> personCalculateBMI => person.FuncMethod<double>(new MethodOptions("CalculateBMI") { IsPublic = true });
-
-
-        private Person CreatePerson(string name = "Allan", double? height = null, double? weight = null, int? age = null)
-        {
-            Person instance = person.Constructor<string>(new ConstructorOptions()).Invoke(name);
-
-            if (height != null)
-                personHeight.Set(instance, height);
-            if (weight != null)
-                personWeight.Set(instance, weight);
-            if (age != null)
-                personAge.Set(instance, age);
-
-            return instance;
-        }
-
-        private void DoNothing(object par) { }
-#pragma warning restore IDE1006 // Naming Styles
+        TestFactory factory = new TestFactory("Lecture_4");
 
         /* Exercise 7A */
         [TestMethod("a. NotOldEnoughException is subclass of Exception"), TestCategory("Exercise 7A")]
-        public void NotOldEnoughExceptionIsSubclassOfException() => DoNothing(notOldEnoughException);
+        public void NotOldEnoughExceptionIsSubclassOfException() => throw new NotImplementedException();
 
         /* Exercise 7B */
         [TestMethod("a. NotOldEnoughException() results in Message = \"Person is too young\""), TestCategory("Exercise 7B")]
         public void ParameterlessPersonConstructorAssignsMessageProperty()
         {
-            NotOldEnoughException exception = notOldEnoughException.Constructor(new ConstructorOptions()).Invoke();
+            Test test = factory.CreateTest();
+            TestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
 
-            string expected = "Person is too young";
-            string actual = notOldEnoughExceptionMessage.Get(exception);
+            test.Arrange(exception, () => new NotOldEnoughException());
+            test.Assert(exception, e => e.Message == "Person is too young");
+            // Alternative syntax: test.Assert.That(exception, e => e.Message).Equals("Person is too young");
 
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "NotOldEnoughException.Message is \"{0}\" instead of \"{1}\" after construction by NotOldEnoughException()",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            test.Execute();
         }
 
         /* Exercise 7C */
         [TestMethod("d. NotOldEnoughException(string activity) results in Message = \"Person is too young to [activity]\""), TestCategory("Exercise 7C")]
         public void PersonConstructorAssignsMessageProperty()
         {
-            NotOldEnoughException exception = notOldEnoughException.Constructor<string>(new ConstructorOptions()).Invoke("do something");
+            Test test = factory.CreateTest();
+            TestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
 
-            string expected = "Person is too young to do something";
-            string actual = notOldEnoughExceptionMessage.Get(exception);
+            test.Arrange(exception, () => new NotOldEnoughException("do something"));
+            test.Assert(exception, e => e.Message == "Person is too do something");
+            // Alternative syntax: test.Assert.That(exception, e => e.Message).Equals("Person is too young to do something");
 
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "NotOldEnoughException.Message is \"{0}\" instead of \"{1}\" after construction by NotOldEnoughException(\"do activity\")",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            test.Execute();
         }
 
         /* Exercise 7D */
         [TestMethod("a. Person.Age is public int property"), TestCategory("Exercise 7D")]
-        public void PersonAgeIsPublicIntProperty() => DoNothing(personAge);
+        public void PersonAgeIsPublicIntProperty() => throw new NotImplementedException();
 
         [TestMethod("b. Person.CalculateBMI() throws NotOldEnoughException for Height = 1.80, Weight = 80.0 & Age = 15"), TestCategory("Exercise 7D")]
         public void PersonCalculateBMIThrowsNotOldEnoughException()
         {
-            Person person = CreatePerson(height: 1.80, weight: 80.0, age: 15);
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
-            try
-            {
-                personCalculateBMI.Invoke(person);
-                throw new AssertFailedException("Person.CalculateBMI() does not throw on Height = 1.80, Weight = 80.0 & Age = 15");
-            }
-            catch (AssertFailedException ex)
-            {
-                if (ex.InnerException == null)
-                    throw ex;
-                if (ex.InnerException.GetType() != typeof(NotOldEnoughException))
-                {
-                    string message = string.Format(
-                        "Person.CalculateBMI() does not throws {0} instead of {1} on Height = 1.80, Weight = 80.0 & Age = 15",
-                        ex.InnerException.GetType().Name,
-                        "NotOldEnoughException"
-                    );
-                }
-            }
+            test.Arrange(person, () => new Person("abc") { Height = 1.80, Weight = 80.0, Age = 15 });
+            test.AssertThrows<NotOldEnoughException, Person>(person, p => p.CalculateBMI());
+            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Throws<NotOldEnough>():
+
+            test.Execute();
         }
     }
 }

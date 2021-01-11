@@ -1,172 +1,134 @@
-﻿using Lecture_4;
+﻿using Lecture_4_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Operation;
-using TestTools.Structure;
-using TestTools.Structure.Generic;
+using TestTools.Integrated;
+using static TestTools.Helpers.ExpressionHelper;
 
 namespace Lecture_4_Tests
 {
     [TestClass]
     public class Exercise_2_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
-        private ClassElement<Person> person => new ClassElement<Person>();
-        private PropertyElement<Person, string> personName => person.Property<string>(new PropertyOptions("Name") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Person, double> personHeight => person.Property<double>(new PropertyOptions("Height") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Person, double> personWeight => person.Property<double>(new PropertyOptions("Weight") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Person, int> personAge => person.Property<int>(new PropertyOptions("Age") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<Person, double> personCalculateBMI => person.FuncMethod<double>(new MethodOptions("CalculateBMI") { IsPublic = true });
-        private FuncMethodElement<Person, string> personGetClassification => person.FuncMethod<string>(new MethodOptions("GetClassification") { IsPublic = true });
-
-        private Person CreatePerson(string name = "Allan", double? height = null, double? weight = null)
-        {
-            Person instance = person.Constructor<string>(new ConstructorOptions()).Invoke(name);
-
-            if (height != null)
-                personHeight.Set(instance, height);
-            if (weight != null)
-                personWeight.Set(instance, weight);
-
-            //After Exercise 7, CalculateBMI() and GetClassification() will throw an Exception if age < 16
-            try { personAge.Set(instance, 16); }
-            catch (Exception) { }
-
-            return instance;
-        }
-        private void DoNothing(object par) { }
-
-#pragma warning restore IDE1006 // Naming Styles
-
+        TestFactory factory = new TestFactory("Lecture_4");
+        
         /* Exercise 2A */
         [TestMethod("a. Person.Name is public string property"), TestCategory("Exercise 2A")]
-        public void PersonNameIsStringProperty() => DoNothing(personName);
+        public void PersonNameIsStringProperty() => throw new NotImplementedException();
 
         [TestMethod("b. Person.Height is public string property"), TestCategory("Exercise 2A")]
-        public void PersonHeightIsPublicStringProperty() => DoNothing(personHeight);
+        public void PersonHeightIsPublicStringProperty() => throw new NotImplementedException();
 
         [TestMethod("c. Person.Weight is public string property"), TestCategory("Exercise 2A")]
-        public void PersonWeightIsPublicStringProperty() => DoNothing(personWeight);
+        public void PersonWeightIsPublicStringProperty() => throw new NotImplementedException();
 
         [TestMethod("d. Person(string name) assigns Name property"), TestCategory("Exercise 2A")]
         public void PersonConstructorAssignsNameProperty()
         {
-            string expected = "abc";
-            Person person = CreatePerson(expected);
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
-            string actual = personName.Get(person);
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "Person.Name is {0} instead of {1} after construction by Person({1})",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            test.Arrange(person, () => new Person("abc"));
+            test.Assert(person, p => p.Name == "abc");
+            // Alternative syntax: test.Assert.That(person, p => p.Name).Equals("abc");
+
+            test.Execute();
         }
 
         [TestMethod("e. Person.Height ignores assignment of -1.0"), TestCategory("Exercise 2A")]
-        public void PersonHeightIgnoresAssignmentOfMinusOne() => Assignment.Invalid<ArgumentException>(CreatePerson(), personHeight, -1.0);
+        public void PersonHeightIgnoresAssignmentOfMinusOne()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
+
+            test.Arrange(person, () => new Person("abc"));
+            test.AssertThrows<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Height, -1.0));
+            // Alternative syntax: test.Assert.That(person, Assignment<Person, double>(p => p.Height, -1.0)).Throws<ArgumentException>();
+            // Alternative syntax: test.Assert.Assignment(person, p => p.Height, -1.0).Throws<ArgumentException>();
+
+            test.Execute();
+        }
+            
 
         [TestMethod("f. Person.Weight ignores assignment of -1.0"), TestCategory("Exercise 2A")]
-        public void PersonWeightIgnoresAssignmentOfMinusOne() => Assignment.Invalid<ArgumentException>(CreatePerson(), personWeight, -1.0);
+        public void PersonWeightIgnoresAssignmentOfMinusOne()
+        {
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
+            test.Arrange(person, () => new Person("abc"));
+            test.AssertThrows<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Weight, -1.0));
+            // Alternative syntax: test.Assert.That(person, Assignment<Person, double>(p => p.Weight, -1.0)).Throws<ArgumentException>();
+            // Alternative syntax: test.Assert.Assignment(person, p => p.Weight, -1.0).Throws<ArgumentException>();
+
+            test.Execute();
+        }
+        
         /* Exercise 2B */
         [TestMethod("a. Person.CalculateBMI() returns expected output"), TestCategory("Exercise 2B")]
         public void PersonCalculateBMIReturnsExpectedOutput()
         {
-            Person person = CreatePerson(height: 1.80, weight: 80);
-            
-            double expected = 80.0 / Math.Pow(1.80, 2);
-            double actual = personCalculateBMI.Invoke(person);
+            Test test = factory.CreateTest();
+            DualTestObject<Person> person = test.CreateDual<Person>();
 
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "Person.CalculateBMI() returns {0} instead of {1} for Height = 1.80 & Weight = 80.0",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            test.Arrange(person, () => new Person("abc") { Height = 1.80, Weight = 80 });
+            test.AssertEqualToDual(person, p => p.CalculateBMI());
+            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals.Dual();
+
+            test.Execute();
         }
 
         /* Exercise 2C */
         [TestMethod("Person.GetClassification() returns \"under-weight\" for Height = 1.64 & Weight = 47.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsUnderWeight()
         {
-            Person person = CreatePerson(height: 1.64, weight: 47.0);
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
-            string expected = "under-weight";
-            string actual = personGetClassification.Invoke(person);
+            test.Arrange(person, () => new Person("abc") { Height = 1.64, Weight = 47.0 });
+            test.Assert(person, p => p.GetClassification() == "under-weight");
+            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("under-weight");
 
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "Person.GetClassification() returns \"{0}\" instead of \"{1}\" for Height 1.64 & Weight = 47.0",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            test.Execute();
         }
 
         [TestMethod("Person.GetClassification() returns \"normal weight\" for Height = 1.73 & Weight = 58.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsNormalWeight()
         {
-            Person person = CreatePerson(height: 1.73, weight: 58.0);
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
-            string expected = "normal weight";
-            string actual = personGetClassification.Invoke(person);
+            test.Arrange(person, () => new Person("abc") { Height = 1.73, Weight = 58.0 });
+            test.Assert(person, p => p.GetClassification() == "normal weight");
+            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("normal weight");
 
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "Person.GetClassification() returns \"{0}\" instead of \"{1}\" for Height 1.73 & Weight = 58.0",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            test.Execute();
         }
 
         [TestMethod("Person.GetClassification() returns \"over-weight\" for Height = 1.70 & Weight = 74.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsOverWeight()
         {
-            Person person = CreatePerson(height: 1.70, weight: 74.0);
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
-            string expected = "over-weight";
-            string actual = personGetClassification.Invoke(person);
+            test.Arrange(person, () => new Person("abc") { Height = 1.70, Weight = 74.0 });
+            test.Assert(person, p => p.GetClassification() == "over-weight");
+            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("over weight");
 
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "Person.GetClassification() returns \"{0}\" instead of \"{1}\" for Height = 1.70 & Weight = 74.0",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            test.Execute();
         }
 
         [TestMethod("Person.GetClassification() returns \"obese\" for Height = 1.85 & Weight = 120.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsObese()
         {
-            Person person = CreatePerson(height: 1.85, weight: 120.0);
+            Test test = factory.CreateTest();
+            TestObject<Person> person = test.Create<Person>();
 
-            string expected = "obese";
-            string actual = personGetClassification.Invoke(person);
+            test.Arrange(person, () => new Person("abc") { Height = 1.85, Weight = 120.0 });
+            test.Assert(person, p => p.GetClassification() == "obese");
+            // Alternative syntax: test.Assert.That(person, p.CalculateBMI()).To.Equal("obese");
 
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "Person.GetClassification() returns \"{0}\" instead of \"{1}\" for Height = 1.85 & Weight = 120.0",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            test.Execute();
         }
     }
 }
