@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidPropertyGetDeclaringTypeException : InvalidStructureException
     {
-        public InvalidPropertyGetDeclaringTypeException(Type @class, PropertyOptions options)
+        public InvalidPropertyGetDeclaringTypeException(Type @class, PropertyRequirements options)
             : base("{0} does not declare its own version of {1} get accessor", FormatType(@class), options.Name)
         {
             Type = @class;
@@ -15,6 +15,6 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public PropertyOptions Options { get; }
+        public PropertyRequirements Options { get; }
     }
 }

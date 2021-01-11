@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidFieldModifierException : InvalidStructureException
     {
-        public InvalidFieldModifierException(Type @class, FieldOptions options, MemberModifiers modifier, bool shouldHaveModifer = true)
+        public InvalidFieldModifierException(Type @class, FieldRequirements options, MemberModifiers modifier, bool shouldHaveModifer = true)
             : base(shouldHaveModifer ? "{0}.{1} is not {2}" : "{0}.{1} is {2}", FormatType(@class), options.Name, FormatMemberModifier(modifier))
         {
             Type = @class;
@@ -17,7 +17,7 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public FieldOptions Options { get; }
+        public FieldRequirements Options { get; }
         public MemberModifiers Modifier { get; }
         public bool ShouldHaveModifier { get; }
     }

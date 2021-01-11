@@ -18,7 +18,7 @@ namespace Lecture_3_Tests
         {
             StructureTest test = factory.CreateStructureTest();
             test.AssertClass<Figure>(
-                new ClassOptions()
+                new ClassRequirements()
                 {
                     IsAbstract = true
                 });
@@ -30,7 +30,7 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<Figure, double>(
                 f => f.CalculateArea(),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsAbstract = true
                 });
@@ -42,7 +42,7 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<Figure, Point, bool>(
                 (f, p) => f.Contains(p),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsAbstract = true
                 });
@@ -53,7 +53,7 @@ namespace Lecture_3_Tests
         public void CircleIsSubclassOfFigure() {
             StructureTest test = factory.CreateStructureTest();
             test.AssertClass<Circle>(
-                new ClassOptions()
+                new ClassRequirements()
                 {
                     BaseType = typeof(Figure)
                 });
@@ -64,7 +64,7 @@ namespace Lecture_3_Tests
         {
             StructureTest test = factory.CreateStructureTest();
             test.AssertClass<Rectangle>(
-                new ClassOptions()
+                new ClassRequirements()
                 {
                     BaseType = typeof(Figure)
                 });
@@ -77,9 +77,9 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Circle, Point>(
                 c => c.Center,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -89,9 +89,9 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Circle, double>(
                 c => c.Radius,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -126,9 +126,9 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Rectangle, Point>(
                 r => r.P1,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -138,9 +138,9 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Rectangle, Point>(
                 r => r.P2,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 

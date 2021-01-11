@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidMethodModifierException : InvalidStructureException
     {
-        public InvalidMethodModifierException(Type @class, MethodOptions options, MemberModifiers modifier, bool shouldHaveModifer = true)
+        public InvalidMethodModifierException(Type @class, MethodRequirements options, MemberModifiers modifier, bool shouldHaveModifer = true)
             : base(shouldHaveModifer ? "{0}.{1} is not {2}" : "{0}.{1} is {2}", FormatType(@class), FormatMethodAccess(@class, options), FormatMemberModifier(modifier))
         {
             Type = @class;
@@ -17,7 +17,7 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public MethodOptions Options { get; }
+        public MethodRequirements Options { get; }
         public MemberModifiers Modifier { get; }
         public bool ShouldHaveModifier { get; }
     }

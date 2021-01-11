@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidPropertySetDeclaringTypeException : InvalidStructureException
     {
-        public InvalidPropertySetDeclaringTypeException(Type @class, PropertyOptions options)
+        public InvalidPropertySetDeclaringTypeException(Type @class, PropertyRequirements options)
             : base("{0} does not declare its own version of {1} set accessor", FormatType(@class), options.Name)
         {
             Type = @class;
@@ -15,6 +15,6 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public PropertyOptions Options { get; }
+        public PropertyRequirements Options { get; }
     }
 }

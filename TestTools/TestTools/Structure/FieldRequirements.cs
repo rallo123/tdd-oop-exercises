@@ -5,14 +5,14 @@ using System.Text;
 namespace TestTools.Structure
 {
     // based on System.Reflection.FieldInfo
-    public class FieldOptions
+    public class FieldRequirements
     {
-        public FieldOptions(string name) : this(name, null)
+        public FieldRequirements(string name) : this(name, null)
         {
             Name = name;
         }
 
-        public FieldOptions(string name, Type fieldType)
+        public FieldRequirements(string name, Type fieldType)
         {
             Name = name;
             FieldType = fieldType;

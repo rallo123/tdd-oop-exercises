@@ -10,87 +10,87 @@ namespace TestTools.Integrated
     {
         internal StructureTest() { }
 
-        public void AssertClass<TClass>(ClassOptions info)
+        public void AssertClass<TClass>(ClassRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertConstructor<TReturn>(Expression<Func<TReturn>> field, ConstructorOptions info)
+        public void AssertConstructor<TReturn>(Expression<Func<TReturn>> field, ConstructorRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertConstructor<TPar1, TReturn>(Expression<Func<TPar1, TReturn>> field, ConstructorOptions info)
+        public void AssertConstructor<TPar1, TReturn>(Expression<Func<TPar1, TReturn>> field, ConstructorRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertConstructor<TPar1, TPar2, TReturn>(Expression<Func<TPar1, TPar2, >> field, ConstructorOptions info)
+        public void AssertConstructor<TPar1, TPar2, TReturn>(Expression<Func<TPar1, TPar2, >> field, ConstructorRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertStaticField<TInstance>(Expression<Action<TInstance>> staticField, PropertyOptions info)
+        public void AssertStaticField<TInstance>(Expression<Action<TInstance>> staticField, PropertyRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertField<TInstance, TField>(Expression<Func<TInstance, TField>> field, PropertyOptions info)
+        public void AssertField<TInstance, TField>(Expression<Func<TInstance, TField>> field, PropertyRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertStaticMethod<TReturn>(Expression<Action<TReturn>> staticMethod, MethodOptions info)
+        public void AssertStaticMethod<TReturn>(Expression<Action<TReturn>> staticMethod, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertStaticMethod<TPar1, TReturn>(Expression<Action<TPar1, TReturn>> staticMethod, MethodOptions info)
+        public void AssertStaticMethod<TPar1, TReturn>(Expression<Action<TPar1, TReturn>> staticMethod, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertStaticMethod<TPar1, TPar2, TReturn>(Expression<Action<TPar1, TPar2, TReturn>> staticMethod, MethodOptions info)
+        public void AssertStaticMethod<TPar1, TPar2, TReturn>(Expression<Action<TPar1, TPar2, TReturn>> staticMethod, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertMethod<TInstance, TReturn>(Expression<Func<TInstance, TReturn>> field, MethodOptions info)
+        public void AssertMethod<TInstance, TReturn>(Expression<Func<TInstance, TReturn>> field, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertMethod<TInstance, TPar1, TReturn>(Expression<Func<TInstance, TPar1, TReturn>> field, MethodOptions info)
+        public void AssertMethod<TInstance, TPar1, TReturn>(Expression<Func<TInstance, TPar1, TReturn>> field, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertMethod<TInstance, TPar1, TPar2, TReturn>(Expression<Func<TInstance, TPar1, TPar2, TReturn>> field, MethodOptions info)
+        public void AssertMethod<TInstance, TPar1, TPar2, TReturn>(Expression<Func<TInstance, TPar1, TPar2, TReturn>> field, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertMethod<TInstance>(Expression<Action<TInstance>> field, MethodOptions info)
+        public void AssertMethod<TInstance>(Expression<Action<TInstance>> field, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertMethod<TInstance, TPar1>(Expression<Action<TInstance, TPar1>> field, MethodOptions info)
+        public void AssertMethod<TInstance, TPar1>(Expression<Action<TInstance, TPar1>> field, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertMethod<TInstance, TPar1, TPar2>(Expression<Action<TInstance, TPar1, TPar2>> field, MethodOptions info)
+        public void AssertMethod<TInstance, TPar1, TPar2>(Expression<Action<TInstance, TPar1, TPar2>> field, MethodRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertStaticProperty<TReturn>(Expression<Action<TReturn>> staticProperty, PropertyOptions info)
+        public void AssertStaticProperty<TReturn>(Expression<Action<TReturn>> staticProperty, PropertyRequirements info)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertProperty<TInstance, TProperty>(Expression<Func<TInstance, TProperty>> property, PropertyOptions info)
+        public void AssertProperty<TInstance, TProperty>(Expression<Func<TInstance, TProperty>> property, PropertyRequirements info)
         {
             throw new NotImplementedException();
         }

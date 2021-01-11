@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidPropertyTypeException : InvalidStructureException
     {
-        public InvalidPropertyTypeException(Type @class, PropertyOptions options)
+        public InvalidPropertyTypeException(Type @class, PropertyRequirements options)
             : base("{0}.{1} is not of type {2}", FormatType(@class), options.Name, FormatType(options.PropertyType))
         {
             Type = @class;
@@ -15,6 +15,6 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public PropertyOptions Options { get; }
+        public PropertyRequirements Options { get; }
     }
 }

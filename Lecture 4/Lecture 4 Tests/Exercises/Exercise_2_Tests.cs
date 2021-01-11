@@ -20,10 +20,10 @@ namespace Lecture_4_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, string>(
                 p => p.Name,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -33,10 +33,10 @@ namespace Lecture_4_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, double>(
                 p => p.Height,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -46,10 +46,10 @@ namespace Lecture_4_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, double>(
                 p => p.Weight,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 

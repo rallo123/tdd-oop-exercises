@@ -94,7 +94,7 @@ namespace TestTools.Helpers
         }
 
         // Infos
-        public static FieldInfo GetFieldInfo(Type type, FieldOptions options, bool isStatic = false)
+        public static FieldInfo GetFieldInfo(Type type, FieldRequirements options, bool isStatic = false)
         {
             string typeName = FormatHelper.FormatType(type);
             MemberInfo memberInfo = TryGetMemberByName(type, options.Name);
@@ -130,7 +130,7 @@ namespace TestTools.Helpers
             return (FieldInfo)memberInfo;
         }
 
-        public static PropertyInfo GetPropertyInfo(Type type, PropertyOptions options, bool isStatic = false)
+        public static PropertyInfo GetPropertyInfo(Type type, PropertyRequirements options, bool isStatic = false)
         {
             MemberInfo memberInfo = TryGetMemberByName(type, options.Name, isStatic); 
             PropertyInfo propertyInfo = memberInfo as PropertyInfo;
@@ -153,7 +153,7 @@ namespace TestTools.Helpers
             
             if (options.GetMethod != null)
             {
-                MethodOptions getOptions = options.GetMethod;
+                MethodRequirements getOptions = options.GetMethod;
 
                 if (!propertyInfo.CanRead)
                     throw new PropertyMissingGetException(type, options);
@@ -178,7 +178,7 @@ namespace TestTools.Helpers
             }
             if (options.SetMethod != null)
             {
-                MethodOptions setOptions = options.SetMethod;
+                MethodRequirements setOptions = options.SetMethod;
 
                 if (!propertyInfo.CanWrite)
                     throw new PropertyMissingSetException(type, options);
@@ -205,7 +205,7 @@ namespace TestTools.Helpers
             return propertyInfo;
         }
 
-        public static MethodInfo GetMethodInfo(Type type, MethodOptions options, bool isStatic = false)
+        public static MethodInfo GetMethodInfo(Type type, MethodRequirements options, bool isStatic = false)
         {
             string typeName = FormatHelper.FormatType(type);
             string methodDeclaration = FormatHelper.FormatMethodAccess(type, options);
@@ -252,7 +252,7 @@ namespace TestTools.Helpers
             return methodInfo;
         }
 
-        public static ConstructorInfo GetConstructorInfo(Type type, ConstructorOptions options)
+        public static ConstructorInfo GetConstructorInfo(Type type, ConstructorRequirements options)
         {
             string typeName = FormatHelper.FormatType(type);
             string constructorDeclaration = FormatHelper.FormatConstructorDeclaration(type, options);

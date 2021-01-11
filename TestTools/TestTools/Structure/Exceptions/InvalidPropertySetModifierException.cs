@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidPropertySetModifierException : InvalidStructureException
     {
-        public InvalidPropertySetModifierException(Type @class, PropertyOptions options, MemberModifiers modifier, bool shouldHaveModifer = true) 
+        public InvalidPropertySetModifierException(Type @class, PropertyRequirements options, MemberModifiers modifier, bool shouldHaveModifer = true) 
             : base (shouldHaveModifer ? "{0}.{1}'s set is not {2}" : "{0}.{1}'s set is {2}", FormatType(@class), options.Name, FormatMemberModifier(modifier))
         {
             Type = @class;
@@ -17,7 +17,7 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public PropertyOptions Options { get; }
+        public PropertyRequirements Options { get; }
         public MemberModifiers Modifier { get; }
         public bool ShouldHaveModifier { get; }
     }

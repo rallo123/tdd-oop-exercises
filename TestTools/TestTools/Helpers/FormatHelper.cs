@@ -63,17 +63,17 @@ namespace TestTools.Helpers
             return modifier.ToString().ToLower();
         }
 
-        public static string FormatMethodAccess(Type classType, MethodOptions options)
+        public static string FormatMethodAccess(Type classType, MethodRequirements options)
         {
             return options.Name + "(" + FormatParameters(options.Parameters) + ")";
         }
 
-        public static string FormatMethodDeclaration(MethodOptions options)
+        public static string FormatMethodDeclaration(MethodRequirements options)
         {
             return FormatType(options.ReturnType) + " " + options.Name + "(" + FormatParameters(options.Parameters) + ")";
         }
         
-        public static string FormatConstructorDeclaration(Type classType,  ConstructorOptions options)
+        public static string FormatConstructorDeclaration(Type classType,  ConstructorRequirements options)
         {
             return FormatType(classType) + "(" + FormatParameters(options.Parameters) + ")";
         }

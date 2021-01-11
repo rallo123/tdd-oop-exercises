@@ -11,13 +11,13 @@ namespace TestTools.Structure
     {
         public Type Type { get; }
 
-        public FieldElement Field(FieldOptions options);
+        public FieldElement Field(FieldRequirements options);
 
-        public PropertyElement Property(PropertyOptions options);
+        public PropertyElement Property(PropertyRequirements options);
 
-        public ActionMethodElement ActionMethod(MethodOptions options);
+        public ActionMethodElement ActionMethod(MethodRequirements options);
 
-        public FuncMethodElement FuncMethod(MethodOptions options);
+        public FuncMethodElement FuncMethod(MethodRequirements options);
 
         //events
     }

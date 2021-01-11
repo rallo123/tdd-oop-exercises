@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidMethodReturnTypeException : InvalidStructureException
     {
-        public InvalidMethodReturnTypeException(Type @class, MethodOptions options)
+        public InvalidMethodReturnTypeException(Type @class, MethodRequirements options)
             : base("{0}.{1}'s return type is not {2}", FormatType(@class), FormatMethodAccess(@class, options), FormatType(options.ReturnType))
         {
             Type = @class;
@@ -15,6 +15,6 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public MethodOptions Options { get; }
+        public MethodRequirements Options { get; }
     }
 }

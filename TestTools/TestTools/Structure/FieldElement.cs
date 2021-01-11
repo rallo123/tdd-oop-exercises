@@ -32,12 +32,12 @@ namespace TestTools.Structure
             ReflectionHelper.SetValue(Info, instance, value);
         }
 
-        public FieldElement Field(FieldOptions options) => Extendable.Field(this, options);
+        public FieldElement Field(FieldRequirements options) => Extendable.Field(this, options);
 
-        public PropertyElement Property(PropertyOptions options) => Extendable.Property(this, options);
+        public PropertyElement Property(PropertyRequirements options) => Extendable.Property(this, options);
 
-        public ActionMethodElement ActionMethod(MethodOptions options) => Extendable.ActionMethod(this, options);
+        public ActionMethodElement ActionMethod(MethodRequirements options) => Extendable.ActionMethod(this, options);
         
-        public FuncMethodElement FuncMethod(MethodOptions options) => Extendable.FuncMethod(this, options);
+        public FuncMethodElement FuncMethod(MethodRequirements options) => Extendable.FuncMethod(this, options);
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class ClassOptions
+    public class ClassRequirements
     {
         public bool? IsAbstract { get; set; }
         public Type BaseType { get; set; }

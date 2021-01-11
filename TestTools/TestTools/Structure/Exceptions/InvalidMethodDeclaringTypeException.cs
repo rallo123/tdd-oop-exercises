@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidMethodDeclaringTypeException : InvalidStructureException
     {
-        public InvalidMethodDeclaringTypeException(Type @class, MethodOptions options) 
+        public InvalidMethodDeclaringTypeException(Type @class, MethodRequirements options) 
             : base("{0} does not declare its own version of {1}", FormatType(@class), FormatMethodDeclaration(options))
         {
             Type = @class;
@@ -15,6 +15,6 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public MethodOptions Options { get; }
+        public MethodRequirements Options { get; }
     }
 }

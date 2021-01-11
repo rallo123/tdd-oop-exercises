@@ -21,9 +21,9 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<ImmutableNumber, int>(
                 n => n.Value,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -34,7 +34,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertConstructor<int, ImmutableNumber>(
                 i => new ImmutableNumber(i),
-                new ConstructorOptions()
+                new ConstructorRequirements()
                 {
                     IsPublic = true
                 });
@@ -59,7 +59,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
                 (n1, n2) => n1.Add(n2),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsPublic = true
                 });
@@ -86,7 +86,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
                 (n1, n2) => n1.Subtract(n2),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsPublic = true
                 });
@@ -112,7 +112,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
                 (n1, n2) => n1.Multiply(n2),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsPublic = true
                 });

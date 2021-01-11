@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class MissingConstructorException : InvalidStructureException
     {
-        public MissingConstructorException(Type @class, ConstructorOptions options)
+        public MissingConstructorException(Type @class, ConstructorRequirements options)
             : base ("{0} does not contain constructor {1}", FormatHelper.FormatType(@class), FormatHelper.FormatConstructorDeclaration(@class, options))
         {
             Type = @class;
@@ -15,6 +15,6 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public ConstructorOptions Options { get; }
+        public ConstructorRequirements Options { get; }
     }
 }

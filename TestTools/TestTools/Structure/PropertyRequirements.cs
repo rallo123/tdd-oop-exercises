@@ -4,21 +4,21 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class PropertyOptions
+    public class PropertyRequirements
     {
-        public PropertyOptions()
+        public PropertyRequirements()
         {
             Name = "";
             PropertyType = null;
         }
 
-        public PropertyOptions(string name)
+        public PropertyRequirements(string name)
         {
             Name = name;
             PropertyType = null;
         }
 
-        public PropertyOptions(string name, Type propertyType)
+        public PropertyRequirements(string name, Type propertyType)
         {
             Name = name;
             PropertyType = propertyType;
@@ -27,7 +27,7 @@ namespace TestTools.Structure
         public string Name { get; set; }
         public Type PropertyType { get; set; }
 
-        public MethodOptions GetMethod { get; set; }
-        public MethodOptions SetMethod { get; set; }
+        public MethodRequirements GetMethod { get; set; }
+        public MethodRequirements SetMethod { get; set; }
     }
 }

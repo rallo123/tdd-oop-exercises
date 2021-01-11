@@ -24,10 +24,10 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, string>(
                 p => p.FirstName,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -37,10 +37,10 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, string>(
                 p => p.LastName,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -50,10 +50,10 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, int>(
                 p => p.Age,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -154,10 +154,10 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, Person>(
                 p => p.Mother,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -166,10 +166,10 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, Person>(
                 p => p.Father,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -210,7 +210,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<PersonGenerator, Person>(
                 g => g.GeneratePerson(),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsPublic = true
                 });
@@ -241,7 +241,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<PersonGenerator, Person>(
                 g => g.GenerateFamily(),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsPublic = true
                 });
@@ -336,7 +336,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<PersonPrinter, Person>(
                 (p1, p2) => p1.PrintPerson(p2),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsPublic = true
                 });
@@ -364,7 +364,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertMethod<PersonPrinter, Person>(
                 (p1, p2) => p1.PrintFamily(p2),
-                new MethodOptions()
+                new MethodRequirements()
                 {
                     IsPublic = true
                 });
@@ -422,7 +422,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertConstructor<Person>(
                 () => new Person(),
-                new ConstructorOptions 
+                new ConstructorRequirements 
                 { 
                     IsPublic = true
                 });
@@ -434,7 +434,7 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertConstructor<Person, Person, Person>(
                 (mother, father) => new Person(mother, father),
-                new ConstructorOptions()
+                new ConstructorRequirements()
                 {
                     IsPublic = true
                 });
@@ -463,9 +463,9 @@ namespace Lecture_2_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, int>(
                 p => p.ID,
-                new PropertyOptions() 
+                new PropertyRequirements() 
                 { 
-                    GetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 

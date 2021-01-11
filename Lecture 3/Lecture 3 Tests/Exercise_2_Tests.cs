@@ -70,10 +70,10 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Employee, string>(
                 e => e.Name,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -83,10 +83,10 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Employee, string>(
                 e => e.Title,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -96,10 +96,10 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Employee, decimal>(
                 e => e.MonthlySalary,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -109,10 +109,10 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Employee, int>(
                 e => e.Seniority,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -122,7 +122,7 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertConstructor<string, Employee>(
                 name => new Employee(name),
-                new ConstructorOptions()
+                new ConstructorRequirements()
                 {
                     IsPublic = true
                 });
@@ -180,7 +180,7 @@ namespace Lecture_3_Tests
         {
             StructureTest test = factory.CreateStructureTest();
             test.AssertClass<Manager>(
-                new ClassOptions()
+                new ClassRequirements()
                 {
                     BaseType = typeof(Employee)
                 });
@@ -192,10 +192,10 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Manager, decimal>(
                 e => e.Bonus,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -227,9 +227,9 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Company, List<Employee>>(
                 c => c.Employees,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
+                    GetMethod = new MethodRequirements() { IsPublic = true },
                 });
         }
 

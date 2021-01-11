@@ -17,7 +17,7 @@ namespace Lecture_4_Tests
         public void NotOldEnoughExceptionIsSubclassOfException()
         {
             StructureTest test = factory.CreateStructureTest();
-            test.AssertClass<NotOldEnoughException>(new ClassOptions() { BaseType = typeof(Exception) });
+            test.AssertClass<NotOldEnoughException>(new ClassRequirements() { BaseType = typeof(Exception) });
         }
 
         /* Exercise 7B */
@@ -55,10 +55,10 @@ namespace Lecture_4_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<Person, int>(
                 p => p.Age,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 

@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidConstructorModifierException : InvalidStructureException
     {
-        public InvalidConstructorModifierException(Type @class, ConstructorOptions options, MemberModifiers modifier, bool shouldHaveModifer = true)
+        public InvalidConstructorModifierException(Type @class, ConstructorRequirements options, MemberModifiers modifier, bool shouldHaveModifer = true)
             : base(shouldHaveModifer ? "{0} constructor {1} is not {2}" : "{0} constructor {1} is {2}", FormatType(@class), FormatConstructorDeclaration(@class, options), FormatMemberModifier(modifier)) 
         {
             Type = @class;
@@ -17,7 +17,7 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public ConstructorOptions Options { get; }
+        public ConstructorRequirements Options { get; }
         public MemberModifiers Modifier { get; }
         public bool ShouldHaveModifier { get; }
     }

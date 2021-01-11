@@ -16,14 +16,14 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Field")]
         public void DetectsPrivateField()
         {
-            ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("PrivateIntField", typeof(int)));
+            ReflectionHelper.GetFieldInfo(typeof(Class), new FieldRequirements("PrivateIntField", typeof(int)));
         }
 
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnNonExistentField()
         {
             try {
-                ReflectionHelper.GetFieldInfo(typeof(Class), new FieldOptions("FakeField", typeof(int)));
+                ReflectionHelper.GetFieldInfo(typeof(Class), new FieldRequirements("FakeField", typeof(int)));
                 Assert.Fail("No exception was thrown");
             }
             catch (TestTools.Structure.Exceptions.MissingMemberException ex)
@@ -36,7 +36,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnWrongTypeField()
         {
-            FieldOptions options = new FieldOptions("PublicIntField", typeof(string));
+            FieldRequirements options = new FieldRequirements("PublicIntField", typeof(string));
             try
             {
                 ReflectionHelper.GetFieldInfo(typeof(Class), options);
@@ -52,7 +52,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnNonPrivateField()
         {
-            FieldOptions options = new FieldOptions("PublicIntField", typeof(int)) { IsPrivate = true };
+            FieldRequirements options = new FieldRequirements("PublicIntField", typeof(int)) { IsPrivate = true };
             try
             {
                 ReflectionHelper.GetFieldInfo(typeof(Class), options);
@@ -70,7 +70,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnNonProtectedField()
         {
-            FieldOptions options = new FieldOptions("PublicIntField", typeof(int)) { IsFamily = true };
+            FieldRequirements options = new FieldRequirements("PublicIntField", typeof(int)) { IsFamily = true };
             try
             {
                 ReflectionHelper.GetFieldInfo(typeof(Class), options);
@@ -88,7 +88,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Field")]
         public void ThrowsOnNonPublicField()
         {
-            FieldOptions options = new FieldOptions("PrivateIntField", typeof(int)) { IsPublic = true };
+            FieldRequirements options = new FieldRequirements("PrivateIntField", typeof(int)) { IsPublic = true };
             try
             {
                 ReflectionHelper.GetFieldInfo(typeof(Class), options);
@@ -107,19 +107,19 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void DetectsPrivateProperty()
         {
-            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateIntProperty", typeof(int)));
+            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyRequirements("PrivateIntProperty", typeof(int)));
         }
 
         [TestMethod, TestCategory("Property")]
         public void DetectsPrivateReadonlyProperty()
         {
-            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateReadonlyIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPrivate = true } });
+            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyRequirements("PrivateReadonlyIntProperty", typeof(int)) { GetMethod = new MethodRequirements() { IsPrivate = true } });
         }
 
         [TestMethod, TestCategory("Property")]
         public void DetectsPrivateWriteonlyProperty()
         {
-            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("PrivateWriteonlyIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPrivate = true } });
+            ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyRequirements("PrivateWriteonlyIntProperty", typeof(int)) { SetMethod = new MethodRequirements() { IsPrivate = true } });
         }
 
         [TestMethod, TestCategory("Property")]
@@ -127,7 +127,7 @@ namespace TestTools_Tests.Structure
         {
             try
             {
-                ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyOptions("FakeProperty", typeof(int)));
+                ReflectionHelper.GetPropertyInfo(typeof(Class), new PropertyRequirements("FakeProperty", typeof(int)));
                 Assert.Fail("No exception was thrown");
             }
             catch (TestTools.Structure.Exceptions.MissingMemberException ex)
@@ -140,7 +140,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnWrongTypeProperty()
         {
-            PropertyOptions options = new PropertyOptions("PublicIntProperty", typeof(string));
+            PropertyRequirements options = new PropertyRequirements("PublicIntProperty", typeof(string));
             try
             {
                 ReflectionHelper.GetPropertyInfo(typeof(Class), options);
@@ -156,7 +156,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonPrivatePropertyGetAccessor()
         {
-            PropertyOptions options = new PropertyOptions("PublicIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPrivate = true } };
+            PropertyRequirements options = new PropertyRequirements("PublicIntProperty", typeof(int)) { GetMethod = new MethodRequirements() { IsPrivate = true } };
             try
             {
                 ReflectionHelper.GetPropertyInfo(typeof(Class), options);
@@ -175,7 +175,7 @@ namespace TestTools_Tests.Structure
         public void ThrowsOnNonProtectedPropertyGetAccessor()
         {
 
-            PropertyOptions options = new PropertyOptions("PrivateIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsFamily = true } };
+            PropertyRequirements options = new PropertyRequirements("PrivateIntProperty", typeof(int)) { GetMethod = new MethodRequirements() { IsFamily = true } };
             try
             {
                 ReflectionHelper.GetPropertyInfo(typeof(Class), options);
@@ -193,7 +193,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonPublicPropertyGetAccessor()
         {
-            PropertyOptions options = new PropertyOptions("PrivateIntProperty", typeof(int)) { GetMethod = new MethodOptions() { IsPublic = true } };
+            PropertyRequirements options = new PropertyRequirements("PrivateIntProperty", typeof(int)) { GetMethod = new MethodRequirements() { IsPublic = true } };
             try
             {
                 ReflectionHelper.GetPropertyInfo(typeof(Class), options);
@@ -211,7 +211,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonPrivateSetAccessor()
         {
-            PropertyOptions options = new PropertyOptions("PublicIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPrivate = true } };
+            PropertyRequirements options = new PropertyRequirements("PublicIntProperty", typeof(int)) { SetMethod = new MethodRequirements() { IsPrivate = true } };
             try
             {
                 ReflectionHelper.GetPropertyInfo(typeof(Class), options);
@@ -229,7 +229,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonProtectedPropertySetAccessor()
         {
-            PropertyOptions options = new PropertyOptions("PrivateIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsFamily = true } };
+            PropertyRequirements options = new PropertyRequirements("PrivateIntProperty", typeof(int)) { SetMethod = new MethodRequirements() { IsFamily = true } };
             try
             {
                 ReflectionHelper.GetPropertyInfo(typeof(Class), options);
@@ -247,7 +247,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Property")]
         public void ThrowsOnNonPublicPropertySetAccessor()
         {
-            PropertyOptions options = new PropertyOptions("PrivateIntProperty", typeof(int)) { SetMethod = new MethodOptions() { IsPublic = true } };
+            PropertyRequirements options = new PropertyRequirements("PrivateIntProperty", typeof(int)) { SetMethod = new MethodRequirements() { IsPublic = true } };
             try
             {
                 ReflectionHelper.GetPropertyInfo(typeof(Class), options);
@@ -266,13 +266,13 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Method")]
         public void DetectsPrivateMethodWithoutParameters()
         {
-            ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]));
+            ReflectionHelper.GetMethodInfo(typeof(Class), new MethodRequirements("PrivateMethodWithoutParameters", typeof(void), new Type[0]));
         }
 
         [TestMethod, TestCategory("Method")]
         public void DetectsPrivateMethodWithParameters()
         {
-            ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("PrivateMethodWithParameters", typeof(int), new Type[] { typeof(int) }));
+            ReflectionHelper.GetMethodInfo(typeof(Class), new MethodRequirements("PrivateMethodWithParameters", typeof(int), new Type[] { typeof(int) }));
         }
 
         [TestMethod, TestCategory("Method")]
@@ -280,7 +280,7 @@ namespace TestTools_Tests.Structure
         {
             try
             {
-                ReflectionHelper.GetMethodInfo(typeof(Class), new MethodOptions("FakeMethod", typeof(void), new Type[0]));
+                ReflectionHelper.GetMethodInfo(typeof(Class), new MethodRequirements("FakeMethod", typeof(void), new Type[0]));
                 Assert.Fail("No exception was thrown");
             } 
             catch (TestTools.Structure.Exceptions.MissingMemberException ex)
@@ -293,7 +293,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnWrongMethodReturnType()
         {
-            MethodOptions options = new MethodOptions("PrivateMethodWithParameters", typeof(string), new Type[] { typeof(int) });
+            MethodRequirements options = new MethodRequirements("PrivateMethodWithParameters", typeof(string), new Type[] { typeof(int) });
             try
             {
                 ReflectionHelper.GetMethodInfo(typeof(Class), options);
@@ -309,7 +309,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnWrongMethodParameters()
         {
-            MethodOptions options = new MethodOptions("PrivateMethodWithParameters", typeof(int), new Type[] { typeof(string) });
+            MethodRequirements options = new MethodRequirements("PrivateMethodWithParameters", typeof(int), new Type[] { typeof(string) });
             try
             {
                 ReflectionHelper.GetMethodInfo(typeof(Class), options);
@@ -325,7 +325,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnNonPrivateMethod()
         {
-            MethodOptions options = new MethodOptions("PublicMethodWithoutParameters", typeof(void), new Type[0]) { IsPrivate = true };
+            MethodRequirements options = new MethodRequirements("PublicMethodWithoutParameters", typeof(void), new Type[0]) { IsPrivate = true };
             try
             {
                 ReflectionHelper.GetMethodInfo(typeof(Class), options);
@@ -343,7 +343,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnNonProtectedMethod()
         {
-            MethodOptions options = new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsFamily = true };
+            MethodRequirements options = new MethodRequirements("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsFamily = true };
             try
             {
                 ReflectionHelper.GetMethodInfo(typeof(Class), options);
@@ -361,7 +361,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Method")]
         public void ThrowsOnNonPublicMethod()
         {
-            MethodOptions options = new MethodOptions("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsPublic = true };
+            MethodRequirements options = new MethodRequirements("PrivateMethodWithoutParameters", typeof(void), new Type[0]) { IsPublic = true };
             try
             {
                 ReflectionHelper.GetMethodInfo(typeof(Class), options);
@@ -380,13 +380,13 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Constructor")]
         public void DetectsPrivateConstructor()
         {
-            ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorOptions());
+            ReflectionHelper.GetConstructorInfo(typeof(Class), new ConstructorRequirements());
         }
 
         [TestMethod, TestCategory("Constructor")]
         public void ThrowsOnNonExistentConstructor()
         {
-            ConstructorOptions options = new ConstructorOptions(new Type[] { typeof(string) });
+            ConstructorRequirements options = new ConstructorRequirements(new Type[] { typeof(string) });
             try
             {
                 ReflectionHelper.GetConstructorInfo(typeof(Class), options);
@@ -402,7 +402,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Constructor")]
         public void ThrowsOnNonPrivate()
         {
-            ConstructorOptions options = new ConstructorOptions(new Type[] { typeof(int) }) { IsPrivate = true };
+            ConstructorRequirements options = new ConstructorRequirements(new Type[] { typeof(int) }) { IsPrivate = true };
             try
             {
                 ReflectionHelper.GetConstructorInfo(typeof(Class), options);
@@ -420,7 +420,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Constructor")]
         public void ThrowsOnNonProtected()
         {
-            ConstructorOptions options = new ConstructorOptions(new Type[0]) { IsFamily = true };
+            ConstructorRequirements options = new ConstructorRequirements(new Type[0]) { IsFamily = true };
             try
             {
                 ReflectionHelper.GetConstructorInfo(typeof(Class), options);
@@ -438,7 +438,7 @@ namespace TestTools_Tests.Structure
         [TestMethod, TestCategory("Constructor")]
         public void ThrowsOnNonPublic()
         {
-            ConstructorOptions options = new ConstructorOptions(new Type[0]) { IsPublic = true };
+            ConstructorRequirements options = new ConstructorRequirements(new Type[0]) { IsPublic = true };
             try
             {
                 ReflectionHelper.GetConstructorInfo(typeof(Class), options);

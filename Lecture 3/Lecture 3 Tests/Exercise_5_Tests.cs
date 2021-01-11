@@ -34,9 +34,9 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<BankAccount, decimal>(
                 b => b.Balance,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -46,10 +46,10 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<BankAccount, decimal>(
                 b => b.BorrowingRate,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 
@@ -59,10 +59,10 @@ namespace Lecture_3_Tests
             StructureTest test = factory.CreateStructureTest();
             test.AssertProperty<BankAccount, decimal>(
                 b => b.SavingsRate,
-                new PropertyOptions()
+                new PropertyRequirements()
                 {
-                    GetMethod = new MethodOptions() { IsPublic = true },
-                    SetMethod = new MethodOptions() { IsPublic = true }
+                    GetMethod = new MethodRequirements() { IsPublic = true },
+                    SetMethod = new MethodRequirements() { IsPublic = true }
                 });
         }
 

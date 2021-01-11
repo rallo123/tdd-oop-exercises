@@ -7,7 +7,7 @@ namespace TestTools.Structure.Exceptions
 {
     public class InvalidFieldTypeException : InvalidStructureException
     {
-        public InvalidFieldTypeException(Type @class, FieldOptions options)
+        public InvalidFieldTypeException(Type @class, FieldRequirements options)
             : base("{0}.{1} is not of type {2}", FormatType(@class), options.Name, FormatType(options.FieldType))
         {
             Type = @class;
@@ -15,6 +15,6 @@ namespace TestTools.Structure.Exceptions
         }
 
         public Type Type { get; }
-        public FieldOptions Options { get; }
+        public FieldRequirements Options { get; }
     }
 }
