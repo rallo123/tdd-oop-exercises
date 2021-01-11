@@ -1,6 +1,7 @@
 using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq.Expressions;
 using TestTools.Integrated;
 using static TestTools.Helpers.ExpressionHelper;
 
@@ -18,13 +19,33 @@ namespace Lecture_2_Tests
 
         /* Exercise 1A */
         [TestMethod("a. Person.FirstName is public string property"), TestCategory("Exercise 1A")]
-        public void FirstNameIsPublicStringProperty() => throw new NotImplementedException();
+        public void FirstNameIsPublicStringProperty() {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person, string>> firstName = p => p.FirstName;
+
+            test.AssertPropertyType(firstName, typeof(string));
+            test.AssertPropertyGetterAndSetterPublic(firstName);
+        }
 
         [TestMethod("b. Person.LastName is public string property"), TestCategory("Exercise 1A")]
-        public void LastNameIsPublicStringProperty() => throw new NotImplementedException();
+        public void LastNameIsPublicStringProperty()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person, string>> lastName = p => p.FirstName;
+
+            test.AssertPropertyType(lastName, typeof(string));
+            test.AssertPropertyGetterAndSetterPublic(lastName);
+        }
 
         [TestMethod("c. Person.Age is public int property"), TestCategory("Exercise 1A")]
-        public void AgeIsPublicIntProperty() => throw new NotImplementedException();
+        public void AgeIsPublicIntProperty()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person, int>> age = p => p.Age;
+
+            test.AssertPropertyType(age, typeof(int));
+            test.AssertPropertyGetterAndSetterPublic(age);
+        }
 
         [TestMethod("d. Person.FirstName ignores assigment of null"), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOfNull() {
@@ -118,10 +139,23 @@ namespace Lecture_2_Tests
 
         /* Exercise 1B */
         [TestMethod("a. Person.Mother is public Person property"), TestCategory("Exercise 1B")]
-        public void MotherIsPublicPersonProperty() => throw new NotImplementedException();
+        public void MotherIsPublicPersonProperty()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person, Person>> mother = p => p.Mother;
+
+            test.AssertPropertyTypeMatchesDual(mother);
+            test.AssertPropertyGetterAndSetterPublic(mother);
+        }
 
         [TestMethod("b. Person.Father is public Person property"), TestCategory("Exercise 1B")]
-        public void FatherIsPublicPersonProperty() => throw new NotImplementedException();
+        public void FatherIsPublicPersonProperty() {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person, Person>> father = p => p.Father;
+
+            test.AssertPropertyTypeMatchesDual(father);
+            test.AssertPropertyGetterAndSetterPublic(father);
+        }
 
         [TestMethod("c. Person.Mother ignores assigment if mother is younger than child"), TestCategory("Exercise 1B")]
         public void MotherIgnoresAssigmentIfMotherIsYoungerThanChild()
@@ -155,7 +189,14 @@ namespace Lecture_2_Tests
 
         /* Exercise 1C */
         [TestMethod("a. PersonGenerator.GeneratePerson takes no arguments and returns Person"), TestCategory("Exercise 1C")]
-        public void GeneratePersonReturnsPerson() => throw new NotImplementedException();
+        public void GeneratePersonReturnsPerson()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Action<PersonGenerator>> generatePerson = gen => gen.GeneratePerson();
+
+            test.AssertMethodSignatureMatchesDual(generatePerson);
+            test.AssertPublicMethod(generatePerson);
+        }
 
         [TestMethod("b. PersonGenerator.GeneratePerson generates Adam Smith (36)"), TestCategory("Exercise 1C")]
         public void GeneratePersonCreatesAdamSmith()
@@ -177,7 +218,14 @@ namespace Lecture_2_Tests
 
         /* Exercise 1D */
         [TestMethod("a. PersonGenerator.GenerateFamily takes no arguments and returns Person "), TestCategory("Exercise 1D")]
-        public void GenerateFamilyReturnsPerson() => throw new NotImplementedException();
+        public void GenerateFamilyReturnsPerson()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Action<PersonPrinter>> generateFamily = p => p.PrintPerson(null);
+
+            test.AssertMethodSignatureMatchesDual(generateFamily);
+            test.AssertPublicMethod(generateFamily);
+        }
 
         [TestMethod("b. PersonGenerator.GenerateFamily generates Robin Rich (10) as child"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesRobinRichAsChild()
@@ -264,7 +312,13 @@ namespace Lecture_2_Tests
 
         /* Exercise 1E */
         [TestMethod("a. PersonPrinter.PrintPerson takes person as argument and returns nothing"), TestCategory("Exercise 1E")]
-        public void PrintPersonTakesPersonAsArgumentAndReturnsNothing() => throw new NotImplementedException();
+        public void PrintPersonTakesPersonAsArgumentAndReturnsNothing() {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Action<PersonPrinter>> printPerson = p => p.PrintPerson(null);
+            
+            test.AssertMethodSignatureMatchesDual(printPerson);
+            test.AssertPublicMethod(printPerson);
+        }
 
         [TestMethod("b. PersonPrinter.PrintPrints prints correctly"), TestCategory("Exercise 1E")]
         public void PrintPersonPrintsCorrectly()
@@ -283,7 +337,14 @@ namespace Lecture_2_Tests
 
         /* Exercise 1F */
         [TestMethod("a. PersonPrinter.PrintFamily takes person as argument and returns nothing"), TestCategory("Exercise 1F")]
-        public void PrintFamilyTakesPersonAsArgumentAndReturnsNothing() => throw new NotImplementedException();
+        public void PrintFamilyTakesPersonAsArgumentAndReturnsNothing()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person, int>> age = p => p.Age;
+
+            test.AssertPropertyType(age, typeof(int));
+            test.AssertPropertyGetterAndSetterPublic(age);
+        }
 
         [TestMethod("b. PersonPrinter.PrintFamily prints correctly"), TestCategory("Exercise 1F")]
         public void PrintFamilyPrintsCorrectly()
@@ -332,10 +393,24 @@ namespace Lecture_2_Tests
 
         /* Exercise 1G */
         [TestMethod("a. Person has constructor which takes no arguments"), TestCategory("Exercise 1G")]
-        public void PersonHasConstructorWhichTakesNoArguments() => throw new NotImplementedException();
+        public void PersonHasConstructorWhichTakesNoArguments()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person>> defaultConstructor = () => new Person();
+
+            test.AssertConstructorSignatureMatchesDual(defaultConstructor);
+            test.AssertConstructorPublic(defaultConstructor);
+        }
 
         [TestMethod("b. Person has constructor which two persons as arguments"), TestCategory("Exercise 1G")]
-        public void PersonHasconstructorWhichTakesTwoPersonsAsArguments() => throw new NotImplementedException();
+        public void PersonHasconstructorWhichTakesTwoPersonsAsArguments()
+        {
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person>> secondConstructor = () => new Person(null, null);
+
+            test.AssertConstructorSignatureMatchesDual(secondConstructor);
+            test.AssertConstructorPublic(secondConstructor);
+        }
 
         [TestMethod("c. Person constructor with 2 persons as arguments sets mother and father property"), TestCategory("Exercise 1G")]
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
@@ -356,7 +431,14 @@ namespace Lecture_2_Tests
 
         /* Exercise 1H */
         [TestMethod("a. Person.ID is public read-only int property"), TestCategory("Exercise 1H")]
-        public void IDIsPublicReadonlyIntProperty() => throw new NotImplementedException();
+        public void IDIsPublicReadonlyIntProperty() { 
+            StructureTest test = factory.CreateStructureTest();
+            Expression<Func<Person, int>> id = p => p.ID;
+
+            test.AssertReadOnlyProperty(id);
+            test.AssertPropertyType(id, typeof(int));
+            test.AssertPropertyGetterPublic(id);
+        }
 
         [TestMethod("b. Person.ID increases by 1 for each new person"), TestCategory("Exercise 1H")]
         public void IDIncreasesByOneForEachNewPerson()

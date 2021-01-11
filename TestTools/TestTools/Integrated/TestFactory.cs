@@ -16,5 +16,9 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
+        public StructureTest CreateStructureTest()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
