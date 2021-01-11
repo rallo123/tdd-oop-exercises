@@ -11,7 +11,7 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
-        public Test CreateTest()
+        public UnitTest CreateTest()
         {
             throw new NotImplementedException();
         }

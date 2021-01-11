@@ -14,9 +14,9 @@ namespace Lecture_2_Tests
         [TestMethod("a. Number.Equals does not equate 4 and 5"), TestCategory("Exercise 4B")]
         public void EqualsDoesNotEquateFourAndFive()
         {
-            Test test = factory.CreateTest();
-            TestObject<Number> number1 = test.Create<Number>();
-            TestObject<Number> number2 = test.Create<Number>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Number> number1 = test.Create<Number>();
+            UnitTestObject<Number> number2 = test.Create<Number>();
 
             test.Arrange(number1, () => new Number(4));
             test.Arrange(number2, () => new Number(5));
@@ -26,9 +26,9 @@ namespace Lecture_2_Tests
         [TestMethod("b. Number.Equals equates 5 and 5"), TestCategory("Exercise 4B")]
         public void EqualsEquatesFiveAndFive()
         {
-            Test test = factory.CreateTest();
-            TestObject<Number> number1 = test.Create<Number>();
-            TestObject<Number> number2 = test.Create<Number>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Number> number1 = test.Create<Number>();
+            UnitTestObject<Number> number2 = test.Create<Number>();
 
             test.Arrange(number1, () => new Number(5));
             test.Arrange(number2, () => new Number(5));
@@ -39,9 +39,9 @@ namespace Lecture_2_Tests
         [TestMethod("a. Number.GetHashCode does not equate 4 and 5"), TestCategory("Exercise 4C")]
         public void GetHashCodeDoesNotEquateFourAndFive()
         {
-            Test test = factory.CreateTest();
-            TestObject<Number> number1 = test.Create<Number>();
-            TestObject<Number> number2 = test.Create<Number>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Number> number1 = test.Create<Number>();
+            UnitTestObject<Number> number2 = test.Create<Number>();
 
             test.Arrange(number1, () => new Number(4));
             test.Arrange(number2, () => new Number(5));
@@ -51,9 +51,9 @@ namespace Lecture_2_Tests
         [TestMethod("b. Number.GetHashCode equates 5 and 5"), TestCategory("Exercise 4C")]
         public void GetHashCodeEquatesFiveAndFice()
         {
-            Test test = factory.CreateTest();
-            TestObject<Number> number1 = test.Create<Number>();
-            TestObject<Number> number2 = test.Create<Number>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Number> number1 = test.Create<Number>();
+            UnitTestObject<Number> number2 = test.Create<Number>();
 
             test.Arrange(number1, () => new Number(5));
             test.Arrange(number2, () => new Number(5));

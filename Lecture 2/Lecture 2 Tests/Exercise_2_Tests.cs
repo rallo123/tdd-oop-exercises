@@ -39,8 +39,8 @@ namespace Lecture_2_Tests
         [TestMethod("b. Number constructor with int as argument sets value property"), TestCategory("Exercise 2B")]
         public void NumberConstructorWithIntAsArgumentSetsValueProperty()
         {
-            Test test = factory.CreateTest();
-            TestObject<Number> number = test.Create<Number>("number");
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Number> number = test.Create<Number>("number");
 
             test.Arrange(number, () => new Number(2));
             test.Assert(number, n => n.Value == 2);
@@ -62,9 +62,9 @@ namespace Lecture_2_Tests
 
         [TestMethod("b. Number.Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
         public void AddProducesExpectedResult() {
-            Test test = factory.CreateTest();
-            TestObject<Number> number1 = test.Create<Number>("number1");
-            TestObject<Number> number2 = test.Create<Number>("number2");
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Number> number1 = test.Create<Number>("number1");
+            UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
             test.Arrange(number1, () => new Number(1));
             test.Arrange(number2, () => new Number(2));
@@ -88,9 +88,9 @@ namespace Lecture_2_Tests
 
         [TestMethod("d. Number.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
         public void SubtractProducesExpectedResult() {
-            Test test = factory.CreateTest();
-            TestObject<Number> number1 = test.Create<Number>("number1");
-            TestObject<Number> number2 = test.Create<Number>("number2");
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Number> number1 = test.Create<Number>("number1");
+            UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
             test.Arrange(number1, () => new Number(8));
             test.Arrange(number2, () => new Number(3));
@@ -115,9 +115,9 @@ namespace Lecture_2_Tests
         [TestMethod("f. Number.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 2C")]
         public void MultiplyProducesExpectedResult()
         {
-            Test test = factory.CreateTest();
-            TestObject<Number> number1 = test.Create<Number>("number1");
-            TestObject<Number> number2 = test.Create<Number>("number2");
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Number> number1 = test.Create<Number>("number1");
+            UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
             test.Arrange(number1, () => new Number(2));
             test.Arrange(number2, () => new Number(3));

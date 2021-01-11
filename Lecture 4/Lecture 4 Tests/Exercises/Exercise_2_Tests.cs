@@ -56,8 +56,8 @@ namespace Lecture_4_Tests
         [TestMethod("d. Person(string name) assigns Name property"), TestCategory("Exercise 2A")]
         public void PersonConstructorAssignsNameProperty()
         {
-            Test test = factory.CreateTest();
-            TestObject<Person> person = test.Create<Person>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc"));
             test.Assert(person, p => p.Name == "abc");
@@ -69,8 +69,8 @@ namespace Lecture_4_Tests
         [TestMethod("e. Person.Height ignores assignment of -1.0"), TestCategory("Exercise 2A")]
         public void PersonHeightIgnoresAssignmentOfMinusOne()
         {
-            Test test = factory.CreateTest();
-            TestObject<Person> person = test.Create<Person>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc"));
             test.AssertThrows<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Height, -1.0));
@@ -84,8 +84,8 @@ namespace Lecture_4_Tests
         [TestMethod("f. Person.Weight ignores assignment of -1.0"), TestCategory("Exercise 2A")]
         public void PersonWeightIgnoresAssignmentOfMinusOne()
         {
-            Test test = factory.CreateTest();
-            TestObject<Person> person = test.Create<Person>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc"));
             test.AssertThrows<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Weight, -1.0));
@@ -99,8 +99,8 @@ namespace Lecture_4_Tests
         [TestMethod("a. Person.CalculateBMI() returns expected output"), TestCategory("Exercise 2B")]
         public void PersonCalculateBMIReturnsExpectedOutput()
         {
-            Test test = factory.CreateTest();
-            DualTestObject<Person> person = test.CreateDual<Person>();
+            UnitTest test = factory.CreateTest();
+            DualUnitTestObject<Person> person = test.CreateDual<Person>();
 
             test.Arrange(person, () => new Person("abc") { Height = 1.80, Weight = 80 });
             test.AssertEqualToDual(person, p => p.CalculateBMI());
@@ -113,8 +113,8 @@ namespace Lecture_4_Tests
         [TestMethod("Person.GetClassification() returns \"under-weight\" for Height = 1.64 & Weight = 47.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsUnderWeight()
         {
-            Test test = factory.CreateTest();
-            TestObject<Person> person = test.Create<Person>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc") { Height = 1.64, Weight = 47.0 });
             test.Assert(person, p => p.GetClassification() == "under-weight");
@@ -126,8 +126,8 @@ namespace Lecture_4_Tests
         [TestMethod("Person.GetClassification() returns \"normal weight\" for Height = 1.73 & Weight = 58.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsNormalWeight()
         {
-            Test test = factory.CreateTest();
-            TestObject<Person> person = test.Create<Person>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc") { Height = 1.73, Weight = 58.0 });
             test.Assert(person, p => p.GetClassification() == "normal weight");
@@ -139,8 +139,8 @@ namespace Lecture_4_Tests
         [TestMethod("Person.GetClassification() returns \"over-weight\" for Height = 1.70 & Weight = 74.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsOverWeight()
         {
-            Test test = factory.CreateTest();
-            TestObject<Person> person = test.Create<Person>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc") { Height = 1.70, Weight = 74.0 });
             test.Assert(person, p => p.GetClassification() == "over-weight");
@@ -152,8 +152,8 @@ namespace Lecture_4_Tests
         [TestMethod("Person.GetClassification() returns \"obese\" for Height = 1.85 & Weight = 120.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsObese()
         {
-            Test test = factory.CreateTest();
-            TestObject<Person> person = test.Create<Person>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc") { Height = 1.85, Weight = 120.0 });
             test.Assert(person, p => p.GetClassification() == "obese");

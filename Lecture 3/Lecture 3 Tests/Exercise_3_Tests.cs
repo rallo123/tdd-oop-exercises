@@ -98,8 +98,8 @@ namespace Lecture_3_Tests
         [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("3C")]
         public void CenterIgnoresAssigmentOfNull() 
         {
-            Test test = factory.CreateTest();
-            TestObject<Circle> circle = test.Create<Circle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Circle> circle = test.Create<Circle>();
 
             test.Arrange(circle, () => new Circle(null, 1.0));
             test.Assert(circle, c => c.Center != null);
@@ -110,8 +110,8 @@ namespace Lecture_3_Tests
         [TestMethod("d. Circle(Point center, double radius) ignores radius = -1.0"), TestCategory("3C")]
         public void RadiusIgnoresAssigmentOfMinusOne() 
         {
-            Test test = factory.CreateTest();
-            TestObject<Circle> circle = test.Create<Circle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Circle> circle = test.Create<Circle>();
 
             test.Arrange(circle, () => new Circle(new Point(0, 0), -1.0));
             test.Assert(circle, c => c.Radius != -1);
@@ -147,8 +147,8 @@ namespace Lecture_3_Tests
         [TestMethod("c. Rectangle(Point p1, Point p2) ignores p1 = null"), TestCategory("Exercise 3D")]
         public void RectangleConstructorIgnoresP1ValueNull()
         {
-            Test test = factory.CreateTest();
-            TestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             test.Arrange(rectangle, () => new Rectangle(null, new Point(1, 1)));
             test.Assert(rectangle, r => r.P1 != null);
@@ -159,8 +159,8 @@ namespace Lecture_3_Tests
         [TestMethod("d. Rectangle(Point p1, Point p2) ignores p2 = null"), TestCategory("Exercise 3D")]
         public void RegtangleConstructorIgnoresP2ValueNull() 
         {
-            Test test = factory.CreateTest();
-            TestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             test.Arrange(rectangle, () => new Rectangle(new Point(0, 0), null));
             test.Assert(rectangle, r => r.P2 != null);
@@ -172,8 +172,8 @@ namespace Lecture_3_Tests
         [TestMethod("a. Circle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
         public void CircleCalculateAreaReturnsExpectedOutput()
         {
-            Test test = factory.CreateTest();
-            TestObject<Circle> circle = test.Create<Circle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Circle> circle = test.Create<Circle>();
             double r = 42.3;
             double expectedArea = Math.Pow(r, 2) * Math.PI;
 
@@ -186,8 +186,8 @@ namespace Lecture_3_Tests
         [TestMethod("b. Circle.Contains(Point p) returns true for point within circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnTrueForPointWithinCircle()
         {
-            Test test = factory.CreateTest();
-            TestObject<Circle> circle = test.Create<Circle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Circle> circle = test.Create<Circle>();
 
             test.Arrange(circle, () => new Circle(new Point(2, 3), 1));
             test.Assert(circle, c => c.Contains(new Point(2.5, 3)));
@@ -198,8 +198,8 @@ namespace Lecture_3_Tests
         [TestMethod("c. Circle.Contains(Point p) returns true for point on perimeter of circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnTrueForPointOnPerimeterOfCircle()
         {
-            Test test = factory.CreateTest();
-            TestObject<Circle> circle = test.Create<Circle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Circle> circle = test.Create<Circle>();
 
             test.Arrange(circle, () => new Circle(new Point(2, 3), 1));
             test.Assert(circle, c => c.Contains(new Point(3, 3)));
@@ -210,8 +210,8 @@ namespace Lecture_3_Tests
         [TestMethod("d. Circle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnFalseForPointOutsideOfCircle()
         {
-            Test test = factory.CreateTest();
-            TestObject<Circle> circle = test.Create<Circle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Circle> circle = test.Create<Circle>();
 
             test.Arrange(circle, () => new Circle(new Point(2, 3), 1));
             test.Assert(circle, c => !c.Contains(new Point(4, 3)));
@@ -222,8 +222,8 @@ namespace Lecture_3_Tests
         [TestMethod("e. Rectangle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
         public void RectangleCalculateAreaReturnsExpectedOutput()
         {
-            Test test = factory.CreateTest();
-            TestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             test.Arrange(rectangle, () => new Rectangle(new Point(0, 0), new Point(2, 3)));
             test.Assert(rectangle, r => r.CalculateArea() == 6);
@@ -234,8 +234,8 @@ namespace Lecture_3_Tests
         [TestMethod("f. Rectangle.Contains(Point p) returns true for point within rectangle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnTrueForPointWithinRectangle()
         {
-            Test test = factory.CreateTest();
-            TestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             test.Arrange(rectangle, () => new Rectangle(new Point(2, 3), new Point(3, 5)));
             test.Assert(rectangle, r => r.Contains(new Point(2.5, 3)));
@@ -247,8 +247,8 @@ namespace Lecture_3_Tests
         public void RectangleContainsReturnTrueForPointOnPerimeterOfRectangle()
         {
 
-            Test test = factory.CreateTest();
-            TestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             test.Arrange(rectangle, () => new Rectangle(new Point(2, 3), new Point(3, 5)));
             test.Assert(rectangle, r => r.Contains(new Point(3, 3)));
@@ -259,8 +259,8 @@ namespace Lecture_3_Tests
         [TestMethod("h. Rectangle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnFalseForPointOutsideOfRectangle()
         {
-            Test test = factory.CreateTest();
-            TestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             test.Arrange(rectangle, () => new Rectangle(new Point(2, 3), new Point(3, 5)));
             test.Assert(rectangle, r => !r.Contains(new Point(4, 3)));

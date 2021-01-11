@@ -27,8 +27,8 @@ namespace Lecture_3_Tests
                 return buffer; 
             }
 
-            Test test = factory.CreateTest();
-            TestObject<FileExplorer> explorer = test.Create<FileExplorer>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<FileExplorer> explorer = test.Create<FileExplorer>();
             DirectoryInfo directoryInfo = new DirectoryInfo("../../../");
 
             test.Arrange(explorer, () => new FileExplorer());

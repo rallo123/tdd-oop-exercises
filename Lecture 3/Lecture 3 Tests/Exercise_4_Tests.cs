@@ -13,8 +13,8 @@ namespace Lecture_3_Tests
         [TestMethod("a. Employee.ToString() returns expected output"), TestCategory("Exercise 4A")]
         public void EmployeeToStringReturnsExpectedOutput()
         {
-            Test test = factory.CreateTest();
-            TestObject<Employee> employee = test.Create<Employee>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Employee> employee = test.Create<Employee>();
 
             test.Arrange(employee, () => new Employee("Joe Stevens") { Title = "Programmer" });
             test.Assert(employee, e => e.ToString() == "Employee Joe Stevens (Programmer)");
@@ -26,8 +26,8 @@ namespace Lecture_3_Tests
         [TestMethod("a. Manager.ToString() returns expected output"), TestCategory("Exercise 4B")]
         public void ManagerToStringReturnsExpectedOutput()
         {
-            Test test = factory.CreateTest();
-            TestObject<Manager> manager = test.Create<Manager>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Manager> manager = test.Create<Manager>();
 
             test.Arrange(manager, () => new Manager("Mary Stevens") { Title = "Software Engineer" });
             test.Assert(manager, m => m.ToString() == "Manager Mary Stevens (Software Engineer)");

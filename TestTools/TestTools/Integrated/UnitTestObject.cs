@@ -5,15 +5,15 @@ using System.Text;
 namespace TestTools.Integrated
 {
     // Used to Arrange, Act and Assert on the reflected namespace
-    public class TestObject<T>
+    public class UnitTestObject<T>
     {
-        internal TestObject() {}
+        internal UnitTestObject() {}
     }
 
     // Used to Arrange, Act and Assert on the reflected namespace, but is transparent in errors
-    public class AnonymousTestObject<T> : TestObject<T>
+    public class AnonymousUnitTestObject<T> : UnitTestObject<T>
     {
-        internal AnonymousTestObject() { }
+        internal AnonymousUnitTestObject() { }
     }
 
     /* 
@@ -21,9 +21,9 @@ namespace TestTools.Integrated
      * or using solution code in tests, because it limits test validation
      */
     // Used to Arrange, Act and Assert on the reflected and current namespace
-    public class DualTestObject<T> : TestObject<T>
+    public class DualUnitTestObject<T> : UnitTestObject<T>
     {
-        internal DualTestObject() { }
+        internal DualUnitTestObject() { }
     }
 
     /* 
@@ -31,8 +31,8 @@ namespace TestTools.Integrated
      * or using solution code in tests, because it limits test validation
      */
     // Used to Arrange, Act and Assert on the reflected and current namespace, but is transparent in errors
-    public class AnonymousDualTestObject<T> : DualTestObject<T>
+    public class AnonymousUnitDualTestObject<T> : DualUnitTestObject<T>
     {
-        internal AnonymousDualTestObject() { }
+        internal AnonymousUnitDualTestObject() { }
     }
 }

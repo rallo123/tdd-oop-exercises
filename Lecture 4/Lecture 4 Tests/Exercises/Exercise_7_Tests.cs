@@ -24,8 +24,8 @@ namespace Lecture_4_Tests
         [TestMethod("a. NotOldEnoughException() results in Message = \"Person is too young\""), TestCategory("Exercise 7B")]
         public void ParameterlessPersonConstructorAssignsMessageProperty()
         {
-            Test test = factory.CreateTest();
-            TestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
 
             test.Arrange(exception, () => new NotOldEnoughException());
             test.Assert(exception, e => e.Message == "Person is too young");
@@ -38,8 +38,8 @@ namespace Lecture_4_Tests
         [TestMethod("d. NotOldEnoughException(string activity) results in Message = \"Person is too young to [activity]\""), TestCategory("Exercise 7C")]
         public void PersonConstructorAssignsMessageProperty()
         {
-            Test test = factory.CreateTest();
-            TestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
 
             test.Arrange(exception, () => new NotOldEnoughException("do something"));
             test.Assert(exception, e => e.Message == "Person is too do something");
@@ -65,8 +65,8 @@ namespace Lecture_4_Tests
         [TestMethod("b. Person.CalculateBMI() throws NotOldEnoughException for Height = 1.80, Weight = 80.0 & Age = 15"), TestCategory("Exercise 7D")]
         public void PersonCalculateBMIThrowsNotOldEnoughException()
         {
-            Test test = factory.CreateTest();
-            TestObject<Person> person = test.Create<Person>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc") { Height = 1.80, Weight = 80.0, Age = 15 });
             test.AssertThrows<NotOldEnoughException, Person>(person, p => p.CalculateBMI());

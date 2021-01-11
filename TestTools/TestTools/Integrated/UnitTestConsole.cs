@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestTools.Integrated
 {
-    public class TestConsole
+    public class UnitTestConsole
     {
         public void Write(string str)
         {

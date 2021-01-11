@@ -16,8 +16,8 @@ namespace Lecture_3_Tests
 
         public void TestAssignmentOfBankAccontPropertyIgnoresValue<T>(Expression<Func<BankAccount, T>> property, T value)
         {
-            Test test = factory.CreateTest();
-            TestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             test.Arrange(account, () => new BankAccount());
             test.Act(account, Assignment(property, value));
@@ -82,8 +82,8 @@ namespace Lecture_3_Tests
         [TestMethod("a. BankAccount.Deposit(int amount) adds amount to Balance"), TestCategory("Exercise 5B")]
         public void BankAccountDepositAddsAmountToBalance()
         {
-            Test test = factory.CreateTest();
-            TestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             test.Arrange(account, () => new BankAccount() );
             test.Act(account, a => a.Deposit(50));
@@ -95,8 +95,8 @@ namespace Lecture_3_Tests
         [TestMethod("b. BankAccount.Deposit(int amount) does not change balance on negative amount"), TestCategory("Exercise 5B")]
         public void BankAccountDepositDoesNotChangeBalanceOnNegativeAmount()
         {
-            Test test = factory.CreateTest();
-            TestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             test.Arrange(account, () => new BankAccount());
             test.Act(account, a => a.Deposit(-1M));
@@ -108,8 +108,8 @@ namespace Lecture_3_Tests
         [TestMethod("c. BankAccount.Withdraw(int amount) subtracts amount of Balance"), TestCategory("Exercise 5B")]
         public void BankAccountWithdrawSubtractsAmountOfBalance()
         {
-            Test test = factory.CreateTest();
-            TestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             test.Arrange(account, () => new BankAccount());
             test.Act(account, a => a.Withdraw(50));
@@ -121,8 +121,8 @@ namespace Lecture_3_Tests
         [TestMethod("d. BankAccount.Withdraw(int amount) does not change Balance on negative amount"), TestCategory("Exercise 5B")]
         public void BankAccountWithdrawDoesNotChangeBalanceOnNegativeAmount()
         {
-            Test test = factory.CreateTest();
-            TestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTest test = factory.CreateTest();
+            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             test.Arrange(account, () => new BankAccount());
             test.Act(account, a => a.Withdraw(-1M));
