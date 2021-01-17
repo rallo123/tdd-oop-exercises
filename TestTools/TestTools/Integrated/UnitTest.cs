@@ -27,26 +27,6 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
-        public void ActAssign<T, TValue>(UnitTestObject<T> obj, Expression<Func<T, TValue>> locator, TValue value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ActAssign<T, TValue>(UnitTestObject<T> obj1, Expression<Func<T, TValue>> locator, UnitTestObject<TValue> obj2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ActAsFunction<T1, T2>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, Expression<Func<T1, T2>> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ActAsFunction<T1, T2, T3>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, UnitTestObject<T3> obj3, Expression<Func<T1, T2, T3>> action)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Arrange<T>(UnitTestObject<T> obj, Expression<Func<T>> setup)
         {
             throw new NotImplementedException();
