@@ -73,7 +73,7 @@ namespace Lecture_4_Tests
             UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc"));
-            test.AssertThrows<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Height, -1.0));
+            test.AssertThrowsException<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Height, -1.0));
             // Alternative syntax: test.Assert.That(person, Assignment<Person, double>(p => p.Height, -1.0)).Throws<ArgumentException>();
             // Alternative syntax: test.Assert.Assignment(person, p => p.Height, -1.0).Throws<ArgumentException>();
 
@@ -88,7 +88,7 @@ namespace Lecture_4_Tests
             UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc"));
-            test.AssertThrows<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Weight, -1.0));
+            test.AssertThrowsException<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Weight, -1.0));
             // Alternative syntax: test.Assert.That(person, Assignment<Person, double>(p => p.Weight, -1.0)).Throws<ArgumentException>();
             // Alternative syntax: test.Assert.Assignment(person, p => p.Weight, -1.0).Throws<ArgumentException>();
 

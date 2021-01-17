@@ -83,12 +83,12 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
-        public void AssertThrows<TException, T>(UnitTestObject<T> obj, Expression<Action<T>> action)
+        public void AssertThrowsException<TException, T>(UnitTestObject<T> obj, Expression<Action<T>> action)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertThrows<TException, T1, T2>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, Expression<Action<T1, T2>> action)
+        public void AssertThrowsException<TException, T1, T2>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, Expression<Action<T1, T2>> action)
         {
             throw new NotImplementedException();
         }

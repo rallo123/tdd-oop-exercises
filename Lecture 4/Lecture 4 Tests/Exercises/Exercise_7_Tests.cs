@@ -69,7 +69,7 @@ namespace Lecture_4_Tests
             UnitTestObject<Person> person = test.Create<Person>();
 
             test.Arrange(person, () => new Person("abc") { Height = 1.80, Weight = 80.0, Age = 15 });
-            test.AssertThrows<NotOldEnoughException, Person>(person, p => p.CalculateBMI());
+            test.AssertThrowsException<NotOldEnoughException, Person>(person, p => p.CalculateBMI());
             // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Throws<NotOldEnough>():
 
             test.Execute();
