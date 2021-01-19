@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace TestTools.Integrated
 {
     public class UnitTestConsole
     {
-        public void Read(int charCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReadKey(ConsoleKeyInfo cki)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReadLine(string line)
+        // writes to stdin
+        public void Act(Expression<Action<StreamWriter>> action)
         {
             throw new NotImplementedException();
         }
