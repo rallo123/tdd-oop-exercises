@@ -62,9 +62,9 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person());
-            test.Act(person, Assignment<Person, string>(p => p.FirstName, null));
-            test.AssertUnchanged(person, p => p.FirstName);
+            person.Arrange(() => new Person());
+            person.Act(Assignment<Person, string>(p => p.FirstName, null));
+            person.Assert.Unchanged(p => p.FirstName);
 
             test.Execute();
         }
@@ -75,9 +75,9 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person());
-            test.Act(person, Assignment<Person, string>(p => p.LastName, null));
-            test.AssertUnchanged(person, p => p.LastName);
+            person.Arrange(() => new Person());
+            person.Act(Assignment<Person, string>(p => p.LastName, null));
+            person.Assert.Unchanged(p => p.LastName);
 
             test.Execute();
         }
@@ -88,9 +88,9 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person());
-            test.Act(person, Assignment<Person, string>(p => p.FirstName, "123456789"));
-            test.AssertUnchanged(person, p => p.FirstName);
+            person.Arrange(() => new Person());
+            person.Act(Assignment<Person, string>(p => p.FirstName, "123456789"));
+            person.Assert.Unchanged(p => p.FirstName);
 
             test.Execute();
         }
@@ -101,9 +101,9 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person());
-            test.Act(person, Assignment<Person, string>(p => p.LastName, "123456789"));
-            test.AssertUnchanged(person, p => p.LastName);
+            person.Arrange(() => new Person());
+            person.Act(Assignment<Person, string>(p => p.LastName, "123456789"));
+            person.Assert.Unchanged(p => p.LastName);
 
             test.Execute();
         }
@@ -114,9 +114,9 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person());
-            test.Act(person, Assignment<Person, string>(p => p.FirstName, CreateName(101)));
-            test.AssertUnchanged(person, p => p.FirstName);
+            person.Arrange(() => new Person());
+            person.Act(Assignment<Person, string>(p => p.FirstName, CreateName(101)));
+            person.Assert.Unchanged(p => p.FirstName);
 
             test.Execute();
         }
@@ -127,9 +127,9 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person());
-            test.Act(person, Assignment<Person, string>(p => p.LastName, CreateName(101)));
-            test.AssertUnchanged(person, p => p.LastName);
+            person.Arrange(() => new Person());
+            person.Act(Assignment<Person, string>(p => p.LastName, CreateName(101)));
+            person.Assert.Unchanged(p => p.LastName);
 
             test.Execute();
         }
@@ -140,9 +140,9 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person());
-            test.Act(person, Assignment<Person, int>(p => p.Age, -1));
-            test.AssertUnchanged(person, p => p.Age);
+            person.Arrange(() => new Person());
+            person.Act(Assignment<Person, int>(p => p.Age, -1));
+            person.Assert.Unchanged(p => p.Age);
 
             test.Execute();
         }
@@ -180,10 +180,10 @@ namespace Lecture_2_Tests
             UnitTestObject<Person> child = test.Create<Person>("child");
             UnitTestObject<Person> mother = test.Create<Person>("mother");
 
-            test.Arrange(child, () => new Person() { Age = 1});
-            test.Arrange(mother, () => new Person() { Age = 0 });
-            test.Act(child, mother, Assignment<Person, Person, Person>(p => p.Mother, p => p));
-            test.AssertUnchanged(child, p => p.Mother);
+            child.Arrange(() => new Person() { Age = 1});
+            mother.Arrange(() => new Person() { Age = 0 });
+            child.WithParameters(mother).Act(Assignment<Person, Person, Person>(p => p.Mother, p => p));
+            child.Assert.Unchanged(p => p.Mother);
 
             test.Execute();
         }
@@ -195,10 +195,10 @@ namespace Lecture_2_Tests
             UnitTestObject<Person> child = test.Create<Person>("child");
             UnitTestObject<Person> father = test.Create<Person>("father");
 
-            test.Arrange(child, () => new Person() { Age = 1 });
-            test.Arrange(father, () => new Person() { Age = 0 });
-            test.Act(child, father, Assignment<Person, Person, Person>(p => p.Father, p => p));
-            test.AssertUnchanged(child, p => p.Mother);
+            child.Arrange(() => new Person() { Age = 1 });
+            father.Arrange(() => new Person() { Age = 0 });
+            child.WithParameters(father).Act(Assignment<Person, Person, Person>(p => p.Father, p => p));
+            child.Assert.Unchanged(p => p.Mother);
 
             test.Execute();
         }
@@ -223,13 +223,12 @@ namespace Lecture_2_Tests
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
             
-            test.Arrange(generator, () => new PersonGenerator());
-
-            test.Act(person, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson()));
+            generator.Arrange(() => new PersonGenerator());
+            person.WithParameters(generator).Arrange(g => g.GeneratePerson());
             
-            test.Assert(person, p => p.FirstName == "Adam");
-            test.Assert(person, p => p.LastName == "Smith");
-            test.Assert(person, p => p.Age == 36);
+            person.Assert.IsTrue(p => p.FirstName == "Adam");
+            person.Assert.IsTrue(p => p.LastName == "Smith");
+            person.Assert.IsTrue(p => p.Age == 36);
 
             test.Execute();
         }
@@ -254,11 +253,12 @@ namespace Lecture_2_Tests
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> child = test.CreateAnonymous<Person>("child");
 
-            test.Arrange(generator, () => new PersonGenerator());
-            test.Act(child, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson()));
-            test.Assert(child, p => p.FirstName == "Robin");
-            test.Assert(child, p => p.LastName == "Rich");
-            test.Assert(child, p => p.Age == 10);
+            generator.Arrange(() => new PersonGenerator());
+            child.WithParameters(generator).Arrange(g => g.GenerateFamily());
+            
+            child.Assert.IsTrue(p => p.FirstName == "Robin");
+            child.Assert.IsTrue(p => p.LastName == "Rich");
+            child.Assert.IsTrue(p => p.Age == 10);
 
             test.Execute();
         }
@@ -270,12 +270,13 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> father = test.CreateAnonymous<Person>("father");
+            
+            generator.Arrange(() => new PersonGenerator());
+            father.WithParameters(generator).Arrange(g => g.GenerateFamily().Father);
 
-            test.Arrange(generator, () => new PersonGenerator());
-            test.Act(father, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Father));
-            test.Assert(father, p => p.FirstName == "Warren");
-            test.Assert(father, p => p.LastName == "Rich");
-            test.Assert(father, p => p.Age == 36);
+            father.Assert.IsTrue(p => p.FirstName == "Warren");
+            father.Assert.IsTrue(p => p.LastName == "Rich");
+            father.Assert.IsTrue(p => p.Age == 36);
 
             test.Execute();
         }
@@ -287,12 +288,13 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> mother = test.CreateAnonymous<Person>("mother");
+            
+            generator.Arrange(() => new PersonGenerator());
+            mother.WithParameters(generator).Arrange(g => g.GenerateFamily().Mother);
 
-            test.Arrange(generator, () => new PersonGenerator());
-            test.Act(mother, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Mother));
-            test.Assert(mother, p => p.FirstName == "Anna");
-            test.Assert(mother, p => p.LastName == "Smith");
-            test.Assert(mother, p => p.Age == 38);
+            mother.Assert.IsTrue(p => p.FirstName == "Anna");
+            mother.Assert.IsTrue(p => p.LastName == "Smith");
+            mother.Assert.IsTrue(p => p.Age == 38);
 
             test.Execute();
         }
@@ -305,11 +307,12 @@ namespace Lecture_2_Tests
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> grandFather = test.CreateAnonymous<Person>("grandfather");
 
-            test.Arrange(generator, () => new PersonGenerator());
-            test.Act(grandFather, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Father.Father));
-            test.Assert(grandFather, p => p.FirstName == "Gustav");
-            test.Assert(grandFather, p => p.LastName == "Rich");
-            test.Assert(grandFather, p => p.Age == 66);
+            generator.Arrange(() => new PersonGenerator());
+            grandFather.WithParameters(generator).Arrange(g => g.GenerateFamily().Father.Father);
+
+            grandFather.Assert.IsTrue(p => p.FirstName == "Gustav");
+            grandFather.Assert.IsTrue(p => p.LastName == "Rich");
+            grandFather.Assert.IsTrue(p => p.Age == 66);
 
             test.Execute();
         }
@@ -321,11 +324,12 @@ namespace Lecture_2_Tests
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> grandMother = test.CreateAnonymous<Person>("grandmother");
 
-            test.Arrange(generator, () => new PersonGenerator());
-            test.Act(grandMother, generator, Assignment<Person, PersonGenerator, Person>(p => p, g => g.GeneratePerson().Father.Mother));
-            test.Assert(grandMother, p => p.FirstName == "Elsa");
-            test.Assert(grandMother, p => p.LastName == "Johnson");
-            test.Assert(grandMother, p => p.Age == 65);
+            generator.Arrange(() => new PersonGenerator());
+            grandMother.WithParameters(generator).Arrange(g => g.GenerateFamily().Father.Mother);
+
+            grandMother.Assert.IsTrue(p => p.FirstName == "Elsa");
+            grandMother.Assert.IsTrue(p => p.LastName == "Johnson");
+            grandMother.Assert.IsTrue(p => p.Age == 65);
 
             test.Execute();
         }
@@ -349,9 +353,9 @@ namespace Lecture_2_Tests
             UnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
             UnitTestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
 
-            test.Arrange(printer, () => new PersonPrinter());
-            test.Arrange(person, () => new Person() { FirstName = "Adam", LastName = "Smith", Age = 36 });
-            test.Act(printer, person, (p1, p2) => p1.PrintPerson(p2));
+            printer.Arrange(() => new PersonPrinter());
+            person.Arrange(() => new Person() { FirstName = "Adam", LastName = "Smith", Age = 36 });
+            printer.WithParameters(person).Act((p1, p2) => p1.PrintPerson(p2));
             test.AssertWriteOut("Adam Smith (36)");
 
             test.Execute();
@@ -377,7 +381,7 @@ namespace Lecture_2_Tests
             UnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
             UnitTestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
 
-            test.Arrange(person, () => 
+            person.Arrange(() => 
                 new Person() { 
                     FirstName = "Warren",
                     LastName = "Rich", 
@@ -404,7 +408,7 @@ namespace Lecture_2_Tests
                     }
                 }
             );
-            test.Act(printer, person, (p1, p2) => p1.PrintFamily(p2));
+            printer.WithParameters(person).Act((p1, p2) => p1.PrintFamily(p2));
             test.AssertWriteOut("Adam Smith (36)\n");
             test.AssertWriteOut("Robin Rich (10)\n");
             test.AssertWriteOut("  Warren Rich (36)\n");
@@ -448,11 +452,11 @@ namespace Lecture_2_Tests
             UnitTestObject<Person> father = test.Create<Person>();
             UnitTestObject<Person> child = test.Create<Person>();
 
-            test.Arrange(mother, () => new Person() { Age = 37 });
-            test.Arrange(father, () => new Person() { Age = 37 });
-            test.Arrange(child, mother, father, (p1, p2) => new Person(p1, p2));
-            test.Assert<Person, Person>(child, mother, (p1, p2) => p1.Mother == p2);
-            test.Assert<Person, Person>(child, father, (p1, p2) => p1.Father == p2);
+            mother.Arrange(() => new Person() { Age = 37 });
+            father.Arrange(() => new Person() { Age = 37 });
+            child.WithParameters(mother, father).Arrange((p1, p2) => new Person(p1, p2));
+            child.WithParameters(mother).Assert.IsTrue((p1, p2) => p1.Mother == p2);
+            child.WithParameters(father).Assert.IsTrue((p1, p2) => p1.Father == p2);
 
             test.Execute();
         }
@@ -476,7 +480,10 @@ namespace Lecture_2_Tests
             UnitTestObject<Person> person1 = test.Create<Person>();
             UnitTestObject<Person> person2 = test.Create<Person>();
 
-            test.AssertIncreased(person1, person2, p => p.ID);
+            person1.Arrange(() => new Person());
+            person2.Arrange(() => new Person());
+
+            person1.WithParameters(person2).Assert.IsTrue((p1, p2) => p2.ID - p1.ID == 1);
 
             test.Execute();
         }

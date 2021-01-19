@@ -18,9 +18,9 @@ namespace Lecture_2_Tests
             UnitTestObject<Number> number1 = test.Create<Number>();
             UnitTestObject<Number> number2 = test.Create<Number>();
 
-            test.Arrange(number1, () => new Number(4));
-            test.Arrange(number2, () => new Number(5));
-            test.Assert<Number, Number>(number1, number2, (n1, n2) => !n1.Equals(n2));
+            number1.Arrange(() => new Number(4));
+            number2.Arrange(() => new Number(5));
+            number1.WithParameters(number2).Assert.IsFalse((n1, n2) => n1.Equals(n2));
         }
 
         [TestMethod("b. Number.Equals equates 5 and 5"), TestCategory("Exercise 4B")]
@@ -30,9 +30,9 @@ namespace Lecture_2_Tests
             UnitTestObject<Number> number1 = test.Create<Number>();
             UnitTestObject<Number> number2 = test.Create<Number>();
 
-            test.Arrange(number1, () => new Number(5));
-            test.Arrange(number2, () => new Number(5));
-            test.Assert<Number, Number>(number1, number2, (n1, n2) => n1.Equals(n2));
+            number1.Arrange(() => new Number(5));
+            number2.Arrange(() => new Number(5));
+            number1.WithParameters(number2).Assert.IsTrue((n1, n2) => n1.Equals(n2));
         }
 
         /* Exercise 4C */
@@ -43,9 +43,9 @@ namespace Lecture_2_Tests
             UnitTestObject<Number> number1 = test.Create<Number>();
             UnitTestObject<Number> number2 = test.Create<Number>();
 
-            test.Arrange(number1, () => new Number(4));
-            test.Arrange(number2, () => new Number(5));
-            test.Assert<Number, Number>(number1, number2, (n1, n2) => n1.GetHashCode() != n2.GetHashCode());
+            number1.Arrange(() => new Number(4));
+            number2.Arrange(() => new Number(5));
+            number1.WithParameters(number2).Assert.IsFalse((n1, n2) => n1.GetHashCode() == n2.GetHashCode());
         }
 
         [TestMethod("b. Number.GetHashCode equates 5 and 5"), TestCategory("Exercise 4C")]
@@ -55,9 +55,9 @@ namespace Lecture_2_Tests
             UnitTestObject<Number> number1 = test.Create<Number>();
             UnitTestObject<Number> number2 = test.Create<Number>();
 
-            test.Arrange(number1, () => new Number(5));
-            test.Arrange(number2, () => new Number(5));
-            test.Assert<Number, Number>(number1, number2, (n1, n2) => n1.GetHashCode() == n2.GetHashCode());
+            number1.Arrange(() => new Number(5));
+            number2.Arrange(() => new Number(5));
+            number1.WithParameters(number2).Assert.IsTrue((n1, n2) => n1.GetHashCode() == n2.GetHashCode());
         }
     }
 }

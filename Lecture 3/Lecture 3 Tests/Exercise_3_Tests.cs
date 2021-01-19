@@ -101,8 +101,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
-            test.Arrange(circle, () => new Circle(null, 1.0));
-            test.Assert(circle, c => c.Center != null);
+            circle.Arrange(() => new Circle(null, 1.0));
+            circle.Assert.IsTrue(c => c.Center != null);
 
             test.Execute();
         }
@@ -113,8 +113,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
-            test.Arrange(circle, () => new Circle(new Point(0, 0), -1.0));
-            test.Assert(circle, c => c.Radius != -1);
+            circle.Arrange(() => new Circle(new Point(0, 0), -1.0));
+            circle.Assert.IsTrue(c => c.Radius != -1);
 
             test.Execute();
         }
@@ -150,8 +150,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
-            test.Arrange(rectangle, () => new Rectangle(null, new Point(1, 1)));
-            test.Assert(rectangle, r => r.P1 != null);
+            rectangle.Arrange(() => new Rectangle(null, new Point(1, 1)));
+            rectangle.Assert.IsFalse(r => r.P1 == null);
 
             test.Execute();
         }
@@ -162,8 +162,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
-            test.Arrange(rectangle, () => new Rectangle(new Point(0, 0), null));
-            test.Assert(rectangle, r => r.P2 != null);
+            rectangle.Arrange(() => new Rectangle(new Point(0, 0), null));
+            rectangle.Assert.IsFalse(r => r.P2 == null);
 
             test.Execute();
         }
@@ -177,7 +177,7 @@ namespace Lecture_3_Tests
             double r = 42.3;
             double expectedArea = Math.Pow(r, 2) * Math.PI;
 
-            test.Arrange(circle, () => new Circle(new Point(0, 0), r));
+            circle.Arrange(() => new Circle(new Point(0, 0), r));
             test.AssertApproximate(circle, c => c.CalculateArea() == expectedArea);
 
             test.Execute();
@@ -189,8 +189,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
-            test.Arrange(circle, () => new Circle(new Point(2, 3), 1));
-            test.Assert(circle, c => c.Contains(new Point(2.5, 3)));
+            circle.Arrange(() => new Circle(new Point(2, 3), 1));
+            circle.Assert.IsTrue(c => c.Contains(new Point(2.5, 3)));
 
             test.Execute();
         }
@@ -201,8 +201,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
-            test.Arrange(circle, () => new Circle(new Point(2, 3), 1));
-            test.Assert(circle, c => c.Contains(new Point(3, 3)));
+            circle.Arrange(() => new Circle(new Point(2, 3), 1));
+            circle.Assert.IsTrue(c => c.Contains(new Point(3, 3)));
 
             test.Execute();
         }
@@ -213,8 +213,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
-            test.Arrange(circle, () => new Circle(new Point(2, 3), 1));
-            test.Assert(circle, c => !c.Contains(new Point(4, 3)));
+            circle.Arrange(() => new Circle(new Point(2, 3), 1));
+            circle.Assert.IsFalse(c => c.Contains(new Point(4, 3)));
 
             test.Execute();
         }
@@ -225,8 +225,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
-            test.Arrange(rectangle, () => new Rectangle(new Point(0, 0), new Point(2, 3)));
-            test.Assert(rectangle, r => r.CalculateArea() == 6);
+            rectangle.Arrange(() => new Rectangle(new Point(0, 0), new Point(2, 3)));
+            rectangle.Assert.IsTrue(r => r.CalculateArea() == 6);
 
             test.Execute();
         }
@@ -237,8 +237,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
-            test.Arrange(rectangle, () => new Rectangle(new Point(2, 3), new Point(3, 5)));
-            test.Assert(rectangle, r => r.Contains(new Point(2.5, 3)));
+            rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));
+            rectangle.Assert.IsTrue(r => r.Contains(new Point(2.5, 3)));
 
             test.Execute();
         }
@@ -250,8 +250,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
-            test.Arrange(rectangle, () => new Rectangle(new Point(2, 3), new Point(3, 5)));
-            test.Assert(rectangle, r => r.Contains(new Point(3, 3)));
+            rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));
+            rectangle.Assert.IsTrue(r => r.Contains(new Point(3, 3)));
 
             test.Execute();
         }
@@ -262,8 +262,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
-            test.Arrange(rectangle, () => new Rectangle(new Point(2, 3), new Point(3, 5)));
-            test.Assert(rectangle, r => !r.Contains(new Point(4, 3)));
+            rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));
+            rectangle.Assert.IsFalse(r => r.Contains(new Point(4, 3)));
 
             test.Execute();
         }

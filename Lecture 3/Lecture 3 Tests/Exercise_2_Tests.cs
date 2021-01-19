@@ -22,9 +22,9 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Employee> employee = test.Create<Employee>();
 
-            test.Arrange(employee, () => new Employee("abc"));
-            test.Act(employee, Assignment(property, value));
-            test.AssertUnchanged(employee, property);
+            employee.Arrange(() => new Employee("abc"));
+            employee.Act(Assignment(property, value));
+            employee.Assert.Unchanged(property);
 
             test.Execute();
         }
@@ -34,9 +34,9 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Manager> manager = test.Create<Manager>();
 
-            test.Arrange(manager, () => new Manager("abc"));
-            test.Act(manager, Assignment(property, value));
-            test.AssertUnchanged(manager, property);
+            manager.Arrange(() => new Manager("abc"));
+            manager.Act(Assignment(property, value));
+            manager.Assert.Unchanged(property);
 
             test.Execute();
         }
@@ -46,8 +46,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             DualUnitTestObject<Employee> employee = test.CreateDual<Employee>();
 
-            test.Arrange(employee, () => new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority });
-            test.AssertEqualToDual(employee, e => e.CalculateYearlySalary());
+            employee.Arrange(() => new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority });
+            employee.Assert.EqualToDual(e => e.CalculateYearlySalary());
 
             test.Execute();
         }
@@ -57,8 +57,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             DualUnitTestObject<Manager> employee = test.CreateDual<Manager>();
 
-            test.Arrange(employee, () => new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority });
-            test.AssertEqualToDual(employee, e => e.CalculateYearlySalary());
+            employee.Arrange(() => new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority });
+            employee.Assert.EqualToDual(e => e.CalculateYearlySalary());
 
             test.Execute();
         }
@@ -134,8 +134,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Employee> employee = test.Create<Employee>();
 
-            test.Arrange(employee, () => new Employee("abc"));
-            test.Assert(employee, e => e.Name == "abc");
+            employee.Arrange(() => new Employee("abc"));
+            employee.Assert.IsTrue(e => e.Name == "abc");
 
             test.Execute();
         }
@@ -240,10 +240,10 @@ namespace Lecture_3_Tests
             UnitTestObject<Employee> employee = test.Create<Employee>();
             UnitTestObject<Company> company = test.Create<Company>();
 
-            test.Arrange(employee, () => new Employee("Ellen Stevens"));
-            test.Arrange(company, () => new Company());
-            test.Act(company, employee, (c, e) => c.Hire(e));
-            test.AssertCollectionsContains(company, employee, c => c.Employees);
+            employee.Arrange(() => new Employee("Ellen Stevens"));
+            company.Arrange(() => new Company());
+            company.WithParameters(employee).Act((c, e) => c.Hire(e));
+            company.WithParameters(employee).CollectionAssert.Contains(c => c.Employees);
 
             test.Execute();
         }
@@ -255,11 +255,11 @@ namespace Lecture_3_Tests
             UnitTestObject<Employee> employee = test.Create<Employee>();
             UnitTestObject<Company> company = test.Create<Company>();
 
-            test.Arrange(employee, () => new Employee("Ellen Stevens"));
-            test.Arrange(company, () => new Company());
-            test.Act(company, employee, (c, e) => c.Hire(e));
-            test.Act(company, employee, (c, e) => c.Fire(e));
-            test.AssertCollectionEmpty(company, c => c.Employees);
+            employee.Arrange(() => new Employee("Ellen Stevens"));
+            company.Arrange(() => new Company());
+            company.WithParameters(employee).Act((c, e) => c.Hire(e));
+            company.WithParameters(employee).Act((c, e) => c.Fire(e));
+            company.CollectionAssert.IsEmpty(c => c.Employees);
 
             test.Execute();
         }
@@ -272,10 +272,10 @@ namespace Lecture_3_Tests
             UnitTestObject<Manager> manager = test.Create<Manager>();
             UnitTestObject<Company> company = test.Create<Company>();
 
-            test.Arrange(manager, () => new Manager("Katja Holmes"));
-            test.Arrange(company, () => new Company());
-            test.Act(company, manager, (c, e) => c.Hire(e));
-            test.AssertCollectionsContains(company, manager, c => c.Employees);
+            manager.Arrange(() => new Manager("Katja Holmes"));
+            company.Arrange(() => new Company());
+            company.WithParameters(manager).Act((c, e) => c.Hire(e));
+            company.WithParameters(manager).CollectionAssert.Contains(c => c.Employees);
 
             test.Execute();
         }
@@ -287,11 +287,11 @@ namespace Lecture_3_Tests
             UnitTestObject<Manager> manager = test.Create<Manager>();
             UnitTestObject<Company> company = test.Create<Company>();
 
-            test.Arrange(manager, () => new Manager("Katja Holmes"));
-            test.Arrange(company, () => new Company());
-            test.Act(company, manager, (c, e) => c.Hire(e));
-            test.Act(company, manager, (c, e) => c.Fire(e));
-            test.AssertCollectionEmpty(company, c => c.Employees);
+            manager.Arrange(() => new Manager("Katja Holmes"));
+            company.Arrange(() => new Company());
+            company.WithParameters(manager).Act((c, e) => c.Hire(e));
+            company.WithParameters(manager).Act((c, e) => c.Fire(e));
+            company.CollectionAssert.IsEmpty(c => c.Employees);
 
             test.Execute();
         }
@@ -303,8 +303,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Company> company = test.Create<Company>();
 
-            test.Arrange(company, () => new Company());
-            test.Assert(company, c => c.CalculateYearlySalaryCosts() == 0);
+            company.Arrange(() => new Company());
+            company.Assert.IsTrue(c => c.CalculateYearlySalaryCosts() == 0);
 
             test.Execute();
         }
@@ -313,13 +313,13 @@ namespace Lecture_3_Tests
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithOneEmployee()
         {
             UnitTest test = factory.CreateTest();
-            DualUnitTestObject<Company> companyTestObj = test.CreateDual<Company>();
-            DualUnitTestObject<Employee> employeeTestObj = test.CreateDual<Employee>();
-            
-            test.Arrange(companyTestObj, () => new Company());
-            test.Arrange(employeeTestObj, () => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
-            test.Act(companyTestObj, employeeTestObj, (c, e) => c.Hire(e));
-            test.AssertEqualToDual(companyTestObj, c => c.CalculateYearlySalaryCosts());
+            DualUnitTestObject<Company> company = test.CreateDual<Company>();
+            DualUnitTestObject<Employee> employee = test.CreateDual<Employee>();
+
+            company.Arrange(() => new Company());
+            employee.Arrange(() => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
+            company.WithParameters(employee).Act((c, e) => c.Hire(e));
+            company.Assert.EqualToDual(c => c.CalculateYearlySalaryCosts());
 
             test.Execute();
         }
@@ -328,16 +328,16 @@ namespace Lecture_3_Tests
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithTwoEmployee() 
         {
             UnitTest test = factory.CreateTest();
-            DualUnitTestObject<Company> companyTestObj = test.CreateDual<Company>();
-            DualUnitTestObject<Employee> employee1TestObj = test.CreateDual<Employee>();
-            DualUnitTestObject<Employee> employee2TestObj = test.CreateDual<Employee>();
+            DualUnitTestObject<Company> company = test.CreateDual<Company>();
+            DualUnitTestObject<Employee> employee1 = test.CreateDual<Employee>();
+            DualUnitTestObject<Employee> employee2 = test.CreateDual<Employee>();
 
-            test.Arrange(companyTestObj, () => new Company());
-            test.Arrange(employee1TestObj, () => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
-            test.Arrange(employee2TestObj, () => new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 4 });
-            test.Act(companyTestObj, employee1TestObj, (c, e) => c.Hire(e));
-            test.Act(companyTestObj, employee2TestObj, (c, e) => c.Hire(e));
-            test.AssertEqualToDual(companyTestObj, c => c.CalculateYearlySalaryCosts());
+            company.Arrange(() => new Company());
+            employee1.Arrange(() => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
+            employee2.Arrange(() => new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 4 });
+            company.WithParameters(employee1).Act((c, e) => c.Hire(e));
+            company.WithParameters(employee2).Act((c, e) => c.Hire(e));
+            company.Assert.EqualToDual(c => c.CalculateYearlySalaryCosts());
 
             test.Execute();
         }

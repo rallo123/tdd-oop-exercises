@@ -59,8 +59,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person("abc"));
-            test.Assert(person, p => p.Name == "abc");
+            person.Arrange(() => new Person("abc"));
+            person.Assert.IsTrue(p => p.Name == "abc");
             // Alternative syntax: test.Assert.That(person, p => p.Name).Equals("abc");
 
             test.Execute();
@@ -72,8 +72,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person("abc"));
-            test.AssertThrowsException<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Height, -1.0));
+            person.Arrange(() => new Person("abc"));
+            person.Assert.ThrowsException<ArgumentException>(Assignment<Person, double>(p => p.Height, -1.0));
             // Alternative syntax: test.Assert.That(person, Assignment<Person, double>(p => p.Height, -1.0)).Throws<ArgumentException>();
             // Alternative syntax: test.Assert.Assignment(person, p => p.Height, -1.0).Throws<ArgumentException>();
 
@@ -87,8 +87,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person("abc"));
-            test.AssertThrowsException<ArgumentException, Person>(person, Assignment<Person, double>(p => p.Weight, -1.0));
+            person.Arrange(() => new Person("abc"));
+            person.Assert.ThrowsException<ArgumentException>(Assignment<Person, double>(p => p.Weight, -1.0));
             // Alternative syntax: test.Assert.That(person, Assignment<Person, double>(p => p.Weight, -1.0)).Throws<ArgumentException>();
             // Alternative syntax: test.Assert.Assignment(person, p => p.Weight, -1.0).Throws<ArgumentException>();
 
@@ -102,8 +102,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             DualUnitTestObject<Person> person = test.CreateDual<Person>();
 
-            test.Arrange(person, () => new Person("abc") { Height = 1.80, Weight = 80 });
-            test.AssertEqualToDual(person, p => p.CalculateBMI());
+            person.Arrange(() => new Person("abc") { Height = 1.80, Weight = 80 });
+            person.Assert.EqualToDual(p => p.CalculateBMI());
             // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals.Dual();
 
             test.Execute();
@@ -116,8 +116,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person("abc") { Height = 1.64, Weight = 47.0 });
-            test.Assert(person, p => p.GetClassification() == "under-weight");
+            person.Arrange(() => new Person("abc") { Height = 1.64, Weight = 47.0 });
+            person.Assert.IsTrue(p => p.GetClassification() == "under-weight");
             // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("under-weight");
 
             test.Execute();
@@ -129,8 +129,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person("abc") { Height = 1.73, Weight = 58.0 });
-            test.Assert(person, p => p.GetClassification() == "normal weight");
+            person.Arrange(() => new Person("abc") { Height = 1.73, Weight = 58.0 });
+            person.Assert.IsTrue(p => p.GetClassification() == "normal weight");
             // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("normal weight");
 
             test.Execute();
@@ -142,8 +142,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person("abc") { Height = 1.70, Weight = 74.0 });
-            test.Assert(person, p => p.GetClassification() == "over-weight");
+            person.Arrange(() => new Person("abc") { Height = 1.70, Weight = 74.0 });
+            person.Assert.IsTrue(p => p.GetClassification() == "over-weight");
             // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("over weight");
 
             test.Execute();
@@ -155,8 +155,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person("abc") { Height = 1.85, Weight = 120.0 });
-            test.Assert(person, p => p.GetClassification() == "obese");
+            person.Arrange(() => new Person("abc") { Height = 1.85, Weight = 120.0 });
+            person.Assert.IsTrue(p => p.GetClassification() == "obese");
             // Alternative syntax: test.Assert.That(person, p.CalculateBMI()).To.Equal("obese");
 
             test.Execute();

@@ -12,76 +12,11 @@ namespace TestTools.Integrated
 
         }
 
-        public void Act<T>(UnitTestObject<T> obj, Expression<Action<T>> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Act<T1, T2>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, Expression<Action<T1, T2>> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Act<T1, T2, T3>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, UnitTestObject<T3> obj3, Expression<Action<T1, T2, T3>> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Arrange<T>(UnitTestObject<T> obj, Expression<Func<T>> setup)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Arrange<T1, T2>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, Expression<Func<T2, T1>> setup)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Arrange<T1, T2, T3>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, UnitTestObject<T3> obj3, Expression<Func<T2, T3, T1>> setup)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Assert<T>(UnitTestObject<T> obj, Expression<Func<T, bool>> assertion)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Assert<T>(UnitTestObject<T> obj, Expression<Func<T, T, bool>> assertion)
         {
             throw new NotImplementedException();
         }
 
-
-        public void Assert<T1, T2>(UnitTestObject<T1> obj1, UnitTestObject<T1> obj2, Expression<Func<T1, T2, bool>> assertion)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Assert<T1, T2>(UnitTestObject<T1> obj1, UnitTestObject<T1> obj2, Expression<Func<T1, T1, T2, T2, bool>> assertion)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AssertThrowsException<TException, T>(UnitTestObject<T> obj, Expression<Action<T>> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AssertThrowsException<TException, T1, T2>(UnitTestObject<T1> obj1, UnitTestObject<T2> obj2, Expression<Action<T1, T2>> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AssertUnchanged<TObj, TProperty>(UnitTestObject<TObj> obj, Expression<Func<TObj, TProperty>> locator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AssertIncreased<TObj, TProperty>(UnitTestObject<TObj> obj1, UnitTestObject<TObj> obj2, Expression<Func<TObj, TProperty>> locator)
-        {
-            throw new NotImplementedException();
-        }
 
         public void AssertApproximate<TObj>(UnitTestObject<TObj> obj1,  Expression<Func<TObj, bool>> assertion)
         {
@@ -104,11 +39,6 @@ namespace TestTools.Integrated
         }
 
         public void AssertCollectionsContainsNo<TObj, TProperty>(UnitTestObject<TObj> collectionOwner, UnitTestObject<TProperty> element, Expression<Func<TObj, IEnumerable<TProperty>>> locator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AssertEqualToDual<TObj, TProperty>(DualUnitTestObject<TObj> obj, Expression<Func<TObj, TProperty>> locator)
         {
             throw new NotImplementedException();
         }

@@ -27,8 +27,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
 
-            test.Arrange(exception, () => new NotOldEnoughException());
-            test.Assert(exception, e => e.Message == "Person is too young");
+            exception.Arrange(() => new NotOldEnoughException());
+            exception.Assert.IsTrue(e => e.Message == "Person is too young");
             // Alternative syntax: test.Assert.That(exception, e => e.Message).Equals("Person is too young");
 
             test.Execute();
@@ -41,8 +41,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
 
-            test.Arrange(exception, () => new NotOldEnoughException("do something"));
-            test.Assert(exception, e => e.Message == "Person is too do something");
+            exception.Arrange(() => new NotOldEnoughException("do something"));
+            exception.Assert.IsTrue(e => e.Message == "Person is too do something");
             // Alternative syntax: test.Assert.That(exception, e => e.Message).Equals("Person is too young to do something");
 
             test.Execute();
@@ -68,8 +68,8 @@ namespace Lecture_4_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
-            test.Arrange(person, () => new Person("abc") { Height = 1.80, Weight = 80.0, Age = 15 });
-            test.AssertThrowsException<NotOldEnoughException, Person>(person, p => p.CalculateBMI());
+            person.Arrange(() => new Person("abc") { Height = 1.80, Weight = 80.0, Age = 15 });
+            person.Assert.ThrowsException<NotOldEnoughException>(p => p.CalculateBMI());
             // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Throws<NotOldEnough>():
 
             test.Execute();

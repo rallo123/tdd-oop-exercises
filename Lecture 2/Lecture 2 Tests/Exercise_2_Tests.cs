@@ -42,8 +42,8 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Number> number = test.Create<Number>("number");
 
-            test.Arrange(number, () => new Number(2));
-            test.Assert(number, n => n.Value == 2);
+            number.Arrange(() => new Number(2));
+            number.Assert.IsTrue(n => n.Value == 2);
 
             test.Execute();
         }
@@ -66,10 +66,10 @@ namespace Lecture_2_Tests
             UnitTestObject<Number> number1 = test.Create<Number>("number1");
             UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
-            test.Arrange(number1, () => new Number(1));
-            test.Arrange(number2, () => new Number(2));
-            test.Act(number1, number2, (n1, n2) => n1.Add(n2));
-            test.Assert(number1, n => n.Value == 3);
+            number1.Arrange(() => new Number(1));
+            number2.Arrange(() => new Number(2));
+            number1.WithParameters(number2).Act((n1, n2) => n1.Add(n2));
+            number1.Assert.IsTrue(n => n.Value == 3);
 
             test.Execute();
         }
@@ -92,10 +92,10 @@ namespace Lecture_2_Tests
             UnitTestObject<Number> number1 = test.Create<Number>("number1");
             UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
-            test.Arrange(number1, () => new Number(8));
-            test.Arrange(number2, () => new Number(3));
-            test.Act(number1, number2, (n1, n2) => n1.Subtract(n2));
-            test.Assert(number1, n => n.Value == 5);
+            number1.Arrange(() => new Number(8));
+            number2.Arrange(() => new Number(3));
+            number1.WithParameters(number2).Act((n1, n2) => n1.Subtract(n2));
+            number1.Assert.IsTrue(n => n.Value == 5);
 
             test.Execute();
         }
@@ -119,10 +119,10 @@ namespace Lecture_2_Tests
             UnitTestObject<Number> number1 = test.Create<Number>("number1");
             UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
-            test.Arrange(number1, () => new Number(2));
-            test.Arrange(number2, () => new Number(3));
-            test.Act(number1, number2, (n1, n2) => n1.Multiply(n2));
-            test.Assert(number1, n => n.Value == 6);
+            number1.Arrange(() => new Number(2));
+            number2.Arrange(() => new Number(3));
+            number1.WithParameters(number2).Act((n1, n2) => n1.Multiply(n2));
+            number1.Assert.IsTrue(n => n.Value == 6);
 
             test.Execute();
         }

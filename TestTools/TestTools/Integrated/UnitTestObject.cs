@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace TestTools.Integrated
@@ -8,6 +9,181 @@ namespace TestTools.Integrated
     public class UnitTestObject<T>
     {
         internal UnitTestObject() {}
+
+        public void Act(Expression<Action<T>> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Arrange(Expression<Func<T>> setup)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UnitTestObject<T, TOther> WithParameters<TOther>(UnitTestObject<TOther> UnitTestObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UnitTestObject<T, TOther1, TOther2> WithParameters<TOther1, TOther2>(UnitTestObject<TOther1> UnitTestObject1, UnitTestObject<TOther2> UnitTestObject2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AssertObject Assert { get; }
+
+        public CollectionAssertObject CollectionAssert { get; } 
+
+        public class AssertObject
+        {
+            public void IsTrue(Expression<Func<T, bool>> assertion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsFalse(Expression<Func<T, bool>> assertion)
+            {
+                throw new NotImplementedException();
+            }
+            
+            public void ThrowsException<TException>(Expression<Action<T>> action)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Unchanged<TProperty>(Expression<Func<T, TProperty>> locator)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IncreasedBy<TProperty>(Expression<Func<T, TProperty>> locator, TProperty value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void DecreasedBy<TProperty>(Expression<Func<T, TProperty>> locator, TProperty value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void EqualToDual<TProperty>(Expression<Func<T, TProperty>> locator) 
+            {
+                throw new NotImplementedException();    
+            }
+        }
+
+        public class CollectionAssertObject 
+        {
+            public void IsEmpty<TItem>(Expression<Func<T, ICollection<TItem>>> collectionLocator)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Contains<TItem>(Expression<Func<T, ICollection<TItem>>> collectionLocator, TItem item)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void DoesNotContains<TItem>(Expression<Func<T, ICollection<TItem>>> collectionLocator, TItem item)
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
+
+    public class UnitTestObject<T1, T2>
+    {
+        internal UnitTestObject() { }
+
+        public void Act(Expression<Action<T1, T2>> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Arrange(Expression<Func<T2, T1>> setup)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UnitTestObject<T1, T2, TOther> WithParameters<TOther>(UnitTestObject<TOther> UnitTestObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AssertObject Assert { get; }
+
+        public CollectionAssertObject CollectionAssert { get; }
+
+        public class AssertObject
+        {
+            public void IsTrue(Expression<Func<T1, T2, bool>> assertion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsFalse(Expression<Func<T1, T2, bool>> assertion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AssertThrowsException<TException>(Expression<Action<T1, T2>> action)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class CollectionAssertObject
+        {
+            public void IsEmpty(Expression<Func<T1, ICollection<T2>>> collectionLocator)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Contains<TItem>(Expression<Func<T1, ICollection<TItem>>> collectionLocator)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void DoesNotContains<TItem>(Expression<Func<T1, ICollection<TItem>>> collectionLocator)
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
+
+    public class UnitTestObject<T1, T2, T3>
+    {
+        internal UnitTestObject() { }
+
+        public void Act(Expression<Action<T1, T2, T3>> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Arrange(Expression<Func<T2, T3, T1>> setup)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AssertObject Assert { get; }
+
+        public class AssertObject
+        {
+            public void IsTrue(Expression<Func<T1, T2, T3, bool>> assertion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsFalse(Expression<Func<T1, T2, T3, bool>> assertion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AssertThrowsException<TException>(Expression<Action<T1, T2, T3>> action)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 
     // Used to Arrange, Act and Assert on the reflected namespace, but is transparent in errors

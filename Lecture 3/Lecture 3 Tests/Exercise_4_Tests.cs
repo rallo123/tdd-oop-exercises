@@ -16,8 +16,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Employee> employee = test.Create<Employee>();
 
-            test.Arrange(employee, () => new Employee("Joe Stevens") { Title = "Programmer" });
-            test.Assert(employee, e => e.ToString() == "Employee Joe Stevens (Programmer)");
+            employee.Arrange(() => new Employee("Joe Stevens") { Title = "Programmer" });
+            employee.Assert.IsTrue(e => e.ToString() == "Employee Joe Stevens (Programmer)");
 
             test.Execute();
         }
@@ -29,8 +29,8 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Manager> manager = test.Create<Manager>();
 
-            test.Arrange(manager, () => new Manager("Mary Stevens") { Title = "Software Engineer" });
-            test.Assert(manager, m => m.ToString() == "Manager Mary Stevens (Software Engineer)");
+            manager.Arrange(() => new Manager("Mary Stevens") { Title = "Software Engineer" });
+            manager.Assert.IsTrue(m => m.ToString() == "Manager Mary Stevens (Software Engineer)");
 
             test.Execute();
         }

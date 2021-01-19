@@ -19,9 +19,9 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
-            test.Arrange(account, () => new BankAccount());
-            test.Act(account, Assignment(property, value));
-            test.AssertUnchanged(account, property);
+            account.Arrange(() => new BankAccount());
+            account.Act(Assignment(property, value));
+            account.Assert.Unchanged(property);
 
             test.Execute();
         }
@@ -85,9 +85,9 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
-            test.Arrange(account, () => new BankAccount() );
-            test.Act(account, a => a.Deposit(50));
-            test.Assert(account, a => a.Balance == 50M);
+            account.Arrange(() => new BankAccount() );
+            account.Act(a => a.Deposit(50));
+            account.Assert.IsTrue(a => a.Balance == 50M);
 
             test.Execute();
         }
@@ -98,9 +98,9 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
-            test.Arrange(account, () => new BankAccount());
-            test.Act(account, a => a.Deposit(-1M));
-            test.AssertUnchanged(account, a => a.Balance);
+            account.Arrange(() => new BankAccount());
+            account.Act(a => a.Deposit(-1M));
+            account.Assert.Unchanged(a => a.Balance);
 
             test.Execute();
         }
@@ -111,9 +111,9 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
-            test.Arrange(account, () => new BankAccount());
-            test.Act(account, a => a.Withdraw(50));
-            test.Assert(account, a => a.Balance == -50M);
+            account.Arrange(() => new BankAccount());
+            account.Act(a => a.Withdraw(50));
+            account.Assert.IsTrue(a => a.Balance == -50M);
 
             test.Execute();
         }
@@ -124,9 +124,9 @@ namespace Lecture_3_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
-            test.Arrange(account, () => new BankAccount());
-            test.Act(account, a => a.Withdraw(-1M));
-            test.AssertUnchanged(account, a => a.Balance);
+            account.Arrange(() => new BankAccount());
+            account.Act(a => a.Withdraw(-1M));
+            account.Assert.Unchanged(a => a.Balance);
 
             test.Execute();
         }

@@ -31,8 +31,8 @@ namespace Lecture_3_Tests
             UnitTestObject<FileExplorer> explorer = test.Create<FileExplorer>();
             DirectoryInfo directoryInfo = new DirectoryInfo("../../../");
 
-            test.Arrange(explorer, () => new FileExplorer());
-            test.Act(explorer, e => e.PrintDirectory(directoryInfo));
+            explorer.Arrange(() => new FileExplorer());
+            explorer.Act(e => e.PrintDirectory(directoryInfo));
             test.AssertWriteOut(ProduceExpected(directoryInfo));
 
             test.Execute();

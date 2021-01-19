@@ -44,10 +44,10 @@ namespace Lecture_2_Tests
         public void ImmutableNumberConstructorWithIntAsArgumentSetsValueProperty()
         {
             UnitTest test = factory.CreateTest();
-            UnitTestObject<ImmutableNumber> immutableNumber = test.Create<ImmutableNumber>("immutableNumber");
+            UnitTestObject<ImmutableNumber> number = test.Create<ImmutableNumber>("immutableNumber");
 
-            test.Arrange(immutableNumber, () => new ImmutableNumber(2));
-            test.Assert(immutableNumber, n => n.Value == 2);
+            number.Arrange(() => new ImmutableNumber(2));
+            number.Assert.IsTrue(n => n.Value == 2);
 
             test.Execute();
         }
@@ -68,14 +68,14 @@ namespace Lecture_2_Tests
         [TestMethod("b. ImmutableNumber.Add performs 1 + 2 = 3"), TestCategory("Exercise 3C")]
         public void AddProducesExpectedResult() {
             UnitTest test = factory.CreateTest();
-            UnitTestObject<ImmutableNumber> immutableNumber1 = test.Create<ImmutableNumber>("immutableNumber1");
-            UnitTestObject<ImmutableNumber> immutableNumber2 = test.Create<ImmutableNumber>("immutableNumber2");
-            UnitTestObject<ImmutableNumber> immutableNumber3 = test.Create<ImmutableNumber>("immutableNumber2");
+            UnitTestObject<ImmutableNumber> number1 = test.Create<ImmutableNumber>("immutableNumber1");
+            UnitTestObject<ImmutableNumber> number2 = test.Create<ImmutableNumber>("immutableNumber2");
+            UnitTestObject<ImmutableNumber> number3 = test.Create<ImmutableNumber>("immutableNumber2");
 
-            test.Arrange(immutableNumber1, () => new ImmutableNumber(1));
-            test.Arrange(immutableNumber2, () => new ImmutableNumber(2));
-            test.Arrange(immutableNumber3, immutableNumber1, immutableNumber2, (n1, n2) => n1.Add(n2));
-            test.Assert(immutableNumber3, n => n.Value == 3);
+            number1.Arrange(() => new ImmutableNumber(1));
+            number2.Arrange(() => new ImmutableNumber(2));
+            number3.WithParameters(number1, number2).Arrange((n1, n2) => n1.Add(n2));
+            number3.Assert.IsTrue(n => n.Value == 3);
 
             test.Execute();
         }
@@ -95,14 +95,14 @@ namespace Lecture_2_Tests
         [TestMethod("d. ImmutableNumber.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 3C")]
         public void SubstractProducesExpectedResult() {
             UnitTest test = factory.CreateTest();
-            UnitTestObject<ImmutableNumber> immutableNumber1 = test.Create<ImmutableNumber>("immutableNumber1");
-            UnitTestObject<ImmutableNumber> immutableNumber2 = test.Create<ImmutableNumber>("immutableNumber2");
-            UnitTestObject<ImmutableNumber> immutableNumber3 = test.Create<ImmutableNumber>("immutableNumber2");
+            UnitTestObject<ImmutableNumber> number1 = test.Create<ImmutableNumber>("immutableNumber1");
+            UnitTestObject<ImmutableNumber> number2 = test.Create<ImmutableNumber>("immutableNumber2");
+            UnitTestObject<ImmutableNumber> number3 = test.Create<ImmutableNumber>("immutableNumber2");
 
-            test.Arrange(immutableNumber1, () => new ImmutableNumber(8));
-            test.Arrange(immutableNumber2, () => new ImmutableNumber(5));
-            test.Arrange(immutableNumber3, immutableNumber1, immutableNumber2, (n1, n2) => n1.Subtract(n2)); 
-            test.Assert(immutableNumber3, n => n.Value == 3);
+            number1.Arrange(() => new ImmutableNumber(8));
+            number2.Arrange(() => new ImmutableNumber(5));
+            number3.WithParameters(number1, number2).Arrange((n1, n2) => n1.Subtract(n2)); 
+            number3.Assert.IsTrue(n => n.Value == 3);
             test.Execute();
         }
 
@@ -121,14 +121,14 @@ namespace Lecture_2_Tests
         [TestMethod("f. ImmutableNumber.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 3C")]
         public void MultiplyProducesExpectedResult() {
             UnitTest test = factory.CreateTest();
-            UnitTestObject<ImmutableNumber> immutableNumber1 = test.Create<ImmutableNumber>("immutableNumber1");
-            UnitTestObject<ImmutableNumber> immutableNumber2 = test.Create<ImmutableNumber>("immutableNumber2");
-            UnitTestObject<ImmutableNumber> immutableNumber3 = test.Create<ImmutableNumber>("immutableNumber2");
+            UnitTestObject<ImmutableNumber> number1 = test.Create<ImmutableNumber>("immutableNumber1");
+            UnitTestObject<ImmutableNumber> number2 = test.Create<ImmutableNumber>("immutableNumber2");
+            UnitTestObject<ImmutableNumber> number3 = test.Create<ImmutableNumber>("immutableNumber2");
 
-            test.Arrange(immutableNumber1, () => new ImmutableNumber(2));
-            test.Arrange(immutableNumber2, () => new ImmutableNumber(3));
-            test.Arrange(immutableNumber3, immutableNumber1, immutableNumber2, (n1, n2) => n1.Multiply(n2));
-            test.Assert(immutableNumber3, n => n.Value == 6);
+            number1.Arrange(() => new ImmutableNumber(2));
+            number2.Arrange(() => new ImmutableNumber(3));
+            number3.WithParameters(number1, number2).Arrange((n1, n2) => n1.Multiply(n2));
+            number3.Assert.IsTrue(n => n.Value == 6);
 
             test.Execute();
         }
