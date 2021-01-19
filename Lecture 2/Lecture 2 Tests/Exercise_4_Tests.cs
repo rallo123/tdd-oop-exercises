@@ -2,19 +2,18 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestTools.Structure.Generic;
 using TestTools.Integrated;
+using static Lecture_2_Tests.TestHelper;
 
 namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_4_Tests
     {
-        TestFactory factory = new TestFactory("Lecture_2");
-
         /* Exercise 4B */
         [TestMethod("a. Number.Equals does not equate 4 and 5"), TestCategory("Exercise 4B")]
         public void EqualsDoesNotEquateFourAndFive()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Number> number1 = test.Create<Number>();
             UnitTestObject<Number> number2 = test.Create<Number>();
 
@@ -26,7 +25,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. Number.Equals equates 5 and 5"), TestCategory("Exercise 4B")]
         public void EqualsEquatesFiveAndFive()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Number> number1 = test.Create<Number>();
             UnitTestObject<Number> number2 = test.Create<Number>();
 
@@ -39,7 +38,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. Number.GetHashCode does not equate 4 and 5"), TestCategory("Exercise 4C")]
         public void GetHashCodeDoesNotEquateFourAndFive()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Number> number1 = test.Create<Number>();
             UnitTestObject<Number> number2 = test.Create<Number>();
 
@@ -51,7 +50,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. Number.GetHashCode equates 5 and 5"), TestCategory("Exercise 4C")]
         public void GetHashCodeEquatesFiveAndFice()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Number> number1 = test.Create<Number>();
             UnitTestObject<Number> number2 = test.Create<Number>();
 

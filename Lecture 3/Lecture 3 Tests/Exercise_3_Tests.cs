@@ -4,19 +4,18 @@ using System;
 using TestTools.Integrated;
 using TestTools.Structure;
 using static TestTools.Helpers.ExpressionHelper;
+using static Lecture_3_Tests.TestHelper;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_3_Tests
     {
-        TestFactory factory = new TestFactory("Lecture_3");
-
         /* Exercise 3A */
         [TestMethod("a. Figure is abstract class"), TestCategory("Exercise 3A")]
         public void FigureIsAbstractClass()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertClass<Figure>(
                 new ClassRequirements()
                 {
@@ -27,7 +26,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Figure.CalculateArea() is abstract method"), TestCategory("Exercise 3A")]
         public void FigureCalculateAreaIsAbstractMethod()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<Figure, double>(
                 f => f.CalculateArea(),
                 new MethodRequirements()
@@ -39,7 +38,7 @@ namespace Lecture_3_Tests
         [TestMethod("c. Figure.Contains() is abstract method"), TestCategory("Exercise 3A")]
         public void FigureContainsIsAbstractMethod()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<Figure, Point, bool>(
                 (f, p) => f.Contains(p),
                 new MethodRequirements()
@@ -51,7 +50,7 @@ namespace Lecture_3_Tests
         /* Exercise 3B */
         [TestMethod("a. Circle is subclass of Figure"), TestCategory("Exercise 3B")]
         public void CircleIsSubclassOfFigure() {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertClass<Circle>(
                 new ClassRequirements()
                 {
@@ -62,7 +61,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Rectangle is subclass of Figure"), TestCategory("Exercise 3B")]
         public void RectangleIsSubclassOfFigure()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertClass<Rectangle>(
                 new ClassRequirements()
                 {
@@ -74,7 +73,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. Circle.Center is public Point property"), TestCategory("Exercise 3C")]
         public void CenterIsPublicPointProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Circle, Point>(
                 c => c.Center,
                 new PropertyRequirements()
@@ -86,7 +85,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Circle.Radius is public double property"), TestCategory("Exercise 3C")]
         public void RadiusIsPublicDoubleProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Circle, double>(
                 c => c.Radius,
                 new PropertyRequirements()
@@ -98,7 +97,7 @@ namespace Lecture_3_Tests
         [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("3C")]
         public void CenterIgnoresAssigmentOfNull() 
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
             circle.Arrange(() => new Circle(null, 1.0));
@@ -110,7 +109,7 @@ namespace Lecture_3_Tests
         [TestMethod("d. Circle(Point center, double radius) ignores radius = -1.0"), TestCategory("3C")]
         public void RadiusIgnoresAssigmentOfMinusOne() 
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
             circle.Arrange(() => new Circle(new Point(0, 0), -1.0));
@@ -123,7 +122,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. Rectangle.P1 is public Point property"), TestCategory("Exercise 3D")]
         public void P1IsPublicPointProperty() 
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Rectangle, Point>(
                 r => r.P1,
                 new PropertyRequirements()
@@ -135,7 +134,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Regtangle.P2 is public Point property"), TestCategory("Exercise 3D")]
         public void P2IsPublicPointProperty() 
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Rectangle, Point>(
                 r => r.P2,
                 new PropertyRequirements()
@@ -147,7 +146,7 @@ namespace Lecture_3_Tests
         [TestMethod("c. Rectangle(Point p1, Point p2) ignores p1 = null"), TestCategory("Exercise 3D")]
         public void RectangleConstructorIgnoresP1ValueNull()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(null, new Point(1, 1)));
@@ -159,7 +158,7 @@ namespace Lecture_3_Tests
         [TestMethod("d. Rectangle(Point p1, Point p2) ignores p2 = null"), TestCategory("Exercise 3D")]
         public void RegtangleConstructorIgnoresP2ValueNull() 
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(0, 0), null));
@@ -172,7 +171,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. Circle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
         public void CircleCalculateAreaReturnsExpectedOutput()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
             double r = 42.3;
             double expectedArea = Math.Pow(r, 2) * Math.PI;
@@ -186,7 +185,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Circle.Contains(Point p) returns true for point within circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnTrueForPointWithinCircle()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
             circle.Arrange(() => new Circle(new Point(2, 3), 1));
@@ -198,7 +197,7 @@ namespace Lecture_3_Tests
         [TestMethod("c. Circle.Contains(Point p) returns true for point on perimeter of circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnTrueForPointOnPerimeterOfCircle()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
             circle.Arrange(() => new Circle(new Point(2, 3), 1));
@@ -210,7 +209,7 @@ namespace Lecture_3_Tests
         [TestMethod("d. Circle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnFalseForPointOutsideOfCircle()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Circle> circle = test.Create<Circle>();
 
             circle.Arrange(() => new Circle(new Point(2, 3), 1));
@@ -222,7 +221,7 @@ namespace Lecture_3_Tests
         [TestMethod("e. Rectangle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
         public void RectangleCalculateAreaReturnsExpectedOutput()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(0, 0), new Point(2, 3)));
@@ -234,7 +233,7 @@ namespace Lecture_3_Tests
         [TestMethod("f. Rectangle.Contains(Point p) returns true for point within rectangle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnTrueForPointWithinRectangle()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));
@@ -247,7 +246,7 @@ namespace Lecture_3_Tests
         public void RectangleContainsReturnTrueForPointOnPerimeterOfRectangle()
         {
 
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));
@@ -259,7 +258,7 @@ namespace Lecture_3_Tests
         [TestMethod("h. Rectangle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnFalseForPointOutsideOfRectangle()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));

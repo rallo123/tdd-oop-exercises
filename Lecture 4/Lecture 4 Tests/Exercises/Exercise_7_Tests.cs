@@ -4,19 +4,18 @@ using System;
 using TestTools.Integrated;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
+using static Lecture_4_Tests.TestHelper;
 
 namespace Lecture_4_Tests
 {
     [TestClass]
     public class Exercise_7_Tests
     {
-        TestFactory factory = new TestFactory("Lecture_4");
-
         /* Exercise 7A */
         [TestMethod("a. NotOldEnoughException is subclass of Exception"), TestCategory("Exercise 7A")]
         public void NotOldEnoughExceptionIsSubclassOfException()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertClass<NotOldEnoughException>(new ClassRequirements() { BaseType = typeof(Exception) });
         }
 
@@ -24,7 +23,7 @@ namespace Lecture_4_Tests
         [TestMethod("a. NotOldEnoughException() results in Message = \"Person is too young\""), TestCategory("Exercise 7B")]
         public void ParameterlessPersonConstructorAssignsMessageProperty()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
 
             exception.Arrange(() => new NotOldEnoughException());
@@ -38,7 +37,7 @@ namespace Lecture_4_Tests
         [TestMethod("d. NotOldEnoughException(string activity) results in Message = \"Person is too young to [activity]\""), TestCategory("Exercise 7C")]
         public void PersonConstructorAssignsMessageProperty()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
 
             exception.Arrange(() => new NotOldEnoughException("do something"));
@@ -52,7 +51,7 @@ namespace Lecture_4_Tests
         [TestMethod("a. Person.Age is public int property"), TestCategory("Exercise 7D")]
         public void PersonAgeIsPublicIntProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Person, int>(
                 p => p.Age,
                 new PropertyRequirements()
@@ -65,7 +64,7 @@ namespace Lecture_4_Tests
         [TestMethod("b. Person.CalculateBMI() throws NotOldEnoughException for Height = 1.80, Weight = 80.0 & Age = 15"), TestCategory("Exercise 7D")]
         public void PersonCalculateBMIThrowsNotOldEnoughException()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
             person.Arrange(() => new Person("abc") { Height = 1.80, Weight = 80.0, Age = 15 });

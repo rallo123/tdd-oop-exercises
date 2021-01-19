@@ -5,14 +5,13 @@ using System.Linq.Expressions;
 using TestTools.Integrated;
 using TestTools.Structure;
 using static TestTools.Helpers.ExpressionHelper;
+using static Lecture_2_Tests.TestHelper;
 
 namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_1_Tests
     {
-        TestFactory factory = new TestFactory("Lecture_2");
-
         private string CreateName(int length)
         {
             throw new NotImplementedException();
@@ -21,7 +20,7 @@ namespace Lecture_2_Tests
         /* Exercise 1A */
         [TestMethod("a. Person.FirstName is public string property"), TestCategory("Exercise 1A")]
         public void FirstNameIsPublicStringProperty() {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Person, string>(
                 p => p.FirstName,
                 new PropertyRequirements()
@@ -34,7 +33,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. Person.LastName is public string property"), TestCategory("Exercise 1A")]
         public void LastNameIsPublicStringProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Person, string>(
                 p => p.LastName,
                 new PropertyRequirements()
@@ -47,7 +46,7 @@ namespace Lecture_2_Tests
         [TestMethod("c. Person.Age is public int property"), TestCategory("Exercise 1A")]
         public void AgeIsPublicIntProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Person, int>(
                 p => p.Age,
                 new PropertyRequirements()
@@ -59,7 +58,7 @@ namespace Lecture_2_Tests
 
         [TestMethod("d. Person.FirstName ignores assigment of null"), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOfNull() {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
             person.Arrange(() => new Person());
@@ -72,7 +71,7 @@ namespace Lecture_2_Tests
         [TestMethod("e. Person.LastName ignores assigment of null"), TestCategory("Exercise 1A")]
         public void LastNameIgnoresAssignmentOfNull()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
             person.Arrange(() => new Person());
@@ -85,7 +84,7 @@ namespace Lecture_2_Tests
         [TestMethod("f. Person.FirstName ignores assigment of \"123456789\""), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOf012345689()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
             person.Arrange(() => new Person());
@@ -98,7 +97,7 @@ namespace Lecture_2_Tests
         [TestMethod("g. Person.LastName ignores assigment of \"123456789\""), TestCategory("Exercise 1A")]
         public void LastNameIgnoresAssignmentOf012345689()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
             person.Arrange(() => new Person());
@@ -111,7 +110,7 @@ namespace Lecture_2_Tests
         [TestMethod("h. Person.FirstName ignores assigment of string with length 101"), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOfStringWithLength101()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
             person.Arrange(() => new Person());
@@ -124,7 +123,7 @@ namespace Lecture_2_Tests
         [TestMethod("i. Person.LastName ignores assignment of string with length 101"), TestCategory("Exercise 1A")]
         public void LastNameIgnoresAssignmentOfStringWithLength101()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
             person.Arrange(() => new Person());
@@ -137,7 +136,7 @@ namespace Lecture_2_Tests
         [TestMethod("j. Person.Age ignores assigment of -1"), TestCategory("Exercise 1A")]
         public void AgeIgnoresAssignmentOfMinusOne()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.Create<Person>();
 
             person.Arrange(() => new Person());
@@ -151,7 +150,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. Person.Mother is public Person property"), TestCategory("Exercise 1B")]
         public void MotherIsPublicPersonProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Person, Person>(
                 p => p.Mother,
                 new PropertyRequirements()
@@ -163,7 +162,7 @@ namespace Lecture_2_Tests
 
         [TestMethod("b. Person.Father is public Person property"), TestCategory("Exercise 1B")]
         public void FatherIsPublicPersonProperty() {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Person, Person>(
                 p => p.Father,
                 new PropertyRequirements()
@@ -176,7 +175,7 @@ namespace Lecture_2_Tests
         [TestMethod("c. Person.Mother ignores assigment if mother is younger than child"), TestCategory("Exercise 1B")]
         public void MotherIgnoresAssigmentIfMotherIsYoungerThanChild()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> child = test.Create<Person>("child");
             UnitTestObject<Person> mother = test.Create<Person>("mother");
 
@@ -191,7 +190,7 @@ namespace Lecture_2_Tests
         [TestMethod("d. Person.Father ignores assigment if mother is younger than child"), TestCategory("Exercise 1B")]
         public void FatherIgnoresAssigmentIfMotherIsYoungerThanChild()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> child = test.Create<Person>("child");
             UnitTestObject<Person> father = test.Create<Person>("father");
 
@@ -207,7 +206,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. PersonGenerator.GeneratePerson takes no arguments and returns Person"), TestCategory("Exercise 1C")]
         public void GeneratePersonReturnsPerson()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<PersonGenerator, Person>(
                 g => g.GeneratePerson(),
                 new MethodRequirements()
@@ -219,7 +218,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. PersonGenerator.GeneratePerson generates Adam Smith (36)"), TestCategory("Exercise 1C")]
         public void GeneratePersonCreatesAdamSmith()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
             
@@ -237,7 +236,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. PersonGenerator.GenerateFamily takes no arguments and returns Person "), TestCategory("Exercise 1D")]
         public void GenerateFamilyReturnsPerson()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<PersonGenerator, Person>(
                 g => g.GenerateFamily(),
                 new MethodRequirements()
@@ -249,7 +248,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. PersonGenerator.GenerateFamily generates Robin Rich (10) as child"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesRobinRichAsChild()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> child = test.CreateAnonymous<Person>("child");
 
@@ -267,7 +266,7 @@ namespace Lecture_2_Tests
         [TestMethod("c. PersonGenerator.GenerateFamily generates Waren Rich (36) as father"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesRobinRichAsFather()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> father = test.CreateAnonymous<Person>("father");
             
@@ -285,7 +284,7 @@ namespace Lecture_2_Tests
         [TestMethod("d. PersonGenerator.GenerateFamily generates Anna Smith (38) as mother"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesAnnaRichAsMother()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> mother = test.CreateAnonymous<Person>("mother");
             
@@ -303,7 +302,7 @@ namespace Lecture_2_Tests
         [TestMethod("e. PersonGenerator.GenerateFamily generates Gustav Rich (66) as grandfather"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesGustavRichAsGrandfather()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> grandFather = test.CreateAnonymous<Person>("grandfather");
 
@@ -320,7 +319,7 @@ namespace Lecture_2_Tests
         [TestMethod("g. PersonGenerator.GenerateFamily generates Elsa Johnson (65) as grandmother"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesElsaJohnsonAsGrandMother()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
             AnonymousUnitTestObject<Person> grandMother = test.CreateAnonymous<Person>("grandmother");
 
@@ -337,7 +336,7 @@ namespace Lecture_2_Tests
         /* Exercise 1E */
         [TestMethod("a. PersonPrinter.PrintPerson takes person as argument and returns nothing"), TestCategory("Exercise 1E")]
         public void PrintPersonTakesPersonAsArgumentAndReturnsNothing() {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<PersonPrinter, Person>(
                 (p1, p2) => p1.PrintPerson(p2),
                 new MethodRequirements()
@@ -349,7 +348,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. PersonPrinter.PrintPrints prints correctly"), TestCategory("Exercise 1E")]
         public void PrintPersonPrintsCorrectly()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
             UnitTestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
             UnitTestConsole console = test.CreateConsole();
@@ -366,7 +365,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. PersonPrinter.PrintFamily takes person as argument and returns nothing"), TestCategory("Exercise 1F")]
         public void PrintFamilyTakesPersonAsArgumentAndReturnsNothing()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<PersonPrinter, Person>(
                 (p1, p2) => p1.PrintFamily(p2),
                 new MethodRequirements()
@@ -378,7 +377,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. PersonPrinter.PrintFamily prints correctly"), TestCategory("Exercise 1F")]
         public void PrintFamilyPrintsCorrectly()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
             UnitTestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
             UnitTestConsole console = test.CreateConsole();
@@ -426,7 +425,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. Person has constructor which takes no arguments"), TestCategory("Exercise 1G")]
         public void PersonHasConstructorWhichTakesNoArguments()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertConstructor<Person>(
                 () => new Person(),
                 new ConstructorRequirements 
@@ -438,7 +437,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. Person has constructor which two persons as arguments"), TestCategory("Exercise 1G")]
         public void PersonHasconstructorWhichTakesTwoPersonsAsArguments()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertConstructor<Person, Person, Person>(
                 (mother, father) => new Person(mother, father),
                 new ConstructorRequirements()
@@ -450,7 +449,7 @@ namespace Lecture_2_Tests
         [TestMethod("c. Person constructor with 2 persons as arguments sets mother and father property"), TestCategory("Exercise 1G")]
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> mother = test.Create<Person>();
             UnitTestObject<Person> father = test.Create<Person>();
             UnitTestObject<Person> child = test.Create<Person>();
@@ -467,7 +466,7 @@ namespace Lecture_2_Tests
         /* Exercise 1H */
         [TestMethod("a. Person.ID is public read-only int property"), TestCategory("Exercise 1H")]
         public void IDIsPublicReadonlyIntProperty() {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Person, int>(
                 p => p.ID,
                 new PropertyRequirements() 
@@ -479,7 +478,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. Person.ID increases by 1 for each new person"), TestCategory("Exercise 1H")]
         public void IDIncreasesByOneForEachNewPerson()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person1 = test.Create<Person>();
             UnitTestObject<Person> person2 = test.Create<Person>();
 

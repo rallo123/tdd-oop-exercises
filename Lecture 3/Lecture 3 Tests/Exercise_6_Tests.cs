@@ -3,14 +3,13 @@ using System.IO;
 using TestTools.ConsoleSession;
 using TestTools.Integrated;
 using Lecture_3_Solutions;
+using static Lecture_3_Tests.TestHelper;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_6_Tests
     {
-        TestFactory factory = new TestFactory("Lecture_3");
-
         [TestMethod("FileExplorer.PrintDirectory(DirectoryInfo info) prints correct output"), TestCategory("Exercise 6A")]
         public void FileExplorerPrintDirectoryPrintsCorrectOutput()
         {
@@ -27,7 +26,7 @@ namespace Lecture_3_Tests
                 return buffer; 
             }
 
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<FileExplorer> explorer = test.Create<FileExplorer>();
             UnitTestConsole console = test.CreateConsole();
             DirectoryInfo directoryInfo = new DirectoryInfo("../../../");

@@ -6,17 +6,16 @@ using TestTools.Integrated;
 using static TestTools.Helpers.ExpressionHelper;
 using System.Linq.Expressions;
 using TestTools.Structure;
+using static Lecture_3_Tests.TestHelper;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_5_Tests
     {
-        TestFactory factory = new TestFactory("Lecture_3");
-
         public void TestAssignmentOfBankAccontPropertyIgnoresValue<T>(Expression<Func<BankAccount, T>> property, T value)
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             account.Arrange(() => new BankAccount());
@@ -31,7 +30,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. BankAccount.Balance is public decimal property"), TestCategory("Exercise 5A")]
         public void BankAccountBalanceIsDecimalProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<BankAccount, decimal>(
                 b => b.Balance,
                 new PropertyRequirements()
@@ -43,7 +42,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. BankAccount.BorrowingRate is public decimal property"), TestCategory("Exercise 5A")]
         public void BankAccountBorrowingRateIsPublicDecimalProperty() 
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<BankAccount, decimal>(
                 b => b.BorrowingRate,
                 new PropertyRequirements()
@@ -56,7 +55,7 @@ namespace Lecture_3_Tests
         [TestMethod("c. BankAccount.SavingsRate is public decimal property"), TestCategory("Exercise 5A")]
         public void BankAccountSavingsRateIsPublicDecimalProperty() 
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<BankAccount, decimal>(
                 b => b.SavingsRate,
                 new PropertyRequirements()
@@ -82,7 +81,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. BankAccount.Deposit(int amount) adds amount to Balance"), TestCategory("Exercise 5B")]
         public void BankAccountDepositAddsAmountToBalance()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             account.Arrange(() => new BankAccount() );
@@ -95,7 +94,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. BankAccount.Deposit(int amount) does not change balance on negative amount"), TestCategory("Exercise 5B")]
         public void BankAccountDepositDoesNotChangeBalanceOnNegativeAmount()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             account.Arrange(() => new BankAccount());
@@ -108,7 +107,7 @@ namespace Lecture_3_Tests
         [TestMethod("c. BankAccount.Withdraw(int amount) subtracts amount of Balance"), TestCategory("Exercise 5B")]
         public void BankAccountWithdrawSubtractsAmountOfBalance()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             account.Arrange(() => new BankAccount());
@@ -121,7 +120,7 @@ namespace Lecture_3_Tests
         [TestMethod("d. BankAccount.Withdraw(int amount) does not change Balance on negative amount"), TestCategory("Exercise 5B")]
         public void BankAccountWithdrawDoesNotChangeBalanceOnNegativeAmount()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<BankAccount> account = test.Create<BankAccount>();
 
             account.Arrange(() => new BankAccount());

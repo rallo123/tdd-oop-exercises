@@ -9,17 +9,16 @@ using TestTools.Operation;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
+using static Lecture_3_Tests.TestHelper;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_2_Tests 
-    {
-        TestFactory factory = new TestFactory("Lecture_3");
-        
+    {   
         public void TestAssignmentOfEmployeePropertyIgnoresValue<T>(Expression<Func<Employee, T>> property, T value)
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Employee> employee = test.Create<Employee>();
 
             employee.Arrange(() => new Employee("abc"));
@@ -31,7 +30,7 @@ namespace Lecture_3_Tests
 
         public void TestAssignmentOfManagerPropertyIgnoresValue<T>(Expression<Func<Manager, T>> property, T value)
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Manager> manager = test.Create<Manager>();
 
             manager.Arrange(() => new Manager("abc"));
@@ -43,7 +42,7 @@ namespace Lecture_3_Tests
 
         public void TestEmployeeCalculateYearlySalary(decimal monthlySalary, int senority)
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             DualUnitTestObject<Employee> employee = test.CreateDual<Employee>();
 
             employee.Arrange(() => new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority });
@@ -54,7 +53,7 @@ namespace Lecture_3_Tests
 
         public void TestManagerCalculateYearlySalary(decimal monthlySalary, decimal bonus, int senority)
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             DualUnitTestObject<Manager> employee = test.CreateDual<Manager>();
 
             employee.Arrange(() => new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority });
@@ -67,7 +66,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. Name is public string property"), TestCategory("Exercise 2A")]
         public void NameIsPublicStringProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Employee, string>(
                 e => e.Name,
                 new PropertyRequirements()
@@ -80,7 +79,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Title is public string property"), TestCategory("Exercise 2A")]
         public void TitleIsPublicStringProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Employee, string>(
                 e => e.Title,
                 new PropertyRequirements()
@@ -93,7 +92,7 @@ namespace Lecture_3_Tests
         [TestMethod("c. MonthlySalary is public decimal property"), TestCategory("Exercise 2A")]
         public void MonthlySalaryIsPublicDecimalProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Employee, decimal>(
                 e => e.MonthlySalary,
                 new PropertyRequirements()
@@ -106,7 +105,7 @@ namespace Lecture_3_Tests
         [TestMethod("d. Seniority is public int property"), TestCategory("Exercise 2A")]
         public void SeniorityIsPublicIntProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Employee, int>(
                 e => e.Seniority,
                 new PropertyRequirements()
@@ -119,7 +118,7 @@ namespace Lecture_3_Tests
         [TestMethod("e. Employee constructor takes string as argument"), TestCategory("Exercise 2A")]
         public void EmployeeConstructorTakesStringAsArgument()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertConstructor<string, Employee>(
                 name => new Employee(name),
                 new ConstructorRequirements()
@@ -131,7 +130,7 @@ namespace Lecture_3_Tests
         [TestMethod("e. Employee constructor(string name) sets name property"), TestCategory("Exercise 2A")]
         public void EmployeeConstructorNameSetsNameProperty()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Employee> employee = test.Create<Employee>();
 
             employee.Arrange(() => new Employee("abc"));
@@ -178,7 +177,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. Manager is subclass of Employee"), TestCategory("Exercise 2C")]
         public void ManagerIsSubclassOfEmployee()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertClass<Manager>(
                 new ClassRequirements()
                 {
@@ -189,7 +188,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Bonus is public decimal property"), TestCategory("Exercise 2C")]
         public void BonusIsPublicDecimalProperty() 
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Manager, decimal>(
                 e => e.Bonus,
                 new PropertyRequirements()
@@ -224,7 +223,7 @@ namespace Lecture_3_Tests
         /* Exercise 2E */
         [TestMethod("a. Company.Employees is a public List<Employee> property"), TestCategory("Exercise 2E")]
         public void EmployeesIsPublicListEmployeeProperty() {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Company, List<Employee>>(
                 c => c.Employees,
                 new PropertyRequirements()
@@ -236,7 +235,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Company.Hire(Employee e) adds employee to Employees"), TestCategory("Exercise 2E")]
         public void CompanyHireAddsEmployeeToEmployees()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Employee> employee = test.Create<Employee>();
             UnitTestObject<Company> company = test.Create<Company>();
 
@@ -251,7 +250,7 @@ namespace Lecture_3_Tests
         [TestMethod("c. Company.Fire(Employee e) removes employee from Employees"), TestCategory("Exercise 2E")]
         public void CompanyFireAddsEmployeeToEmployees()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Employee> employee = test.Create<Employee>();
             UnitTestObject<Company> company = test.Create<Company>();
 
@@ -268,7 +267,7 @@ namespace Lecture_3_Tests
         [TestMethod("d. Company.Hire(Employee e) adds manager to Employees"), TestCategory("Exercise 2E")]
         public void CompanyHireAddsManagerToEmployees()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Manager> manager = test.Create<Manager>();
             UnitTestObject<Company> company = test.Create<Company>();
 
@@ -283,7 +282,7 @@ namespace Lecture_3_Tests
         [TestMethod("e. Company.Fire(Employee e) removes manager to Employees"), TestCategory("Exercise 2E")]
         public void CompanyFireAddsManagerToEmployees()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Manager> manager = test.Create<Manager>();
             UnitTestObject<Company> company = test.Create<Company>();
 
@@ -300,7 +299,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. Company.CalculateYearlySalaryCosts() returns 0 for company without employees"), TestCategory("Exercise 2F")]
         public void CompanyCalculateYearlySalaryCostsReturnsZeroForCompanyWithoutEmployees()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Company> company = test.Create<Company>();
 
             company.Arrange(() => new Company());
@@ -312,7 +311,7 @@ namespace Lecture_3_Tests
         [TestMethod("b. Company.CalculateYearlySalaryCosts() returns expected output for company with 1 Employee"), TestCategory("Exercise 2F")]
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithOneEmployee()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             DualUnitTestObject<Company> company = test.CreateDual<Company>();
             DualUnitTestObject<Employee> employee = test.CreateDual<Employee>();
 
@@ -327,7 +326,7 @@ namespace Lecture_3_Tests
     [TestMethod("c. Company.CalculateYearlySalaryCosts() returns expected output for company with 2 Employees"), TestCategory("Exercise 2F")]
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithTwoEmployee() 
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             DualUnitTestObject<Company> company = test.CreateDual<Company>();
             DualUnitTestObject<Employee> employee1 = test.CreateDual<Employee>();
             DualUnitTestObject<Employee> employee2 = test.CreateDual<Employee>();

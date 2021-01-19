@@ -3,19 +3,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Integrated;
 using TestTools.Structure;
+using static Lecture_2_Tests.TestHelper;
 
 namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_2_Tests
     {
-        TestFactory factory = new TestFactory("Lecture_2");
-
         /* Exercise 2A */
         [TestMethod("Number.Value is public readonly int property"), TestCategory("Exercise 2A")]
         public void ValueIsPublicReadonlyIntProperty()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertProperty<Number, int>(
                 n => n.Value,
                 new PropertyRequirements()
@@ -27,7 +26,7 @@ namespace Lecture_2_Tests
         /* Exercise 2B */
         [TestMethod("a. Number constructor takes int as argument"), TestCategory("Exercise 2B")]
         public void NumberConstructorTakesIntAsArgument() {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertConstructor<int, Number>(
                 i => new Number(i),
                 new ConstructorRequirements()
@@ -39,7 +38,7 @@ namespace Lecture_2_Tests
         [TestMethod("b. Number constructor with int as argument sets value property"), TestCategory("Exercise 2B")]
         public void NumberConstructorWithIntAsArgumentSetsValueProperty()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Number> number = test.Create<Number>("number");
 
             number.Arrange(() => new Number(2));
@@ -51,7 +50,7 @@ namespace Lecture_2_Tests
         /* Exercise 2C */
         [TestMethod("a. Number.Add takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void AddTakesNumberAsArgumentsAndReturnsNothing() {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<Number, Number>(
                 (n1, n2) => n1.Add(n2),
                 new MethodRequirements()
@@ -62,7 +61,7 @@ namespace Lecture_2_Tests
 
         [TestMethod("b. Number.Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
         public void AddProducesExpectedResult() {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Number> number1 = test.Create<Number>("number1");
             UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
@@ -77,7 +76,7 @@ namespace Lecture_2_Tests
         [TestMethod("c. Number.Subtract takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void SubtractTakesNumberAsArgumentAndReturnsNothing()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<Number, Number>(
                 (n1, n2) => n1.Subtract(n2),
                 new MethodRequirements()
@@ -88,7 +87,7 @@ namespace Lecture_2_Tests
 
         [TestMethod("d. Number.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
         public void SubtractProducesExpectedResult() {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Number> number1 = test.Create<Number>("number1");
             UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
@@ -103,7 +102,7 @@ namespace Lecture_2_Tests
         [TestMethod("e. Number.Multiply takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void MultiplyTakesNumberAsArgumentAndReturnsNothing()
         {
-            StructureTest test = factory.CreateStructureTest();
+            StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<Number, Number>(
                 (n1, n2) => n1.Multiply(n2),
                 new MethodRequirements()
@@ -115,7 +114,7 @@ namespace Lecture_2_Tests
         [TestMethod("f. Number.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 2C")]
         public void MultiplyProducesExpectedResult()
         {
-            UnitTest test = factory.CreateTest();
+            UnitTest test = Factory.CreateTest();
             UnitTestObject<Number> number1 = test.Create<Number>("number1");
             UnitTestObject<Number> number2 = test.Create<Number>("number2");
 
