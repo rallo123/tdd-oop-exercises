@@ -258,7 +258,7 @@ namespace Lecture_3_Tests
             company.Arrange(() => new Company());
             company.WithParameters(employee).Act((c, e) => c.Hire(e));
             company.WithParameters(employee).Act((c, e) => c.Fire(e));
-            company.CollectionAssert.IsEmpty(c => c.Employees);
+            company.Assert.IsTrue(c => c.Employees.Any());
 
             test.Execute();
         }
@@ -290,7 +290,7 @@ namespace Lecture_3_Tests
             company.Arrange(() => new Company());
             company.WithParameters(manager).Act((c, e) => c.Hire(e));
             company.WithParameters(manager).Act((c, e) => c.Fire(e));
-            company.CollectionAssert.IsEmpty(c => c.Employees);
+            company.Assert.IsTrue(c => c.Employees.Any());
 
             test.Execute();
         }

@@ -74,11 +74,6 @@ namespace TestTools.Integrated
 
         public class CollectionAssertObject 
         {
-            public void IsEmpty<TItem>(Expression<Func<T, ICollection<TItem>>> collectionLocator)
-            {
-                throw new NotImplementedException();
-            }
-
             public void Contains<TItem>(Expression<Func<T, ICollection<TItem>>> collectionLocator, TItem item)
             {
                 throw new NotImplementedException();
@@ -134,11 +129,6 @@ namespace TestTools.Integrated
 
         public class CollectionAssertObject
         {
-            public void IsEmpty(Expression<Func<T1, ICollection<T2>>> collectionLocator)
-            {
-                throw new NotImplementedException();
-            }
-
             public void Contains<TItem>(Expression<Func<T1, ICollection<TItem>>> collectionLocator)
             {
                 throw new NotImplementedException();
