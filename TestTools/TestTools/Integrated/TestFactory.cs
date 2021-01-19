@@ -6,6 +6,8 @@ namespace TestTools.Integrated
 {
     public class TestFactory
     {
+        public UnitTestConfiguration DefaultConfiguration { get; set; } = new UnitTestConfiguration();
+
         public TestFactory(string namespaceToProjectOn)
         {
             throw new NotImplementedException();

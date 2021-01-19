@@ -7,6 +7,8 @@ namespace TestTools.Integrated
 {
     public class UnitTest
     {
+        public UnitTestConfiguration Configuration { get; set; } = new UnitTestConfiguration();
+
         internal UnitTest()
         {
 
