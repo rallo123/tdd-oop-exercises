@@ -13,7 +13,7 @@ namespace Lecture_3_Tests
         public void EmployeeToStringReturnsExpectedOutput()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Employee> employee = test.Create<Employee>();
+            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
 
             employee.Arrange(() => new Employee("Joe Stevens") { Title = "Programmer" });
             employee.Assert.IsTrue(e => e.ToString() == "Employee Joe Stevens (Programmer)");
@@ -26,7 +26,7 @@ namespace Lecture_3_Tests
         public void ManagerToStringReturnsExpectedOutput()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Manager> manager = test.Create<Manager>();
+            UnitTestObject<Manager> manager = test.CreateObject<Manager>();
 
             manager.Arrange(() => new Manager("Mary Stevens") { Title = "Software Engineer" });
             manager.Assert.IsTrue(m => m.ToString() == "Manager Mary Stevens (Software Engineer)");

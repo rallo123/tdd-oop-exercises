@@ -24,7 +24,7 @@ namespace Lecture_4_Tests
         public void ParameterlessPersonConstructorAssignsMessageProperty()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
+            UnitTestObject<NotOldEnoughException> exception = test.CreateObject<NotOldEnoughException>();
 
             exception.Arrange(() => new NotOldEnoughException());
             exception.Assert.IsTrue(e => e.Message == "Person is too young");
@@ -38,7 +38,7 @@ namespace Lecture_4_Tests
         public void PersonConstructorAssignsMessageProperty()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<NotOldEnoughException> exception = test.Create<NotOldEnoughException>();
+            UnitTestObject<NotOldEnoughException> exception = test.CreateObject<NotOldEnoughException>();
 
             exception.Arrange(() => new NotOldEnoughException("do something"));
             exception.Assert.IsTrue(e => e.Message == "Person is too do something");
@@ -65,7 +65,7 @@ namespace Lecture_4_Tests
         public void PersonCalculateBMIThrowsNotOldEnoughException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.Create<Person>();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person("abc") { Height = 1.80, Weight = 80.0, Age = 15 });
             person.Assert.ThrowsException<NotOldEnoughException>(p => p.CalculateBMI());

@@ -98,7 +98,7 @@ namespace Lecture_3_Tests
         public void CenterIgnoresAssigmentOfNull() 
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Circle> circle = test.Create<Circle>();
+            UnitTestObject<Circle> circle = test.CreateObject<Circle>();
 
             circle.Arrange(() => new Circle(null, 1.0));
             circle.Assert.IsTrue(c => c.Center != null);
@@ -110,7 +110,7 @@ namespace Lecture_3_Tests
         public void RadiusIgnoresAssigmentOfMinusOne() 
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Circle> circle = test.Create<Circle>();
+            UnitTestObject<Circle> circle = test.CreateObject<Circle>();
 
             circle.Arrange(() => new Circle(new Point(0, 0), -1.0));
             circle.Assert.IsTrue(c => c.Radius != -1);
@@ -147,7 +147,7 @@ namespace Lecture_3_Tests
         public void RectangleConstructorIgnoresP1ValueNull()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTestObject<Rectangle> rectangle = test.CreateObject<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(null, new Point(1, 1)));
             rectangle.Assert.IsFalse(r => r.P1 == null);
@@ -159,7 +159,7 @@ namespace Lecture_3_Tests
         public void RegtangleConstructorIgnoresP2ValueNull() 
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTestObject<Rectangle> rectangle = test.CreateObject<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(0, 0), null));
             rectangle.Assert.IsFalse(r => r.P2 == null);
@@ -172,7 +172,7 @@ namespace Lecture_3_Tests
         public void CircleCalculateAreaReturnsExpectedOutput()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Circle> circle = test.Create<Circle>();
+            UnitTestObject<Circle> circle = test.CreateObject<Circle>();
             double r = 42.3;
             double expectedArea = Math.Pow(r, 2) * Math.PI;
 
@@ -186,7 +186,7 @@ namespace Lecture_3_Tests
         public void CircleContainsReturnTrueForPointWithinCircle()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Circle> circle = test.Create<Circle>();
+            UnitTestObject<Circle> circle = test.CreateObject<Circle>();
 
             circle.Arrange(() => new Circle(new Point(2, 3), 1));
             circle.Assert.IsTrue(c => c.Contains(new Point(2.5, 3)));
@@ -198,7 +198,7 @@ namespace Lecture_3_Tests
         public void CircleContainsReturnTrueForPointOnPerimeterOfCircle()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Circle> circle = test.Create<Circle>();
+            UnitTestObject<Circle> circle = test.CreateObject<Circle>();
 
             circle.Arrange(() => new Circle(new Point(2, 3), 1));
             circle.Assert.IsTrue(c => c.Contains(new Point(3, 3)));
@@ -210,7 +210,7 @@ namespace Lecture_3_Tests
         public void CircleContainsReturnFalseForPointOutsideOfCircle()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Circle> circle = test.Create<Circle>();
+            UnitTestObject<Circle> circle = test.CreateObject<Circle>();
 
             circle.Arrange(() => new Circle(new Point(2, 3), 1));
             circle.Assert.IsFalse(c => c.Contains(new Point(4, 3)));
@@ -222,7 +222,7 @@ namespace Lecture_3_Tests
         public void RectangleCalculateAreaReturnsExpectedOutput()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTestObject<Rectangle> rectangle = test.CreateObject<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(0, 0), new Point(2, 3)));
             rectangle.Assert.IsTrue(r => r.CalculateArea() == 6);
@@ -234,7 +234,7 @@ namespace Lecture_3_Tests
         public void RectangleContainsReturnTrueForPointWithinRectangle()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTestObject<Rectangle> rectangle = test.CreateObject<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));
             rectangle.Assert.IsTrue(r => r.Contains(new Point(2.5, 3)));
@@ -247,7 +247,7 @@ namespace Lecture_3_Tests
         {
 
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTestObject<Rectangle> rectangle = test.CreateObject<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));
             rectangle.Assert.IsTrue(r => r.Contains(new Point(3, 3)));
@@ -259,7 +259,7 @@ namespace Lecture_3_Tests
         public void RectangleContainsReturnFalseForPointOutsideOfRectangle()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Rectangle> rectangle = test.Create<Rectangle>();
+            UnitTestObject<Rectangle> rectangle = test.CreateObject<Rectangle>();
 
             rectangle.Arrange(() => new Rectangle(new Point(2, 3), new Point(3, 5)));
             rectangle.Assert.IsFalse(r => r.Contains(new Point(4, 3)));

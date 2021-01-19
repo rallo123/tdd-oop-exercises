@@ -16,7 +16,7 @@ namespace Lecture_3_Tests
         public void TestAssignmentOfBankAccontPropertyIgnoresValue<T>(Expression<Func<BankAccount, T>> property, T value)
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
 
             account.Arrange(() => new BankAccount());
             account.Act(Assignment(property, value));
@@ -82,7 +82,7 @@ namespace Lecture_3_Tests
         public void BankAccountDepositAddsAmountToBalance()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
 
             account.Arrange(() => new BankAccount() );
             account.Act(a => a.Deposit(50));
@@ -95,7 +95,7 @@ namespace Lecture_3_Tests
         public void BankAccountDepositDoesNotChangeBalanceOnNegativeAmount()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
 
             account.Arrange(() => new BankAccount());
             account.Act(a => a.Deposit(-1M));
@@ -108,7 +108,7 @@ namespace Lecture_3_Tests
         public void BankAccountWithdrawSubtractsAmountOfBalance()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
 
             account.Arrange(() => new BankAccount());
             account.Act(a => a.Withdraw(50));
@@ -121,7 +121,7 @@ namespace Lecture_3_Tests
         public void BankAccountWithdrawDoesNotChangeBalanceOnNegativeAmount()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.Create<BankAccount>();
+            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
 
             account.Arrange(() => new BankAccount());
             account.Act(a => a.Withdraw(-1M));

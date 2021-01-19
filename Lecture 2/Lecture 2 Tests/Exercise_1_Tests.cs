@@ -59,7 +59,7 @@ namespace Lecture_2_Tests
         [TestMethod("d. Person.FirstName ignores assigment of null"), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOfNull() {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.Create<Person>();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.FirstName, null));
@@ -72,7 +72,7 @@ namespace Lecture_2_Tests
         public void LastNameIgnoresAssignmentOfNull()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.Create<Person>();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.LastName, null));
@@ -85,7 +85,7 @@ namespace Lecture_2_Tests
         public void FirstNameIgnoresAssignmentOf012345689()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.Create<Person>();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.FirstName, "123456789"));
@@ -98,7 +98,7 @@ namespace Lecture_2_Tests
         public void LastNameIgnoresAssignmentOf012345689()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.Create<Person>();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.LastName, "123456789"));
@@ -111,7 +111,7 @@ namespace Lecture_2_Tests
         public void FirstNameIgnoresAssignmentOfStringWithLength101()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.Create<Person>();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.FirstName, CreateName(101)));
@@ -124,7 +124,7 @@ namespace Lecture_2_Tests
         public void LastNameIgnoresAssignmentOfStringWithLength101()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.Create<Person>();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.LastName, CreateName(101)));
@@ -137,7 +137,7 @@ namespace Lecture_2_Tests
         public void AgeIgnoresAssignmentOfMinusOne()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.Create<Person>();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, int>(p => p.Age, -1));
@@ -176,8 +176,8 @@ namespace Lecture_2_Tests
         public void MotherIgnoresAssigmentIfMotherIsYoungerThanChild()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> child = test.Create<Person>("child");
-            UnitTestObject<Person> mother = test.Create<Person>("mother");
+            UnitTestObject<Person> child = test.CreateObject<Person>("child");
+            UnitTestObject<Person> mother = test.CreateObject<Person>("mother");
 
             child.Arrange(() => new Person() { Age = 1});
             mother.Arrange(() => new Person() { Age = 0 });
@@ -191,8 +191,8 @@ namespace Lecture_2_Tests
         public void FatherIgnoresAssigmentIfMotherIsYoungerThanChild()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> child = test.Create<Person>("child");
-            UnitTestObject<Person> father = test.Create<Person>("father");
+            UnitTestObject<Person> child = test.CreateObject<Person>("child");
+            UnitTestObject<Person> father = test.CreateObject<Person>("father");
 
             child.Arrange(() => new Person() { Age = 1 });
             father.Arrange(() => new Person() { Age = 0 });
@@ -219,8 +219,8 @@ namespace Lecture_2_Tests
         public void GeneratePersonCreatesAdamSmith()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
+            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
+            AnonymousUnitTestObject<Person> person = test.CreateAnonymousObject<Person>("person");
             
             generator.Arrange(() => new PersonGenerator());
             person.WithParameters(generator).Arrange(g => g.GeneratePerson());
@@ -249,8 +249,8 @@ namespace Lecture_2_Tests
         public void GenerateFamilyCreatesRobinRichAsChild()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> child = test.CreateAnonymous<Person>("child");
+            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
+            AnonymousUnitTestObject<Person> child = test.CreateAnonymousObject<Person>("child");
 
             generator.Arrange(() => new PersonGenerator());
             child.WithParameters(generator).Arrange(g => g.GenerateFamily());
@@ -267,8 +267,8 @@ namespace Lecture_2_Tests
         public void GenerateFamilyCreatesRobinRichAsFather()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> father = test.CreateAnonymous<Person>("father");
+            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
+            AnonymousUnitTestObject<Person> father = test.CreateAnonymousObject<Person>("father");
             
             generator.Arrange(() => new PersonGenerator());
             father.WithParameters(generator).Arrange(g => g.GenerateFamily().Father);
@@ -285,8 +285,8 @@ namespace Lecture_2_Tests
         public void GenerateFamilyCreatesAnnaRichAsMother()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> mother = test.CreateAnonymous<Person>("mother");
+            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
+            AnonymousUnitTestObject<Person> mother = test.CreateAnonymousObject<Person>("mother");
             
             generator.Arrange(() => new PersonGenerator());
             mother.WithParameters(generator).Arrange(g => g.GenerateFamily().Mother);
@@ -303,8 +303,8 @@ namespace Lecture_2_Tests
         public void GenerateFamilyCreatesGustavRichAsGrandfather()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> grandFather = test.CreateAnonymous<Person>("grandfather");
+            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
+            AnonymousUnitTestObject<Person> grandFather = test.CreateAnonymousObject<Person>("grandfather");
 
             generator.Arrange(() => new PersonGenerator());
             grandFather.WithParameters(generator).Arrange(g => g.GenerateFamily().Father.Father);
@@ -320,8 +320,8 @@ namespace Lecture_2_Tests
         public void GenerateFamilyCreatesElsaJohnsonAsGrandMother()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.Create<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> grandMother = test.CreateAnonymous<Person>("grandmother");
+            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
+            AnonymousUnitTestObject<Person> grandMother = test.CreateAnonymousObject<Person>("grandmother");
 
             generator.Arrange(() => new PersonGenerator());
             grandMother.WithParameters(generator).Arrange(g => g.GenerateFamily().Father.Mother);
@@ -349,8 +349,8 @@ namespace Lecture_2_Tests
         public void PrintPersonPrintsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
-            UnitTestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
+            UnitTestObject<Person> person = test.CreateAnonymousObject<Person>("person");
+            UnitTestObject<PersonPrinter> printer = test.CreateAnonymousObject<PersonPrinter>("printer");
             UnitTestConsole console = test.CreateConsole();
 
             printer.Arrange(() => new PersonPrinter());
@@ -378,8 +378,8 @@ namespace Lecture_2_Tests
         public void PrintFamilyPrintsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
-            UnitTestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
+            UnitTestObject<Person> person = test.CreateAnonymousObject<Person>("person");
+            UnitTestObject<PersonPrinter> printer = test.CreateAnonymousObject<PersonPrinter>("printer");
             UnitTestConsole console = test.CreateConsole();
 
             person.Arrange(() => 
@@ -450,9 +450,9 @@ namespace Lecture_2_Tests
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> mother = test.Create<Person>();
-            UnitTestObject<Person> father = test.Create<Person>();
-            UnitTestObject<Person> child = test.Create<Person>();
+            UnitTestObject<Person> mother = test.CreateObject<Person>();
+            UnitTestObject<Person> father = test.CreateObject<Person>();
+            UnitTestObject<Person> child = test.CreateObject<Person>();
 
             mother.Arrange(() => new Person() { Age = 37 });
             father.Arrange(() => new Person() { Age = 37 });
@@ -479,8 +479,8 @@ namespace Lecture_2_Tests
         public void IDIncreasesByOneForEachNewPerson()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person1 = test.Create<Person>();
-            UnitTestObject<Person> person2 = test.Create<Person>();
+            UnitTestObject<Person> person1 = test.CreateObject<Person>();
+            UnitTestObject<Person> person2 = test.CreateObject<Person>();
 
             person1.Arrange(() => new Person());
             person2.Arrange(() => new Person());

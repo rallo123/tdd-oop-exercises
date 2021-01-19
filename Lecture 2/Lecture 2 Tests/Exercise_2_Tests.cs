@@ -39,7 +39,7 @@ namespace Lecture_2_Tests
         public void NumberConstructorWithIntAsArgumentSetsValueProperty()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number = test.Create<Number>("number");
+            UnitTestObject<Number> number = test.CreateObject<Number>("number");
 
             number.Arrange(() => new Number(2));
             number.Assert.IsTrue(n => n.Value == 2);
@@ -62,8 +62,8 @@ namespace Lecture_2_Tests
         [TestMethod("b. Number.Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
         public void AddProducesExpectedResult() {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.Create<Number>("number1");
-            UnitTestObject<Number> number2 = test.Create<Number>("number2");
+            UnitTestObject<Number> number1 = test.CreateObject<Number>("number1");
+            UnitTestObject<Number> number2 = test.CreateObject<Number>("number2");
 
             number1.Arrange(() => new Number(1));
             number2.Arrange(() => new Number(2));
@@ -88,8 +88,8 @@ namespace Lecture_2_Tests
         [TestMethod("d. Number.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
         public void SubtractProducesExpectedResult() {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.Create<Number>("number1");
-            UnitTestObject<Number> number2 = test.Create<Number>("number2");
+            UnitTestObject<Number> number1 = test.CreateObject<Number>("number1");
+            UnitTestObject<Number> number2 = test.CreateObject<Number>("number2");
 
             number1.Arrange(() => new Number(8));
             number2.Arrange(() => new Number(3));
@@ -115,8 +115,8 @@ namespace Lecture_2_Tests
         public void MultiplyProducesExpectedResult()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.Create<Number>("number1");
-            UnitTestObject<Number> number2 = test.Create<Number>("number2");
+            UnitTestObject<Number> number1 = test.CreateObject<Number>("number1");
+            UnitTestObject<Number> number2 = test.CreateObject<Number>("number2");
 
             number1.Arrange(() => new Number(2));
             number2.Arrange(() => new Number(3));

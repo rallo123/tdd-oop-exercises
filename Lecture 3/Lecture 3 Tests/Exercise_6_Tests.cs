@@ -27,7 +27,7 @@ namespace Lecture_3_Tests
             }
 
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<FileExplorer> explorer = test.Create<FileExplorer>();
+            UnitTestObject<FileExplorer> explorer = test.CreateObject<FileExplorer>();
             UnitTestConsole console = test.CreateConsole();
             DirectoryInfo directoryInfo = new DirectoryInfo("../../../");
 

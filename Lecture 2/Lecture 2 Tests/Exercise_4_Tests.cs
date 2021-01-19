@@ -14,8 +14,8 @@ namespace Lecture_2_Tests
         public void EqualsDoesNotEquateFourAndFive()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.Create<Number>();
-            UnitTestObject<Number> number2 = test.Create<Number>();
+            UnitTestObject<Number> number1 = test.CreateObject<Number>();
+            UnitTestObject<Number> number2 = test.CreateObject<Number>();
 
             number1.Arrange(() => new Number(4));
             number2.Arrange(() => new Number(5));
@@ -26,8 +26,8 @@ namespace Lecture_2_Tests
         public void EqualsEquatesFiveAndFive()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.Create<Number>();
-            UnitTestObject<Number> number2 = test.Create<Number>();
+            UnitTestObject<Number> number1 = test.CreateObject<Number>();
+            UnitTestObject<Number> number2 = test.CreateObject<Number>();
 
             number1.Arrange(() => new Number(5));
             number2.Arrange(() => new Number(5));
@@ -39,8 +39,8 @@ namespace Lecture_2_Tests
         public void GetHashCodeDoesNotEquateFourAndFive()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.Create<Number>();
-            UnitTestObject<Number> number2 = test.Create<Number>();
+            UnitTestObject<Number> number1 = test.CreateObject<Number>();
+            UnitTestObject<Number> number2 = test.CreateObject<Number>();
 
             number1.Arrange(() => new Number(4));
             number2.Arrange(() => new Number(5));
@@ -51,8 +51,8 @@ namespace Lecture_2_Tests
         public void GetHashCodeEquatesFiveAndFice()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.Create<Number>();
-            UnitTestObject<Number> number2 = test.Create<Number>();
+            UnitTestObject<Number> number1 = test.CreateObject<Number>();
+            UnitTestObject<Number> number2 = test.CreateObject<Number>();
 
             number1.Arrange(() => new Number(5));
             number2.Arrange(() => new Number(5));
