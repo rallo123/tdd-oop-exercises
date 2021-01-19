@@ -177,7 +177,7 @@ namespace Lecture_3_Tests
             double expectedArea = Math.Pow(r, 2) * Math.PI;
 
             circle.Arrange(() => new Circle(new Point(0, 0), r));
-            test.AssertApproximate(circle, c => c.CalculateArea() == expectedArea);
+            circle.Assert.IsTrue(c => c.CalculateArea() == expectedArea);
 
             test.Execute();
         }
