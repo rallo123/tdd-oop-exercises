@@ -28,11 +28,6 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
-        public void AssertWriteOut(string str)
-        {
-            throw new NotImplementedException();
-        }
-
         public void AssertCollectionsContains<T1, T2, T3>(UnitTestObject<T1> collectionOwner, UnitTestObject<T2> element, Expression<Func<T1, IEnumerable<T3>>> locator) where T2 : T3
         {
             throw new NotImplementedException();
@@ -43,7 +38,7 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
-        public UnitTestConsole CaptureConsole()
+        public UnitTestConsole CreateConsole()
         {
             throw new NotImplementedException();
         }

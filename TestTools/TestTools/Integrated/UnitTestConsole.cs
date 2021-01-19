@@ -6,14 +6,34 @@ namespace TestTools.Integrated
 {
     public class UnitTestConsole
     {
-        public void Write(string str)
+        public void Read(int charCode)
         {
             throw new NotImplementedException();
         }
 
-        public void WriteLine(string str)
+        public void ReadKey(ConsoleKeyInfo cki)
         {
             throw new NotImplementedException();
+        }
+
+        public void ReadLine(string line)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AssertObject Assert { get; }
+
+        public class AssertObject
+        {
+            public void HasWritten(string str)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void HasWrittenLine(string str)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

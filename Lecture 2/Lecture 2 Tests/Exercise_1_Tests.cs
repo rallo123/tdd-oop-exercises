@@ -352,11 +352,12 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
             UnitTestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
+            UnitTestConsole console = test.CreateConsole();
 
             printer.Arrange(() => new PersonPrinter());
             person.Arrange(() => new Person() { FirstName = "Adam", LastName = "Smith", Age = 36 });
             printer.WithParameters(person).Act((p1, p2) => p1.PrintPerson(p2));
-            test.AssertWriteOut("Adam Smith (36)");
+            console.Assert.HasWritten("Adam Smith (36)");
 
             test.Execute();
         }
@@ -380,6 +381,7 @@ namespace Lecture_2_Tests
             UnitTest test = factory.CreateTest();
             UnitTestObject<Person> person = test.CreateAnonymous<Person>("person");
             UnitTestObject<PersonPrinter> printer = test.CreateAnonymous<PersonPrinter>("printer");
+            UnitTestConsole console = test.CreateConsole();
 
             person.Arrange(() => 
                 new Person() { 
@@ -409,12 +411,13 @@ namespace Lecture_2_Tests
                 }
             );
             printer.WithParameters(person).Act((p1, p2) => p1.PrintFamily(p2));
-            test.AssertWriteOut("Adam Smith (36)\n");
-            test.AssertWriteOut("Robin Rich (10)\n");
-            test.AssertWriteOut("  Warren Rich (36)\n");
-            test.AssertWriteOut("    Gustav Rich (66)\n");
-            test.AssertWriteOut("    Elsa Johnson (65)\n");
-            test.AssertWriteOut("  Anna Smith (38)\n");
+
+            console.Assert.HasWritten("Adam Smith (36)\n");
+            console.Assert.HasWritten("Robin Rich (10)\n");
+            console.Assert.HasWritten("  Warren Rich (36)\n");
+            console.Assert.HasWritten("    Gustav Rich (66)\n");
+            console.Assert.HasWritten("    Elsa Johnson (65)\n");
+            console.Assert.HasWritten("  Anna Smith (38)\n");
 
             test.Execute();
         }

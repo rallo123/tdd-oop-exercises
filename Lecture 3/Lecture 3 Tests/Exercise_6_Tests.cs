@@ -29,11 +29,12 @@ namespace Lecture_3_Tests
 
             UnitTest test = factory.CreateTest();
             UnitTestObject<FileExplorer> explorer = test.Create<FileExplorer>();
+            UnitTestConsole console = test.CreateConsole();
             DirectoryInfo directoryInfo = new DirectoryInfo("../../../");
 
             explorer.Arrange(() => new FileExplorer());
             explorer.Act(e => e.PrintDirectory(directoryInfo));
-            test.AssertWriteOut(ProduceExpected(directoryInfo));
+            console.Assert.HasWritten(ProduceExpected(directoryInfo));
 
             test.Execute();
         }
