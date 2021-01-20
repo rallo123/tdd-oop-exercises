@@ -109,6 +109,26 @@ namespace TestTools.Integrated
         {
             throw new NotImplementedException();
         }
+
+        public void AssertInterface<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertMethod<T1, T2>(Func<T1, T2> p)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertMethod<T1, T2, T3>(Func<T1, T3, T3> p)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertMethod<T1, T2, T3, T4>(Func<T1, T4, T4, T4> p)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

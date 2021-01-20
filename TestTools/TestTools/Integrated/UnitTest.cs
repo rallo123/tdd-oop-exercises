@@ -24,6 +24,11 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
+        public UnitTestFileSystem CreateFileSystem()
+        {
+            throw new NotImplementedException();
+        }
+
         public UnitTestObject<T> CreateObject<T>()
         {
             return CreateObject<T>(typeof(T).Name.ToLower());

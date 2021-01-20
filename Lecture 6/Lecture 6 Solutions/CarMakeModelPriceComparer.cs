@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Lecture_6_Potential_Solutions
+namespace Lecture_6_Solutions
 {
     public class CarMakeModelPriceComparer : IComparer<Car>
     {

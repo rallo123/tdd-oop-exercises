@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_6_Potential_Solutions
+namespace Lecture_6_Solutions
 {
-    public class Car
+    public class Car : IComparable
     {
         string _make;
         string _model;
@@ -47,6 +47,12 @@ namespace Lecture_6_Potential_Solutions
             Make = make;
             Model = model;
             Price = price;
+        }
+
+        public int CompareTo(object obj)
+        {
+            Car other = obj as Car;
+            return other == null ? 1 : this.ID - other.ID;
         }
     }
 }
