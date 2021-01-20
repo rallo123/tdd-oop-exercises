@@ -5,6 +5,7 @@ using TestTools.Integrated;
 using TestTools.Structure;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_3_Tests.TestHelper;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_3_Tests
 {
@@ -16,82 +17,57 @@ namespace Lecture_3_Tests
         public void FigureIsAbstractClass()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Figure>(
-                new ClassRequirements()
-                {
-                    IsAbstract = true
-                });
+            test.AssertClass<Figure>(t => t.IsAbstract);
+            test.Execute();
         }
 
         [TestMethod("b. Figure.CalculateArea() is abstract method"), TestCategory("Exercise 3A")]
         public void FigureCalculateAreaIsAbstractMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Figure, double>(
-                f => f.CalculateArea(),
-                new MethodRequirements()
-                {
-                    IsAbstract = true
-                });
+            test.AssertMethod<Figure, double>(f => f.CalculateArea(), IsAbstractMethod);
+            test.Execute();
         }
 
         [TestMethod("c. Figure.Contains() is abstract method"), TestCategory("Exercise 3A")]
         public void FigureContainsIsAbstractMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Figure, Point, bool>(
-                (f, p) => f.Contains(p),
-                new MethodRequirements()
-                {
-                    IsAbstract = true
-                });
+            test.AssertMethod<Figure, Point, bool>((f, p) => f.Contains(p), IsAbstractMethod);
+            test.Execute();
         }
 
         /* Exercise 3B */
         [TestMethod("a. Circle is subclass of Figure"), TestCategory("Exercise 3B")]
         public void CircleIsSubclassOfFigure() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Circle>(
-                new ClassRequirements()
-                {
-                    BaseType = typeof(Figure)
-                });
+            test.AssertClass<Circle>(t => t.BaseType == typeof(Figure));
+            test.Execute();
         }
 
         [TestMethod("b. Rectangle is subclass of Figure"), TestCategory("Exercise 3B")]
         public void RectangleIsSubclassOfFigure()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Rectangle>(
-                new ClassRequirements()
-                {
-                    BaseType = typeof(Figure)
-                });
+            test.AssertClass<Rectangle>(t => t.BaseType == typeof(Figure));
+            test.Execute();
         }
 
         /* Exercise 3C */
-        [TestMethod("a. Circle.Center is public Point property"), TestCategory("Exercise 3C")]
+        [TestMethod("a. Circle.Center is public read-only Point property"), TestCategory("Exercise 3C")]
         public void CenterIsPublicPointProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Circle, Point>(
-                c => c.Center,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Circle, Point>(c => c.Center, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
-        [TestMethod("b. Circle.Radius is public double property"), TestCategory("Exercise 3C")]
+        [TestMethod("b. Circle.Radius is public read-only double property"), TestCategory("Exercise 3C")]
         public void RadiusIsPublicDoubleProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Circle, double>(
-                c => c.Radius,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Circle, double>(c => c.Radius, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
         [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("3C")]
@@ -119,28 +95,20 @@ namespace Lecture_3_Tests
         }
         
         /* Exercise 3D */
-        [TestMethod("a. Rectangle.P1 is public Point property"), TestCategory("Exercise 3D")]
+        [TestMethod("a. Rectangle.P1 is public read-only Point property"), TestCategory("Exercise 3D")]
         public void P1IsPublicPointProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Rectangle, Point>(
-                r => r.P1,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Rectangle, Point>(r => r.P1, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
-        [TestMethod("b. Regtangle.P2 is public Point property"), TestCategory("Exercise 3D")]
+        [TestMethod("b. Regtangle.P2 is public read-only Point property"), TestCategory("Exercise 3D")]
         public void P2IsPublicPointProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Rectangle, Point>(
-                r => r.P2,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Rectangle, Point>(r => r.P2, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
         [TestMethod("c. Rectangle(Point p1, Point p2) ignores p1 = null"), TestCategory("Exercise 3D")]

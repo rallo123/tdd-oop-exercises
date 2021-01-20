@@ -10,6 +10,7 @@ using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_3_Tests.TestHelper;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_3_Tests
 {
@@ -67,64 +68,40 @@ namespace Lecture_3_Tests
         public void NameIsPublicStringProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Employee, string>(
-                e => e.Name,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Employee, string>(e => e.Name, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("b. Title is public string property"), TestCategory("Exercise 2A")]
         public void TitleIsPublicStringProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Employee, string>(
-                e => e.Title,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Employee, string>(e => e.Title, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("c. MonthlySalary is public decimal property"), TestCategory("Exercise 2A")]
         public void MonthlySalaryIsPublicDecimalProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Employee, decimal>(
-                e => e.MonthlySalary,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Employee, decimal>(e => e.MonthlySalary, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("d. Seniority is public int property"), TestCategory("Exercise 2A")]
         public void SeniorityIsPublicIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Employee, int>(
-                e => e.Seniority,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Employee, int>(e => e.Seniority, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("e. Employee constructor takes string as argument"), TestCategory("Exercise 2A")]
         public void EmployeeConstructorTakesStringAsArgument()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<string, Employee>(
-                name => new Employee(name),
-                new ConstructorRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertConstructor<string, Employee>(name => new Employee(name), IsPublicConstructor);
+            test.Execute();
         }
 
         [TestMethod("e. Employee constructor(string name) sets name property"), TestCategory("Exercise 2A")]
@@ -178,24 +155,16 @@ namespace Lecture_3_Tests
         public void ManagerIsSubclassOfEmployee()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Manager>(
-                new ClassRequirements()
-                {
-                    BaseType = typeof(Employee)
-                });
+            test.AssertClass<Manager>(t => t.BaseType == typeof(Employee));
+            test.Execute();
         }
 
         [TestMethod("b. Bonus is public decimal property"), TestCategory("Exercise 2C")]
         public void BonusIsPublicDecimalProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Manager, decimal>(
-                e => e.Bonus,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Manager, decimal>(e => e.Bonus, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("c. Bonus ignores assignment of -1M"), TestCategory("Exercise 2C")]
@@ -221,15 +190,11 @@ namespace Lecture_3_Tests
         public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelTen() => TestManagerCalculateYearlySalary(35250, 3400, 10);
 
         /* Exercise 2E */
-        [TestMethod("a. Company.Employees is a public List<Employee> property"), TestCategory("Exercise 2E")]
+        [TestMethod("a. Company.Employees is a public read-only List<Employee> property"), TestCategory("Exercise 2E")]
         public void EmployeesIsPublicListEmployeeProperty() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Company, List<Employee>>(
-                c => c.Employees,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                });
+            test.AssertProperty<Company, List<Employee>>(c => c.Employees, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
         [TestMethod("b. Company.Hire(Employee e) adds employee to Employees"), TestCategory("Exercise 2E")]

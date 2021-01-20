@@ -6,6 +6,7 @@ using TestTools.Integrated;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_4_Tests.TestHelper;
 using TestTools.Structure;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_4_Tests
 {
@@ -17,39 +18,24 @@ namespace Lecture_4_Tests
         public void PersonNameIsStringProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, string>(
-                p => p.Name,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, string>(p => p.Name, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("b. Person.Height is public double property"), TestCategory("Exercise 2A")]
         public void PersonHeightIsPublicDoubleProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, double>(
-                p => p.Height,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, double>(p => p.Height, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("c. Person.Weight is public double property"), TestCategory("Exercise 2A")]
         public void PersonWeightIsPublicDoubleProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, double>(
-                p => p.Weight,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, double>(p => p.Weight, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("d. Person(string name) assigns Name property"), TestCategory("Exercise 2A")]

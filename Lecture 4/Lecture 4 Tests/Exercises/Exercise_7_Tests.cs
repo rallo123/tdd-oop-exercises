@@ -5,6 +5,7 @@ using TestTools.Integrated;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static Lecture_4_Tests.TestHelper;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_4_Tests
 {
@@ -16,7 +17,8 @@ namespace Lecture_4_Tests
         public void NotOldEnoughExceptionIsSubclassOfException()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<NotOldEnoughException>(new ClassRequirements() { BaseType = typeof(Exception) });
+            test.AssertClass<NotOldEnoughException>(t => t.BaseType == typeof(Exception));
+            test.Execute();
         }
 
         /* Exercise 7B */
@@ -52,13 +54,8 @@ namespace Lecture_4_Tests
         public void PersonAgeIsPublicIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, int>(
-                p => p.Age,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, int>(p => p.Age, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("b. Person.CalculateBMI() throws NotOldEnoughException for Height = 1.80, Weight = 80.0 & Age = 15"), TestCategory("Exercise 7D")]

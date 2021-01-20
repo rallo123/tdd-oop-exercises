@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using TestTools.Integrated;
 using TestTools.Structure;
 using static TestTools.Helpers.ExpressionHelper;
+using static TestTools.Helpers.StructureHelper;
 using static Lecture_2_Tests.TestHelper;
 
 namespace Lecture_2_Tests
@@ -21,39 +22,24 @@ namespace Lecture_2_Tests
         [TestMethod("a. Person.FirstName is public string property"), TestCategory("Exercise 1A")]
         public void FirstNameIsPublicStringProperty() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, string>(
-                p => p.FirstName,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, string>(p => p.FirstName, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("b. Person.LastName is public string property"), TestCategory("Exercise 1A")]
         public void LastNameIsPublicStringProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, string>(
-                p => p.LastName,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, string>(p => p.LastName, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("c. Person.Age is public int property"), TestCategory("Exercise 1A")]
         public void AgeIsPublicIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, int>(
-                p => p.Age,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, int>(p => p.Age, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("d. Person.FirstName ignores assigment of null"), TestCategory("Exercise 1A")]
@@ -151,25 +137,15 @@ namespace Lecture_2_Tests
         public void MotherIsPublicPersonProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, Person>(
-                p => p.Mother,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, Person>(p => p.Mother, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("b. Person.Father is public Person property"), TestCategory("Exercise 1B")]
         public void FatherIsPublicPersonProperty() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, Person>(
-                p => p.Father,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, Person>(p => p.Father, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("c. Person.Mother ignores assigment if mother is younger than child"), TestCategory("Exercise 1B")]
@@ -207,12 +183,8 @@ namespace Lecture_2_Tests
         public void GeneratePersonReturnsPerson()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<PersonGenerator, Person>(
-                g => g.GeneratePerson(),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<PersonGenerator, Person>(g => g.GeneratePerson(), IsPublicMethod);
+            test.Execute();
         }
 
         [TestMethod("b. PersonGenerator.GeneratePerson generates Adam Smith (36)"), TestCategory("Exercise 1C")]
@@ -237,12 +209,8 @@ namespace Lecture_2_Tests
         public void GenerateFamilyReturnsPerson()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<PersonGenerator, Person>(
-                g => g.GenerateFamily(),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<PersonGenerator, Person>(g => g.GenerateFamily(), IsPublicMethod);
+            test.Execute();
         }
 
         [TestMethod("b. PersonGenerator.GenerateFamily generates Robin Rich (10) as child"), TestCategory("Exercise 1D")]
@@ -337,12 +305,8 @@ namespace Lecture_2_Tests
         [TestMethod("a. PersonPrinter.PrintPerson takes person as argument and returns nothing"), TestCategory("Exercise 1E")]
         public void PrintPersonTakesPersonAsArgumentAndReturnsNothing() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<PersonPrinter, Person>(
-                (p1, p2) => p1.PrintPerson(p2),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<PersonPrinter, Person>((p1, p2) => p1.PrintPerson(p2), IsPublicMethod);
+            test.Execute();
         }
 
         [TestMethod("b. PersonPrinter.PrintPrints prints correctly"), TestCategory("Exercise 1E")]
@@ -366,12 +330,9 @@ namespace Lecture_2_Tests
         public void PrintFamilyTakesPersonAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<PersonPrinter, Person>(
-                (p1, p2) => p1.PrintFamily(p2),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<PersonPrinter, Person>((p1, p2) => p1.PrintFamily(p2), IsPublicMethod);
+            test.Execute();
+
         }
 
         [TestMethod("b. PersonPrinter.PrintFamily prints correctly"), TestCategory("Exercise 1F")]
@@ -426,24 +387,16 @@ namespace Lecture_2_Tests
         public void PersonHasConstructorWhichTakesNoArguments()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<Person>(
-                () => new Person(),
-                new ConstructorRequirements 
-                { 
-                    IsPublic = true
-                });
+            test.AssertConstructor<Person>(() => new Person(), IsPublicConstructor);
+            test.Execute();
         }
 
         [TestMethod("b. Person has constructor which two persons as arguments"), TestCategory("Exercise 1G")]
         public void PersonHasconstructorWhichTakesTwoPersonsAsArguments()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<Person, Person, Person>(
-                (mother, father) => new Person(mother, father),
-                new ConstructorRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertConstructor<Person, Person, Person>((p1, p2) => new Person(p1, p2), IsPublicConstructor);
+            test.Execute();
         }
 
         [TestMethod("c. Person constructor with 2 persons as arguments sets mother and father property"), TestCategory("Exercise 1G")]
@@ -467,12 +420,8 @@ namespace Lecture_2_Tests
         [TestMethod("a. Person.ID is public read-only int property"), TestCategory("Exercise 1H")]
         public void IDIsPublicReadonlyIntProperty() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, int>(
-                p => p.ID,
-                new PropertyRequirements() 
-                { 
-                    GetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Person, int>(p => p.ID, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
         [TestMethod("b. Person.ID increases by 1 for each new person"), TestCategory("Exercise 1H")]

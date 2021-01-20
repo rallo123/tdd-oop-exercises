@@ -7,6 +7,7 @@ using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_2_Tests.TestHelper;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_2_Tests
 {
@@ -18,12 +19,8 @@ namespace Lecture_2_Tests
         public void ValueIsPublicReadonlyProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<ImmutableNumber, int>(
-                n => n.Value,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<ImmutableNumber, int>(n => n.Value, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
         /* Exercise 3B */
@@ -31,12 +28,8 @@ namespace Lecture_2_Tests
         public void ImmutableNumberConstructorTakesIntAsArgument() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<int, ImmutableNumber>(
-                i => new ImmutableNumber(i),
-                new ConstructorRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertConstructor<int, ImmutableNumber>(i => new ImmutableNumber(i), IsPublicConstructor);
+            test.Execute();
         }
 
         [TestMethod("b. ImmutableNumber constructor with int as argument sets value property"), TestCategory("Exercise 3B")]
@@ -56,12 +49,8 @@ namespace Lecture_2_Tests
         public void AddTakesImmutableNumberAsArgumentAndReturnsImmutableNumber()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
-                (n1, n2) => n1.Add(n2),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Add(n2), IsPublicMethod);
+            test.Execute();
         }
 
         [TestMethod("b. ImmutableNumber.Add performs 1 + 2 = 3"), TestCategory("Exercise 3C")]
@@ -83,12 +72,8 @@ namespace Lecture_2_Tests
         public void SubtractTakesImmutableNumberAsArgumentAndReturnsImmutableNumber() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
-                (n1, n2) => n1.Subtract(n2),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Subtract(n2), IsPublicMethod);
+            test.Execute();
         }
 
         [TestMethod("d. ImmutableNumber.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 3C")]
@@ -109,12 +94,8 @@ namespace Lecture_2_Tests
         public void MultiplyTakesImmutableAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>(
-                (n1, n2) => n1.Multiply(n2),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Multiply(n2), IsPublicMethod);
+            test.Execute();
         }
 
         [TestMethod("f. ImmutableNumber.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 3C")]

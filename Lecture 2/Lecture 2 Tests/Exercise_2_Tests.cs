@@ -4,6 +4,7 @@ using System;
 using TestTools.Integrated;
 using TestTools.Structure;
 using static Lecture_2_Tests.TestHelper;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_2_Tests
 {
@@ -15,24 +16,16 @@ namespace Lecture_2_Tests
         public void ValueIsPublicReadonlyIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Number, int>(
-                n => n.Value,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<Number, int>(n => n.Value, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
         /* Exercise 2B */
         [TestMethod("a. Number constructor takes int as argument"), TestCategory("Exercise 2B")]
         public void NumberConstructorTakesIntAsArgument() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<int, Number>(
-                i => new Number(i),
-                new ConstructorRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertConstructor<int, Number>(i => new Number(i), IsPublicConstructor);
+            test.Execute();
         }
 
         [TestMethod("b. Number constructor with int as argument sets value property"), TestCategory("Exercise 2B")]
@@ -51,12 +44,8 @@ namespace Lecture_2_Tests
         [TestMethod("a. Number.Add takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void AddTakesNumberAsArgumentsAndReturnsNothing() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Number, Number>(
-                (n1, n2) => n1.Add(n2),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<Number, Number>((n1, n2) => n1.Add(n2), IsPublicMethod);
+            test.Execute();
         }
 
         [TestMethod("b. Number.Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
@@ -77,12 +66,9 @@ namespace Lecture_2_Tests
         public void SubtractTakesNumberAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Number, Number>(
-                (n1, n2) => n1.Subtract(n2),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<Number, Number>((n1, n2) => n1.Subtract(n2), IsPublicMethod);
+            test.Execute();
+            test.AssertMethod<Number, Number>((n1, n2) => n1.Subtract(n2), IsPublicMethod);
         }
 
         [TestMethod("d. Number.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
@@ -103,12 +89,8 @@ namespace Lecture_2_Tests
         public void MultiplyTakesNumberAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Number, Number>(
-                (n1, n2) => n1.Multiply(n2),
-                new MethodRequirements()
-                {
-                    IsPublic = true
-                });
+            test.AssertMethod<Number, Number>((n1, n2) => n1.Multiply(n2), IsPublicMethod);
+            test.Execute();
         }
 
         [TestMethod("f. Number.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 2C")]

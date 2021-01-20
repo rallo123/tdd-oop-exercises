@@ -7,6 +7,7 @@ using static TestTools.Helpers.ExpressionHelper;
 using System.Linq.Expressions;
 using TestTools.Structure;
 using static Lecture_3_Tests.TestHelper;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_3_Tests
 {
@@ -27,42 +28,28 @@ namespace Lecture_3_Tests
 
 
         /* Exercise 5A */
-        [TestMethod("a. BankAccount.Balance is public decimal property"), TestCategory("Exercise 5A")]
+        [TestMethod("a. BankAccount.Balance is public read-only decimal property"), TestCategory("Exercise 5A")]
         public void BankAccountBalanceIsDecimalProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(
-                b => b.Balance,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<BankAccount, decimal>(b => b.Balance, IsPublicReadonlyProperty);
+            test.Execute();
         }
 
         [TestMethod("b. BankAccount.BorrowingRate is public decimal property"), TestCategory("Exercise 5A")]
         public void BankAccountBorrowingRateIsPublicDecimalProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(
-                b => b.BorrowingRate,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<BankAccount, decimal>(b => b.BorrowingRate, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("c. BankAccount.SavingsRate is public decimal property"), TestCategory("Exercise 5A")]
         public void BankAccountSavingsRateIsPublicDecimalProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(
-                b => b.SavingsRate,
-                new PropertyRequirements()
-                {
-                    GetMethod = new MethodRequirements() { IsPublic = true },
-                    SetMethod = new MethodRequirements() { IsPublic = true }
-                });
+            test.AssertProperty<BankAccount, decimal>(b => b.SavingsRate, IsPublicProperty);
+            test.Execute();
         }
 
         [TestMethod("d. BankAccount.Balance ignores assignment of -100001M"), TestCategory("Exercise 5A")]
