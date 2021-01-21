@@ -164,7 +164,7 @@ namespace Lecture_2_Tests
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, int>(p => p.Age, -1));
-            person.Assert.Unchanged(p => p.Age);
+            person.Assert.IsTrue(p => p.Age == 0);
 
             test.Execute();
         }
@@ -195,7 +195,7 @@ namespace Lecture_2_Tests
             child.Arrange(() => new Person() { Age = 1});
             mother.Arrange(() => new Person() { Age = 0 });
             child.WithParameters(mother).Act(Assignment<Person, Person, Person>(p => p.Mother, p => p));
-            child.Assert.Unchanged(p => p.Mother);
+            child.Assert.IsTrue(p => p.Mother == null);
 
             test.Execute();
         }
@@ -210,7 +210,7 @@ namespace Lecture_2_Tests
             child.Arrange(() => new Person() { Age = 1 });
             father.Arrange(() => new Person() { Age = 0 });
             child.WithParameters(father).Act(Assignment<Person, Person, Person>(p => p.Father, p => p));
-            child.Assert.Unchanged(p => p.Mother);
+            child.Assert.IsTrue(p => p.Mother == null);
 
             test.Execute();
         }
