@@ -11,6 +11,7 @@ namespace TestTools.Helpers
         {
             return value => value;
         }
+
         public static Expression<Action<T1>> Assignment<T1, TValue>(Expression<Func<T1, TValue>> leftSide, TValue rightSide)
         {
             throw new NotImplementedException();
@@ -21,6 +22,11 @@ namespace TestTools.Helpers
         }
 
         public static Expression<Action<T1, T2, T3>> Assignment<T1, T2, T3, TValue>(Expression<Func<T1, TValue>> leftSide, Expression<Func<T2, T3, TValue>> rightSide)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Expression<Func<T1, bool>> Equality<T1, TValue>(Expression<Func<T1, TValue>> leftSide, TValue rightSide)
         {
             throw new NotImplementedException();
         }

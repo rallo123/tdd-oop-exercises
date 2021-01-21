@@ -51,21 +51,6 @@ namespace TestTools.Integrated
                 throw new NotImplementedException();
             }
 
-            public void Unchanged<TProperty>(Expression<Func<T, TProperty>> locator)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void IncreasedBy<TProperty>(Expression<Func<T, TProperty>> locator, TProperty value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void DecreasedBy<TProperty>(Expression<Func<T, TProperty>> locator, TProperty value)
-            {
-                throw new NotImplementedException();
-            }
-
             public void EqualToDual<TProperty>(Expression<Func<T, TProperty>> locator) 
             {
                 throw new NotImplementedException();    

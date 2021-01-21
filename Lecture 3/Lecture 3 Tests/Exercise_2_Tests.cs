@@ -17,26 +17,26 @@ namespace Lecture_3_Tests
     [TestClass]
     public class Exercise_2_Tests 
     {   
-        public void TestAssignmentOfEmployeePropertyIgnoresValue<T>(Expression<Func<Employee, T>> property, T value)
+        public void TestAssignmentOfEmployeePropertyIgnoresValue<T>(Expression<Func<Employee, T>> property, T value, T defaultValue)
         {
             UnitTest test = Factory.CreateTest();
             UnitTestObject<Employee> employee = test.CreateObject<Employee>();
 
             employee.Arrange(() => new Employee("abc"));
             employee.Act(Assignment(property, value));
-            employee.Assert.Unchanged(property);
+            employee.Assert.IsTrue(Equality(property, defaultValue));
 
             test.Execute();
         }
 
-        public void TestAssignmentOfManagerPropertyIgnoresValue<T>(Expression<Func<Manager, T>> property, T value)
+        public void TestAssignmentOfManagerPropertyIgnoresValue<T>(Expression<Func<Manager, T>> property, T value, T defaultValue)
         {
             UnitTest test = Factory.CreateTest();
             UnitTestObject<Manager> manager = test.CreateObject<Manager>();
 
             manager.Arrange(() => new Manager("abc"));
             manager.Act(Assignment(property, value));
-            manager.Assert.Unchanged(property);
+            manager.Assert.Unchanged(Equality(property, defaultValue));
 
             test.Execute();
         }
@@ -116,20 +116,44 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("f. Title ignores assignment of null"), TestCategory("Exercise 2A")]
-        public void TitleIgnoresAssignmentOfNull() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, null);
+        [TestMethod("f. Employee.MonthlySalary is initialized as 0"), TestCategory("Exercise 2A")]
+        public void MonthlySalaryIsInitializedAs0()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
 
-        [TestMethod("g. Title ignores assignment of empty string"), TestCategory("Exercise 2A")]
-        public void TitleIgnoresAssignmentOfEmptyString() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, "");
+            employee.Arrange(() => new Employee("abc"));
+            employee.Assert.IsTrue(e => e.MonthlySalary == 0);
+
+            test.Execute();
+        }
+
+        [TestMethod("g. Employee.Senority is initialized as 1"), TestCategory("Exercise 2A")]
+        public void SenorityIsInitializedAs1()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
+
+            employee.Arrange(() => new Employee("abc"));
+            employee.Assert.IsTrue(e => e.Seniority == 1);
+
+            test.Execute();
+        }
+
+        [TestMethod("h. Title ignores assignment of null"), TestCategory("Exercise 2A")]
+        public void TitleIgnoresAssignmentOfNull() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, null, "abc");
+
+        [TestMethod("i. Title ignores assignment of empty string"), TestCategory("Exercise 2A")]
+        public void TitleIgnoresAssignmentOfEmptyString() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, "", "abc");
         
-        [TestMethod("h. MonthlySalary ignores assignment of -1M"), TestCategory("Exercise 2A")]
-        public void MonthlySalaryIgnoresAssignmentOfMinusOne() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, null);
+        [TestMethod("j. MonthlySalary ignores assignment of -1M"), TestCategory("Exercise 2A")]
+        public void MonthlySalaryIgnoresAssignmentOfMinusOne() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.MonthlySalary, -1M, 0M);
 
-        [TestMethod("i. Seniority ignores assignment of 0"), TestCategory("Exercise 2A")]
-        public void SeniorityIgnoresAssignmentOfZero() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 0);
+        [TestMethod("k. Seniority ignores assignment of 0"), TestCategory("Exercise 2A")]
+        public void SeniorityIgnoresAssignmentOfZero() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 0, 1);
 
-        [TestMethod("j. Seniority ignores assigment of 11"), TestCategory("Exercise 2A")]
-        public void SeniorityIgnoresAssignmentOfEleven() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 11);
+        [TestMethod("l. Seniority ignores assigment of 11"), TestCategory("Exercise 2A")]
+        public void SeniorityIgnoresAssignmentOfEleven() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 11, 1);
 
         /* Exercise 2B */
         [TestMethod("a. Employee.CalculateYearlySalary() returns expected output for seniority 1"), TestCategory("Exercise 2B")]
@@ -167,8 +191,20 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Bonus ignores assignment of -1M"), TestCategory("Exercise 2C")]
-        public void BonusIgnoresAssignmentOfMinusOne() => TestAssignmentOfManagerPropertyIgnoresValue(m => m.Bonus, -1);
+        [TestMethod("c. Manager.Bonus is initialized as 0"), TestCategory("Exercise 2A")]
+        public void BonusIsInitializedAs0()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<Manager> employee = test.CreateObject<Manager>();
+
+            employee.Arrange(() => new Manager("abc"));
+            employee.Assert.IsTrue(e => e.Bonus == 0);
+
+            test.Execute();
+        }
+
+        [TestMethod("d. Bonus ignores assignment of -1M"), TestCategory("Exercise 2C")]
+        public void BonusIgnoresAssignmentOfMinusOne() => TestAssignmentOfManagerPropertyIgnoresValue(m => m.Bonus, -1, 0);
 
         /* Exercise 2D */
         [TestMethod("a. Manager.CalculateYearlySalary() returns expected output for seniority 1"), TestCategory("Exercise 2D")]

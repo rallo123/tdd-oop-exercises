@@ -42,19 +42,43 @@ namespace Lecture_2_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Person.FirstName ignores assigment of null"), TestCategory("Exercise 1A")]
+        [TestMethod("d. Person.FirstName is initialized as \"Unknown\""), TestCategory("Exercise 1A")]
+        public void FirstNameIsInitializedAsUnnamed()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
+
+            person.Arrange(() => new Person());
+            person.Assert.IsTrue(p => p.FirstName == "Unknown");
+
+            test.Execute();
+        }
+
+        [TestMethod("e. Person.FirstName is initialized as \"Unknown\""), TestCategory("Exercise 1A")]
+        public void LastNameIsInitializedAsUnnamed()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
+
+            person.Arrange(() => new Person());
+            person.Assert.IsTrue(p => p.LastName == "Unknown");
+
+            test.Execute();
+        }
+
+        [TestMethod("f. Person.FirstName ignores assigment of null"), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOfNull() {
             UnitTest test = Factory.CreateTest();
             UnitTestObject<Person> person = test.CreateObject<Person>();
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.FirstName, null));
-            person.Assert.Unchanged(p => p.FirstName);
+            person.Assert.IsTrue(p => p.FirstName == "Unknown");
 
             test.Execute();
         }
 
-        [TestMethod("e. Person.LastName ignores assigment of null"), TestCategory("Exercise 1A")]
+        [TestMethod("g. Person.LastName ignores assigment of null"), TestCategory("Exercise 1A")]
         public void LastNameIgnoresAssignmentOfNull()
         {
             UnitTest test = Factory.CreateTest();
@@ -62,12 +86,12 @@ namespace Lecture_2_Tests
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.LastName, null));
-            person.Assert.Unchanged(p => p.LastName);
+            person.Assert.IsTrue(p => p.LastName == "Unknown");
 
             test.Execute();
         }
 
-        [TestMethod("f. Person.FirstName ignores assigment of \"123456789\""), TestCategory("Exercise 1A")]
+        [TestMethod("h. Person.FirstName ignores assigment of \"123456789\""), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOf012345689()
         {
             UnitTest test = Factory.CreateTest();
@@ -75,12 +99,12 @@ namespace Lecture_2_Tests
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.FirstName, "123456789"));
-            person.Assert.Unchanged(p => p.FirstName);
+            person.Assert.IsTrue(p => p.FirstName == "Unknown");
 
             test.Execute();
         }
 
-        [TestMethod("g. Person.LastName ignores assigment of \"123456789\""), TestCategory("Exercise 1A")]
+        [TestMethod("i. Person.LastName ignores assigment of \"123456789\""), TestCategory("Exercise 1A")]
         public void LastNameIgnoresAssignmentOf012345689()
         {
             UnitTest test = Factory.CreateTest();
@@ -88,12 +112,12 @@ namespace Lecture_2_Tests
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.LastName, "123456789"));
-            person.Assert.Unchanged(p => p.LastName);
+            person.Assert.IsTrue(p => p.LastName == "Unknown");
 
             test.Execute();
         }
 
-        [TestMethod("h. Person.FirstName ignores assigment of string with length 101"), TestCategory("Exercise 1A")]
+        [TestMethod("j. Person.FirstName ignores assigment of string with length 101"), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOfStringWithLength101()
         {
             UnitTest test = Factory.CreateTest();
@@ -101,12 +125,12 @@ namespace Lecture_2_Tests
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.FirstName, CreateName(101)));
-            person.Assert.Unchanged(p => p.FirstName);
+            person.Assert.IsTrue(p => p.FirstName == "Unknown");
 
             test.Execute();
         }
 
-        [TestMethod("i. Person.LastName ignores assignment of string with length 101"), TestCategory("Exercise 1A")]
+        [TestMethod("k. Person.LastName ignores assignment of string with length 101"), TestCategory("Exercise 1A")]
         public void LastNameIgnoresAssignmentOfStringWithLength101()
         {
             UnitTest test = Factory.CreateTest();
@@ -114,12 +138,25 @@ namespace Lecture_2_Tests
 
             person.Arrange(() => new Person());
             person.Act(Assignment<Person, string>(p => p.LastName, CreateName(101)));
-            person.Assert.Unchanged(p => p.LastName);
+            person.Assert.IsTrue(p => p.LastName == "Unknown");
 
             test.Execute();
         }
 
-        [TestMethod("j. Person.Age ignores assigment of -1"), TestCategory("Exercise 1A")]
+        [TestMethod("l. Person.Age is initialized as 0"), TestCategory("Exercise 1A")]
+        public void AgeIsInitilizedAs0()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<Person> person = test.CreateObject<Person>();
+
+            person.Arrange(() => new Person());
+            person.Act(Assignment<Person, int>(p => p.Age, -1));
+            person.Assert.IsTrue(p => p.Age == 0);
+
+            test.Execute();
+        }
+
+        [TestMethod("m. Person.Age ignores assigment of -1"), TestCategory("Exercise 1A")]
         public void AgeIgnoresAssignmentOfMinusOne()
         {
             UnitTest test = Factory.CreateTest();
