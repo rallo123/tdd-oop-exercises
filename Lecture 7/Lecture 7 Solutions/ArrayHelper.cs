@@ -57,6 +57,9 @@ namespace Lecture_7_Solutions
 
         public static void Shuffle<T>(T[] array)
         {
+            if (array == null)
+                throw new ArgumentNullException();
+
             Random random = new Random();
 
             for (int i = 0; i < array.Length; i++)

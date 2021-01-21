@@ -6,6 +6,6 @@ namespace Lecture_7_Solutions
 {
     public interface ILogger
     {
-        public void Log(string message);
+        void Log(string message);
     }
 }

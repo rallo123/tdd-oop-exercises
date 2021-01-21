@@ -15,14 +15,34 @@ namespace Lecture_7_Solutions
             get => _startPosition;
             set => _startPosition = value % _data.Length;
         }
+
         private int EndPosition
         {
             get => _endPosistion;
             set => _endPosistion = value % _data.Length;
         }
 
+        public int Count
+        {
+            get
+            {
+                if (StartPosition > EndPosition)
+                    return EndPosition + (_data.Length - StartPosition);
+               
+                return EndPosition - StartPosition;
+            }
+        }
+
         public MyQueue(int maxLength) {
             _data = new T[maxLength];
+        }
+
+        public T Peek()
+        {
+            if(StartPosition + 1 == EndPosition)
+                throw new InvalidOperationException("Queue is already empty");
+            
+            return _data[StartPosition];
         }
 
         public void Enqueue(T value)
@@ -32,7 +52,7 @@ namespace Lecture_7_Solutions
             if (StartPosition == EndPosition)
             {
                 EndPosition--;
-                throw new Exception("Exceeds queue length");
+                throw new InvalidOperationException("Queue is already full");
             }
 
             _data[EndPosition] = value;
@@ -45,7 +65,7 @@ namespace Lecture_7_Solutions
             if (StartPosition == EndPosition)
             {
                 StartPosition--;
-                throw new Exception("Queue is empty");
+                throw new InvalidOperationException("Queue is already empty");
             }
 
             return _data[StartPosition];
