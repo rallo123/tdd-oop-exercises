@@ -18,61 +18,152 @@ namespace Lecture_6_Tests
     public class Exercise_3_Tests 
     {
         #region Exercise 3A
-        [TestMethod("TextFile constructor takes string"), TestCategory("3A")]
-        public void TextFileConstructorTakesString()
+        [TestMethod("a. IRandom is an interface"), TestCategory("3A")]
+        public void IRandomIsAnInterface()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<string, TextFile>(s => new TextFile(s), IsPublicConstructor);
+            test.AssertInterface<IRandom>();
+            test.Execute();
+        }
+
+        [TestMethod("b. IRandom.Next() is a method"), TestCategory("3A")]
+        public void IRandomNextOverloadTakesNothing()
+        {
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertMethod<IRandom, int>(r => r.Next());
+            test.Execute();
+        }
+
+        [TestMethod("c. IRandom.Next(max) is a method"), TestCategory("3A")]
+        public void IRandomNextOverloadTakesInt()
+        {
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertMethod<IRandom, int, int>((r, max) => r.Next(max));
+            test.Execute();
+        }
+
+        [TestMethod("d. IRandom.Next(min, max) is a method"), TestCategory("3A")]
+        public void IRandomNextOverlaodTakes2Ints()
+        {
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertMethod<IRandom, int, int, int>((r, min, max) => r.Next(min, max));
             test.Execute();
         }
         #endregion
 
         #region Exercise 3B
-        [TestMethod("TestFile.Content is public read-only string"), TestCategory("3B")]
-        public void TestFileContentIsPublicReadOnlyString()
+        [TestMethod("a. MyRandom implements IRandom"), TestCategory("3B")]
+        public void MyRandomImplementsIRandom()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<TextFile, string>(t => t.Content, IsPublicReadonlyProperty);
+            test.AssertClass<MyRandom>(t => t.GetInterface("IRandom") != null);
             test.Execute();
         }
 
-        [TestMethod("TestFile.Content reads file content correctly"), TestCategory("3B")]
-        public void TestFileContentReadsFileContentCorrectly()
+        [TestMethod("b. MyRandom.Next() does not return the same value twice (may fail sometimes)"), TestCategory("3B")]
+        public void MyRandomNextReturnsRandomNumber()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<TextFile> file = test.CreateObject<TextFile>();
-            UnitTestFileSystem fileSystem = test.CreateFileSystem();
+            UnitTestObject<MyRandom> random = test.CreateObject<MyRandom>();
 
-            fileSystem.Act(fs => fs.File.Create("/file.txt"));
-            fileSystem.Act(fs => fs.File.WriteAllText("/file.txt", "content of file"));
-            file.Arrange(() => new TextFile("/file.txt"));
-            file.Assert.IsTrue(f => f.Content == "content of file");
+            random.Arrange(() => new MyRandom());
+            random.Assert.IsFalse(r => r.Next() == r.Next());
+
+            test.Execute();
+        }
+
+        [TestMethod("c. MyRandom.Next(6) returns a number lower or equal to 6"), TestCategory("3B")]
+        public void MyRandomNextReturnsExpectedResult()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<MyRandom> random = test.CreateObject<MyRandom>();
+
+            random.Arrange(() => new MyRandom());
+            random.Assert.IsTrue(r => r.Next() <= 6);
+
+            test.Execute();
+        }
+
+        [TestMethod("d. MyRandom.Next(1, 6) returns a number between 1 and 6"), TestCategory("3B")]
+        public void MyRandomNextReturnsExpectedResult2()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<MyRandom> random = test.CreateObject<MyRandom>();
+            UnitTestObject<int> value = test.CreateAnonymousObject<int>();
+
+            random.Arrange(() => new MyRandom());
+            value.WithParameters(random).Arrange(r => r.Next(1, 6));
+            value.Assert.IsTrue(v => 1 <= v && v <= 6);
 
             test.Execute();
         }
         #endregion
 
         #region Exercise 3C
-        [TestMethod("TextFile implements IDisposable"), TestCategory("3C")]
-        public void TextFileImplementsIDisposable()
+        [TestMethod("a. PredictableRandom implements IRandom"), TestCategory("3C")]
+        public void PredictableRandomImplementsIRandom()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<TextFile>(t => t.GetInterface("IDisposable") != null);
+            test.AssertClass<PredictableRandom>(t => t.GetInterface("IRandom") != null);
             test.Execute();
         }
 
-        [TestMethod("TextFile.Content equals null after TextFile.Dispose()"), TestCategory("3C")]
-        public void TextFileContentEqualsNullAfterDisposable()
+        [TestMethod("b. PredictableRandom.Next() returns 4 if constructed with 4"), TestCategory("3C")]
+        public void PredictableRandomNextReturns4A()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<TextFile> file = test.CreateObject<TextFile>();
-            UnitTestFileSystem fileSystem = test.CreateFileSystem();
+            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
 
-            fileSystem.Act(fs => fs.File.Create("/file.txt"));
-            fileSystem.Act(fs => fs.File.WriteAllText("/file.txt", "content of file"));
-            file.Arrange(() => new TextFile("/file.txt"));
-            file.Act(f => f.Dispose());
-            file.Assert.IsTrue(f => f.Content == null);
+            random.Arrange(() => new PredictableRandom(4));
+            random.Assert.IsTrue(r => r.Next() == 4);
+
+            test.Execute();
+        }
+
+        [TestMethod("c. PredictableRandom.Next(6) returns 4 if constructed with 4"), TestCategory("3C")]
+        public void PredictableRandomNextReturns4B()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+
+            random.Arrange(() => new PredictableRandom(4));
+            random.Assert.IsTrue(r => r.Next(6) == 4);
+
+            test.Execute();
+        }
+
+        [TestMethod("d. PredictableRandom.Next(6) throws ArgumentException if constructed with 7"), TestCategory("3C")]
+        public void PredictableRandomNextThrowsOn6()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+
+            random.Arrange(() => new PredictableRandom(7));
+            random.Assert.ThrowsException<ArgumentException>(r => r.Next(6));
+
+            test.Execute();
+        }
+
+        [TestMethod("e. PredictableRandom.Next(1, 6) returns 4 if constructed with 4"), TestCategory("3C")]
+        public void PredictableRandomNextReturns4C()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+
+            random.Arrange(() => new PredictableRandom(4));
+            random.Assert.IsTrue(r => r.Next(1, 6) == 4);
+
+            test.Execute();
+        }
+
+        [TestMethod("f. PredictableRandom.Next(1, 6) throws ArgumentException if constructed with 0"), TestCategory("3C")]
+        public void PredictableRandomNextThrowsOn1And6()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+
+            random.Arrange(() => new PredictableRandom(0));
+            random.Assert.ThrowsException<ArgumentException>(r => r.Next(1, 6));
 
             test.Execute();
         }

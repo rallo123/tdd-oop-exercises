@@ -18,51 +18,7 @@ namespace Lecture_6_Tests
     public class Exercise_4_Tests 
     {
         #region Exercise 4A
-        [TestMethod("IRandom is an interface"), TestCategory("4A")]
-        public void IRandomIsAnInterface()
-        {
-            StructureTest test = Factory.CreateStructureTest();
-            test.AssertInterface<IRandom>();
-            test.Execute();
-        }
-
-        [TestMethod("IRandom.Next() is a method"), TestCategory("4A")]
-        public void IRandomNextOverloadTakesNothing()
-        {
-            StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<IRandom, int>(r => r.Next());
-            test.Execute();
-        }
-
-        [TestMethod("IRandom.Next(max) is a method"), TestCategory("4A")]
-        public void IRandomNextOverloadTakesInt()
-        {
-            StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<IRandom, int, int>((r, max) => r.Next(max));
-            test.Execute();
-        }
-
-        [TestMethod("IRandom.Next(min, max) is a method"), TestCategory("4A")]
-        public void IRandomNextOverlaodTakes2Ints()
-        {
-            StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<IRandom, int, int, int>((r, min, max) => r.Next(min, max));
-            test.Execute();
-        }
-        #endregion
-
-        #region Exercise 4B
-        [TestMethod("MyRandom implements IRandom"), TestCategory("4B")]
-        public void MyRandomImplementsIRandom()
-        {
-            StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<MyRandom>(t => t.GetInterface("IRandom") != null);
-            test.Execute();
-        }
-        #endregion
-
-        #region Exercise 4C
-        [TestMethod("Die constructor takes IRandom"), TestCategory("4C")]
+        [TestMethod("a. Die constructor takes IRandom"), TestCategory("4A")]
         public void DieConstructorTakesIRandom()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -71,8 +27,8 @@ namespace Lecture_6_Tests
         }
         #endregion
 
-        #region Exercise 4D
-        [TestMethod("Die constructor takes IRandom and int"), TestCategory("4D")]
+        #region Exercise 4B
+        [TestMethod("a. Die constructor takes IRandom and int"), TestCategory("4B")]
         public void DieConstructorTakesIRandomAndInt()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -81,6 +37,36 @@ namespace Lecture_6_Tests
         }
         #endregion
 
-        // TODO add tests for exercise 4E
+        #region Exercise 4C
+        [TestMethod("a. Die.Roll returns 5 if constructed PredictablyRandom(5)"), TestCategory("4C")]
+        public void DieRollReturns5()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+            UnitTestObject<Die> die = test.CreateObject<Die>();
+
+            random.Arrange(() => new PredictableRandom(5));
+            die.WithParameters(random).Arrange((r) => new Die(r, 6));
+            die.Assert.IsTrue(d => d.Roll() == 5);
+
+            test.Execute();
+        }
+
+        [TestMethod("b. Die.Roll returns a number between 1 and 6 if constructed with 6 sides and MyRandom"), TestCategory("4C")]
+        public void DieRollReturnsANumberBetween1And6()
+        {
+            UnitTest test = Factory.CreateTest();
+            UnitTestObject<MyRandom> random = test.CreateObject<MyRandom>();
+            UnitTestObject<Die> die = test.CreateObject<Die>();
+            UnitTestObject<int> value = test.CreateAnonymousObject<int>();
+
+            random.Arrange(() => new MyRandom());
+            die.WithParameters(random).Arrange((r) => new Die(r, 6));
+            value.WithParameters(die).Arrange(d => d.Roll());
+            value.Assert.IsTrue(v => 1 <= v && v <= 6);
+
+            test.Execute();
+        }
+        #endregion
     }
 }

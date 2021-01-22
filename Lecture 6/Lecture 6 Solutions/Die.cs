@@ -19,7 +19,7 @@ namespace Lecture_6_Solutions
             _numOfSides = numofSides;
         }
 
-        public int Throw()
+        public int Roll()
         {
             return _random.Next(1, _numOfSides);
         }
