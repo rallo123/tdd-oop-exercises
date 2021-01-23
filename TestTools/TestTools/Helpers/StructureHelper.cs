@@ -8,10 +8,39 @@ namespace TestTools.Helpers
 {
     public static class StructureHelper
     {
-        #region Property Predicates
+        #region Field Predicates 
+        public static Expression<Func<Type, bool>> IsGenericClass
+        {
+            get { return t => t.IsGenericType; }
+        }
+
+        public static Expression<Func<Type, bool>> HasClassImplementedInterface(Type @interface)
+        {
+            return t => t.IsAssignableFrom(@interface);
+        }
+        #endregion
+
+        #region Constructor Predicates
         public static Expression<Func<ConstructorInfo, bool>> IsPublicConstructor
         {
             get { return info => info.IsPublic; }
+        }
+
+        public static Expression<Func<ConstructorInfo, bool>> IsGenericConstructor
+        {
+            get { return info => info.IsGenericMethod; }
+        }
+        #endregion
+
+        #region Field Predicates 
+        public static Expression<Func<FieldInfo, bool>> IsPublicField
+        {
+            get { return info => info.IsPublic; }
+        }
+
+        public static Expression<Func<FieldInfo, bool>> IsPublicReadOnlyField
+        {
+            get { return info => info.IsInitOnly; }
         }
         #endregion
 
@@ -25,6 +54,11 @@ namespace TestTools.Helpers
         {
             get { return info => info.GetMethod.IsPublic && (!info.CanWrite || !info.SetMethod.IsPublic); }
         }
+
+        public static Expression<Func<PropertyInfo, bool>> IsGenericProperty
+        {
+            get { return info => info.GetType().IsGenericType; }
+        }
         #endregion
 
         #region Method Predicates
@@ -35,6 +69,11 @@ namespace TestTools.Helpers
         public static Expression<Func<MethodInfo, bool>> IsAbstractMethod
         {
             get { return info => info.IsAbstract; }
+        }
+
+        public static Expression<Func<ConstructorInfo, bool>> IsGenericMethod
+        {
+            get { return info => info.IsGenericMethod; }
         }
         #endregion
     }

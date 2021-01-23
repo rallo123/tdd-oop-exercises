@@ -30,5 +30,15 @@ namespace TestTools.Helpers
         {
             throw new NotImplementedException();
         }
+
+        public static Expression<Func<T1, bool>> And<T1>(Expression<Func<T1, bool>> leftSide, Expression<Func<T1, bool>> rightSide)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Expression<Func<T1, T2, bool>> And<T1, T2>(Expression<Func<T1, bool>> leftSide, Expression<Func<T2, bool>> rightSide)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

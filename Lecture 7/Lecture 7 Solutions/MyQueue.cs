@@ -33,16 +33,11 @@ namespace Lecture_7_Solutions
             }
         }
 
-        public MyQueue(int maxLength) {
-            _data = new T[maxLength];
-        }
+        public int MaxCount { get; }
 
-        public T Peek()
-        {
-            if(StartPosition + 1 == EndPosition)
-                throw new InvalidOperationException("Queue is already empty");
-            
-            return _data[StartPosition];
+        public MyQueue(int maxCount) {
+            _data = new T[maxCount];
+            MaxCount = maxCount;
         }
 
         public void Enqueue(T value)
@@ -70,5 +65,14 @@ namespace Lecture_7_Solutions
 
             return _data[StartPosition];
         }
+
+        public T Peek()
+        {
+            if (StartPosition + 1 == EndPosition)
+                throw new InvalidOperationException("Queue is already empty");
+
+            return _data[StartPosition];
+        }
+
     }
 }
