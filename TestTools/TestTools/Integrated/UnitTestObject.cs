@@ -5,6 +5,7 @@ using System.Text;
 
 namespace TestTools.Integrated
 {
+    // For object members
     // Used to Arrange, Act and Assert on the reflected namespace
     public class UnitTestObject<T>
     {

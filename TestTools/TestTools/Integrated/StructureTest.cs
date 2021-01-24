@@ -17,6 +17,11 @@ namespace TestTools.Integrated
         }
 
         #region Class Assertions
+        public void AssertClass(Type @class, Expression<Func<Type, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
         public void AssertClass<TClass>(Expression<Func<Type, bool>> predicate)
         {
             throw new NotImplementedException();
@@ -40,13 +45,42 @@ namespace TestTools.Integrated
         }
         #endregion
 
+        #region Delegate Assertions
+        public void AssertDelegate<TDelegate1, TDelegate2>(Expression<Func<Type, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Event Assertions 
+        public void AssertEvent<TInstance, TDelegate>(EventInfo info)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertEvent<TInstance, TDelegate>(EventInfo info, Expression<Func<EventInfo, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertStaticEvent<TDelegate>(Expression<Action<TDelegate>> locator)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertStaticEvent<TInstance>(Expression<Action<TInstance>> locator, Expression<Func<EventInfo, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
         #region Field Assertions
         public void AssertField<TInstance, TField>(Expression<Func<TInstance, TField>> locator, Expression<Func<FieldInfo, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertStaticField<TInstance>(Expression<Action<TInstance>> locator, Expression<Func<ConstructorInfo, bool>> predicate)
+        public void AssertStaticField<TField>(Expression<Func<TField>> locator, Expression<Func<ConstructorInfo, bool>> predicate)
         {
             throw new NotImplementedException();
         }
@@ -83,17 +117,32 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
-        public void AssertStaticMethod<TReturn>(Expression<Action<TReturn>> locator, Expression<Func<MethodInfo, bool>> predicate)
+        public void AssertStaticMethod<TReturn>(Expression<Action> locator, Expression<Func<MethodInfo, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertStaticMethod<TPar1, TReturn>(Expression<Action<TPar1, TReturn>> locator, Expression<Func<MethodInfo, bool>> predicate)
+        public void AssertStaticMethod<TPar1>(Expression<Action<TPar1>> locator, Expression<Func<MethodInfo, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public void AssertStaticMethod<TPar1, TPar2, TReturn>(Expression<Action<TPar1, TPar2, TReturn>> locator, Expression<Func<MethodInfo, bool>> predicate)
+        public void AssertStaticMethod<TPar1, TPar2>(Expression<Action<TPar1, TPar2>> locator, Expression<Func<MethodInfo, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertStaticMethod<TReturn>(Expression<Func<TReturn>> locator, Expression<Func<MethodInfo, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertStaticMethod<TPar1, TReturn>(Expression<Func<TPar1, TReturn>> locator, Expression<Func<MethodInfo, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertStaticMethod<TPar1, TPar2, TReturn>(Expression<Func<TPar1, TPar2, TReturn>> locator, Expression<Func<MethodInfo, bool>> predicate)
         {
             throw new NotImplementedException();
         }

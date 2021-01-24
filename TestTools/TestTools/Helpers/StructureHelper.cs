@@ -8,10 +8,15 @@ namespace TestTools.Helpers
 {
     public static class StructureHelper
     {
-        #region Field Predicates 
+        #region Class Predicates 
         public static Expression<Func<Type, bool>> IsGenericClass
         {
             get { return t => t.IsGenericType; }
+        }
+
+        public static Expression<Func<Type, bool>> IsStaticClass
+        {
+            get { return t => t.IsAbstract && t.IsSealed; }
         }
 
         public static Expression<Func<Type, bool>> HasClassImplementedInterface(Type @interface)
@@ -29,6 +34,27 @@ namespace TestTools.Helpers
         public static Expression<Func<ConstructorInfo, bool>> IsGenericConstructor
         {
             get { return info => info.IsGenericMethod; }
+        }
+        #endregion
+
+        #region Delegate Predicate 
+        public static Expression<Func<Type, bool>> IsPublicDelegate
+        {
+            get { return t => t.IsPublic; }
+        }
+        #endregion
+
+        #region Event Predicates
+        public static Expression<Func<EventInfo, bool>> IsPublicEvent
+        {
+            get { return info => info.AddMethod.IsPublic && info.RemoveMethod.IsPublic; }
+        }
+        #endregion
+
+        #region Other Event Methods
+        public static EventInfo GetEventInfo<TInstance>(string name)
+        {
+            return typeof(TInstance).GetEvent(name);
         }
         #endregion
 

@@ -29,6 +29,16 @@ namespace TestTools.Integrated
             throw new NotImplementedException();
         }
 
+        public UnitTestClass CreateClass()
+        {
+            throw new NotImplementedException();
+        }
+
+        public UnitTestEventTracker<T> CreateEventTracker<T>() where T : Delegate
+        {
+            throw new NotImplementedException();
+        }
+
         public UnitTestObject<T> CreateObject<T>()
         {
             return CreateObject<T>(typeof(T).Name.ToLower());

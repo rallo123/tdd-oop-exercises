@@ -40,5 +40,10 @@ namespace TestTools.Helpers
         {
             throw new NotImplementedException();
         }
+
+        public static Expression<Action<T, TDelegate>> Subscribe<T, TDelegate>(string eventName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

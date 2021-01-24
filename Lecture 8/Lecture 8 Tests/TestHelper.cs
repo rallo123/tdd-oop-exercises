@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TestTools.Integrated;
 
-namespace Lecture_7_Tests
+namespace Lecture_8_Tests
 {
     public static class TestHelper
     {

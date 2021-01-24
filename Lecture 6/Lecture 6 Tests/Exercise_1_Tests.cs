@@ -50,7 +50,7 @@ namespace Lecture_6_Tests
 
             temperature.Arrange(() => new Temperature());
             temperature.Assert.ThrowsException<ArgumentException>(Assignment<Temperature, double>(t => t.Celcius, -276.0));
-
+            
             test.Execute();
         }
 
