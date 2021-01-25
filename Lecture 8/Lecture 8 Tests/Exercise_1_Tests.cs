@@ -15,10 +15,10 @@ using static TestTools.Helpers.StructureHelper;
 namespace Lecture_8_Tests
 {
     [TestClass]
-    public class Exercise_2_Tests
+    public class Exercise_1_Tests
     {
-        #region Exercise 2B
-        [TestMethod("a. ArrayHelper is an static class"), TestCategory("2B")]
+        #region Exercise 1B
+        [TestMethod("a. ArrayHelper is an static class"), TestCategory("1B")]
         public void ArrayHelperIsAnStaticClass()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -26,7 +26,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ArrayHelper.Filter is a public method"), TestCategory("2B")]
+        [TestMethod("b. ArrayHelper.Filter is a public method"), TestCategory("1B")]
         public void ArrayHelperFilterIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -35,7 +35,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ArrayHelper.Map is a public method"), TestCategory("2B")]
+        [TestMethod("c. ArrayHelper.Map is a public method"), TestCategory("1B")]
         public void ArrayHelperMapIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -44,7 +44,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("d. ArrayHelper.Sort is a public method"), TestCategory("2B")]
+        [TestMethod("d. ArrayHelper.Sort is a public method"), TestCategory("1B")]
         public void ArrayHelperSortIsPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -53,7 +53,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("e. ArrayHelper.Find is a public method"), TestCategory("2B")]
+        [TestMethod("e. ArrayHelper.Find is a public method"), TestCategory("1B")]
         public void ArrayHelperFindIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -62,7 +62,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("f. ArrayHelper.Contains is a public method"), TestCategory("2B")]
+        [TestMethod("f. ArrayHelper.Contains is a public method"), TestCategory("1B")]
         public void ArrayContainsIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -71,7 +71,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("g. ArrayHelper.Filter can filter out negative numbers"), TestCategory("2B")]
+        [TestMethod("g. ArrayHelper.Filter can filter out negative numbers"), TestCategory("1B")]
         public void ArrayFilterReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
@@ -79,14 +79,14 @@ namespace Lecture_8_Tests
             UnitTestObject<int[]> output = test.CreateObject<int[]>();
             UnitTestClass helper = test.CreateClass();
             
-            input.Arrange(() => new[] { -2, -1, 0, 2, 2});
+            input.Arrange(() => new[] { -2, -1, 0, 1, 2});
             output.Arrange(() => new[] { 0, 1, 2 });
             helper.WithParameters(input, output).Assert.IsTrue((i, o) => ArrayHelper.Filter(i, x => x >= 0).SequenceEqual(o));
 
             test.Execute();
         }
 
-        [TestMethod("h. ArrayHelper.Map can convert multiply number by 2"), TestCategory("2B")]
+        [TestMethod("h. ArrayHelper.Map can convert multiply number by 2"), TestCategory("1B")]
         public void ArrayMapReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
@@ -101,7 +101,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("i. ArrayHelper.Sort can sort array of numbers"), TestCategory("2B")]
+        [TestMethod("i. ArrayHelper.Sort can sort array of numbers"), TestCategory("1B")]
         public void ArraySortReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
@@ -113,12 +113,12 @@ namespace Lecture_8_Tests
             sortedArray.Arrange(() => new[] { 0, 1, 2, 3, 4, 5 });
             helper.WithParameters(array).Act(a => ArrayHelper.Sort(a, (x, y) => x - y));
 
-            helper.WithParameters(array, sortedArray).Assert.IsTrue((i, o) => ArrayHelper.Map(i, x => 2 * x).SequenceEqual(o));
+            helper.WithParameters(array, sortedArray).Assert.IsTrue((i, o) => i.SequenceEqual(o));
 
             test.Execute();
         }
 
-        [TestMethod("j. ArrayHelper.Find can a number"), TestCategory("2B")]
+        [TestMethod("j. ArrayHelper.Find can a number"), TestCategory("1B")]
         public void ArrayFindReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
@@ -126,12 +126,12 @@ namespace Lecture_8_Tests
             UnitTestClass helper = test.CreateClass();
 
             array.Arrange(() => new[] { 0, 1, 2 });
-            helper.WithParameters(array).Assert.IsTrue(a => ArrayHelper.Find(a, x => x == 2) == 2);
+            helper.WithParameters(array).Assert.IsTrue(a => ArrayHelper.Find(a, x => x == 1) == 1);
 
             test.Execute();
         }
 
-        [TestMethod("j. ArrayHelper.Contains returns true if predicate equals true"), TestCategory("2B")]
+        [TestMethod("j. ArrayHelper.Contains returns true if predicate equals true"), TestCategory("1B")]
         public void ArrayContainsReturnsTrue()
         {
             UnitTest test = Factory.CreateTest();
@@ -139,12 +139,12 @@ namespace Lecture_8_Tests
             UnitTestClass helper = test.CreateClass();
 
             array.Arrange(() => new[] { 0, 1, 2 });
-            helper.WithParameters(array).Assert.IsTrue(a => ArrayHelper.Contains(a, x => x == 2));
+            helper.WithParameters(array).Assert.IsTrue(a => ArrayHelper.Contains(a, x => x == 1));
 
             test.Execute();
         }
 
-        [TestMethod("j. ArrayHelper.Contains returns false if predicate equals false"), TestCategory("2B")]
+        [TestMethod("j. ArrayHelper.Contains returns false if predicate equals false"), TestCategory("1B")]
         public void ArrayContainsReturnsFalse()
         {
             UnitTest test = Factory.CreateTest();

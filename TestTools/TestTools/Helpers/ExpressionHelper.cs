@@ -41,6 +41,37 @@ namespace TestTools.Helpers
             throw new NotImplementedException();
         }
 
+        public static Expression<Func<Action<T1>>> LambdaAction<T1>(Expression<Action<T1>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Expression<Func<Action<T1>>> LambdaAction<T1, T2>(Expression<Action<T1, T2>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Expression<Func<Action<T1, T2, T3>>> LambdaAction<T1, T2, T3>(Expression<Action<T1, T2, T3>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Expression<Func<Func<T1, TReturn>>> LambdaFunc<T1, TReturn>(Expression<Func<T1, TReturn>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Expression<Func<Func<T1, T2, TReturn>>> LambdaFunc<T1, T2, TReturn>(Expression<Func<T1, T2, TReturn>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Expression<Func<Func<T1, T2, T3, TReturn>>> LambdaFunc<T1, T2, T3, TReturn>(Expression<Func<T1, T2, T3, TReturn>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public static Expression<Action<T, TDelegate>> Subscribe<T, TDelegate>(string eventName)
         {
             throw new NotImplementedException();
