@@ -172,13 +172,10 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             UnitTestObject<BankAccount> bankAccount = test.CreateObject<BankAccount>();
-            UnitTestEventTracker<BalanceChangeHandler> tracker = test.CreateEventTracker<BalanceChangeHandler>();
-
+            
             bankAccount.Arrange(() => new BankAccount() { LowBalanceThreshold = 0 });
-            bankAccount.WithParameters(tracker).Act(Subscribe<BankAccount, BalanceChangeHandler>("LowBalance"));
+            bankAccount.DelegateAssert.IsInvoked(Subscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
             bankAccount.Act(b => b.Withdraw(50M));
-            tracker.Assert.IsTrue<decimal>((currentBalance) => currentBalance == -50);
-
             test.Execute();
         }
 
@@ -187,13 +184,10 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             UnitTestObject<BankAccount> bankAccount = test.CreateObject<BankAccount>();
-            UnitTestEventTracker<BalanceChangeHandler> tracker = test.CreateEventTracker<BalanceChangeHandler>();
 
             bankAccount.Arrange(() => new BankAccount() { HighBalanceThreshold = 0 });
-            bankAccount.WithParameters(tracker).Act(Subscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
-            bankAccount.Act(b => b.Deposit(50M));
-            tracker.Assert.IsTrue<decimal>((currentBalance) => currentBalance == -50);
-
+            bankAccount.DelegateAssert.IsInvoked(Subscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
+            bankAccount.Act(b => b.Deposit(50));
             test.Execute();
         }
         #endregion

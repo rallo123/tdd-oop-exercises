@@ -35,6 +35,8 @@ namespace TestTools.Integrated
 
         public CollectionAssertObject CollectionAssert { get; } 
 
+        public DelegateAssertObject DelegateAssert { get; }
+
         public class AssertObject
         {
             public void IsTrue(Expression<Func<T, bool>> assertion)
@@ -70,6 +72,24 @@ namespace TestTools.Integrated
                 throw new NotImplementedException();
             }
         }
+
+        public class DelegateAssertObject
+        {
+            public void IsInvoked<TDelegate>(Expression<Action<T, TDelegate>> subscribe) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsInvoked<TDelegate>(Expression<Action<T, TDelegate>> subscribe, TDelegate callback) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsNotInvoked<TDelegate>(Expression<Action<T, TDelegate>> subscribe) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 
     public class UnitTestObject<T1, T2>
@@ -94,6 +114,8 @@ namespace TestTools.Integrated
         public AssertObject Assert { get; }
 
         public CollectionAssertObject CollectionAssert { get; }
+
+        public DelegateAssertObject DelegateAsset { get; }
 
         public class AssertObject
         {
@@ -121,6 +143,24 @@ namespace TestTools.Integrated
             }
 
             public void DoesNotContains<TItem>(Expression<Func<T1, ICollection<TItem>>> collectionLocator)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class DelegateAssertObject
+        {
+            public void IsInvoked<TDelegate>(Expression<Action<T1, T2, TDelegate>> subscribe) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsInvoked<TDelegate>(Expression<Action<T1, T2, TDelegate>> subscribe, TDelegate callback) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsNotInvoked<TDelegate>(Expression<Action<T1, T2, TDelegate>> subscribe) where TDelegate : Delegate
             {
                 throw new NotImplementedException();
             }
@@ -156,6 +196,24 @@ namespace TestTools.Integrated
             }
 
             public void AssertThrowsException<TException>(Expression<Action<T1, T2, T3>> action)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class DelegateAssertObject
+        {
+            public void IsInvoked<TDelegate>(Expression<Action<T1, T2, T3, TDelegate>> subscribe) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsInvoked<TDelegate>(Expression<Action<T1, T2, T3, TDelegate>> subscribe, TDelegate callback) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsNotInvoked<TDelegate>(Expression<Action<T1, T2, T3, TDelegate>> subscribe) where TDelegate : Delegate
             {
                 throw new NotImplementedException();
             }

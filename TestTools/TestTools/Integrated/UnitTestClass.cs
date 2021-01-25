@@ -30,6 +30,8 @@ namespace TestTools.Integrated
 
         public CollectionAssertObject CollectionAssert { get; }
 
+        public DelegateAssertObject DelegateAssert { get; }
+
         public class AssertObject
         {
             public void IsTrue(Expression<Func<bool>> assertion)
@@ -64,8 +66,24 @@ namespace TestTools.Integrated
             {
                 throw new NotImplementedException();
             }
+        }
 
+        public class DelegateAssertObject
+        {
+            public void IsInvoked<TDelegate>(Expression<Action<TDelegate>> subscribe) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
 
+            public void IsInvoked<TDelegate>(Expression<Action<TDelegate>> subscribe, TDelegate callback) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsNotInvoked<TDelegate>(Expression<Action<TDelegate>> subscribe) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
