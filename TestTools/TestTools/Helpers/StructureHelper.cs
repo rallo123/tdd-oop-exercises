@@ -87,6 +87,13 @@ namespace TestTools.Helpers
         }
         #endregion
 
+        #region Other Property Methods
+        public static PropertyInfo GetIndexProperty<TInstance>()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
         #region Method Predicates
         public static Expression<Func<MethodInfo, bool>> IsPublicMethod
         {

@@ -7,6 +7,7 @@ namespace Lecture_9_Solutions
     public class Product : ICloneable
     {
         public int ID { get; set; }
+        public string Name { get; set; }
         public string Category { get; set; }
         public decimal Price { get; set; }
 

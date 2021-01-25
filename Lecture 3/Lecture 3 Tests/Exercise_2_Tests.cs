@@ -36,7 +36,7 @@ namespace Lecture_3_Tests
 
             manager.Arrange(() => new Manager("abc"));
             manager.Act(Assignment(property, value));
-            manager.Assert.Unchanged(Equality(property, defaultValue));
+            manager.Assert.IsTrue(Equality(property, defaultValue));
 
             test.Execute();
         }

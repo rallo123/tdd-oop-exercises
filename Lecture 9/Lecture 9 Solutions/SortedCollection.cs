@@ -24,9 +24,19 @@ namespace Lecture_9_Solutions
             return this;
         }
 
+        public IEnumerable<T> GetAll(Predicate<T> p)
+        {
+            return this.Where(x => p(x));
+        }
+
         public IEnumerable<T> GetAllReversed ()
         {
             return this.Reverse();
+        }
+
+        public IEnumerable<T> GetAllReversed(Predicate<T> p)
+        {
+            return this.Where(x => p(x)).Reverse();
         }
 
         public void Add(T item)

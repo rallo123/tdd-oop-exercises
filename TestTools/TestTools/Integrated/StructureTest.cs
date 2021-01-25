@@ -149,7 +149,17 @@ namespace TestTools.Integrated
         #endregion
 
         #region Property Assertions
+        public void AssertProperty<TInstance, TProperty>(PropertyInfo info, Expression<Func<PropertyInfo, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
         public void AssertProperty<TInstance, TProperty>(Expression<Func<TInstance, TProperty>> locator, Expression<Func<PropertyInfo, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssertStaticProperty<TReturn>(PropertyInfo info, Expression<Func<PropertyInfo, bool>> predicate)
         {
             throw new NotImplementedException();
         }

@@ -44,12 +44,12 @@ namespace TestTools.Integrated
                 throw new NotImplementedException();
             }
 
-            public void ThrowsException<TException>(Expression<Action<T>> action)
+            public void ThrowsException<TException>(Expression<Action> action)
             {
                 throw new NotImplementedException();
             }
 
-            public void EqualToDual<TProperty>(Expression<Func<T, TProperty>> locator)
+            public void EqualToDual<TProperty>(Expression<Func<TProperty>> locator)
             {
                 throw new NotImplementedException();
             }
