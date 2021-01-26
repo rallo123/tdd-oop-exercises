@@ -14,6 +14,10 @@ namespace Lecture_7_Solutions
             _logger = logger;
         }
 
+        public Repository()
+        {
+        }
+
         public void Add(TEntity entity)
         {
             _entities.Add((TEntity)entity.Clone());
