@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -60,14 +60,14 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("b. MyRandom.Next() does not return the same value twice (may fail sometimes)"), TestCategory("3B")]
+        [TestMethod("b. MyRandom.Next() does not return the same value twice (may randomly fail)"), TestCategory("3B")]
         public void MyRandomNextReturnsRandomNumber()
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<MyRandom> random = test.CreateVariable<MyRandom>();
 
-            random.Arrange(() => new MyRandom());
-            random.Assert.IsFalse(r => r.Next() == r.Next());
+            test.Arrange(random, Expr(() => new MyRandom()));
+            test.Assert.AreNotEqual(Expr(random, r => r.Next()), Expr(random, r => r.Next()));
 
             test.Execute();
         }
@@ -78,8 +78,8 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyRandom> random = test.CreateVariable<MyRandom>();
 
-            random.Arrange(() => new MyRandom());
-            random.Assert.IsTrue(r => r.Next() <= 6);
+            test.Arrange(random, Expr(() => new MyRandom()));
+            test.Assert.IsTrue(Expr(random, r => r.Next(6) <= 6));
 
             test.Execute();
         }
@@ -89,11 +89,11 @@ namespace Lecture_6_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<MyRandom> random = test.CreateVariable<MyRandom>();
-            TestVariable<int> value = test.CreateAnonymousObject<int>();
+            TestVariable<int> value = test.CreateVariable<int>();
 
-            random.Arrange(() => new MyRandom());
-            value.WithParameters(random).Arrange(r => r.Next(1, 6));
-            value.Assert.IsTrue(v => 1 <= v && v <= 6);
+            test.Arrange(random, Expr(() => new MyRandom()));
+            test.Arrange(value, Expr(random, r => r.Next(1, 6)));
+            test.Assert.IsTrue(Expr(value, v => 1 <= v && v <= 6));
 
             test.Execute();
         }
@@ -114,8 +114,8 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
-            random.Arrange(() => new PredictableRandom(4));
-            random.Assert.IsTrue(r => r.Next() == 4);
+            test.Arrange(random, Expr(() => new PredictableRandom(4)));
+            test.Assert.AreEqual(Expr(random, r => r.Next()), Const(4));
 
             test.Execute();
         }
@@ -126,8 +126,8 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
-            random.Arrange(() => new PredictableRandom(4));
-            random.Assert.IsTrue(r => r.Next(6) == 4);
+            test.Arrange(random, Expr(() => new PredictableRandom(4)));
+            test.Assert.AreEqual(Expr(random, r => r.Next(6)), Const(4));
 
             test.Execute();
         }
@@ -138,8 +138,8 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
-            random.Arrange(() => new PredictableRandom(7));
-            random.Assert.ThrowsException<ArgumentException>(r => r.Next(6));
+            test.Arrange(random, Expr(() => new PredictableRandom(7)));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(random, r => r.Next(6)));
 
             test.Execute();
         }
@@ -150,8 +150,8 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
-            random.Arrange(() => new PredictableRandom(4));
-            random.Assert.IsTrue(r => r.Next(1, 6) == 4);
+            test.Arrange(random, Expr(() => new PredictableRandom(4)));
+            test.Assert.AreEqual(Expr(random, r => r.Next(1, 6)), Const(4));
 
             test.Execute();
         }
@@ -162,8 +162,8 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
-            random.Arrange(() => new PredictableRandom(0));
-            random.Assert.ThrowsException<ArgumentException>(r => r.Next(1, 6));
+            test.Arrange(random, Expr(() => new PredictableRandom(0)));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(random, r => r.Next(1, 6)));
 
             test.Execute();
         }

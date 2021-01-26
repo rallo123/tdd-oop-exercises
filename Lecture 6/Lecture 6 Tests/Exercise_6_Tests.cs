@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -56,9 +56,8 @@ namespace Lecture_6_Tests
         }
         #endregion
 
-
         #region Exercise 6D
-        [TestMethod("a. FileLogger implements IDisposable"), TestCategory("6C")]
+        [TestMethod("a. FileLogger implements IDisposable"), TestCategory("6D")]
         public void FileLoggerImplementIDisposable()
         {
             StructureTest test = Factory.CreateStructureTest();
@@ -68,7 +67,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 6E
-        [TestMethod("b. FileLogger.Log(string message) appends file")]
+        [TestMethod("b. FileLogger.Log(string message) appends file"), TestCategory("6E")]
         public void FileLoggerAppendsFile()
         {
             UnitTest test = Factory.CreateTest();
@@ -77,10 +76,9 @@ namespace Lecture_6_Tests
             
             fileSystem.Act(fs => fs.File.Create("/log.txt"));
             fileSystem.Act(fs => fs.File.WriteAllText("/log.txt", "Customer Ryan Johnson was created"));
-            file.Arrange(() => new FileLogger("/log.txt"));
-            file.Act(l => l.Log("Customer Ryan Johnson was deleted"));
-            file.Act(l => l.Dispose());
-            //TODO implement UnitTestFileSystemAssert
+            test.Arrange(file, Expr(() => new FileLogger("/log.txt")));
+            test.Act(Expr(file, l => l.Log("Customer Ryan Johnson was deleted")));
+            test.Act(Expr(file, l => l.Dispose()));
             //fileSystem.Assert.IsTrue(fs.File.ReadAllTest("/log.text") == "Customer Ryan Johnson was Created\n Customer Ryan Johnson was deleted")
 
             test.Execute();

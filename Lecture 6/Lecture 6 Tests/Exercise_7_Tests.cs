@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -45,8 +45,8 @@ namespace Lecture_6_Tests
 
             fileSystem.Act(fs => fs.File.Create("/file.txt"));
             fileSystem.Act(fs => fs.File.WriteAllText("/file.txt", "content of file"));
-            file.Arrange(() => new TextFile("/file.txt"));
-            file.Assert.IsTrue(f => f.Content == "content of file");
+            test.Arrange(file, Expr(() => new TextFile("/file.txt")));
+            test.Assert.IsTrue(Expr(file, f => f.Content == "content of file"));
 
             test.Execute();
         }
@@ -70,9 +70,9 @@ namespace Lecture_6_Tests
 
             fileSystem.Act(fs => fs.File.Create("/file.txt"));
             fileSystem.Act(fs => fs.File.WriteAllText("/file.txt", "content of file"));
-            file.Arrange(() => new TextFile("/file.txt"));
-            file.Act(f => f.Dispose());
-            file.Assert.IsTrue(f => f.Content == null);
+            test.Arrange(file, Expr(() => new TextFile("/file.txt")));
+            test.Act(Expr(file, f => f.Dispose()));
+            test.Assert.IsNotNull(Expr(file, f => f.Content == null));
 
             test.Execute();
         }

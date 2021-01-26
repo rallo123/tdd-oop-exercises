@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -45,9 +45,9 @@ namespace Lecture_6_Tests
             TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
             TestVariable<Die> die = test.CreateVariable<Die>();
 
-            random.Arrange(() => new PredictableRandom(5));
-            die.WithParameters(random).Arrange((r) => new Die(r, 6));
-            die.Assert.IsTrue(d => d.Roll() == 5);
+            test.Arrange(random, Expr(() => new PredictableRandom(5)));
+            test.Arrange(die, Expr(random, (r) => new Die(r, 6)));
+            test.Assert.AreEqual(Expr(die, d => d.Roll()), Const(5));
 
             test.Execute();
         }
@@ -58,12 +58,12 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyRandom> random = test.CreateVariable<MyRandom>();
             TestVariable<Die> die = test.CreateVariable<Die>();
-            TestVariable<int> value = test.CreateAnonymousObject<int>();
+            TestVariable<int> value = test.CreateVariable<int>();
 
-            random.Arrange(() => new MyRandom());
-            die.WithParameters(random).Arrange((r) => new Die(r, 6));
-            value.WithParameters(die).Arrange(d => d.Roll());
-            value.Assert.IsTrue(v => 1 <= v && v <= 6);
+            test.Arrange(random, Expr(() => new MyRandom()));
+            test.Arrange(die, Expr(random, (r) => new Die(r, 6)));
+            test.Arrange(value, Expr(die, d => d.Roll()));
+            test.Assert.IsTrue(Expr(value, v => 1 <= v && v <= 6));
 
             test.Execute();
         }
