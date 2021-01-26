@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.UnitTests;
+using TestTools.StructureTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -33,9 +33,9 @@ namespace Lecture_8_Tests
             TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
             TestConsole console = test.CaptureConsole();
 
-            view.Arrange(() => new ConsoleView());
+            test.Arrange(view, Expr(() => new ConsoleView()));
             console.Act(writer => writer.WriteLine());
-            view.Act(v => v.Run());
+            test.Act(Expr(view, v => v.Run()));
 
             test.Execute();
         }
@@ -67,11 +67,11 @@ namespace Lecture_8_Tests
             TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
             TestConsole console = test.CaptureConsole();
 
-            view.Arrange(() => new ConsoleView());
-            view.DelegateAssert.IsInvoked(Subscribe<ConsoleView, InputHandler>("Input"));
+            test.Arrange(view, Expr(() => new ConsoleView()));
+            test.DelegateAssert.IsInvoked(LambdaSubscribe<ConsoleView, InputHandler>("Input"));
             console.Act(writer => writer.WriteLine("User input"));
             console.Act(writer => writer.WriteLine());
-            view.Act(v => v.Run());
+            test.Act(Expr(view, v => v.Run()));
             test.Execute();
         }
 
@@ -82,10 +82,10 @@ namespace Lecture_8_Tests
             TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
             TestConsole console = test.CaptureConsole();
 
-            view.Arrange(() => new ConsoleView());
-            view.DelegateAssert.IsNotInvoked(Subscribe<ConsoleView, InputHandler>("Input"));
+            test.Arrange(view, Expr(() => new ConsoleView()));
+            test.DelegateAssert.IsNotInvoked(LambdaSubscribe<ConsoleView, InputHandler>("Input"));
             console.Act(writer => writer.WriteLine());
-            view.Act(v => v.Run());
+            test.Act(Expr(view, v => v.Run()));
             test.Execute();
         }
         #endregion

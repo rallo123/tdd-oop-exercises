@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.UnitTests;
+using TestTools.StructureTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -77,11 +77,10 @@ namespace Lecture_8_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<int[]> input = test.CreateVariable<int[]>();
             TestVariable<int[]> output = test.CreateVariable<int[]>();
-            UnitTestClass helper = test.CreateClass();
             
-            input.Arrange(() => new[] { -2, -1, 0, 1, 2});
-            output.Arrange(() => new[] { 0, 1, 2 });
-            helper.WithParameters(input, output).Assert.IsTrue((i, o) => ArrayHelper.Filter(i, x => x >= 0).SequenceEqual(o));
+            test.Arrange(input, Expr(() => new[] { -2, -1, 0, 1, 2}));
+            test.Arrange(output, Expr(() => new[] { 0, 1, 2 }));
+            test.Assert.IsTrue(Expr(input, output, (i, o) => ArrayHelper.Filter(i, x => x >= 0).SequenceEqual(o)));
 
             test.Execute();
         }
@@ -92,11 +91,10 @@ namespace Lecture_8_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<int[]> input = test.CreateVariable<int[]>();
             TestVariable<int[]> output = test.CreateVariable<int[]>();
-            UnitTestClass helper = test.CreateClass();
 
-            input.Arrange(() => new[] { 0, 1, 2 });
-            output.Arrange(() => new[] { 0, 2, 4 });
-            helper.WithParameters(input, output).Assert.IsTrue((i, o) => ArrayHelper.Map(i, x => 2*x).SequenceEqual(o));
+            test.Arrange(input, Expr(() => new[] { 0, 1, 2 }));
+            test.Arrange(output, Expr(() => new[] { 0, 2, 4 }));
+            test.Assert.IsTrue(Expr(input, output, (i, o) => ArrayHelper.Map(i, x => 2*x).SequenceEqual(o)));
 
             test.Execute();
         }
@@ -107,13 +105,11 @@ namespace Lecture_8_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<int[]> array = test.CreateVariable<int[]>();
             TestVariable<int[]> sortedArray = test.CreateVariable<int[]>();
-            UnitTestClass helper = test.CreateClass();
 
-            array.Arrange(() => new[] { 0, 5, 4, 1, 3, 2 });
-            sortedArray.Arrange(() => new[] { 0, 1, 2, 3, 4, 5 });
-            helper.WithParameters(array).Act(a => ArrayHelper.Sort(a, (x, y) => x - y));
-
-            helper.WithParameters(array, sortedArray).Assert.IsTrue((i, o) => i.SequenceEqual(o));
+            test.Arrange(array, Expr(() => new[] { 0, 5, 4, 1, 3, 2 }));
+            test.Arrange(sortedArray, Expr(() => new[] { 0, 1, 2, 3, 4, 5 }));
+            test.Act(Expr(array, a => ArrayHelper.Sort(a, (x, y) => x - y)));
+            test.Assert.IsTrue(Expr(array, sortedArray, (i, o) => i.SequenceEqual(o)));
 
             test.Execute();
         }
@@ -123,10 +119,9 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<int[]> array = test.CreateVariable<int[]>();
-            UnitTestClass helper = test.CreateClass();
 
-            array.Arrange(() => new[] { 0, 1, 2 });
-            helper.WithParameters(array).Assert.IsTrue(a => ArrayHelper.Find(a, x => x == 1) == 1);
+            test.Arrange(array, Expr(() => new[] { 0, 1, 2 }));
+            test.Assert.AreEqual(Expr(array, a => ArrayHelper.Find(a, x => x == 1)), Const(1));
 
             test.Execute();
         }
@@ -136,10 +131,9 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<int[]> array = test.CreateVariable<int[]>();
-            UnitTestClass helper = test.CreateClass();
 
-            array.Arrange(() => new[] { 0, 1, 2 });
-            helper.WithParameters(array).Assert.IsTrue(a => ArrayHelper.Contains(a, x => x == 1));
+            test.Arrange(array, Expr(() => new[] { 0, 1, 2 }));
+            test.Assert.IsTrue(Expr(array, a => ArrayHelper.Contains(a, x => x == 1)));
 
             test.Execute();
         }
@@ -149,10 +143,9 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<int[]> array = test.CreateVariable<int[]>();
-            UnitTestClass helper = test.CreateClass();
 
-            array.Arrange(() => new[] { 0, 1, 2 });
-            helper.WithParameters(array).Assert.IsFalse(a => ArrayHelper.Contains(a, x => x == 3));
+            test.Arrange(array, Expr(() => new[] { 0, 1, 2 }));
+            test.Assert.IsFalse(Expr(array, a => ArrayHelper.Contains(a, x => x == 3)));
 
             test.Execute();
         }

@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.UnitTests;
+using TestTools.StructureTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -32,8 +32,8 @@ namespace Lecture_8_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
-            account.Arrange(() => new BankAccount());
-            account.Assert.IsTrue(a => a.Balance == 0);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Assert.AreEqual(Expr(account, a => a.Balance), Const(0M));
 
             test.Execute();
         }
@@ -62,8 +62,8 @@ namespace Lecture_8_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
-            account.Arrange(() => new BankAccount() { HighBalanceThreshold = 0 });
-            account.Assert.ThrowsException<ArgumentException>(Assignment<BankAccount, decimal>(a => a.LowBalanceThreshold, 1));
+            test.Arrange(account, Expr(() => new BankAccount() { HighBalanceThreshold = 0 }));
+            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, decimal>(Expr(account, a => a.Balance), Const(1M));
 
             test.Execute();
         }
@@ -74,8 +74,8 @@ namespace Lecture_8_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
-            account.Arrange(() => new BankAccount() { LowBalanceThreshold = 0 });
-            account.Assert.ThrowsException<ArgumentException>(Assignment<BankAccount, decimal>(a => a.HighBalanceThreshold, -1));
+            test.Arrange(account, Expr(() => new BankAccount() { LowBalanceThreshold = 0 }));
+            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, decimal>(Expr(account, a => a.Balance), Const(-1M));
 
             test.Execute();
         }
@@ -102,11 +102,11 @@ namespace Lecture_8_Tests
         public void BankAccountDepositAddsToBalance()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<BankAccount> bankAccount = test.CreateVariable<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
-            bankAccount.Arrange(() => new BankAccount());
-            bankAccount.Act(b => b.Deposit(50M));
-            bankAccount.Assert.IsTrue(b => b.Balance == 50M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Act(Expr(account, a => a.Deposit(50M)));
+            test.Assert.AreEqual(Expr(account, a => a.Balance), Const(50M));
 
             test.Execute();
         }
@@ -115,11 +115,11 @@ namespace Lecture_8_Tests
         public void BankAccountWithdrawTakesFromBalance()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<BankAccount> bankAccount = test.CreateVariable<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
-            bankAccount.Arrange(() => new BankAccount());
-            bankAccount.Act(b => b.Withdraw(50M));
-            bankAccount.Assert.IsTrue(b => b.Balance == -50M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Act(Expr(account, a => a.Withdraw(50M)));
+            test.Assert.AreEqual(Expr(account, a => a.Balance), Const(-50M));
 
             test.Execute();
         }
@@ -156,11 +156,11 @@ namespace Lecture_8_Tests
         public void BankAccountWithdrawEmitsLowBalance()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<BankAccount> bankAccount = test.CreateVariable<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
             
-            bankAccount.Arrange(() => new BankAccount() { LowBalanceThreshold = 0 });
-            bankAccount.DelegateAssert.IsInvoked(Subscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
-            bankAccount.Act(b => b.Withdraw(50M));
+            test.Arrange(account, Expr(() => new BankAccount() { LowBalanceThreshold = 0 }));
+            test.DelegateAssert.IsInvoked(LambdaSubscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
+            test.Act(Expr(account, a => a.Withdraw(50M)));
             test.Execute();
         }
 
@@ -168,11 +168,11 @@ namespace Lecture_8_Tests
         public void BankAccountDepositEmitsHighBalance()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<BankAccount> bankAccount = test.CreateVariable<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
-            bankAccount.Arrange(() => new BankAccount() { HighBalanceThreshold = 0 });
-            bankAccount.DelegateAssert.IsInvoked(Subscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
-            bankAccount.Act(b => b.Deposit(50));
+            test.Arrange(account, Expr(() => new BankAccount() { HighBalanceThreshold = 0 }));
+            test.DelegateAssert.IsInvoked(LambdaSubscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
+            test.Act(Expr(account, a => a.Deposit(50)));
             test.Execute();
         }
         #endregion

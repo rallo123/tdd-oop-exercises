@@ -112,17 +112,17 @@ namespace TestTools.UnitTests
 
         public class DelegateAssertObject
         {
-            public void IsInvoked<TDelegate>(TestExpression<Func<TDelegate>> subscribe) where TDelegate : Delegate
+            public void IsInvoked<TDelegate>(TestExpression<Action<TDelegate>> subscribe) where TDelegate : Delegate
             {
                 throw new NotImplementedException();
             }
 
-            public void IsInvoked<TDelegate>(TestExpression<Func<TDelegate>> subscribe, TDelegate assertionCallback) where TDelegate : Delegate
+            public void IsInvoked<TDelegate>(TestExpression<Action<TDelegate>> subscribe, TDelegate assertionCallback) where TDelegate : Delegate
             {
                 throw new NotImplementedException();
             }
 
-            public void IsNotInvoked<TDelegate>(TestExpression<Func<TDelegate>> subscribe) where TDelegate : Delegate
+            public void IsNotInvoked<TDelegate>(TestExpression<Action<TDelegate>> subscribe) where TDelegate : Delegate
             {
                 throw new NotImplementedException();
             }

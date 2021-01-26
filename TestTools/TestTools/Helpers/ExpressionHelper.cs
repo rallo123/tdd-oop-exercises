@@ -23,7 +23,7 @@ namespace TestTools.Helpers
             throw new NotImplementedException();
         }
 
-        public static Expression<Action<T, TDelegate>> Subscribe<T, TDelegate>(string eventName)
+        public static TestExpression<Action<TDelegate>> LambdaSubscribe<T, TDelegate>(string eventName)
         {
             throw new NotImplementedException();
         }

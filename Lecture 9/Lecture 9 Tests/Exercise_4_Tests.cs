@@ -44,7 +44,7 @@ namespace Lecture_9_Tests
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
             
             collection.Arrange(() => new ObservableCollection<int>());
-            collection.DelegateAssert.IsInvoked(Subscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            collection.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
             collection.Act(c => c.Add(5));
             
             test.Execute();
@@ -57,7 +57,7 @@ namespace Lecture_9_Tests
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
             collection.Arrange(() => new ObservableCollection<int>());
-            collection.DelegateAssert.IsInvoked(Subscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            collection.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
             collection.Act(c => c.Clear());
 
             test.Execute();
@@ -70,7 +70,7 @@ namespace Lecture_9_Tests
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
             collection.Arrange(() => new ObservableCollection<int>() { 1 });
-            collection.DelegateAssert.IsInvoked(Subscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            collection.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
             collection.Act(c => c.Remove(1));
 
             test.Execute();
