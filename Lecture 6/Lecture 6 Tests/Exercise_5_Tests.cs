@@ -31,7 +31,7 @@ namespace Lecture_6_Tests
         public void CarSorterComparerInitializesToNull()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<CarSorter> sorter = test.CreateObject<CarSorter>();
+            TestVariable<CarSorter> sorter = test.CreateVariable<CarSorter>();
 
             sorter.Arrange(() => new CarSorter());
             sorter.Assert.IsTrue(s => s.Comparer == null);
@@ -53,9 +53,9 @@ namespace Lecture_6_Tests
         public void CarListSorterSortDoesNotSort()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<CarSorter> sorter = test.CreateObject<CarSorter>();
-            UnitTestObject<Car[]> carsBefore = test.CreateObject<Car[]>();
-            UnitTestObject<Car[]> carsAfter = test.CreateObject<Car[]>();
+            TestVariable<CarSorter> sorter = test.CreateVariable<CarSorter>();
+            TestVariable<Car[]> carsBefore = test.CreateVariable<Car[]>();
+            TestVariable<Car[]> carsAfter = test.CreateVariable<Car[]>();
 
             sorter.Arrange(() => new CarSorter());
             carsBefore.Arrange(() => new[] {
@@ -76,9 +76,9 @@ namespace Lecture_6_Tests
         public void CarListSorterSorts()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<CarSorter> sorter = test.CreateObject<CarSorter>();
-            UnitTestObject<Car[]> carsBefore = test.CreateObject<Car[]>();
-            UnitTestObject<Car[]> carsAfter = test.CreateObject<Car[]>();
+            TestVariable<CarSorter> sorter = test.CreateVariable<CarSorter>();
+            TestVariable<Car[]> carsBefore = test.CreateVariable<Car[]>();
+            TestVariable<Car[]> carsAfter = test.CreateVariable<Car[]>();
 
             sorter.Arrange(() => new CarSorter() { Comparer = new CarPriceComparer() });
             carsBefore.Arrange(() => new[] {

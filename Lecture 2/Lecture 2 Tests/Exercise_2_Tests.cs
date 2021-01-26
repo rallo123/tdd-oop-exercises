@@ -1,8 +1,8 @@
 ﻿using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TestTools.Integrated;
-using TestTools.Structure;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using static Lecture_2_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
 
@@ -11,7 +11,7 @@ namespace Lecture_2_Tests
     [TestClass]
     public class Exercise_2_Tests
     {
-        /* Exercise 2A */
+        #region Exercise 2A
         [TestMethod("Number.Value is public readonly int property"), TestCategory("Exercise 2A")]
         public void ValueIsPublicReadonlyIntProperty()
         {
@@ -19,8 +19,9 @@ namespace Lecture_2_Tests
             test.AssertProperty<Number, int>(n => n.Value, IsPublicReadonlyProperty);
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 2B */
+        #region Exercise 2B
         [TestMethod("a. Number constructor takes int as argument"), TestCategory("Exercise 2B")]
         public void NumberConstructorTakesIntAsArgument() {
             StructureTest test = Factory.CreateStructureTest();
@@ -32,15 +33,16 @@ namespace Lecture_2_Tests
         public void NumberConstructorWithIntAsArgumentSetsValueProperty()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number = test.CreateObject<Number>("number");
+            TestVariable<Number> number = test.CreateVariable<Number>(nameof(number));
 
-            number.Arrange(() => new Number(2));
-            number.Assert.IsTrue(n => n.Value == 2);
+            test.Arrange(number, Expr(() => new Number(2)));
+            test.Assert.AreEqual(Expr(number, n => n.Value), Const(2));
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 2C */
+        #region Exercise 2C
         [TestMethod("a. Number.Add takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void AddTakesNumberAsArgumentsAndReturnsNothing() {
             StructureTest test = Factory.CreateStructureTest();
@@ -51,13 +53,13 @@ namespace Lecture_2_Tests
         [TestMethod("b. Number.Add performs 1 + 2 = 3"), TestCategory("Exercise 2C")]
         public void AddProducesExpectedResult() {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.CreateObject<Number>("number1");
-            UnitTestObject<Number> number2 = test.CreateObject<Number>("number2");
+            TestVariable<Number> number1 = test.CreateVariable<Number>(nameof(number1));
+            TestVariable<Number> number2 = test.CreateVariable<Number>(nameof(number2));
 
-            number1.Arrange(() => new Number(1));
-            number2.Arrange(() => new Number(2));
-            number1.WithParameters(number2).Act((n1, n2) => n1.Add(n2));
-            number1.Assert.IsTrue(n => n.Value == 3);
+            test.Arrange(number1, Expr(() => new Number(1)));
+            test.Arrange(number2, Expr(() => new Number(2)));
+            test.Act(Expr(number1, number2, (n1, n2) => n1.Add(n2)));
+            test.Assert.AreEqual(Expr(number1, n => n.Value), Const(3));
 
             test.Execute();
         }
@@ -68,19 +70,18 @@ namespace Lecture_2_Tests
             StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<Number, Number>((n1, n2) => n1.Subtract(n2), IsPublicMethod);
             test.Execute();
-            test.AssertMethod<Number, Number>((n1, n2) => n1.Subtract(n2), IsPublicMethod);
         }
 
         [TestMethod("d. Number.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 2C")]
         public void SubtractProducesExpectedResult() {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.CreateObject<Number>("number1");
-            UnitTestObject<Number> number2 = test.CreateObject<Number>("number2");
+            TestVariable<Number> number1 = test.CreateVariable<Number>(nameof(number1));
+            TestVariable<Number> number2 = test.CreateVariable<Number>(nameof(number2));
 
-            number1.Arrange(() => new Number(8));
-            number2.Arrange(() => new Number(3));
-            number1.WithParameters(number2).Act((n1, n2) => n1.Subtract(n2));
-            number1.Assert.IsTrue(n => n.Value == 5);
+            test.Arrange(number1, Expr(() => new Number(8)));
+            test.Arrange(number2, Expr(() => new Number(3)));
+            test.Act(Expr(number1, number2, (n1, n2) => n1.Subtract(n2)));
+            test.Assert.AreEqual(Expr(number1, n => n.Value), Const(5));
 
             test.Execute();
         }
@@ -97,15 +98,16 @@ namespace Lecture_2_Tests
         public void MultiplyProducesExpectedResult()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Number> number1 = test.CreateObject<Number>("number1");
-            UnitTestObject<Number> number2 = test.CreateObject<Number>("number2");
+            TestVariable<Number> number1 = test.CreateVariable<Number>(nameof(number1));
+            TestVariable<Number> number2 = test.CreateVariable<Number>(nameof(number2));
 
-            number1.Arrange(() => new Number(2));
-            number2.Arrange(() => new Number(3));
-            number1.WithParameters(number2).Act((n1, n2) => n1.Multiply(n2));
-            number1.Assert.IsTrue(n => n.Value == 6);
+            test.Arrange(number1, Expr(() => new Number(2)));
+            test.Arrange(number2, Expr(() => new Number(3)));
+            test.Act(Expr(number1, number2, (n1, n2) => n1.Multiply(n2)));
+            test.Assert.AreEqual(Expr(number1, n => n.Value), Const(6));
 
             test.Execute();
         }
+        #endregion
     }
 }

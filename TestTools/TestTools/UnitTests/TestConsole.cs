@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace TestTools.Integrated
+namespace TestTools.UnitTests
 {
-    public class UnitTestConsole
+    public class TestConsole
     {
         // writes to stdin
         public void Act(Expression<Action<StreamWriter>> action)

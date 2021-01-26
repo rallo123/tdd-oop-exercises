@@ -75,8 +75,8 @@ namespace Lecture_8_Tests
         public void ArrayFilterReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<int[]> input = test.CreateObject<int[]>();
-            UnitTestObject<int[]> output = test.CreateObject<int[]>();
+            TestVariable<int[]> input = test.CreateVariable<int[]>();
+            TestVariable<int[]> output = test.CreateVariable<int[]>();
             UnitTestClass helper = test.CreateClass();
             
             input.Arrange(() => new[] { -2, -1, 0, 1, 2});
@@ -90,8 +90,8 @@ namespace Lecture_8_Tests
         public void ArrayMapReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<int[]> input = test.CreateObject<int[]>();
-            UnitTestObject<int[]> output = test.CreateObject<int[]>();
+            TestVariable<int[]> input = test.CreateVariable<int[]>();
+            TestVariable<int[]> output = test.CreateVariable<int[]>();
             UnitTestClass helper = test.CreateClass();
 
             input.Arrange(() => new[] { 0, 1, 2 });
@@ -105,8 +105,8 @@ namespace Lecture_8_Tests
         public void ArraySortReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<int[]> array = test.CreateObject<int[]>();
-            UnitTestObject<int[]> sortedArray = test.CreateObject<int[]>();
+            TestVariable<int[]> array = test.CreateVariable<int[]>();
+            TestVariable<int[]> sortedArray = test.CreateVariable<int[]>();
             UnitTestClass helper = test.CreateClass();
 
             array.Arrange(() => new[] { 0, 5, 4, 1, 3, 2 });
@@ -122,7 +122,7 @@ namespace Lecture_8_Tests
         public void ArrayFindReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<int[]> array = test.CreateObject<int[]>();
+            TestVariable<int[]> array = test.CreateVariable<int[]>();
             UnitTestClass helper = test.CreateClass();
 
             array.Arrange(() => new[] { 0, 1, 2 });
@@ -135,7 +135,7 @@ namespace Lecture_8_Tests
         public void ArrayContainsReturnsTrue()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<int[]> array = test.CreateObject<int[]>();
+            TestVariable<int[]> array = test.CreateVariable<int[]>();
             UnitTestClass helper = test.CreateClass();
 
             array.Arrange(() => new[] { 0, 1, 2 });
@@ -148,7 +148,7 @@ namespace Lecture_8_Tests
         public void ArrayContainsReturnsFalse()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<int[]> array = test.CreateObject<int[]>();
+            TestVariable<int[]> array = test.CreateVariable<int[]>();
             UnitTestClass helper = test.CreateClass();
 
             array.Arrange(() => new[] { 0, 1, 2 });

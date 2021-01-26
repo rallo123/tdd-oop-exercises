@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using TestTools.Structure;
+using TestTools.StructureTests;
 
-namespace TestTools.Integrated
+namespace TestTools.StructureTests
 {
     public class StructureTest
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestTools.Integrated
+namespace TestTools.UnitTests
 {
     public class UnitTestConfiguration
     {

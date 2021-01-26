@@ -1,6 +1,8 @@
 ﻿using Lecture_3_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestTools.Integrated;
+using TestTools.UnitTests;
+using TestTools;
+using TestTools.StructureTests;
 using static Lecture_3_Tests.TestHelper;
 
 namespace Lecture_3_Tests
@@ -8,30 +10,32 @@ namespace Lecture_3_Tests
     [TestClass]
     public class Exercise_4_Tests
     {
-        /* Exercise 4A */
+        #region Exercise 4A
         [TestMethod("a. Employee.ToString() returns expected output"), TestCategory("Exercise 4A")]
         public void EmployeeToStringReturnsExpectedOutput()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
 
-            employee.Arrange(() => new Employee("Joe Stevens") { Title = "Programmer" });
-            employee.Assert.IsTrue(e => e.ToString() == "Employee Joe Stevens (Programmer)");
+            test.Arrange(employee, Expr(() => new Employee("Joe Stevens") { Title = "Programmer" }));
+            test.Assert.AreEqual(Expr(employee, e => e.ToString()), Const("Employee Joe Stevens (Programmer)"));
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 4B */
+        #region Exercise 4B
         [TestMethod("a. Manager.ToString() returns expected output"), TestCategory("Exercise 4B")]
         public void ManagerToStringReturnsExpectedOutput()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Manager> manager = test.CreateObject<Manager>();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
 
-            manager.Arrange(() => new Manager("Mary Stevens") { Title = "Software Engineer" });
-            manager.Assert.IsTrue(m => m.ToString() == "Manager Mary Stevens (Software Engineer)");
+            test.Arrange(manager, Expr(() => new Manager("Mary Stevens") { Title = "Software Engineer" }));
+            test.Assert.AreEqual(Expr(manager, m => m.ToString()), Const("Manager Mary Stevens (Software Engineer)"));
 
             test.Execute();
         }
+        #endregion
     }
 }

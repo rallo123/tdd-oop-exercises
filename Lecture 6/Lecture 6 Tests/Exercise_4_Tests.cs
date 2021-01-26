@@ -42,8 +42,8 @@ namespace Lecture_6_Tests
         public void DieRollReturns5()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
-            UnitTestObject<Die> die = test.CreateObject<Die>();
+            TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
+            TestVariable<Die> die = test.CreateVariable<Die>();
 
             random.Arrange(() => new PredictableRandom(5));
             die.WithParameters(random).Arrange((r) => new Die(r, 6));
@@ -56,9 +56,9 @@ namespace Lecture_6_Tests
         public void DieRollReturnsANumberBetween1And6()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyRandom> random = test.CreateObject<MyRandom>();
-            UnitTestObject<Die> die = test.CreateObject<Die>();
-            UnitTestObject<int> value = test.CreateAnonymousObject<int>();
+            TestVariable<MyRandom> random = test.CreateVariable<MyRandom>();
+            TestVariable<Die> die = test.CreateVariable<Die>();
+            TestVariable<int> value = test.CreateAnonymousObject<int>();
 
             random.Arrange(() => new MyRandom());
             die.WithParameters(random).Arrange((r) => new Die(r, 6));

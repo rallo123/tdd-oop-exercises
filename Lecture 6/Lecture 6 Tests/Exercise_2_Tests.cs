@@ -31,8 +31,8 @@ namespace Lecture_6_Tests
         public void CarIDIncreasesBy1ForEachNewPerson()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car1 = test.CreateObject<Car>();
-            UnitTestObject<Car> car2 = test.CreateObject<Car>();
+            TestVariable<Car> car1 = test.CreateVariable<Car>();
+            TestVariable<Car> car2 = test.CreateVariable<Car>();
 
             car1.Arrange(() => new Car("", "", 0.0M));
             car2.Arrange(() => new Car("", "", 0.0M));
@@ -71,7 +71,7 @@ namespace Lecture_6_Tests
         public void CarMakeAssignmentOfNullThrowsArgumentNullException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car = test.CreateObject<Car>();
+            TestVariable<Car> car = test.CreateVariable<Car>();
 
             car.Arrange(() => new Car("", "", 0.0M));
             car.Assert.ThrowsException<ArgumentNullException>(Assignment<Car, string>(c => c.Make, null));
@@ -83,7 +83,7 @@ namespace Lecture_6_Tests
         public void CarModelAssignmentOfNullThrowsArgumentNullException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car = test.CreateObject<Car>();
+            TestVariable<Car> car = test.CreateVariable<Car>();
 
             car.Arrange(() => new Car("", "", 0.0M));
             car.Assert.ThrowsException<ArgumentNullException>(Assignment<Car, string>(c => c.Model, null));
@@ -95,7 +95,7 @@ namespace Lecture_6_Tests
         public void CarPriceAssignmentOfMinus1ThrowsArgumentException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car = test.CreateObject<Car>();
+            TestVariable<Car> car = test.CreateVariable<Car>();
 
             car.Arrange(() => new Car("", "", 0.0M));
             car.Assert.ThrowsException<ArgumentException>(Assignment<Car, decimal>(c => c.Price, -1.0M));
@@ -117,7 +117,7 @@ namespace Lecture_6_Tests
         public void CarCompareToSortsNullFirst()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car = test.CreateObject<Car>();
+            TestVariable<Car> car = test.CreateVariable<Car>();
 
             car.Arrange(() => new Car("", "", 0.0M));
             car.Assert.IsTrue(c => c.CompareTo(null) > 0);
@@ -128,8 +128,8 @@ namespace Lecture_6_Tests
         public void CarCompareToSortsHigherIDFirst()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car1 = test.CreateObject<Car>();
-            UnitTestObject<Car> car2 = test.CreateObject<Car>();
+            TestVariable<Car> car1 = test.CreateVariable<Car>();
+            TestVariable<Car> car2 = test.CreateVariable<Car>();
 
             car1.Arrange(() => new Car("", "", 0.0M));
             car2.Arrange(() => new Car("", "", 0.0M));
@@ -151,8 +151,8 @@ namespace Lecture_6_Tests
         public void CarPriceComparerCompareSortsNullFirst()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car = test.CreateObject<Car>();
-            UnitTestObject<CarPriceComparer> comparer = test.CreateObject<CarPriceComparer>();
+            TestVariable<Car> car = test.CreateVariable<Car>();
+            TestVariable<CarPriceComparer> comparer = test.CreateVariable<CarPriceComparer>();
 
             car.Arrange(() => new Car("", "", 0.0M));
             comparer.Arrange(() => new CarPriceComparer());
@@ -164,9 +164,9 @@ namespace Lecture_6_Tests
         public void CarPriceComparerCompareSortsCarsWithHigherPriceFirst()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car1 = test.CreateObject<Car>();
-            UnitTestObject<Car> car2 = test.CreateObject<Car>();
-            UnitTestObject<CarPriceComparer> comparer = test.CreateObject<CarPriceComparer>();
+            TestVariable<Car> car1 = test.CreateVariable<Car>();
+            TestVariable<Car> car2 = test.CreateVariable<Car>();
+            TestVariable<CarPriceComparer> comparer = test.CreateVariable<CarPriceComparer>();
 
             car1.Arrange(() => new Car("", "", 0.0M));
             car2.Arrange(() => new Car("", "", 1.0M));
@@ -178,9 +178,9 @@ namespace Lecture_6_Tests
         public void CarPriceComparerCompareDoesNotSortCarsIfEqualPrice()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car1 = test.CreateObject<Car>();
-            UnitTestObject<Car> car2 = test.CreateObject<Car>();
-            UnitTestObject<CarPriceComparer> comparer = test.CreateObject<CarPriceComparer>();
+            TestVariable<Car> car1 = test.CreateVariable<Car>();
+            TestVariable<Car> car2 = test.CreateVariable<Car>();
+            TestVariable<CarPriceComparer> comparer = test.CreateVariable<CarPriceComparer>();
 
             car1.Arrange(() => new Car("", "", 0.0M));
             car2.Arrange(() => new Car("", "", 0.0M));
@@ -202,8 +202,8 @@ namespace Lecture_6_Tests
         public void CarMakeModelPriceComparerCompareSortsNullFirst()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car = test.CreateObject<Car>();
-            UnitTestObject<CarMakeModelPriceComparer> comparer = test.CreateObject<CarMakeModelPriceComparer>();
+            TestVariable<Car> car = test.CreateVariable<Car>();
+            TestVariable<CarMakeModelPriceComparer> comparer = test.CreateVariable<CarMakeModelPriceComparer>();
 
             car.Arrange(() => new Car("", "", 0.0M));
             comparer.Arrange(() => new CarMakeModelPriceComparer());
@@ -215,9 +215,9 @@ namespace Lecture_6_Tests
         public void CarMakeModelPriceComparerCompareSortsAccordingToCarMake()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car1 = test.CreateObject<Car>();
-            UnitTestObject<Car> car2 = test.CreateObject<Car>();
-            UnitTestObject<CarMakeModelPriceComparer> comparer = test.CreateObject<CarMakeModelPriceComparer>();
+            TestVariable<Car> car1 = test.CreateVariable<Car>();
+            TestVariable<Car> car2 = test.CreateVariable<Car>();
+            TestVariable<CarMakeModelPriceComparer> comparer = test.CreateVariable<CarMakeModelPriceComparer>();
 
             car1.Arrange(() => new Car("Audi", "", 0.0M));
             car2.Arrange(() => new Car("BMV", "", 0.0M));
@@ -229,9 +229,9 @@ namespace Lecture_6_Tests
         public void CarMakeModelPriceComparerCompareSortsAccordingToCarModel()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car1 = test.CreateObject<Car>();
-            UnitTestObject<Car> car2 = test.CreateObject<Car>();
-            UnitTestObject<CarMakeModelPriceComparer> comparer = test.CreateObject<CarMakeModelPriceComparer>();
+            TestVariable<Car> car1 = test.CreateVariable<Car>();
+            TestVariable<Car> car2 = test.CreateVariable<Car>();
+            TestVariable<CarMakeModelPriceComparer> comparer = test.CreateVariable<CarMakeModelPriceComparer>();
 
             car1.Arrange(() => new Car("Audi", "A3", 0.0M));
             car2.Arrange(() => new Car("Audi", "S3", 0.0M));
@@ -243,9 +243,9 @@ namespace Lecture_6_Tests
         public void CarMakeModelPriceComparerCompareSortsAccordingToCarPrice()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car1 = test.CreateObject<Car>();
-            UnitTestObject<Car> car2 = test.CreateObject<Car>();
-            UnitTestObject<CarMakeModelPriceComparer> comparer = test.CreateObject<CarMakeModelPriceComparer>();
+            TestVariable<Car> car1 = test.CreateVariable<Car>();
+            TestVariable<Car> car2 = test.CreateVariable<Car>();
+            TestVariable<CarMakeModelPriceComparer> comparer = test.CreateVariable<CarMakeModelPriceComparer>();
 
             car1.Arrange(() => new Car("Audi", "A3", 0.0M));
             car2.Arrange(() => new Car("Audi", "A3", 1.0M));
@@ -257,9 +257,9 @@ namespace Lecture_6_Tests
         public void CarMakeModelPriceComparerCompareDoesNotSortIfEverythingIsEqual()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Car> car1 = test.CreateObject<Car>();
-            UnitTestObject<Car> car2 = test.CreateObject<Car>();
-            UnitTestObject<CarMakeModelPriceComparer> comparer = test.CreateObject<CarMakeModelPriceComparer>();
+            TestVariable<Car> car1 = test.CreateVariable<Car>();
+            TestVariable<Car> car2 = test.CreateVariable<Car>();
+            TestVariable<CarMakeModelPriceComparer> comparer = test.CreateVariable<CarMakeModelPriceComparer>();
 
             car1.Arrange(() => new Car("Audi", "A3", 0.0M));
             car2.Arrange(() => new Car("Audi", "A3", 0.0M));

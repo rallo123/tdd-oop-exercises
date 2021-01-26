@@ -40,8 +40,8 @@ namespace Lecture_6_Tests
         public void TestFileContentReadsFileContentCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<TextFile> file = test.CreateObject<TextFile>();
-            UnitTestFileSystem fileSystem = test.CreateFileSystem();
+            TestVariable<TextFile> file = test.CreateVariable<TextFile>();
+            TestFileSystem fileSystem = test.CaptureFileSystem();
 
             fileSystem.Act(fs => fs.File.Create("/file.txt"));
             fileSystem.Act(fs => fs.File.WriteAllText("/file.txt", "content of file"));
@@ -65,8 +65,8 @@ namespace Lecture_6_Tests
         public void TextFileContentEqualsNullAfterDisposable()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<TextFile> file = test.CreateObject<TextFile>();
-            UnitTestFileSystem fileSystem = test.CreateFileSystem();
+            TestVariable<TextFile> file = test.CreateVariable<TextFile>();
+            TestFileSystem fileSystem = test.CaptureFileSystem();
 
             fileSystem.Act(fs => fs.File.Create("/file.txt"));
             fileSystem.Act(fs => fs.File.WriteAllText("/file.txt", "content of file"));

@@ -2,8 +2,8 @@ using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Structure;
+using TestTools.UnitTests;
+using TestTools.StructureTests;
 using static TestTools.Helpers.ExpressionHelper;
 using static TestTools.Helpers.StructureHelper;
 using static Lecture_2_Tests.TestHelper;
@@ -18,7 +18,7 @@ namespace Lecture_2_Tests
             throw new NotImplementedException();
         }
 
-        /* Exercise 1A */
+        #region Exercise 1A
         [TestMethod("a. Person.FirstName is public string property"), TestCategory("Exercise 1A")]
         public void FirstNameIsPublicStringProperty() {
             StructureTest test = Factory.CreateStructureTest();
@@ -46,10 +46,10 @@ namespace Lecture_2_Tests
         public void FirstNameIsInitializedAsUnnamed()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>();
 
-            person.Arrange(() => new Person());
-            person.Assert.IsTrue(p => p.FirstName == "Unknown");
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assert.AreEqual(Expr(person, p => p.FirstName), Const("Unknown"));
 
             test.Execute();
         }
@@ -58,10 +58,10 @@ namespace Lecture_2_Tests
         public void LastNameIsInitializedAsUnnamed()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Assert.IsTrue(p => p.LastName == "Unknown");
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assert.AreEqual(Expr(person, p => p.LastName), Const("Unknown"));
 
             test.Execute();
         }
@@ -69,11 +69,11 @@ namespace Lecture_2_Tests
         [TestMethod("f. Person.FirstName ignores assigment of null"), TestCategory("Exercise 1A")]
         public void FirstNameIgnoresAssignmentOfNull() {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Act(Assignment<Person, string>(p => p.FirstName, null));
-            person.Assert.IsTrue(p => p.FirstName == "Unknown");
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assign(Expr(person, p => p.FirstName), Const<string>(null));
+            test.Assert.AreEqual(Expr(person, p => p.FirstName), Const("Unknown"));
 
             test.Execute();
         }
@@ -82,11 +82,11 @@ namespace Lecture_2_Tests
         public void LastNameIgnoresAssignmentOfNull()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Act(Assignment<Person, string>(p => p.LastName, null));
-            person.Assert.IsTrue(p => p.LastName == "Unknown");
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assign(Expr(person, p => p.LastName), Const<string>(null));
+            test.Assert.AreEqual(Expr(person, p => p.LastName), Const("Unknown"));
 
             test.Execute();
         }
@@ -95,11 +95,11 @@ namespace Lecture_2_Tests
         public void FirstNameIgnoresAssignmentOf012345689()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Act(Assignment<Person, string>(p => p.FirstName, "123456789"));
-            person.Assert.IsTrue(p => p.FirstName == "Unknown");
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assign(Expr(person, p => p.FirstName), Const("123456789"));
+            test.Assert.AreEqual(Expr(person, p => p.FirstName), Const("Unknown"));
 
             test.Execute();
         }
@@ -108,11 +108,11 @@ namespace Lecture_2_Tests
         public void LastNameIgnoresAssignmentOf012345689()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Act(Assignment<Person, string>(p => p.LastName, "123456789"));
-            person.Assert.IsTrue(p => p.LastName == "Unknown");
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assign(Expr(person, p => p.LastName), Const("123456789"));
+            test.Assert.AreEqual(Expr(person, p => p.LastName), Const("Unknown"));
 
             test.Execute();
         }
@@ -121,11 +121,11 @@ namespace Lecture_2_Tests
         public void FirstNameIgnoresAssignmentOfStringWithLength101()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Act(Assignment<Person, string>(p => p.FirstName, CreateName(101)));
-            person.Assert.IsTrue(p => p.FirstName == "Unknown");
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assign(Expr(person, p => p.FirstName), Const(CreateName(101)));
+            test.Assert.AreEqual(Expr(person, p => p.FirstName), Const("Unknown"));
 
             test.Execute();
         }
@@ -134,11 +134,11 @@ namespace Lecture_2_Tests
         public void LastNameIgnoresAssignmentOfStringWithLength101()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Act(Assignment<Person, string>(p => p.LastName, CreateName(101)));
-            person.Assert.IsTrue(p => p.LastName == "Unknown");
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assign(Expr(person, p => p.LastName), Const(CreateName(101)));
+            test.Assert.AreEqual(Expr(person, p => p.LastName), Const("Unknown"));
 
             test.Execute();
         }
@@ -147,11 +147,10 @@ namespace Lecture_2_Tests
         public void AgeIsInitilizedAs0()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Act(Assignment<Person, int>(p => p.Age, -1));
-            person.Assert.IsTrue(p => p.Age == 0);
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assert.AreEqual(Expr(person, p => p.Age), Const(0));
 
             test.Execute();
         }
@@ -160,16 +159,17 @@ namespace Lecture_2_Tests
         public void AgeIgnoresAssignmentOfMinusOne()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person());
-            person.Act(Assignment<Person, int>(p => p.Age, -1));
-            person.Assert.IsTrue(p => p.Age == 0);
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assign(Expr(person, p => p.Age), Const(-1));
+            test.Assert.AreEqual(Expr(person, p => p.Age), Const(-1));
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 1B */
+        #region Exercise 1B
         [TestMethod("a. Person.Mother is public Person property"), TestCategory("Exercise 1B")]
         public void MotherIsPublicPersonProperty()
         {
@@ -185,17 +185,41 @@ namespace Lecture_2_Tests
             test.Execute();
         }
 
+        [TestMethod("c. Person.Mother is initialized as null"), TestCategory("Exercise 1A")]
+        public void MotherIsInitilizedAsnull()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
+
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assert.IsNull(Expr(person, p => p.Mother));
+
+            test.Execute();
+        }
+
+        [TestMethod("d. Person.Father is initialized as null"), TestCategory("Exercise 1A")]
+        public void FatherIsInitilizedAsnull()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
+
+            test.Arrange(person, Expr(() => new Person()));
+            test.Assert.IsNull(Expr(person, p => p.Mother));
+
+            test.Execute();
+        }
+
         [TestMethod("c. Person.Mother ignores assigment if mother is younger than child"), TestCategory("Exercise 1B")]
         public void MotherIgnoresAssigmentIfMotherIsYoungerThanChild()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> child = test.CreateObject<Person>("child");
-            UnitTestObject<Person> mother = test.CreateObject<Person>("mother");
+            TestVariable<Person> child = test.CreateVariable<Person>(nameof(child));
+            TestVariable<Person> mother = test.CreateVariable<Person>(nameof(mother));
 
-            child.Arrange(() => new Person() { Age = 1});
-            mother.Arrange(() => new Person() { Age = 0 });
-            child.WithParameters(mother).Act(Assignment<Person, Person, Person>(p => p.Mother, p => p));
-            child.Assert.IsTrue(p => p.Mother == null);
+            test.Arrange(child, Expr(() => new Person() { Age = 1 }));
+            test.Arrange(mother, Expr(() => new Person() { Age = 0 }));
+            test.Assign(Expr(child, p => p.Mother), Expr(mother, p => p));
+            test.Assert.IsNull(Expr(mother, p => p.Mother));
 
             test.Execute();
         }
@@ -204,18 +228,19 @@ namespace Lecture_2_Tests
         public void FatherIgnoresAssigmentIfMotherIsYoungerThanChild()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> child = test.CreateObject<Person>("child");
-            UnitTestObject<Person> father = test.CreateObject<Person>("father");
+            TestVariable<Person> child = test.CreateVariable<Person>(nameof(child));
+            TestVariable<Person> father = test.CreateVariable<Person>(nameof(father));
 
-            child.Arrange(() => new Person() { Age = 1 });
-            father.Arrange(() => new Person() { Age = 0 });
-            child.WithParameters(father).Act(Assignment<Person, Person, Person>(p => p.Father, p => p));
-            child.Assert.IsTrue(p => p.Mother == null);
+            test.Arrange(child, Expr(() => new Person() { Age = 1 }));
+            test.Arrange(father, Expr(() => new Person() { Age = 0 }));
+            test.Assign(Expr(child, p => p.Father), Expr(father, p => p));
+            test.Assert.IsNull(Expr(father, p => p.Father));
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 1C */
+        #region Exercise 1C
         [TestMethod("a. PersonGenerator.GeneratePerson takes no arguments and returns Person"), TestCategory("Exercise 1C")]
         public void GeneratePersonReturnsPerson()
         {
@@ -228,20 +253,20 @@ namespace Lecture_2_Tests
         public void GeneratePersonCreatesAdamSmith()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> person = test.CreateAnonymousObject<Person>("person");
-            
-            generator.Arrange(() => new PersonGenerator());
-            person.WithParameters(generator).Arrange(g => g.GeneratePerson());
-            
-            person.Assert.IsTrue(p => p.FirstName == "Adam");
-            person.Assert.IsTrue(p => p.LastName == "Smith");
-            person.Assert.IsTrue(p => p.Age == 36);
+            TestVariable<PersonGenerator> generator = test.CreateVariable<PersonGenerator>(nameof(generator));
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
+
+            test.Arrange(generator, Expr(() => new PersonGenerator()));
+            test.Arrange(person, Expr(generator, g => g.GeneratePerson()));
+            test.Assert.AreEqual(Expr(person, p => p.FirstName), Const("Adam"));
+            test.Assert.AreEqual(Expr(person, p => p.LastName), Const("Smith"));
+            test.Assert.AreEqual(Expr(person, p => p.Age), Const(36));
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 1D */
+        #region Exercise 1D
         [TestMethod("a. PersonGenerator.GenerateFamily takes no arguments and returns Person "), TestCategory("Exercise 1D")]
         public void GenerateFamilyReturnsPerson()
         {
@@ -254,91 +279,84 @@ namespace Lecture_2_Tests
         public void GenerateFamilyCreatesRobinRichAsChild()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> child = test.CreateAnonymousObject<Person>("child");
+            TestVariable<PersonGenerator> generator = test.CreateVariable<PersonGenerator>(nameof(generator));
+            TestVariable<Person> child = test.CreateVariable<Person>(nameof(child));
 
-            generator.Arrange(() => new PersonGenerator());
-            child.WithParameters(generator).Arrange(g => g.GenerateFamily());
-            
-            child.Assert.IsTrue(p => p.FirstName == "Robin");
-            child.Assert.IsTrue(p => p.LastName == "Rich");
-            child.Assert.IsTrue(p => p.Age == 10);
+            test.Arrange(generator, Expr(() => new PersonGenerator()));
+            test.Arrange(child, Expr(generator, g => g.GenerateFamily()));
+            test.Assert.AreEqual(Expr(child, p => p.FirstName), Const("Robin"));
+            test.Assert.AreEqual(Expr(child, p => p.LastName), Const("Rich"));
+            test.Assert.AreEqual(Expr(child, p => p.Age), Const(10));
 
             test.Execute();
         }
-
 
         [TestMethod("c. PersonGenerator.GenerateFamily generates Waren Rich (36) as father"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesRobinRichAsFather()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> father = test.CreateAnonymousObject<Person>("father");
-            
-            generator.Arrange(() => new PersonGenerator());
-            father.WithParameters(generator).Arrange(g => g.GenerateFamily().Father);
+            TestVariable<PersonGenerator> generator = test.CreateVariable<PersonGenerator>(nameof(generator));
+            TestVariable<Person> father = test.CreateVariable<Person>(nameof(father));
 
-            father.Assert.IsTrue(p => p.FirstName == "Warren");
-            father.Assert.IsTrue(p => p.LastName == "Rich");
-            father.Assert.IsTrue(p => p.Age == 36);
+            test.Arrange(generator, Expr(() => new PersonGenerator()));
+            test.Arrange(father, Expr(generator, g => g.GenerateFamily().Father));
+            test.Assert.AreEqual(Expr(father, p => p.FirstName), Const("Warren"));
+            test.Assert.AreEqual(Expr(father, p => p.LastName), Const("Rich"));
+            test.Assert.AreEqual(Expr(father, p => p.Age), Const(36));
 
             test.Execute();
         }
-
 
         [TestMethod("d. PersonGenerator.GenerateFamily generates Anna Smith (38) as mother"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesAnnaRichAsMother()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> mother = test.CreateAnonymousObject<Person>("mother");
-            
-            generator.Arrange(() => new PersonGenerator());
-            mother.WithParameters(generator).Arrange(g => g.GenerateFamily().Mother);
+            TestVariable<PersonGenerator> generator = test.CreateVariable<PersonGenerator>(nameof(generator));
+            TestVariable<Person> mother = test.CreateVariable<Person>(nameof(mother));
 
-            mother.Assert.IsTrue(p => p.FirstName == "Anna");
-            mother.Assert.IsTrue(p => p.LastName == "Smith");
-            mother.Assert.IsTrue(p => p.Age == 38);
+            test.Arrange(generator, Expr(() => new PersonGenerator()));
+            test.Arrange(mother, Expr(generator, g => g.GenerateFamily().Mother));
+            test.Assert.AreEqual(Expr(mother, p => p.FirstName), Const("Anna"));
+            test.Assert.AreEqual(Expr(mother, p => p.LastName), Const("Smith"));
+            test.Assert.AreEqual(Expr(mother, p => p.Age), Const(38));
 
             test.Execute();
         }
-
 
         [TestMethod("e. PersonGenerator.GenerateFamily generates Gustav Rich (66) as grandfather"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesGustavRichAsGrandfather()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> grandFather = test.CreateAnonymousObject<Person>("grandfather");
+            TestVariable<PersonGenerator> generator = test.CreateVariable<PersonGenerator>(nameof(generator));
+            TestVariable<Person> grandFather = test.CreateVariable<Person>(nameof(grandFather));
 
-            generator.Arrange(() => new PersonGenerator());
-            grandFather.WithParameters(generator).Arrange(g => g.GenerateFamily().Father.Father);
-
-            grandFather.Assert.IsTrue(p => p.FirstName == "Gustav");
-            grandFather.Assert.IsTrue(p => p.LastName == "Rich");
-            grandFather.Assert.IsTrue(p => p.Age == 66);
+            test.Arrange(generator, Expr(() => new PersonGenerator()));
+            test.Arrange(grandFather, Expr(generator, g => g.GenerateFamily().Father.Father));
+            test.Assert.AreEqual(Expr(grandFather, p => p.FirstName), Const("Gustav"));
+            test.Assert.AreEqual(Expr(grandFather, p => p.LastName), Const("Rich"));
+            test.Assert.AreEqual(Expr(grandFather, p => p.Age), Const(66));
 
             test.Execute();
         }
 
-        [TestMethod("g. PersonGenerator.GenerateFamily generates Elsa Johnson (65) as grandmother"), TestCategory("Exercise 1D")]
+        [TestMethod("f. PersonGenerator.GenerateFamily generates Elsa Johnson (65) as grandmother"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesElsaJohnsonAsGrandMother()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PersonGenerator> generator = test.CreateObject<PersonGenerator>("generator");
-            AnonymousUnitTestObject<Person> grandMother = test.CreateAnonymousObject<Person>("grandmother");
+            TestVariable<PersonGenerator> generator = test.CreateVariable<PersonGenerator>(nameof(generator));
+            TestVariable<Person> grandMother = test.CreateVariable<Person>(nameof(grandMother));
 
-            generator.Arrange(() => new PersonGenerator());
-            grandMother.WithParameters(generator).Arrange(g => g.GenerateFamily().Father.Mother);
-
-            grandMother.Assert.IsTrue(p => p.FirstName == "Elsa");
-            grandMother.Assert.IsTrue(p => p.LastName == "Johnson");
-            grandMother.Assert.IsTrue(p => p.Age == 65);
+            test.Arrange(generator, Expr(() => new PersonGenerator()));
+            test.Arrange(grandMother, Expr(generator, g => g.GenerateFamily().Father.Mother));
+            test.Assert.AreEqual(Expr(grandMother, p => p.FirstName), Const("Elsa"));
+            test.Assert.AreEqual(Expr(grandMother, p => p.LastName), Const("Johnson"));
+            test.Assert.AreEqual(Expr(grandMother, p => p.Age), Const(65));
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 1E */
+        #region Exercise 1E
         [TestMethod("a. PersonPrinter.PrintPerson takes person as argument and returns nothing"), TestCategory("Exercise 1E")]
         public void PrintPersonTakesPersonAsArgumentAndReturnsNothing() {
             StructureTest test = Factory.CreateStructureTest();
@@ -350,37 +368,37 @@ namespace Lecture_2_Tests
         public void PrintPersonPrintsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateAnonymousObject<Person>("person");
-            UnitTestObject<PersonPrinter> printer = test.CreateAnonymousObject<PersonPrinter>("printer");
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
+            TestVariable<PersonPrinter> printer = test.CreateVariable<PersonPrinter>(nameof(printer));
+            TestConsole console = test.CaptureConsole();
 
-            printer.Arrange(() => new PersonPrinter());
-            person.Arrange(() => new Person() { FirstName = "Adam", LastName = "Smith", Age = 36 });
-            printer.WithParameters(person).Act((p1, p2) => p1.PrintPerson(p2));
+            test.Arrange(person, Expr(() => new Person() { FirstName = "Adam", LastName = "Smith", Age = 36 }));
+            test.Arrange(printer, Expr(() => new PersonPrinter()));
+            test.Act(Expr(printer, person, (p1, p2) => p1.PrintPerson(p2)));
             console.Assert.HasWritten("Adam Smith (36)");
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 1F */
+        #region Exercise 1F
         [TestMethod("a. PersonPrinter.PrintFamily takes person as argument and returns nothing"), TestCategory("Exercise 1F")]
         public void PrintFamilyTakesPersonAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
             test.AssertMethod<PersonPrinter, Person>((p1, p2) => p1.PrintFamily(p2), IsPublicMethod);
             test.Execute();
-
         }
 
         [TestMethod("b. PersonPrinter.PrintFamily prints correctly"), TestCategory("Exercise 1F")]
         public void PrintFamilyPrintsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateAnonymousObject<Person>("person");
-            UnitTestObject<PersonPrinter> printer = test.CreateAnonymousObject<PersonPrinter>("printer");
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<Person> person = test.CreateVariable<Person>("person");
+            TestVariable<PersonPrinter> printer = test.CreateVariable<PersonPrinter>("printer");
+            TestConsole console = test.CaptureConsole();
 
-            person.Arrange(() => 
+            test.Arrange(person, Expr(() => 
                 new Person() { 
                     FirstName = "Warren",
                     LastName = "Rich", 
@@ -405,9 +423,9 @@ namespace Lecture_2_Tests
                             Age = 66 
                         } 
                     }
-                }
+                })
             );
-            printer.WithParameters(person).Act((p1, p2) => p1.PrintFamily(p2));
+            test.Act(Expr(printer, person, (p1, p2) => p1.PrintFamily(p2)));
 
             console.Assert.HasWritten("Adam Smith (36)\n");
             console.Assert.HasWritten("Robin Rich (10)\n");
@@ -418,8 +436,9 @@ namespace Lecture_2_Tests
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 1G */
+        #region Exercise 1G
         [TestMethod("a. Person has constructor which takes no arguments"), TestCategory("Exercise 1G")]
         public void PersonHasConstructorWhichTakesNoArguments()
         {
@@ -440,20 +459,21 @@ namespace Lecture_2_Tests
         public void PersonConstructorWithTwoPersonArgumentsSetsMotherAndFatherProperty()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> mother = test.CreateObject<Person>();
-            UnitTestObject<Person> father = test.CreateObject<Person>();
-            UnitTestObject<Person> child = test.CreateObject<Person>();
+            TestVariable<Person> mother = test.CreateVariable<Person>();
+            TestVariable<Person> father = test.CreateVariable<Person>();
+            TestVariable<Person> child = test.CreateVariable<Person>();
 
-            mother.Arrange(() => new Person() { Age = 37 });
-            father.Arrange(() => new Person() { Age = 37 });
-            child.WithParameters(mother, father).Arrange((p1, p2) => new Person(p1, p2));
-            child.WithParameters(mother).Assert.IsTrue((p1, p2) => p1.Mother == p2);
-            child.WithParameters(father).Assert.IsTrue((p1, p2) => p1.Father == p2);
+            test.Arrange(mother, Expr(() => new Person() { Age = 37 }));
+            test.Arrange(father, Expr(() => new Person() { Age = 37 }));
+            test.Arrange(child, Expr(mother, father, (p1, p2) => new Person(p1, p2)));
+            test.Assert.AreSame(Expr(child, p => p.Mother), Expr(mother, p => p));
+            test.Assert.AreSame(Expr(child, p => p.Father), Expr(father, p => p));
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 1H */
+        #region Exercise 1H
         [TestMethod("a. Person.ID is public read-only int property"), TestCategory("Exercise 1H")]
         public void IDIsPublicReadonlyIntProperty() {
             StructureTest test = Factory.CreateStructureTest();
@@ -465,15 +485,15 @@ namespace Lecture_2_Tests
         public void IDIncreasesByOneForEachNewPerson()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person1 = test.CreateObject<Person>();
-            UnitTestObject<Person> person2 = test.CreateObject<Person>();
+            TestVariable<Person> person1 = test.CreateVariable<Person>(nameof(person1));
+            TestVariable<Person> person2 = test.CreateVariable<Person>(nameof(person2));
 
-            person1.Arrange(() => new Person());
-            person2.Arrange(() => new Person());
-
-            person1.WithParameters(person2).Assert.IsTrue((p1, p2) => p2.ID - p1.ID == 1);
+            test.Arrange(person1, Expr(() => new Person()));
+            test.Arrange(person2, Expr(() => new Person()));
+            test.Assert.IsTrue(Expr(person1, person2, (p1, p2) => p1.ID + 1 == p2.ID));
 
             test.Execute();
         }
+        #endregion
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestTools.UnitTests;
+using TestTools.StructureTests;
 
-namespace TestTools.Integrated
+namespace TestTools
 {
     public class TestFactory
     {

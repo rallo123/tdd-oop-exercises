@@ -42,7 +42,7 @@ namespace Lecture_4_Tests
         public void PersonConstructorAssignsNameProperty()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>();
 
             person.Arrange(() => new Person("abc"));
             person.Assert.IsTrue(p => p.Name == "abc");
@@ -55,7 +55,7 @@ namespace Lecture_4_Tests
         public void PersonHeightIgnoresAssignmentOfMinusOne()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>();
 
             person.Arrange(() => new Person("abc"));
             person.Assert.ThrowsException<ArgumentException>(Assignment<Person, double>(p => p.Height, -1.0));
@@ -70,7 +70,7 @@ namespace Lecture_4_Tests
         public void PersonWeightIgnoresAssignmentOfMinusOne()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>();
 
             person.Arrange(() => new Person("abc"));
             person.Assert.ThrowsException<ArgumentException>(Assignment<Person, double>(p => p.Weight, -1.0));
@@ -99,7 +99,7 @@ namespace Lecture_4_Tests
         public void PersonGetClassificationReturnsUnderWeight()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>();
 
             person.Arrange(() => new Person("abc") { Height = 1.64, Weight = 47.0 });
             person.Assert.IsTrue(p => p.GetClassification() == "under-weight");
@@ -112,7 +112,7 @@ namespace Lecture_4_Tests
         public void PersonGetClassificationReturnsNormalWeight()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>();
 
             person.Arrange(() => new Person("abc") { Height = 1.73, Weight = 58.0 });
             person.Assert.IsTrue(p => p.GetClassification() == "normal weight");
@@ -125,7 +125,7 @@ namespace Lecture_4_Tests
         public void PersonGetClassificationReturnsOverWeight()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>();
 
             person.Arrange(() => new Person("abc") { Height = 1.70, Weight = 74.0 });
             person.Assert.IsTrue(p => p.GetClassification() == "over-weight");
@@ -138,7 +138,7 @@ namespace Lecture_4_Tests
         public void PersonGetClassificationReturnsObese()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Person> person = test.CreateObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>();
 
             person.Arrange(() => new Person("abc") { Height = 1.85, Weight = 120.0 });
             person.Assert.IsTrue(p => p.GetClassification() == "obese");

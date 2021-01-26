@@ -30,7 +30,7 @@ namespace Lecture_8_Tests
         public void BankBalanceIsInitializedAs0M()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
             account.Arrange(() => new BankAccount());
             account.Assert.IsTrue(a => a.Balance == 0);
@@ -60,7 +60,7 @@ namespace Lecture_8_Tests
         public void BankAccountLowBalanceThresholdBelowHighBalanceThresholdThrowsArgumentException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
             account.Arrange(() => new BankAccount() { HighBalanceThreshold = 0 });
             account.Assert.ThrowsException<ArgumentException>(Assignment<BankAccount, decimal>(a => a.LowBalanceThreshold, 1));
@@ -72,7 +72,7 @@ namespace Lecture_8_Tests
         public void BankAccountHighBalanceThresholdBelowLowBalanceThresholdThrowsArgumentException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
             account.Arrange(() => new BankAccount() { LowBalanceThreshold = 0 });
             account.Assert.ThrowsException<ArgumentException>(Assignment<BankAccount, decimal>(a => a.HighBalanceThreshold, -1));
@@ -102,7 +102,7 @@ namespace Lecture_8_Tests
         public void BankAccountDepositAddsToBalance()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> bankAccount = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> bankAccount = test.CreateVariable<BankAccount>();
 
             bankAccount.Arrange(() => new BankAccount());
             bankAccount.Act(b => b.Deposit(50M));
@@ -115,7 +115,7 @@ namespace Lecture_8_Tests
         public void BankAccountWithdrawTakesFromBalance()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> bankAccount = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> bankAccount = test.CreateVariable<BankAccount>();
 
             bankAccount.Arrange(() => new BankAccount());
             bankAccount.Act(b => b.Withdraw(50M));
@@ -156,7 +156,7 @@ namespace Lecture_8_Tests
         public void BankAccountWithdrawEmitsLowBalance()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> bankAccount = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> bankAccount = test.CreateVariable<BankAccount>();
             
             bankAccount.Arrange(() => new BankAccount() { LowBalanceThreshold = 0 });
             bankAccount.DelegateAssert.IsInvoked(Subscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
@@ -168,7 +168,7 @@ namespace Lecture_8_Tests
         public void BankAccountDepositEmitsHighBalance()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> bankAccount = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> bankAccount = test.CreateVariable<BankAccount>();
 
             bankAccount.Arrange(() => new BankAccount() { HighBalanceThreshold = 0 });
             bankAccount.DelegateAssert.IsInvoked(Subscribe<BankAccount, BalanceChangeHandler>("HighBalance"));

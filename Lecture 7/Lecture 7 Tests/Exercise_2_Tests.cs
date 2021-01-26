@@ -37,7 +37,7 @@ namespace Lecture_7_Tests
         public void MyQueueConstructorSetsMaxCount()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyQueue<int>> queue = test.CreateObject<MyQueue<int>>();
+            TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
             queue.Arrange(() => new MyQueue<int>(5));
             queue.Assert.IsTrue(q => q.MaxCount == 5);
@@ -59,7 +59,7 @@ namespace Lecture_7_Tests
         public void MyQueueCountIsInitializedAs0()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyQueue<int>> queue = test.CreateObject<MyQueue<int>>();
+            TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
             queue.Arrange(() => new MyQueue<int>(5));
             queue.Assert.IsTrue(q => q.Count == 0);
@@ -91,7 +91,7 @@ namespace Lecture_7_Tests
         public void MyQueueEnqueueIncreasesCount()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyQueue<int>> queue = test.CreateObject<MyQueue<int>>();
+            TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
             queue.Arrange(() => new MyQueue<int>(5));
             queue.Act(q => q.Enqueue(1));
@@ -104,7 +104,7 @@ namespace Lecture_7_Tests
         public void MyQueueDequeueDecreaseCount()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyQueue<int>> queue = test.CreateObject<MyQueue<int>>();
+            TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
             queue.Arrange(() => new MyQueue<int>(5));
             queue.Act(q => q.Enqueue(1));
@@ -118,7 +118,7 @@ namespace Lecture_7_Tests
         public void MyQueueEnqueueThrowsInvalidOperationException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyQueue<int>> queue = test.CreateObject<MyQueue<int>>();
+            TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
             queue.Arrange(() => new MyQueue<int>(0));
             queue.Assert.ThrowsException<InvalidOperationException>(q => q.Enqueue(1));
@@ -130,7 +130,7 @@ namespace Lecture_7_Tests
         public void MyQueueDequeueThrowsInvalidOperationException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyQueue<int>> queue = test.CreateObject<MyQueue<int>>();
+            TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
             queue.Arrange(() => new MyQueue<int>(5));
             queue.Assert.ThrowsException<InvalidOperationException>(q => q.Dequeue());
@@ -153,7 +153,7 @@ namespace Lecture_7_Tests
         public void MyQueuePeekReturnsFirstElementInQueue()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyQueue<int>> queue = test.CreateObject<MyQueue<int>>();
+            TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
             queue.Arrange(() => new MyQueue<int>(5));
             queue.Act(q => q.Enqueue(1));
@@ -167,7 +167,7 @@ namespace Lecture_7_Tests
         public void MyQueuePeekDoesNotModifyQueue()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyQueue<int>> queue = test.CreateObject<MyQueue<int>>();
+            TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
             queue.Arrange(() => new MyQueue<int>(5));
             queue.Act(q => q.Enqueue(1));

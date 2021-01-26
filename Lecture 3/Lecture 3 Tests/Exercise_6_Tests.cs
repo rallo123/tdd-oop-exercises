@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using TestTools.ConsoleSession;
-using TestTools.Integrated;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using Lecture_3_Solutions;
 using static Lecture_3_Tests.TestHelper;
 
@@ -10,6 +10,7 @@ namespace Lecture_3_Tests
     [TestClass]
     public class Exercise_6_Tests
     {
+        #region Exercise 6A
         [TestMethod("FileExplorer.PrintDirectory(DirectoryInfo info) prints correct output"), TestCategory("Exercise 6A")]
         public void FileExplorerPrintDirectoryPrintsCorrectOutput()
         {
@@ -27,15 +28,16 @@ namespace Lecture_3_Tests
             }
 
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<FileExplorer> explorer = test.CreateObject<FileExplorer>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<FileExplorer> explorer = test.CreateVariable<FileExplorer>();
+            TestConsole console = test.CaptureConsole();
             DirectoryInfo directoryInfo = new DirectoryInfo("../../../");
 
-            explorer.Arrange(() => new FileExplorer());
-            explorer.Act(e => e.PrintDirectory(directoryInfo));
+            test.Arrange(explorer, Expr(() => new FileExplorer()));
+            test.Act(Expr(explorer, e => e.PrintDirectory(directoryInfo)));
             console.Assert.HasWritten(ProduceExpected(directoryInfo));
 
             test.Execute();
         }
+        #endregion
     }
 }

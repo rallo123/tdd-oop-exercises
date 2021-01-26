@@ -4,50 +4,52 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
+using TestTools.StructureTests;
 using TestTools.Operation;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_3_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
+using TestTools.UnitTests;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_2_Tests 
     {   
-        public void TestAssignmentOfEmployeePropertyIgnoresValue<T>(Expression<Func<Employee, T>> property, T value, T defaultValue)
+        private void TestAssignmentOfEmployeePropertyIgnoresValue<T>(Expression<Func<Employee, T>> property, T value, T defaultValue)
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
 
-            employee.Arrange(() => new Employee("abc"));
-            employee.Act(Assignment(property, value));
-            employee.Assert.IsTrue(Equality(property, defaultValue));
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Assign(Expr(employee, property), Const(value));
+            test.Assert.AreEqual(Expr(employee, property), Const(defaultValue));
 
             test.Execute();
         }
 
-        public void TestAssignmentOfManagerPropertyIgnoresValue<T>(Expression<Func<Manager, T>> property, T value, T defaultValue)
+        private void TestAssignmentOfManagerPropertyIgnoresValue<T>(Expression<Func<Manager, T>> property, T value, T defaultValue)
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Manager> manager = test.CreateObject<Manager>();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
 
-            manager.Arrange(() => new Manager("abc"));
-            manager.Act(Assignment(property, value));
-            manager.Assert.IsTrue(Equality(property, defaultValue));
+            test.Arrange(manager, Expr(() => new Manager("abc")));
+            test.Assign(Expr(manager, property), Const(value));
+            test.Assert.AreEqual(Expr(manager, property), Const(defaultValue));
 
             test.Execute();
         }
 
-        public void TestEmployeeCalculateYearlySalary(decimal monthlySalary, int senority)
+        private void TestEmployeeCalculateYearlySalary(decimal monthlySalary, int senority)
         {
             UnitTest test = Factory.CreateTest();
-            DualUnitTestObject<Employee> employee = test.CreateDualObject<Employee>();
-
-            employee.Arrange(() => new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority });
-            employee.Assert.EqualToDual(e => e.CalculateYearlySalary());
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+            
+            Employee originalEmployee = new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority };
+            test.Arrange(employee, Expr(() => new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority }));
+            test.Assert.AreEqual(Expr(employee, e => e.CalculateYearlySalary()), Const(originalEmployee.CalculateYearlySalary()));
 
             test.Execute();
         }
@@ -55,15 +57,16 @@ namespace Lecture_3_Tests
         public void TestManagerCalculateYearlySalary(decimal monthlySalary, decimal bonus, int senority)
         {
             UnitTest test = Factory.CreateTest();
-            DualUnitTestObject<Manager> employee = test.CreateDualObject<Manager>();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
 
-            employee.Arrange(() => new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority });
-            employee.Assert.EqualToDual(e => e.CalculateYearlySalary());
+            Manager originalManager = new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority };
+            test.Arrange(manager, Expr(() => new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority }));
+            test.Assert.AreEqual(Expr(manager, e => e.CalculateYearlySalary()), Const(originalManager.CalculateYearlySalary()));
 
             test.Execute();
         }
-        
-        /* Exercise 2A */
+
+        #region Exercise 2A
         [TestMethod("a. Name is public string property"), TestCategory("Exercise 2A")]
         public void NameIsPublicStringProperty()
         {
@@ -108,10 +111,10 @@ namespace Lecture_3_Tests
         public void EmployeeConstructorNameSetsNameProperty()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
 
-            employee.Arrange(() => new Employee("abc"));
-            employee.Assert.IsTrue(e => e.Name == "abc");
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Assert.AreEqual(Expr(employee, e => e.Name), Const("abc"));
 
             test.Execute();
         }
@@ -120,10 +123,10 @@ namespace Lecture_3_Tests
         public void MonthlySalaryIsInitializedAs0()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
 
-            employee.Arrange(() => new Employee("abc"));
-            employee.Assert.IsTrue(e => e.MonthlySalary == 0);
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Assert.AreEqual(Expr(employee, e => e.MonthlySalary), Const(0M)); ;
 
             test.Execute();
         }
@@ -132,10 +135,10 @@ namespace Lecture_3_Tests
         public void SenorityIsInitializedAs1()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
 
-            employee.Arrange(() => new Employee("abc"));
-            employee.Assert.IsTrue(e => e.Seniority == 1);
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Assert.AreEqual(Expr(employee, e => e.Seniority), Const(1)); ;
 
             test.Execute();
         }
@@ -154,8 +157,9 @@ namespace Lecture_3_Tests
 
         [TestMethod("l. Seniority ignores assigment of 11"), TestCategory("Exercise 2A")]
         public void SeniorityIgnoresAssignmentOfEleven() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 11, 1);
+        #endregion
 
-        /* Exercise 2B */
+        #region Exercise 2B
         [TestMethod("a. Employee.CalculateYearlySalary() returns expected output for seniority 1"), TestCategory("Exercise 2B")]
         public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelOne()  => TestEmployeeCalculateYearlySalary(34000, 1);
 
@@ -173,8 +177,9 @@ namespace Lecture_3_Tests
 
         [TestMethod("f. Employee.CalculateYearlySalary() returns expected output for seniority 10"), TestCategory("Exercise 2B")]
         public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelTen() => TestEmployeeCalculateYearlySalary(35250, 10);
+        #endregion
 
-        /* Exercise 2C */
+        #region Exercise 2C
         [TestMethod("a. Manager is subclass of Employee"), TestCategory("Exercise 2C")]
         public void ManagerIsSubclassOfEmployee()
         {
@@ -195,18 +200,19 @@ namespace Lecture_3_Tests
         public void BonusIsInitializedAs0()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Manager> employee = test.CreateObject<Manager>();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
 
-            employee.Arrange(() => new Manager("abc"));
-            employee.Assert.IsTrue(e => e.Bonus == 0);
+            test.Arrange(manager, Expr(() => new Manager("abc")));
+            test.Assert.AreEqual(Expr(manager, e => e.Bonus), Const(0M));
 
             test.Execute();
         }
 
         [TestMethod("d. Bonus ignores assignment of -1M"), TestCategory("Exercise 2C")]
         public void BonusIgnoresAssignmentOfMinusOne() => TestAssignmentOfManagerPropertyIgnoresValue(m => m.Bonus, -1, 0);
+        #endregion
 
-        /* Exercise 2D */
+        #region Exercise 2D
         [TestMethod("a. Manager.CalculateYearlySalary() returns expected output for seniority 1"), TestCategory("Exercise 2D")]
         public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelOne() => TestManagerCalculateYearlySalary(34000, 0, 1);
 
@@ -224,8 +230,9 @@ namespace Lecture_3_Tests
 
         [TestMethod("f. Employee.CalculateYearlySalary() returns expected output for seniority 10"), TestCategory("Exercise 2D")]
         public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelTen() => TestManagerCalculateYearlySalary(35250, 3400, 10);
+        #endregion
 
-        /* Exercise 2E */
+        #region Exercise 2E
         [TestMethod("a. Company.Employees is a public read-only List<Employee> property"), TestCategory("Exercise 2E")]
         public void EmployeesIsPublicListEmployeeProperty() {
             StructureTest test = Factory.CreateStructureTest();
@@ -237,13 +244,13 @@ namespace Lecture_3_Tests
         public void CompanyHireAddsEmployeeToEmployees()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
-            UnitTestObject<Company> company = test.CreateObject<Company>();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+            TestVariable<Company> company = test.CreateVariable<Company>(nameof(company));
 
-            employee.Arrange(() => new Employee("Ellen Stevens"));
-            company.Arrange(() => new Company());
-            company.WithParameters(employee).Act((c, e) => c.Hire(e));
-            company.WithParameters(employee).CollectionAssert.Contains(c => c.Employees);
+            test.Arrange(employee, Expr(() => new Employee("Ellen Stevens")));
+            test.Arrange(company, Expr(() => new Company()));
+            test.Act(Expr(company, employee, (c, e) => c.Hire(e)));
+            test.Assert.IsTrue(Expr(company, employee, (c, e) => c.Employees.Contains(e)));
 
             test.Execute();
         }
@@ -252,30 +259,29 @@ namespace Lecture_3_Tests
         public void CompanyFireAddsEmployeeToEmployees()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Employee> employee = test.CreateObject<Employee>();
-            UnitTestObject<Company> company = test.CreateObject<Company>();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+            TestVariable<Company> company = test.CreateVariable<Company>(nameof(company));
 
-            employee.Arrange(() => new Employee("Ellen Stevens"));
-            company.Arrange(() => new Company());
-            company.WithParameters(employee).Act((c, e) => c.Hire(e));
-            company.WithParameters(employee).Act((c, e) => c.Fire(e));
-            company.Assert.IsTrue(c => c.Employees.Any());
+            test.Arrange(employee, Expr(() => new Employee("Ellen Stevens")));
+            test.Arrange(company, Expr(() => new Company()));
+            test.Act(Expr(company, employee, (c, e) => c.Hire(e)));
+            test.Act(Expr(company, employee, (c, e) => c.Fire(e)));
+            test.Assert.IsFalse(Expr(company, c => c.Employees.Any()));
 
             test.Execute();
         }
-
 
         [TestMethod("d. Company.Hire(Employee e) adds manager to Employees"), TestCategory("Exercise 2E")]
         public void CompanyHireAddsManagerToEmployees()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Manager> manager = test.CreateObject<Manager>();
-            UnitTestObject<Company> company = test.CreateObject<Company>();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+            TestVariable<Company> company = test.CreateVariable<Company>(nameof(company));
 
-            manager.Arrange(() => new Manager("Katja Holmes"));
-            company.Arrange(() => new Company());
-            company.WithParameters(manager).Act((c, e) => c.Hire(e));
-            company.WithParameters(manager).CollectionAssert.Contains(c => c.Employees);
+            test.Arrange(manager, Expr(() => new Manager("Katja Holmes")));
+            test.Arrange(company, Expr(() => new Company()));
+            test.Act(Expr(company, manager, (c, m) => c.Hire(m)));
+            test.Assert.IsTrue(Expr(company, manager, (c, m) => c.Employees.Contains(m)));
 
             test.Execute();
         }
@@ -284,27 +290,29 @@ namespace Lecture_3_Tests
         public void CompanyFireAddsManagerToEmployees()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Manager> manager = test.CreateObject<Manager>();
-            UnitTestObject<Company> company = test.CreateObject<Company>();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+            TestVariable<Company> company = test.CreateVariable<Company>(nameof(company));
 
-            manager.Arrange(() => new Manager("Katja Holmes"));
-            company.Arrange(() => new Company());
-            company.WithParameters(manager).Act((c, e) => c.Hire(e));
-            company.WithParameters(manager).Act((c, e) => c.Fire(e));
-            company.Assert.IsTrue(c => c.Employees.Any());
+            test.Arrange(manager, Expr(() => new Manager("Katja Holmes")));
+            test.Arrange(company, Expr(() => new Company()));
+            test.Act(Expr(company, manager, (c, m) => c.Hire(m)));
+            test.Act(Expr(company, manager, (c, m) => c.Fire(m)));
+            test.Assert.IsFalse(Expr(company, c => c.Employees.Any()));
 
             test.Execute();
         }
+        #endregion
 
+        #region Exercise 2F
         /* Exercise 2F */
         [TestMethod("a. Company.CalculateYearlySalaryCosts() returns 0 for company without employees"), TestCategory("Exercise 2F")]
         public void CompanyCalculateYearlySalaryCostsReturnsZeroForCompanyWithoutEmployees()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Company> company = test.CreateObject<Company>();
+            TestVariable<Company> company = test.CreateVariable<Company>(nameof());
 
-            company.Arrange(() => new Company());
-            company.Assert.IsTrue(c => c.CalculateYearlySalaryCosts() == 0);
+            test.Arrange(company, Expr(() => new Company()));
+            test.Assert.AreEqual(Expr(company, c => c.CalculateYearlySalaryCosts()), Const(0M));
 
             test.Execute();
         }
@@ -313,13 +321,16 @@ namespace Lecture_3_Tests
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithOneEmployee()
         {
             UnitTest test = Factory.CreateTest();
-            DualUnitTestObject<Company> company = test.CreateDualObject<Company>();
-            DualUnitTestObject<Employee> employee = test.CreateDualObject<Employee>();
+            TestVariable<Company> company = test.CreateVariable<Company>(nameof(company));
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
 
-            company.Arrange(() => new Company());
-            employee.Arrange(() => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
-            company.WithParameters(employee).Act((c, e) => c.Hire(e));
-            company.Assert.EqualToDual(c => c.CalculateYearlySalaryCosts());
+            Company originalCompany = new Company();
+            Employee originalEmployee = new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 };
+            test.Arrange(company, Expr(() => new Company()));
+            test.Arrange(employee, Expr(() => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 }));
+            originalCompany.Hire(originalEmployee);
+            test.Act(Expr(company, employee, (c, e) => c.Hire(e)));
+            test.Assert.AreEqual(Expr(company, c => c.CalculateYearlySalaryCosts()), Const(originalCompany.CalculateYearlySalaryCosts()));
 
             test.Execute();
         }
@@ -328,18 +339,24 @@ namespace Lecture_3_Tests
         public void CompanyCalculateYearlySalaryCostsReturnsExpectedOutputForCompanyWithTwoEmployee() 
         {
             UnitTest test = Factory.CreateTest();
-            DualUnitTestObject<Company> company = test.CreateDualObject<Company>();
-            DualUnitTestObject<Employee> employee1 = test.CreateDualObject<Employee>();
-            DualUnitTestObject<Employee> employee2 = test.CreateDualObject<Employee>();
+            TestVariable<Company> company = test.CreateVariable<Company>(nameof(company));
+            TestVariable<Employee> employee1 = test.CreateVariable<Employee>(nameof(employee1));
+            TestVariable<Employee> employee2 = test.CreateVariable<Employee>(nameof(employee1));
 
-            company.Arrange(() => new Company());
-            employee1.Arrange(() => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 });
-            employee2.Arrange(() => new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 4 });
-            company.WithParameters(employee1).Act((c, e) => c.Hire(e));
-            company.WithParameters(employee2).Act((c, e) => c.Hire(e));
-            company.Assert.EqualToDual(c => c.CalculateYearlySalaryCosts());
+            Company originalCompany = new Company();
+            Employee originalEmployee1 = new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 };
+            Employee originalEmployee2 = new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 7 };
+            test.Arrange(company, Expr(() => new Company()));
+            test.Arrange(employee1, Expr(() => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 }));
+            test.Arrange(employee2, Expr(() => new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 7 }));
+            originalCompany.Hire(originalEmployee1);
+            originalCompany.Hire(originalEmployee2);
+            test.Act(Expr(company, employee1, (c, e) => c.Hire(e)));
+            test.Act(Expr(company, employee2, (c, e) => c.Hire(e)));
+            test.Assert.AreEqual(Expr(company, c => c.CalculateYearlySalaryCosts()), Const(originalCompany.CalculateYearlySalaryCosts()));
 
             test.Execute();
         }
+        #endregion
     }
 }

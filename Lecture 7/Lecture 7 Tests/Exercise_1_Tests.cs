@@ -52,7 +52,7 @@ namespace Lecture_7_Tests
         public void PairConstructorSetsFst()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Pair<string, int>> pair = test.CreateObject<Pair<string, int>>();
+            TestVariable<Pair<string, int>> pair = test.CreateVariable<Pair<string, int>>();
 
             pair.Arrange(() => new Pair<string, int>("abc", 5));
             pair.Assert.IsTrue(p => p.Fst == "abc");
@@ -64,7 +64,7 @@ namespace Lecture_7_Tests
         public void PairConstructorSetsSnd()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Pair<string, int>> pair = test.CreateObject<Pair<string, int>>();
+            TestVariable<Pair<string, int>> pair = test.CreateVariable<Pair<string, int>>();
 
             pair.Arrange(() => new Pair<string, int>("abc", 5));
             pair.Assert.IsTrue(p => p.Snd == 5);
@@ -87,8 +87,8 @@ namespace Lecture_7_Tests
         public void PairSwapSwitchesFstAndSnd()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Pair<string, int>> pair1 = test.CreateObject<Pair<string, int>>();
-            UnitTestObject<Pair<int, string>> pair2 = test.CreateObject<Pair<int, string>>();
+            TestVariable<Pair<string, int>> pair1 = test.CreateVariable<Pair<string, int>>();
+            TestVariable<Pair<int, string>> pair2 = test.CreateVariable<Pair<int, string>>();
 
             pair1.Arrange(() => new Pair<string, int>("abc", 5));
             pair2.WithParameters(pair1).Arrange(p => p.Swap());
@@ -119,8 +119,8 @@ namespace Lecture_7_Tests
         public void PairSetFstReturnsNewPair()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Pair<string, int>> pair1 = test.CreateObject<Pair<string, int>>();
-            UnitTestObject<Pair<double, int>> pair2 = test.CreateObject<Pair<double, int>>();
+            TestVariable<Pair<string, int>> pair1 = test.CreateVariable<Pair<string, int>>();
+            TestVariable<Pair<double, int>> pair2 = test.CreateVariable<Pair<double, int>>();
 
             pair1.Arrange(() => new Pair<string, int>("abc", 5));
             pair2.WithParameters(pair1).Arrange(p => p.SetFst(7.0));
@@ -133,8 +133,8 @@ namespace Lecture_7_Tests
         public void PairSetSndReturnsNewPair()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Pair<string, int>> pair1 = test.CreateObject<Pair<string, int>>();
-            UnitTestObject<Pair<string, double>> pair2 = test.CreateObject<Pair<string, double>>();
+            TestVariable<Pair<string, int>> pair1 = test.CreateVariable<Pair<string, int>>();
+            TestVariable<Pair<string, double>> pair2 = test.CreateVariable<Pair<string, double>>();
 
             pair1.Arrange(() => new Pair<string, int>("abc", 5));
             pair2.WithParameters(pair1).Arrange(p => p.SetSnd(7.0));

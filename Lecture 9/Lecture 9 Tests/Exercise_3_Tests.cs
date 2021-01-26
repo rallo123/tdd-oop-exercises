@@ -54,8 +54,8 @@ namespace Lecture_9_Tests
         public void ProductEqualsEquatesProductsWithSameID()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Product> product1 = test.CreateObject<Product>();
-            UnitTestObject<Product> product2 = test.CreateObject<Product>();
+            TestVariable<Product> product1 = test.CreateVariable<Product>();
+            TestVariable<Product> product2 = test.CreateVariable<Product>();
 
             product1.Arrange(() => new Product() { ID = 5 });
             product2.Arrange(() => new Product() { ID = 5 });
@@ -68,8 +68,8 @@ namespace Lecture_9_Tests
         public void ProductEqualsDoesNotEquateProductsWithDifferentID()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Product> product1 = test.CreateObject<Product>();
-            UnitTestObject<Product> product2 = test.CreateObject<Product>();
+            TestVariable<Product> product1 = test.CreateVariable<Product>();
+            TestVariable<Product> product2 = test.CreateVariable<Product>();
 
             product1.Arrange(() => new Product() { ID = 4 });
             product2.Arrange(() => new Product() { ID = 5 });
@@ -82,8 +82,8 @@ namespace Lecture_9_Tests
         public void ProductGetHashCodeEquatesProductsWithSameID()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Product> product1 = test.CreateObject<Product>();
-            UnitTestObject<Product> product2 = test.CreateObject<Product>();
+            TestVariable<Product> product1 = test.CreateVariable<Product>();
+            TestVariable<Product> product2 = test.CreateVariable<Product>();
 
             product1.Arrange(() => new Product() { ID = 5 });
             product2.Arrange(() => new Product() { ID = 5 });
@@ -96,8 +96,8 @@ namespace Lecture_9_Tests
         public void ProductGetHashCodeDoesNotEquateProductsWithDifferentID()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Product> product1 = test.CreateObject<Product>();
-            UnitTestObject<Product> product2 = test.CreateObject<Product>();
+            TestVariable<Product> product1 = test.CreateVariable<Product>();
+            TestVariable<Product> product2 = test.CreateVariable<Product>();
 
             product1.Arrange(() => new Product() { ID = 4 });
             product2.Arrange(() => new Product() { ID = 5 });
@@ -146,8 +146,8 @@ namespace Lecture_9_Tests
         public void ProductRepositoryAddAddsProduct()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> product = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> product = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             product.Arrange(() => new Product());
@@ -161,8 +161,8 @@ namespace Lecture_9_Tests
         public void ProductRepositoryAddAddsProduct2()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> product = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> product = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             product.Arrange(() => new Product() { Name = "Name" });
@@ -177,8 +177,8 @@ namespace Lecture_9_Tests
         public void ProductRepositoryUpdatesProduct()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> product = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> product = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             product.Arrange(() => new Product() { Name = "Name" });
@@ -194,8 +194,8 @@ namespace Lecture_9_Tests
         public void ProductRepositoryDeleteRemovesProductAgain()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> product = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> product = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             product.Arrange(() => new Product() { Name = "Name" });
@@ -260,8 +260,8 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetProductByIDReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> product = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> product = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             product.Arrange(() => new Product() { ID = 5 });
@@ -275,9 +275,9 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetLeastExpensiveProductReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> leastExpensiveProduct = test.CreateObject<Product>();
-            UnitTestObject<Product> mostExpensiveProduct = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> leastExpensiveProduct = test.CreateVariable<Product>();
+            TestVariable<Product> mostExpensiveProduct = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             leastExpensiveProduct.Arrange(() => new Product() { ID = 4, Price = 10M });
@@ -293,9 +293,9 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetMostExpensiveProductReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> leastExpensiveProduct = test.CreateObject<Product>();
-            UnitTestObject<Product> mostExpensiveProduct = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> leastExpensiveProduct = test.CreateVariable<Product>();
+            TestVariable<Product> mostExpensiveProduct = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             leastExpensiveProduct.Arrange(() => new Product() { ID = 4, Price = 10M });
@@ -311,9 +311,9 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetAverageProductPriceReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> product1 = test.CreateObject<Product>();
-            UnitTestObject<Product> product2 = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> product1 = test.CreateVariable<Product>();
+            TestVariable<Product> product2 = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             product1.Arrange(() => new Product() { ID = 4, Price = 10M });
@@ -329,10 +329,10 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetProductsInCategoryReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> product1 = test.CreateObject<Product>();
-            UnitTestObject<Product> product2 = test.CreateObject<Product>();
-            UnitTestObject<Product> product3 = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> product1 = test.CreateVariable<Product>();
+            TestVariable<Product> product2 = test.CreateVariable<Product>();
+            TestVariable<Product> product3 = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             product1.Arrange(() => new Product() { ID = 4, Category = "Food" });
@@ -350,9 +350,9 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetProductCategoriesReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ProductRepository> repository = test.CreateObject<ProductRepository>();
-            UnitTestObject<Product> product1 = test.CreateObject<Product>();
-            UnitTestObject<Product> product2 = test.CreateObject<Product>();
+            TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
+            TestVariable<Product> product1 = test.CreateVariable<Product>();
+            TestVariable<Product> product2 = test.CreateVariable<Product>();
 
             repository.Arrange(() => new ProductRepository());
             product1.Arrange(() => new Product() { ID = 4, Category = "Food" });

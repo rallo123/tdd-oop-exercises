@@ -61,7 +61,7 @@ namespace Lecture_7_Tests
         public void DogIDAssignmentOfMinus1ThrowsArgumentException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Dog> dog = test.CreateObject<Dog>();
+            TestVariable<Dog> dog = test.CreateVariable<Dog>();
 
             dog.Arrange(() => new Dog());
             dog.Assert.ThrowsException<ArgumentException>(Assignment<Dog, int>(d => d.ID, -1));
@@ -73,7 +73,7 @@ namespace Lecture_7_Tests
         public void DogAgeAssignmentOfMinus1ThrowsArgumentException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Dog> dog = test.CreateObject<Dog>();
+            TestVariable<Dog> dog = test.CreateVariable<Dog>();
 
             dog.Arrange(() => new Dog());
             dog.Assert.ThrowsException<ArgumentException>(Assignment<Dog, int>(d => d.Age, -1));

@@ -30,8 +30,8 @@ namespace Lecture_8_Tests
         public void BankAccount()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleView> view = test.CreateObject<ConsoleView>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
+            TestConsole console = test.CaptureConsole();
 
             view.Arrange(() => new ConsoleView());
             console.Act(writer => writer.WriteLine());
@@ -64,8 +64,8 @@ namespace Lecture_8_Tests
         public void ConsoleViewRunEmitsInputOnNonEmptyLineInput()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleView> view = test.CreateObject<ConsoleView>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
+            TestConsole console = test.CaptureConsole();
 
             view.Arrange(() => new ConsoleView());
             view.DelegateAssert.IsInvoked(Subscribe<ConsoleView, InputHandler>("Input"));
@@ -79,8 +79,8 @@ namespace Lecture_8_Tests
         public void ConsoleViewRunDoesNotEmitInputOnEmptyLineInput()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleView> view = test.CreateObject<ConsoleView>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
+            TestConsole console = test.CaptureConsole();
 
             view.Arrange(() => new ConsoleView());
             view.DelegateAssert.IsNotInvoked(Subscribe<ConsoleView, InputHandler>("Input"));

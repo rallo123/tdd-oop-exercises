@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Text;
 
-namespace TestTools.Integrated
+namespace TestTools.UnitTests
 {
     // based on IFileSystem
-    public class UnitTestFileSystem
+    public class TestFileSystem
     {
         public void Act(Action<IFileSystem> action)
         {

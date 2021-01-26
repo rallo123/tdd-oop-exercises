@@ -49,7 +49,7 @@ namespace Lecture_8_Tests
         public void CustomerIDEmitsPropertyChangedEvent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Customer> customer = test.CreateObject<Customer>();
+            TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             customer.Arrange(() => new Customer() { ID = 0 });
             customer.DelegateAssert.IsInvoked(Subscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
@@ -62,7 +62,7 @@ namespace Lecture_8_Tests
         public void CustomerIDDoesNotEmitPropertyChangedEvent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Customer> customer = test.CreateObject<Customer>();
+            TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             customer.Arrange(() => new Customer() { ID = 0 });
             customer.DelegateAssert.IsNotInvoked(Subscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
@@ -75,7 +75,7 @@ namespace Lecture_8_Tests
         public void CustomerFirstNameEmitsPropertyChangedEvent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Customer> customer = test.CreateObject<Customer>();
+            TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             customer.Arrange(() => new Customer() { FirstName = "abc" });
             customer.DelegateAssert.IsInvoked(Subscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
@@ -88,7 +88,7 @@ namespace Lecture_8_Tests
         public void CustomerFirstNameDoesNotEmitPropertyChangedEvent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Customer> customer = test.CreateObject<Customer>();
+            TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             customer.Arrange(() => new Customer() { FirstName = "abc" });
             customer.DelegateAssert.IsNotInvoked(Subscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
@@ -101,7 +101,7 @@ namespace Lecture_8_Tests
         public void CustomerLastNameEmitsPropertyChangedEvent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Customer> customer = test.CreateObject<Customer>();
+            TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             customer.Arrange(() => new Customer() { LastName = "abc" });
             customer.DelegateAssert.IsInvoked(Subscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
@@ -114,7 +114,7 @@ namespace Lecture_8_Tests
         public void CustomerLastNameDoesNotEmitPropertyChangedEvent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Customer> customer = test.CreateObject<Customer>();
+            TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             customer.Arrange(() => new Customer() { LastName = "abc" });
             customer.DelegateAssert.IsNotInvoked(Subscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));

@@ -31,7 +31,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionAddAddsElementInOrder()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>());
             collection.Act(c => c.Add(3));
@@ -46,7 +46,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionClearRemovesAllElements()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
             collection.Act(c => c.Clear());
@@ -59,7 +59,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionContainsReturnsTrue()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
             collection.Assert.IsTrue(c => c.Contains(2));
@@ -71,7 +71,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionContainsReturnsFalse()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
             collection.Assert.IsTrue(c => c.Contains(4));
@@ -83,8 +83,8 @@ namespace Lecture_9_Tests
         public void SortedCollectionCopyToCopiesElementsToArray()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
-            UnitTestObject<int[]> array = test.CreateObject<int[]>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
+            TestVariable<int[]> array = test.CreateVariable<int[]>();
 
             collection.Arrange(() => new SortedCollection<int>() { 2, 3, 5 });
             array.Arrange(() => new int[3]);
@@ -98,7 +98,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionRemoveRemovesElement()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
             collection.Act(c => c.Remove(1));
@@ -121,7 +121,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionReturnsCorrectElement()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
             collection.Assert.IsTrue(c => c[1] == 2);
@@ -135,7 +135,7 @@ namespace Lecture_9_Tests
         public void SortCollectionGetAllReturnsEnumerationOfCollection()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
             collection.Assert.IsTrue(c => c.GetAll().SequenceEqual(new[] { 1, 2, 3 }));
@@ -147,7 +147,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionGetAllReversedReturnsReversedEnumerationOfCollection()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
             collection.Assert.IsTrue(c => c.GetAllReversed().SequenceEqual(new[] { 3, 2, 1 }));
@@ -161,7 +161,7 @@ namespace Lecture_9_Tests
         public void SortCollectionGetAllReturnsEnumerationOfCollection2()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3, 4 });
             collection.Assert.IsTrue(c => c.GetAll(x => x % 2 == 0).SequenceEqual(new[] { 2, 4 }));
@@ -173,7 +173,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionGetAllReversedReturnsReversedEnumerationOfCollection2()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<SortedCollection<int>> collection = test.CreateObject<SortedCollection<int>>();
+            TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3, 4 });
             collection.Assert.IsTrue(c => c.GetAllReversed(x => x % 2 == 0).SequenceEqual(new[] { 4, 2 }));

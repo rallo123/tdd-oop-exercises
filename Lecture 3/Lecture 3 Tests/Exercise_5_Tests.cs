@@ -2,7 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Operation;
-using TestTools.Integrated;
+using TestTools.UnitTests;
+using TestTools.StructureTests;
 using static TestTools.Helpers.ExpressionHelper;
 using System.Linq.Expressions;
 using TestTools.Structure;
@@ -14,20 +15,19 @@ namespace Lecture_3_Tests
     [TestClass]
     public class Exercise_5_Tests
     {
-        public void TestAssignmentOfBankAccontPropertyIgnoresValue<T>(Expression<Func<BankAccount, T>> property, T value, T defaultValue)
+        private void TestAssignmentOfBankAccontPropertyIgnoresValue<T>(Expression<Func<BankAccount, T>> property, T value, T defaultValue)
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-            account.Arrange(() => new BankAccount());
-            account.Act(Assignment(property, value));
-            account.Assert.IsTrue(Equality(property, defaultValue));
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Assign(Expr(account, property), Const(value));
+            test.Assert.AreEqual(Expr(account, property), Const(defaultValue));
 
             test.Execute();
         }
 
-
-        /* Exercise 5A */
+        #region Exercise 5A
         [TestMethod("a. BankAccount.Balance is public read-only decimal property"), TestCategory("Exercise 5A")]
         public void BankAccountBalanceIsDecimalProperty()
         {
@@ -56,10 +56,10 @@ namespace Lecture_3_Tests
         public void BalanceIsInitilizedAs0()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-            account.Arrange(() => new BankAccount());
-            account.Assert.IsTrue(b => b.Balance == 0M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Assert.AreEqual(Expr(account, a => a.Balance), Const(0M));
 
             test.Execute();
         }
@@ -68,10 +68,10 @@ namespace Lecture_3_Tests
         public void BorrowingRateIsInitilizedAs0Point6()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-            account.Arrange(() => new BankAccount());
-            account.Assert.IsTrue(b => b.BorrowingRate == 0.06M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Assert.AreEqual(Expr(account, a => a.BorrowingRate), Const(0.06M));
 
             test.Execute();
         }
@@ -80,10 +80,10 @@ namespace Lecture_3_Tests
         public void SavingsRateIsInitilizedAs0Point2()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-            account.Arrange(() => new BankAccount());
-            account.Assert.IsTrue(b => b.SavingsRate == 0.02M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Assert.AreEqual(Expr(account, a => a.SavingsRate), Const(0.02M));
 
             test.Execute();
         }
@@ -99,17 +99,18 @@ namespace Lecture_3_Tests
 
         [TestMethod("j. BankAccount.SavingsRate ignores assignment of 0.03M"), TestCategory("Exercise 5A")]
         public void BankAccountSavingsRateIgnoresAssignmentOfThreePercent() => TestAssignmentOfBankAccontPropertyIgnoresValue(b => b.SavingsRate, 0.03M, 0.02M);
+        #endregion
 
-        /* Exercise 5B */
+        #region Exercise 5B
         [TestMethod("a. BankAccount.Deposit(int amount) adds amount to Balance"), TestCategory("Exercise 5B")]
         public void BankAccountDepositAddsAmountToBalance()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-            account.Arrange(() => new BankAccount());
-            account.Act(a => a.Deposit(50));
-            account.Assert.IsTrue(a => a.Balance == 50M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Act(Expr(account, a => a.Deposit(50M)));
+            test.Assert.AreEqual(Expr(account, a => a.Balance), Const(50M));
 
             test.Execute();
         }
@@ -118,11 +119,11 @@ namespace Lecture_3_Tests
         public void BankAccountDepositDoesNotChangeBalanceOnNegativeAmount()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-            account.Arrange(() => new BankAccount());
-            account.Act(a => a.Deposit(-1M));
-            account.Assert.IsTrue(a => a.Balance == 0M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Act(Expr(account, a => a.Deposit(-1M)));
+            test.Assert.AreEqual(Expr(account, a => a.Balance), Const(0M));
 
             test.Execute();
         }
@@ -131,11 +132,11 @@ namespace Lecture_3_Tests
         public void BankAccountWithdrawSubtractsAmountOfBalance()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-            account.Arrange(() => new BankAccount());
-            account.Act(a => a.Withdraw(50));
-            account.Assert.IsTrue(a => a.Balance == -50M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Act(Expr(account, a => a.Withdraw(50M)));
+            test.Assert.AreEqual(Expr(account, a => a.Balance), Const(-50M));
 
             test.Execute();
         }
@@ -144,13 +145,14 @@ namespace Lecture_3_Tests
         public void BankAccountWithdrawDoesNotChangeBalanceOnNegativeAmount()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<BankAccount> account = test.CreateObject<BankAccount>();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-            account.Arrange(() => new BankAccount());
-            account.Act(a => a.Withdraw(-1M));
-            account.Assert.IsTrue(a => a.Balance == 0M);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Act(Expr(account, a => a.Withdraw(-1M)));
+            test.Assert.AreEqual(Expr(account, a => a.Balance), Const(0M));
 
             test.Execute();
         }
+        #endregion
     }
 }

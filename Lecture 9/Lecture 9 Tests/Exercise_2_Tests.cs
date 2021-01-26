@@ -80,8 +80,8 @@ namespace Lecture_9_Tests
         public void CourseEnrollAddsStudent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Course> course = test.CreateObject<Course>();
-            UnitTestObject<Student> student = test.CreateObject<Student>();
+            TestVariable<Course> course = test.CreateVariable<Course>();
+            TestVariable<Student> student = test.CreateVariable<Student>();
 
             course.Arrange(() => new Course());
             student.Arrange(() => new Student());
@@ -95,8 +95,8 @@ namespace Lecture_9_Tests
         public void CourseDisenrollRemovesStudentAgain()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Course> course = test.CreateObject<Course>();
-            UnitTestObject<Student> student = test.CreateObject<Student>();
+            TestVariable<Course> course = test.CreateVariable<Course>();
+            TestVariable<Student> student = test.CreateVariable<Student>();
 
             course.Arrange(() => new Course());
             student.Arrange(() => new Student());
@@ -145,8 +145,8 @@ namespace Lecture_9_Tests
         public void CourseGetStudentByIDReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Course> course = test.CreateObject<Course>();
-            UnitTestObject<Student> student = test.CreateObject<Student>();
+            TestVariable<Course> course = test.CreateVariable<Course>();
+            TestVariable<Student> student = test.CreateVariable<Student>();
 
             course.Arrange(() => new Course());
             student.Arrange(() => new Student() { ID = 5 });
@@ -160,9 +160,9 @@ namespace Lecture_9_Tests
         public void CourseGetYoungestStudentReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Course> course = test.CreateObject<Course>();
-            UnitTestObject<Student> youngestStudent = test.CreateObject<Student>();
-            UnitTestObject<Student> oldestStudent = test.CreateObject<Student>();
+            TestVariable<Course> course = test.CreateVariable<Course>();
+            TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
+            TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
 
             course.Arrange(() => new Course());
             youngestStudent.Arrange(() => new Student() { Age = 19 });
@@ -178,9 +178,9 @@ namespace Lecture_9_Tests
         public void CourseGetOldestStudentReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Course> course = test.CreateObject<Course>();
-            UnitTestObject<Student> youngestStudent = test.CreateObject<Student>();
-            UnitTestObject<Student> oldestStudent = test.CreateObject<Student>();
+            TestVariable<Course> course = test.CreateVariable<Course>();
+            TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
+            TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
 
             course.Arrange(() => new Course());
             youngestStudent.Arrange(() => new Student() { Age = 19 });
@@ -196,9 +196,9 @@ namespace Lecture_9_Tests
         public void CourseGetAverageStudentAgeReturnsCorrectly()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Course> course = test.CreateObject<Course>();
-            UnitTestObject<Student> youngestStudent = test.CreateObject<Student>();
-            UnitTestObject<Student> oldestStudent = test.CreateObject<Student>();
+            TestVariable<Course> course = test.CreateVariable<Course>();
+            TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
+            TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
 
             course.Arrange(() => new Course());
             youngestStudent.Arrange(() => new Student() { Age = 19 });

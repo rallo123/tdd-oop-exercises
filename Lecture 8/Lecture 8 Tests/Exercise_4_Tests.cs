@@ -30,8 +30,8 @@ namespace Lecture_8_Tests
         public void ConsoleControllerHandleInputEchos()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleController> controller = test.CreateObject<ConsoleController>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
+            TestConsole console = test.CaptureConsole();
 
             controller.Arrange(() => new ConsoleController());
             controller.Act(c => c.HandleInput("Echo Hello world"));
@@ -44,8 +44,8 @@ namespace Lecture_8_Tests
         public void ConsoleControllerHandleInputReverses()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleController> controller = test.CreateObject<ConsoleController>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
+            TestConsole console = test.CaptureConsole();
 
             controller.Arrange(() => new ConsoleController());
             controller.Act(c => c.HandleInput("Reverse Hello world"));
@@ -58,8 +58,8 @@ namespace Lecture_8_Tests
         public void ConsoleControllerHandleInputGreets()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleController> controller = test.CreateObject<ConsoleController>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
+            TestConsole console = test.CaptureConsole();
 
             controller.Arrange(() => new ConsoleController());
             controller.Act(c => c.HandleInput("Greet World"));
@@ -72,8 +72,8 @@ namespace Lecture_8_Tests
         public void ConsoleControllerHandleInputErrors()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleController> controller = test.CreateObject<ConsoleController>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
+            TestConsole console = test.CaptureConsole();
 
             controller.Arrange(() => new ConsoleController());
             controller.Act(c => c.HandleInput("NonExistentCommand Hello World"));
@@ -86,8 +86,8 @@ namespace Lecture_8_Tests
         public void ConsoleControllerHandleInputErrors2()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleController> controller = test.CreateObject<ConsoleController>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
+            TestConsole console = test.CaptureConsole();
 
             controller.Arrange(() => new ConsoleController());
             controller.Act(c => c.HandleInput("Greet"));
@@ -100,8 +100,8 @@ namespace Lecture_8_Tests
         public void ConsoleControllerHandleInputErrors3()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleController> controller = test.CreateObject<ConsoleController>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
+            TestConsole console = test.CaptureConsole();
 
             controller.Arrange(() => new ConsoleController());
             controller.Act(c => c.HandleInput(""));
@@ -124,9 +124,9 @@ namespace Lecture_8_Tests
         public void ConsoleConstrollerAddCommandAddsCommand()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleController> controller = test.CreateObject<ConsoleController>();
-            UnitTestObject<Action<string>> action = test.CreateObject<Action<string>>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
+            TestVariable<Action<string>> action = test.CreateVariable<Action<string>>();
+            TestConsole console = test.CaptureConsole();
 
 
             controller.Arrange(() => new ConsoleController());
@@ -151,9 +151,9 @@ namespace Lecture_8_Tests
         public void ConsoleControllerRemoveCommandRemovesCommand()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ConsoleController> controller = test.CreateObject<ConsoleController>();
-            UnitTestObject<Action<string>> action = test.CreateObject<Action<string>>();
-            UnitTestConsole console = test.CreateConsole();
+            TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
+            TestVariable<Action<string>> action = test.CreateVariable<Action<string>>();
+            TestConsole console = test.CaptureConsole();
 
 
             controller.Arrange(() => new ConsoleController());

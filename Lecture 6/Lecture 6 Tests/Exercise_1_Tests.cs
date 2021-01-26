@@ -46,7 +46,7 @@ namespace Lecture_6_Tests
         public void TemperatureCelciusAssignmentOfMinus276ThrowsArgumentException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Temperature> temperature = test.CreateObject<Temperature>();
+            TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             temperature.Arrange(() => new Temperature());
             temperature.Assert.ThrowsException<ArgumentException>(Assignment<Temperature, double>(t => t.Celcius, -276.0));
@@ -58,7 +58,7 @@ namespace Lecture_6_Tests
         public void TemperatureFahrenheitAssignmentOfMinus460ThrowsArgumentException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Temperature> temperature = test.CreateObject<Temperature>();
+            TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             temperature.Arrange(() => new Temperature());
             temperature.Assert.ThrowsException<ArgumentException>(Assignment<Temperature, double>(t => t.Fahrenheit, -460));
@@ -70,7 +70,7 @@ namespace Lecture_6_Tests
         public void TemperatureKelvinAssignmentOfMinus1ThrowsArgumentException()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Temperature> temperature = test.CreateObject<Temperature>();
+            TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             temperature.Arrange(() => new Temperature());
             temperature.Assert.ThrowsException<ArgumentException>(Assignment<Temperature, double>(t => t.Kelvin, -1));
@@ -82,7 +82,7 @@ namespace Lecture_6_Tests
         public void TemperatureKelvinEquals0AfterTemperatureCelciusAssignmentOfMinus275()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Temperature> temperature = test.CreateObject<Temperature>();
+            TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             temperature.Arrange(() => new Temperature());
             temperature.Act(Assignment<Temperature, double>(t => t.Celcius, -275.15));
@@ -95,7 +95,7 @@ namespace Lecture_6_Tests
         public void TemperatureKelvinEquals0AfterTemperatureFahrenheitAssignmentOfMinus459()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Temperature> temperature = test.CreateObject<Temperature>();
+            TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             temperature.Arrange(() => new Temperature());
             temperature.Act(Assignment<Temperature, double>(t => t.Fahrenheit, -459.67));
@@ -118,7 +118,7 @@ namespace Lecture_6_Tests
         public void TemperatureCompareToSortsNullFirst()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Temperature> temperature = test.CreateObject<Temperature>();
+            TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             temperature.Arrange(() => new Temperature());
             temperature.Assert.IsTrue(t => t.CompareTo(null) > 0);
@@ -129,8 +129,8 @@ namespace Lecture_6_Tests
         public void TemperatureCompareToSortsHigherTemperatureFirst()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Temperature> temperature1 = test.CreateObject<Temperature>();
-            UnitTestObject<Temperature> temperature2 = test.CreateObject<Temperature>();
+            TestVariable<Temperature> temperature1 = test.CreateVariable<Temperature>();
+            TestVariable<Temperature> temperature2 = test.CreateVariable<Temperature>();
 
             temperature1.Arrange(() => new Temperature() { Kelvin = 0 });
             temperature2.Arrange(() => new Temperature() { Kelvin = 1 });
@@ -142,8 +142,8 @@ namespace Lecture_6_Tests
         public void Test1B4()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<Temperature> temperature1 = test.CreateObject<Temperature>();
-            UnitTestObject<Temperature> temperature2 = test.CreateObject<Temperature>();
+            TestVariable<Temperature> temperature1 = test.CreateVariable<Temperature>();
+            TestVariable<Temperature> temperature2 = test.CreateVariable<Temperature>();
 
             temperature1.Arrange(() => new Temperature() { Kelvin = 0 });
             temperature2.Arrange(() => new Temperature() { Kelvin = 0 });

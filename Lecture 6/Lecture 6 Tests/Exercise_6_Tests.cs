@@ -72,8 +72,8 @@ namespace Lecture_6_Tests
         public void FileLoggerAppendsFile()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<FileLogger> file = test.CreateObject<FileLogger>();
-            UnitTestFileSystem fileSystem = test.CreateFileSystem();
+            TestVariable<FileLogger> file = test.CreateVariable<FileLogger>();
+            TestFileSystem fileSystem = test.CaptureFileSystem();
             
             fileSystem.Act(fs => fs.File.Create("/log.txt"));
             fileSystem.Act(fs => fs.File.WriteAllText("/log.txt", "Customer Ryan Johnson was created"));

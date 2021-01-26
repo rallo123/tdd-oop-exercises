@@ -64,7 +64,7 @@ namespace Lecture_6_Tests
         public void MyRandomNextReturnsRandomNumber()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyRandom> random = test.CreateObject<MyRandom>();
+            TestVariable<MyRandom> random = test.CreateVariable<MyRandom>();
 
             random.Arrange(() => new MyRandom());
             random.Assert.IsFalse(r => r.Next() == r.Next());
@@ -76,7 +76,7 @@ namespace Lecture_6_Tests
         public void MyRandomNextReturnsExpectedResult()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyRandom> random = test.CreateObject<MyRandom>();
+            TestVariable<MyRandom> random = test.CreateVariable<MyRandom>();
 
             random.Arrange(() => new MyRandom());
             random.Assert.IsTrue(r => r.Next() <= 6);
@@ -88,8 +88,8 @@ namespace Lecture_6_Tests
         public void MyRandomNextReturnsExpectedResult2()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<MyRandom> random = test.CreateObject<MyRandom>();
-            UnitTestObject<int> value = test.CreateAnonymousObject<int>();
+            TestVariable<MyRandom> random = test.CreateVariable<MyRandom>();
+            TestVariable<int> value = test.CreateAnonymousObject<int>();
 
             random.Arrange(() => new MyRandom());
             value.WithParameters(random).Arrange(r => r.Next(1, 6));
@@ -112,7 +112,7 @@ namespace Lecture_6_Tests
         public void PredictableRandomNextReturns4A()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+            TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
             random.Arrange(() => new PredictableRandom(4));
             random.Assert.IsTrue(r => r.Next() == 4);
@@ -124,7 +124,7 @@ namespace Lecture_6_Tests
         public void PredictableRandomNextReturns4B()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+            TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
             random.Arrange(() => new PredictableRandom(4));
             random.Assert.IsTrue(r => r.Next(6) == 4);
@@ -136,7 +136,7 @@ namespace Lecture_6_Tests
         public void PredictableRandomNextThrowsOn6()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+            TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
             random.Arrange(() => new PredictableRandom(7));
             random.Assert.ThrowsException<ArgumentException>(r => r.Next(6));
@@ -148,7 +148,7 @@ namespace Lecture_6_Tests
         public void PredictableRandomNextReturns4C()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+            TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
             random.Arrange(() => new PredictableRandom(4));
             random.Assert.IsTrue(r => r.Next(1, 6) == 4);
@@ -160,7 +160,7 @@ namespace Lecture_6_Tests
         public void PredictableRandomNextThrowsOn1And6()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<PredictableRandom> random = test.CreateObject<PredictableRandom>();
+            TestVariable<PredictableRandom> random = test.CreateVariable<PredictableRandom>();
 
             random.Arrange(() => new PredictableRandom(0));
             random.Assert.ThrowsException<ArgumentException>(r => r.Next(1, 6));

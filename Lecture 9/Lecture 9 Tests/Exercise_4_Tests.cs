@@ -41,7 +41,7 @@ namespace Lecture_9_Tests
         public void ObservableCollectionAddEmitsCollectionChangedEvents()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ObservableCollection<int>> collection = test.CreateObject<ObservableCollection<int>>();
+            TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
             
             collection.Arrange(() => new ObservableCollection<int>());
             collection.DelegateAssert.IsInvoked(Subscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
@@ -54,7 +54,7 @@ namespace Lecture_9_Tests
         public void ObservableCollectionClearEmitsCollectionChangedEvent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ObservableCollection<int>> collection = test.CreateObject<ObservableCollection<int>>();
+            TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
             collection.Arrange(() => new ObservableCollection<int>());
             collection.DelegateAssert.IsInvoked(Subscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
@@ -67,7 +67,7 @@ namespace Lecture_9_Tests
         public void ObservableCollectionRemoveEmitsCollectionChangedEvent()
         {
             UnitTest test = Factory.CreateTest();
-            UnitTestObject<ObservableCollection<int>> collection = test.CreateObject<ObservableCollection<int>>();
+            TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
             collection.Arrange(() => new ObservableCollection<int>() { 1 });
             collection.DelegateAssert.IsInvoked(Subscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
