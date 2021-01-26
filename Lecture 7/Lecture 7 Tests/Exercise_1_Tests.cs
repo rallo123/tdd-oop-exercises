@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using System.Linq;
@@ -54,8 +54,8 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Pair<string, int>> pair = test.CreateVariable<Pair<string, int>>();
 
-            pair.Arrange(() => new Pair<string, int>("abc", 5));
-            pair.Assert.IsTrue(p => p.Fst == "abc");
+            test.Arrange(pair, Expr(() => new Pair<string, int>("abc", 5)));
+            test.Assert.AreEqual(Expr(pair, p => p.Fst), Const("abc"));
 
             test.Execute();
         }
@@ -66,8 +66,8 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Pair<string, int>> pair = test.CreateVariable<Pair<string, int>>();
 
-            pair.Arrange(() => new Pair<string, int>("abc", 5));
-            pair.Assert.IsTrue(p => p.Snd == 5);
+            test.Arrange(pair, Expr(() => new Pair<string, int>("abc", 5)));
+            test.Assert.AreEqual(Expr(pair, p => p.Snd), Const(5));
 
             test.Execute();
         }
@@ -90,9 +90,10 @@ namespace Lecture_7_Tests
             TestVariable<Pair<string, int>> pair1 = test.CreateVariable<Pair<string, int>>();
             TestVariable<Pair<int, string>> pair2 = test.CreateVariable<Pair<int, string>>();
 
-            pair1.Arrange(() => new Pair<string, int>("abc", 5));
-            pair2.WithParameters(pair1).Arrange(p => p.Swap());
-            pair2.Assert.IsTrue(p => p.Fst == 5 && p.Snd == "abc");
+            test.Arrange(pair1, Expr(() => new Pair<string, int>("abc", 5)));
+            test.Arrange(pair2, Expr(pair1, p => p.Swap()));
+            test.Assert.AreEqual(Expr(pair2, p => p.Fst), Const(5));
+            test.Assert.AreEqual(Expr(pair2, p => p.Snd), Const("abc"));
 
             test.Execute();
         }
@@ -122,9 +123,10 @@ namespace Lecture_7_Tests
             TestVariable<Pair<string, int>> pair1 = test.CreateVariable<Pair<string, int>>();
             TestVariable<Pair<double, int>> pair2 = test.CreateVariable<Pair<double, int>>();
 
-            pair1.Arrange(() => new Pair<string, int>("abc", 5));
-            pair2.WithParameters(pair1).Arrange(p => p.SetFst(7.0));
-            pair2.Assert.IsTrue(p => p.Fst == 7.0 && p.Snd == 5);
+            test.Arrange(pair1, Expr(() => new Pair<string, int>("abc", 5)));
+            test.Arrange(pair2, Expr(pair1, p => p.SetFst(7.0)));
+            test.Assert.AreEqual(Expr(pair2, p => p.Fst), Const(7.0));
+            test.Assert.AreEqual(Expr(pair2, p => p.Snd), Const(5));
 
             test.Execute();
         }
@@ -136,9 +138,10 @@ namespace Lecture_7_Tests
             TestVariable<Pair<string, int>> pair1 = test.CreateVariable<Pair<string, int>>();
             TestVariable<Pair<string, double>> pair2 = test.CreateVariable<Pair<string, double>>();
 
-            pair1.Arrange(() => new Pair<string, int>("abc", 5));
-            pair2.WithParameters(pair1).Arrange(p => p.SetSnd(7.0));
-            pair2.Assert.IsTrue(p => p.Fst == "abc" && p.Snd == 7.0);
+            test.Arrange(pair1, Expr(() => new Pair<String, int>("abc", 5)));
+            test.Arrange(pair2, Expr(pair1, p => p.SetSnd(7.0)));
+            test.Assert.AreEqual(Expr(pair2, p => p.Fst), Const("abc"));
+            test.Assert.AreEqual(Expr(pair2, p => p.Snd), Const(7.0));
 
             test.Execute();
         }

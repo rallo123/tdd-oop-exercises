@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.UnitTests;
+using TestTools.StructureTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -39,8 +39,8 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
-            queue.Arrange(() => new MyQueue<int>(5));
-            queue.Assert.IsTrue(q => q.MaxCount == 5);
+            test.Arrange(queue, Expr(() => new MyQueue<int>(5)));
+            test.Assert.AreEqual(Expr(queue, q => q.MaxCount), Const(5));
 
             test.Execute();
         }
@@ -61,8 +61,8 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
-            queue.Arrange(() => new MyQueue<int>(5));
-            queue.Assert.IsTrue(q => q.Count == 0);
+            test.Arrange(queue, Expr(() => new MyQueue<int>(5)));
+            test.Assert.AreEqual(Expr(queue, q => q.Count), Const(0));
 
             test.Execute();
         }
@@ -93,9 +93,9 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
-            queue.Arrange(() => new MyQueue<int>(5));
-            queue.Act(q => q.Enqueue(1));
-            queue.Assert.IsTrue(q => q.Count == 1);
+            test.Arrange(queue, Expr(() => new MyQueue<int>(5)));
+            test.Act(Expr(queue, q => q.Enqueue(1)));
+            test.Assert.AreEqual(Expr(queue, q => q.Count), Const(1));
 
             test.Execute();
         }
@@ -106,10 +106,10 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
-            queue.Arrange(() => new MyQueue<int>(5));
-            queue.Act(q => q.Enqueue(1));
-            queue.Act(q => q.Dequeue());
-            queue.Assert.IsTrue(q => q.Count == 0);
+            test.Arrange(queue, Expr(() => new MyQueue<int>(5)));
+            test.Act(Expr(queue, q => q.Enqueue(1)));
+            test.Act(Expr(queue, q => q.Dequeue()));
+            test.Assert.AreEqual(Expr(queue, q => q.Count), Const(0));
 
             test.Execute();
         }
@@ -120,8 +120,8 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
-            queue.Arrange(() => new MyQueue<int>(0));
-            queue.Assert.ThrowsException<InvalidOperationException>(q => q.Enqueue(1));
+            test.Arrange(queue, Expr(() => new MyQueue<int>(0)));
+            test.Assert.ThrowsExceptionOn<InvalidOperationException>(Expr(queue, q => q.Enqueue(1)));
 
             test.Execute();
         }
@@ -132,8 +132,8 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
-            queue.Arrange(() => new MyQueue<int>(5));
-            queue.Assert.ThrowsException<InvalidOperationException>(q => q.Dequeue());
+            test.Arrange(queue, Expr(() => new MyQueue<int>(5)));
+            test.Assert.ThrowsExceptionOn<InvalidOperationException, int>(Expr(queue, q => q.Dequeue()));
 
             test.Execute();
         }
@@ -155,10 +155,10 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
-            queue.Arrange(() => new MyQueue<int>(5));
-            queue.Act(q => q.Enqueue(1));
-            queue.Act(q => q.Enqueue(2));
-            queue.Assert.IsTrue(q => q.Peek() == 1);
+            test.Arrange(queue, Expr(() => new MyQueue<int>(5)));
+            test.Act(Expr(queue, q => q.Enqueue(1)));
+            test.Act(Expr(queue, q => q.Enqueue(2)));
+            test.Assert.AreEqual(Expr(queue, q => q.Peek()), Const(1));
 
             test.Execute();
         }
@@ -169,11 +169,11 @@ namespace Lecture_7_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> queue = test.CreateVariable<MyQueue<int>>();
 
-            queue.Arrange(() => new MyQueue<int>(5));
-            queue.Act(q => q.Enqueue(1));
-            queue.Act(q => q.Enqueue(2));
-            queue.Act(q => q.Peek());
-            queue.Assert.IsTrue(q => q.Peek() == 1);
+            test.Arrange(queue, Expr(() => new MyQueue<int>(5)));
+            test.Act(Expr(queue, q => q.Enqueue(1)));
+            test.Act(Expr(queue, q => q.Enqueue(2)));
+            test.Act(Expr(queue, q => q.Peek()));
+            test.Assert.AreEqual(Expr(queue, q => q.Peek()), Const(1));
 
             test.Execute();
         }
