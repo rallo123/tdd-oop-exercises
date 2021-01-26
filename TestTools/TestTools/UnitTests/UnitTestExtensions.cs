@@ -20,5 +20,20 @@ namespace TestTools.UnitTests
         {
             throw new NotImplementedException();
         }
+
+        public static void ThrowsExceptionOn<TException>(this UnitTest.AssertObject assertObject, TestExpression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void ThrowsExceptionOn<TException, T>(this UnitTest.AssertObject assertObject, TestExpression<T> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void ThrowsExceptionOnAssignment<TException, T>(this UnitTest.AssertObject assertObject, TestExpression<T> left, TestExpression<T> right)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

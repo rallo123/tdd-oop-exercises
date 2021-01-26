@@ -96,7 +96,7 @@ namespace TestTools.UnitTests
                 throw new NotImplementedException();
             }
 
-            public void ThrowsException<TException>(TestExpression action)
+            public void ThrowsException<TException>(TestExpression<Action> action)
             {
                 throw new NotImplementedException();
             }
@@ -112,17 +112,17 @@ namespace TestTools.UnitTests
 
         public class DelegateAssertObject
         {
-            public void IsInvoked<TDelegate>(TestExpression subscribe) where TDelegate : Delegate
+            public void IsInvoked<TDelegate>(TestExpression<Func<TDelegate>> subscribe) where TDelegate : Delegate
             {
                 throw new NotImplementedException();
             }
 
-            public void IsInvoked<TDelegate>(TestExpression subscribe, TDelegate assertionCallback) where TDelegate : Delegate
+            public void IsInvoked<TDelegate>(TestExpression<Func<TDelegate>> subscribe, TDelegate assertionCallback) where TDelegate : Delegate
             {
                 throw new NotImplementedException();
             }
 
-            public void IsNotInvoked<TDelegate>(TestExpression subscribe) where TDelegate : Delegate
+            public void IsNotInvoked<TDelegate>(TestExpression<Func<TDelegate>> subscribe) where TDelegate : Delegate
             {
                 throw new NotImplementedException();
             }

@@ -1,8 +1,8 @@
 ﻿using Lecture_4_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TestTools.Operation;
-using TestTools.Integrated;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_4_Tests.TestHelper;
 using TestTools.Structure;
@@ -13,7 +13,7 @@ namespace Lecture_4_Tests
     [TestClass]
     public class Exercise_2_Tests
     {
-        /* Exercise 2A */
+        #region Exercise 2A
         [TestMethod("a. Person.Name is public string property"), TestCategory("Exercise 2A")]
         public void PersonNameIsStringProperty() 
         {
@@ -42,11 +42,10 @@ namespace Lecture_4_Tests
         public void PersonConstructorAssignsNameProperty()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<Person> person = test.CreateVariable<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person("abc"));
-            person.Assert.IsTrue(p => p.Name == "abc");
-            // Alternative syntax: test.Assert.That(person, p => p.Name).Equals("abc");
+            test.Arrange(person, Expr(() => new Person("abc")));
+            test.Assert.AreEqual(Expr(person, p => p.Name), Const("abc"));
 
             test.Execute();
         }
@@ -55,12 +54,10 @@ namespace Lecture_4_Tests
         public void PersonHeightIgnoresAssignmentOfMinusOne()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<Person> person = test.CreateVariable<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person("abc"));
-            person.Assert.ThrowsException<ArgumentException>(Assignment<Person, double>(p => p.Height, -1.0));
-            // Alternative syntax: test.Assert.That(person, Assignment<Person, double>(p => p.Height, -1.0)).Throws<ArgumentException>();
-            // Alternative syntax: test.Assert.Assignment(person, p => p.Height, -1.0).Throws<ArgumentException>();
+            test.Arrange(person, Expr(() => new Person("abc")));
+            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, double>(Expr(person, p => p.Height), Const(-1.0));
 
             test.Execute();
         }
@@ -70,40 +67,39 @@ namespace Lecture_4_Tests
         public void PersonWeightIgnoresAssignmentOfMinusOne()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<Person> person = test.CreateVariable<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person("abc"));
-            person.Assert.ThrowsException<ArgumentException>(Assignment<Person, double>(p => p.Weight, -1.0));
-            // Alternative syntax: test.Assert.That(person, Assignment<Person, double>(p => p.Weight, -1.0)).Throws<ArgumentException>();
-            // Alternative syntax: test.Assert.Assignment(person, p => p.Weight, -1.0).Throws<ArgumentException>();
+            test.Arrange(person, Expr(() => new Person("abc")));
+            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, double>(Expr(person, p => p.Weight), Const(-1.0));
 
             test.Execute();
         }
-        
-        /* Exercise 2B */
+        #endregion
+
+        #region Exercise 2B
         [TestMethod("a. Person.CalculateBMI() returns expected output"), TestCategory("Exercise 2B")]
         public void PersonCalculateBMIReturnsExpectedOutput()
         {
             UnitTest test = Factory.CreateTest();
-            DualUnitTestObject<Person> person = test.CreateDualObject<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person("abc") { Height = 1.80, Weight = 80 });
-            person.Assert.EqualToDual(p => p.CalculateBMI());
-            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals.Dual();
+            Person originalPerson = new Person("abc") { Height = 1.80, Weight = 80 };
+            test.Arrange(person, Expr(() => new Person("abc") { Height = 1.80, Weight = 80 }));
+            test.Assert.AreEqual(Expr(person, p => p.CalculateBMI()), Const(originalPerson.CalculateBMI()));
 
             test.Execute();
         }
+        #endregion
 
-        /* Exercise 2C */
+        #region Exercise 2C
         [TestMethod("Person.GetClassification() returns \"under-weight\" for Height = 1.64 & Weight = 47.0"), TestCategory("Exercise 2C")]
         public void PersonGetClassificationReturnsUnderWeight()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<Person> person = test.CreateVariable<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person("abc") { Height = 1.64, Weight = 47.0 });
-            person.Assert.IsTrue(p => p.GetClassification() == "under-weight");
-            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("under-weight");
+            test.Arrange(person, Expr(() => new Person("abc") { Height = 1.64, Weight = 47.0 }));
+            test.Assert.AreEqual(Expr(person, p => p.GetClassification()), Const("under-weight"));
 
             test.Execute();
         }
@@ -112,11 +108,10 @@ namespace Lecture_4_Tests
         public void PersonGetClassificationReturnsNormalWeight()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<Person> person = test.CreateVariable<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person("abc") { Height = 1.73, Weight = 58.0 });
-            person.Assert.IsTrue(p => p.GetClassification() == "normal weight");
-            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("normal weight");
+            test.Arrange(person, Expr(() => new Person("abc") { Height = 1.73, Weight = 58.0 }));
+            test.Assert.AreEqual(Expr(person, p => p.GetClassification()), Const("normal weight"));
 
             test.Execute();
         }
@@ -125,11 +120,10 @@ namespace Lecture_4_Tests
         public void PersonGetClassificationReturnsOverWeight()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<Person> person = test.CreateVariable<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person("abc") { Height = 1.70, Weight = 74.0 });
-            person.Assert.IsTrue(p => p.GetClassification() == "over-weight");
-            // Alternative syntax: test.Assert.That(person, p => p.CalculateBMI()).Equals("over weight");
+            test.Arrange(person, Expr(() => new Person("abc") { Height = 1.70, Weight = 74.0 }));
+            test.Assert.AreEqual(Expr(person, p => p.GetClassification()), Const("over-weight"));
 
             test.Execute();
         }
@@ -138,13 +132,13 @@ namespace Lecture_4_Tests
         public void PersonGetClassificationReturnsObese()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<Person> person = test.CreateVariable<Person>();
+            TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
-            person.Arrange(() => new Person("abc") { Height = 1.85, Weight = 120.0 });
-            person.Assert.IsTrue(p => p.GetClassification() == "obese");
-            // Alternative syntax: test.Assert.That(person, p.CalculateBMI()).To.Equal("obese");
+            test.Arrange(person, Expr(() => new Person("abc") { Height = 1.85, Weight = 120.0 }));
+            test.Assert.AreEqual(Expr(person, p => p.GetClassification()), Const("obese"));
 
             test.Execute();
         }
+        #endregion
     }
 }
