@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -42,11 +42,11 @@ namespace Lecture_9_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
-            
-            collection.Arrange(() => new ObservableCollection<int>());
-            collection.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
-            collection.Act(c => c.Add(5));
-            
+
+            test.Arrange(collection, Expr(() => new ObservableCollection<int>()));
+            test.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            test.Act(Expr(collection, c => c.Add(5)));
+
             test.Execute();
         }
 
@@ -56,9 +56,9 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
-            collection.Arrange(() => new ObservableCollection<int>());
-            collection.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
-            collection.Act(c => c.Clear());
+            test.Arrange(collection, Expr(() => new ObservableCollection<int>()));
+            test.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            test.Act(Expr(collection, c => c.Clear()));
 
             test.Execute();
         }
@@ -69,9 +69,9 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
-            collection.Arrange(() => new ObservableCollection<int>() { 1 });
-            collection.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
-            collection.Act(c => c.Remove(1));
+            test.Arrange(collection, Expr(() => new ObservableCollection<int>() { 1 }));
+            test.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            test.Act(Expr(collection, c => c.Remove(1)));
 
             test.Execute();
         }

@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -57,9 +57,9 @@ namespace Lecture_9_Tests
             TestVariable<Product> product1 = test.CreateVariable<Product>();
             TestVariable<Product> product2 = test.CreateVariable<Product>();
 
-            product1.Arrange(() => new Product() { ID = 5 });
-            product2.Arrange(() => new Product() { ID = 5 });
-            product1.WithParameters(product2).Assert.IsTrue((p1, p2) => p1.Equals(p2));
+            test.Arrange(product1, Expr(() => new Product() { ID = 5 }));
+            test.Arrange(product2, Expr(() => new Product() { ID = 5 }));
+            test.Assert.IsTrue(Expr(product1, product2, (p1, p2) => p1.Equals(p2)));
 
             test.Execute();
         }
@@ -71,9 +71,9 @@ namespace Lecture_9_Tests
             TestVariable<Product> product1 = test.CreateVariable<Product>();
             TestVariable<Product> product2 = test.CreateVariable<Product>();
 
-            product1.Arrange(() => new Product() { ID = 4 });
-            product2.Arrange(() => new Product() { ID = 5 });
-            product1.WithParameters(product2).Assert.IsFalse((p1, p2) => p1.Equals(p2));
+            test.Arrange(product1, Expr(() => new Product() { ID = 4 }));
+            test.Arrange(product2, Expr(() => new Product() { ID = 5 }));
+            test.Assert.IsFalse(Expr(product1, product2, (p1, p2) => p1.Equals(p2)));
 
             test.Execute();
         }
@@ -85,9 +85,9 @@ namespace Lecture_9_Tests
             TestVariable<Product> product1 = test.CreateVariable<Product>();
             TestVariable<Product> product2 = test.CreateVariable<Product>();
 
-            product1.Arrange(() => new Product() { ID = 5 });
-            product2.Arrange(() => new Product() { ID = 5 });
-            product1.WithParameters(product2).Assert.IsTrue((p1, p2) => p1.GetHashCode() == p2.GetHashCode());
+            test.Arrange(product1, Expr(() => new Product() { ID = 5 }));
+            test.Arrange(product2, Expr(() => new Product() { ID = 5 }));
+            test.Assert.IsTrue(Expr(product1, product2, (p1, p2) => p1.GetHashCode() == p2.GetHashCode()));
 
             test.Execute();
         }
@@ -99,9 +99,9 @@ namespace Lecture_9_Tests
             TestVariable<Product> product1 = test.CreateVariable<Product>();
             TestVariable<Product> product2 = test.CreateVariable<Product>();
 
-            product1.Arrange(() => new Product() { ID = 4 });
-            product2.Arrange(() => new Product() { ID = 5 });
-            product1.WithParameters(product2).Assert.IsFalse((p1, p2) => p1.GetHashCode() == p2.GetHashCode());
+            test.Arrange(product1, Expr(() => new Product() { ID = 4 }));
+            test.Arrange(product2, Expr(() => new Product() { ID = 5 }));
+            test.Assert.IsFalse(Expr(product1, product2, (p1, p2) => p1.GetHashCode() == p2.GetHashCode()));
 
             test.Execute();
         }
@@ -149,10 +149,10 @@ namespace Lecture_9_Tests
             TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
             TestVariable<Product> product = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            product.Arrange(() => new Product());
-            repository.WithParameters(product).Act((r, p) => r.Add(p));
-            repository.WithParameters(product).Assert.IsTrue((r, p) => r.SequenceEqual(new[] { p }));
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(product, Expr(() => new Product()));
+            test.Act(Expr(repository, product, (r, p) => r.Add(p)));
+            test.Assert.IsTrue(Expr(repository, r => r.Any()));
 
             test.Execute();
         }
@@ -164,11 +164,11 @@ namespace Lecture_9_Tests
             TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
             TestVariable<Product> product = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            product.Arrange(() => new Product() { Name = "Name" });
-            repository.WithParameters(product).Act((r, p) => r.Add(p));
-            product.Act(Assignment<Product, string>(p => p.Name, "NewName"));
-            repository.Assert.IsTrue(r => r.First().Name == "Name");
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(product, Expr(() => new Product() { Name = "Name" }));
+            test.Act(Expr(repository, product, (r, p) => r.Add(p)));
+            test.Assign(Expr(product, p => p.Name), Const("NewName"));
+            test.Assert.AreEqual(Expr(repository, r => r.First().Name), Const("Name"));
 
             test.Execute();
         }
@@ -180,12 +180,12 @@ namespace Lecture_9_Tests
             TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
             TestVariable<Product> product = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            product.Arrange(() => new Product() { Name = "Name" });
-            repository.WithParameters(product).Act((r, p) => r.Add(p));
-            product.Act(Assignment<Product, string>(p => p.Name, "Name"));
-            repository.WithParameters(product).Act((r, p) => r.Update(p));
-            repository.Assert.IsTrue(r => r.First().Name == "NewName");
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(product, Expr(() => new Product() { Name = "Name" }));
+            test.Act(Expr(repository, product, (r, p) => r.Add(p)));
+            test.Assign(Expr(product, p => p.Name), Const("NewName"));
+            test.Act(Expr(repository, product, (r, p) => r.Update(p)));
+            test.Assert.AreEqual(Expr(repository, r => r.First().Name), Const("NewName"));
 
             test.Execute();
         }
@@ -197,11 +197,11 @@ namespace Lecture_9_Tests
             TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
             TestVariable<Product> product = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            product.Arrange(() => new Product() { Name = "Name" });
-            repository.WithParameters(product).Act((r, p) => r.Add(p));
-            repository.WithParameters(product).Act((r, p) => r.Delete(p));
-            repository.Assert.IsFalse(r => r.Any());
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(product, Expr(() => new Product()));
+            test.Act(Expr(repository, product, (r, p) => r.Add(p)));
+            test.Act(Expr(repository, product, (r, p) => r.Delete(p)));
+            test.Assert.IsTrue(Expr(repository, r => r.Any()));
 
             test.Execute();
         }
@@ -263,10 +263,10 @@ namespace Lecture_9_Tests
             TestVariable<ProductRepository> repository = test.CreateVariable<ProductRepository>();
             TestVariable<Product> product = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            product.Arrange(() => new Product() { ID = 5 });
-            repository.WithParameters(product).Act((r, p) => r.Add(p));
-            repository.WithParameters(product).Assert.IsTrue((r, p) => r.GetProductByID(5) == p);
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(product, Expr(() => new Product() { ID = 5 }));
+            test.Act(Expr(repository, product, (r, p) => r.Add(p)));
+            test.Assert.AreEqual(Expr(repository, r => r.GetProductByID(5)), Expr(product, p => p));
 
             test.Execute();
         }
@@ -279,12 +279,12 @@ namespace Lecture_9_Tests
             TestVariable<Product> leastExpensiveProduct = test.CreateVariable<Product>();
             TestVariable<Product> mostExpensiveProduct = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            leastExpensiveProduct.Arrange(() => new Product() { ID = 4, Price = 10M });
-            mostExpensiveProduct.Arrange(() => new Product() { ID = 5, Price = 20M });
-            repository.WithParameters(leastExpensiveProduct).Act((r, p) => r.Add(p));
-            repository.WithParameters(mostExpensiveProduct).Act((r, p) => r.Add(p));
-            repository.WithParameters(leastExpensiveProduct).Assert.IsTrue((r, p) => r.GetLeastExpensiveProduct() == p);
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(leastExpensiveProduct, Expr(() => new Product() { ID = 4, Price = 10M }));
+            test.Arrange(mostExpensiveProduct, Expr(() => new Product() { ID = 5, Price = 20M }));
+            test.Act(Expr(repository, leastExpensiveProduct, (r, p) => r.Add(p)));
+            test.Act(Expr(repository, mostExpensiveProduct, (r, p) => r.Add(p)));
+            test.Assert.AreEqual(Expr(repository, r => r.GetLeastExpensiveProduct()), Expr(leastExpensiveProduct, p => p));
 
             test.Execute();
         }
@@ -297,12 +297,12 @@ namespace Lecture_9_Tests
             TestVariable<Product> leastExpensiveProduct = test.CreateVariable<Product>();
             TestVariable<Product> mostExpensiveProduct = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            leastExpensiveProduct.Arrange(() => new Product() { ID = 4, Price = 10M });
-            mostExpensiveProduct.Arrange(() => new Product() { ID = 5, Price = 20M });
-            repository.WithParameters(leastExpensiveProduct).Act((r, p) => r.Add(p));
-            repository.WithParameters(mostExpensiveProduct).Act((r, p) => r.Add(p));
-            repository.WithParameters(mostExpensiveProduct).Assert.IsTrue((r, p) => r.GetMostExpensiveProduct() == p);
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(leastExpensiveProduct, Expr(() => new Product() { ID = 4, Price = 10M }));
+            test.Arrange(mostExpensiveProduct, Expr(() => new Product() { ID = 5, Price = 20M }));
+            test.Act(Expr(repository, leastExpensiveProduct, (r, p) => r.Add(p)));
+            test.Act(Expr(repository, mostExpensiveProduct, (r, p) => r.Add(p)));
+            test.Assert.AreEqual(Expr(repository, r => r.GetMostExpensiveProduct()), Expr(mostExpensiveProduct, p => p));
 
             test.Execute();
         }
@@ -315,12 +315,12 @@ namespace Lecture_9_Tests
             TestVariable<Product> product1 = test.CreateVariable<Product>();
             TestVariable<Product> product2 = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            product1.Arrange(() => new Product() { ID = 4, Price = 10M });
-            product2.Arrange(() => new Product() { ID = 5, Price = 20M });
-            repository.WithParameters(product1).Act((r, p) => r.Add(p));
-            repository.WithParameters(product2).Act((r, p) => r.Add(p));
-            repository.Assert.IsTrue(r => r.GetAverageProductPrice() == 15M);
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(product1, Expr(() => new Product() { ID = 4, Price = 10M }));
+            test.Arrange(product2, Expr(() => new Product() { ID = 5, Price = 20M }));
+            test.Act(Expr(repository, product1, (r, p) => r.Add(p)));
+            test.Act(Expr(repository, product2, (r, p) => r.Add(p)));
+            test.Assert.AreEqual(Expr(repository, r => r.GetAverageProductPrice()), Const(15M));
 
             test.Execute();
         }
@@ -334,14 +334,14 @@ namespace Lecture_9_Tests
             TestVariable<Product> product2 = test.CreateVariable<Product>();
             TestVariable<Product> product3 = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            product1.Arrange(() => new Product() { ID = 4, Category = "Food" });
-            product2.Arrange(() => new Product() { ID = 5, Category = "Food" });
-            product3.Arrange(() => new Product() { ID = 6, Category = "Electronics" });
-            repository.WithParameters(product1).Act((r, p) => r.Add(p));
-            repository.WithParameters(product2).Act((r, p) => r.Add(p));
-            repository.WithParameters(product3).Act((r, p) => r.Add(p));
-            repository.WithParameters(product1, product2).Assert.IsTrue((r, p1, p2) => r.GetProductsInCategory("Food").SequenceEqual(new[] { p1, p2 }));
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(product1, Expr(() => new Product() { ID = 4, Category = "Food" }));
+            test.Arrange(product2, Expr(() => new Product() { ID = 5, Category = "Food" }));
+            test.Arrange(product3, Expr(() => new Product() { ID = 6, Category = "Electronics" }));
+            test.Act(Expr(repository, product1, (r, p) => r.Add(p)));
+            test.Act(Expr(repository, product2, (r, p) => r.Add(p)));
+            test.Act(Expr(repository, product3, (r, p) => r.Add(p)));
+            test.Assert.IsTrue(Expr(repository, product1, product2, (r, p1, p2) => r.GetProductsInCategory("Food").SequenceEqual(new[] { p1, p2 })));
 
             test.Execute();
         }
@@ -354,12 +354,12 @@ namespace Lecture_9_Tests
             TestVariable<Product> product1 = test.CreateVariable<Product>();
             TestVariable<Product> product2 = test.CreateVariable<Product>();
 
-            repository.Arrange(() => new ProductRepository());
-            product1.Arrange(() => new Product() { ID = 4, Category = "Food" });
-            product2.Arrange(() => new Product() { ID = 6, Category = "Electronics" });
-            repository.WithParameters(product1).Act((r, p) => r.Add(p));
-            repository.WithParameters(product2).Act((r, p) => r.Add(p));
-            repository.WithParameters(product1, product2).Assert.IsTrue((r, p1, p2) => r.GetProductCategories().SequenceEqual(new[] { "Food", "Electronics" }));
+            test.Arrange(repository, Expr(() => new ProductRepository()));
+            test.Arrange(product1, Expr(() => new Product() { ID = 4, Category = "Food" }));
+            test.Arrange(product2, Expr(() => new Product() { ID = 5, Category = "Electronics" }));
+            test.Act(Expr(repository, product1, (r, p) => r.Add(p)));
+            test.Act(Expr(repository, product2, (r, p) => r.Add(p)));
+            test.Assert.IsTrue(Expr(repository, product1, product2, (r, p1, p2) => r.GetProductCategories().SequenceEqual(new[] { "Food", "Electronics" })));
 
             test.Execute();
         }

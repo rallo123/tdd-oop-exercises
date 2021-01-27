@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.UnitTests;
+using TestTools.StructureTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -83,10 +83,10 @@ namespace Lecture_9_Tests
             TestVariable<Course> course = test.CreateVariable<Course>();
             TestVariable<Student> student = test.CreateVariable<Student>();
 
-            course.Arrange(() => new Course());
-            student.Arrange(() => new Student());
-            course.WithParameters(student).Act((c, s) => c.Enroll(s));
-            course.WithParameters(student).Assert.IsTrue((c, s) => c.Students.SequenceEqual(new[] { s }));
+            test.Arrange(course, Expr(() => new Course()));
+            test.Arrange(student, Expr(() => new Student()));
+            test.Act(Expr(course, student, (c, s) => c.Enroll(s)));
+            test.Assert.IsTrue(Expr(course, student, (c, s) => c.Students.SequenceEqual(new[] { s })));
 
             test.Execute();
         }
@@ -98,15 +98,28 @@ namespace Lecture_9_Tests
             TestVariable<Course> course = test.CreateVariable<Course>();
             TestVariable<Student> student = test.CreateVariable<Student>();
 
-            course.Arrange(() => new Course());
-            student.Arrange(() => new Student());
-            course.WithParameters(student).Act((c, s) => c.Enroll(s));
-            course.WithParameters(student).Act((c, s) => c.Disenroll(s));
-            course.WithParameters(student).Assert.IsFalse((c, s) => c.Students.Any());
+            test.Arrange(course, Expr(() => new Course()));
+            test.Arrange(student, Expr(() => new Student()));
+            test.Act(Expr(course, student, (c, s) => c.Enroll(s)));
+            test.Act(Expr(course, student, (c, s) => c.Disenroll(s)));
+            test.Assert.IsFalse(Expr(course, student, (c, s) => c.Students.Any()));
 
             test.Execute();
         }
+
         #endregion
+
+        [TestMethod("e. Course.Disenroll(Student s) removes student again")]
+        public void CourseDisenrollRemovesStudentAgain2()
+        {
+            Course course = new Course();
+            Student student = new Student();
+
+            course.Enroll(student);
+            course.Disenroll(student);
+
+            Assert.IsFalse(course.Students.Any());
+        }
 
         #region Exercise 2C
         [TestMethod("a. Course.GetStudentByID(int id) is a public method")]
@@ -148,10 +161,10 @@ namespace Lecture_9_Tests
             TestVariable<Course> course = test.CreateVariable<Course>();
             TestVariable<Student> student = test.CreateVariable<Student>();
 
-            course.Arrange(() => new Course());
-            student.Arrange(() => new Student() { ID = 5 });
-            course.WithParameters(student).Act((c, s) => c.Enroll(s));
-            course.WithParameters(student).Assert.IsTrue((c, s) => c.GetStudentByID(5) == s);
+            test.Arrange(course, Expr(() => new Course()));
+            test.Arrange(student, Expr(() => new Student() { ID = 5 }));
+            test.Act(Expr(course, student, (c, s) => c.Enroll(s)));
+            test.Assert.IsTrue(Expr(course, student, (c, s) => c.GetStudentByID(5) == s));
 
             test.Execute();
         }
@@ -164,12 +177,12 @@ namespace Lecture_9_Tests
             TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
             TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
 
-            course.Arrange(() => new Course());
-            youngestStudent.Arrange(() => new Student() { Age = 19 });
-            oldestStudent.Arrange(() => new Student() { Age = 23 });
-            course.WithParameters(youngestStudent).Act((c, s) => c.Enroll(s));
-            course.WithParameters(oldestStudent).Act((c, s) => c.Enroll(s));
-            course.WithParameters(youngestStudent).Assert.IsTrue((c, s) => c.GetYoungestStudent() == s);
+            test.Arrange(course, Expr(() => new Course()));
+            test.Arrange(youngestStudent, Expr(() => new Student() { Age = 19 }));
+            test.Arrange(oldestStudent, Expr(() => new Student() { Age = 23 }));
+            test.Act(Expr(course, youngestStudent, (c, s) => c.Enroll(s)));
+            test.Act(Expr(course, oldestStudent, (c, s) => c.Enroll(s)));
+            test.Assert.IsTrue(Expr(course, youngestStudent, (c, s) => c.GetYoungestStudent() == s));
 
             test.Execute();
         }
@@ -182,13 +195,12 @@ namespace Lecture_9_Tests
             TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
             TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
 
-            course.Arrange(() => new Course());
-            youngestStudent.Arrange(() => new Student() { Age = 19 });
-            oldestStudent.Arrange(() => new Student() { Age = 23 });
-            course.WithParameters(youngestStudent).Act((c, s) => c.Enroll(s));
-            course.WithParameters(oldestStudent).Act((c, s) => c.Enroll(s));
-            course.WithParameters(oldestStudent).Assert.IsTrue((c, s) => c.GetOldestStudent() == s);
-
+            test.Arrange(course, Expr(() => new Course()));
+            test.Arrange(youngestStudent, Expr(() => new Student() { Age = 19 }));
+            test.Arrange(oldestStudent, Expr(() => new Student() { Age = 23 }));
+            test.Act(Expr(course, youngestStudent, (c, s) => c.Enroll(s)));
+            test.Act(Expr(course, oldestStudent, (c, s) => c.Enroll(s)));
+            test.Assert.IsTrue(Expr(course, oldestStudent, (c, s) => c.GetOldestStudent() == s));
             test.Execute();
         }
 
@@ -200,12 +212,12 @@ namespace Lecture_9_Tests
             TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
             TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
 
-            course.Arrange(() => new Course());
-            youngestStudent.Arrange(() => new Student() { Age = 19 });
-            oldestStudent.Arrange(() => new Student() { Age = 23 });
-            course.WithParameters(youngestStudent).Act((c, s) => c.Enroll(s));
-            course.WithParameters(oldestStudent).Act((c, s) => c.Enroll(s));
-            course.Assert.IsTrue(c => c.GetAverageStudentAge() == 21.0);
+            test.Arrange(course, Expr(() => new Course()));
+            test.Arrange(youngestStudent, Expr(() => new Student() { Age = 19 }));
+            test.Arrange(oldestStudent, Expr(() => new Student() { Age = 23 }));
+            test.Act(Expr(course, youngestStudent, (c, s) => c.Enroll(s)));
+            test.Act(Expr(course, oldestStudent, (c, s) => c.Enroll(s)));
+            test.Assert.AreEqual(Expr(course, youngestStudent, (c, s) => c.GetAverageStudentAge()), Const(21.0)));
 
             test.Execute();
         }

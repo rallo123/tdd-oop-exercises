@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.Integrated;
-using TestTools.Operation;
+using TestTools.StructureTests;
+using TestTools.UnitTests;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
@@ -33,11 +33,11 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>());
-            collection.Act(c => c.Add(3));
-            collection.Act(c => c.Add(5));
-            collection.Act(c => c.Add(2));
-            collection.Assert.IsTrue((c1) => c1.SequenceEqual(new[] { 2, 3, 5 }));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>()));
+            test.Act(Expr(collection, c => c.Add(3)));
+            test.Act(Expr(collection, c => c.Add(5)));
+            test.Act(Expr(collection, c => c.Add(2)));
+            test.Assert.IsTrue(Expr(collection, c => c.SequenceEqual(new[] { 2, 3, 5 })));
 
             test.Execute();
         }
@@ -48,9 +48,9 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
-            collection.Act(c => c.Clear());
-            collection.Assert.IsFalse(c => c.Any());
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
+            test.Act(Expr(collection, c => c.Clear()));
+            test.Assert.IsFalse(Expr(collection, c => c.Any()));
 
             test.Execute();
         }
@@ -61,8 +61,8 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
-            collection.Assert.IsTrue(c => c.Contains(2));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
+            test.Assert.IsTrue(Expr(collection, c => c.Contains(2)));
 
             test.Execute();
         }
@@ -73,8 +73,8 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
-            collection.Assert.IsTrue(c => c.Contains(4));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
+            test.Assert.IsTrue(Expr(collection c => c.Contains(4)));
 
             test.Execute();
         }
@@ -86,10 +86,10 @@ namespace Lecture_9_Tests
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
             TestVariable<int[]> array = test.CreateVariable<int[]>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 2, 3, 5 });
-            array.Arrange(() => new int[3]);
-            collection.WithParameters(array).Act((c, a) => c.CopyTo(a, 0));
-            array.Assert.IsTrue(a => a.SequenceEqual(new[] { 2, 3, 5 }));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 2, 3, 5 }));
+            test.Arrange(array, Expr(() => new int[3]));
+            test.Act(Expr(collection, array, (c, a) => c.CopyTo(a, 0)));
+            test.Assert.IsTrue(Expr(array, a => a.SequenceEqual(new[] { 2, 3, 5 })));
 
             test.Execute();
         }
@@ -100,9 +100,9 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
-            collection.Act(c => c.Remove(1));
-            collection.Assert.IsTrue(c => c.SequenceEqual(new[] { 2, 3 }));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
+            test.Act(Expr(collection, c => c.Remove(1)));
+            test.Assert.IsTrue(Expr(collection, c => c.SequenceEqual(new[] { 2, 3 })));
 
             test.Execute();
         }
@@ -123,8 +123,8 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
-            collection.Assert.IsTrue(c => c[1] == 2);
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
+            test.Assert.AreEqual(Expr(collection, c => c[1]), Const(2)));
 
             test.Execute();
         }
@@ -137,8 +137,8 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
-            collection.Assert.IsTrue(c => c.GetAll().SequenceEqual(new[] { 1, 2, 3 }));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
+            test.Assert.IsTrue(Expr(collection, c => c.GetAll().SequenceEqual(new[] { 1, 2, 3 })));
 
             test.Execute();
         }
@@ -149,8 +149,8 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3 });
-            collection.Assert.IsTrue(c => c.GetAllReversed().SequenceEqual(new[] { 3, 2, 1 }));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
+            test.Assert.IsTrue(Expr(collection, c => c.GetAllReversed().SequenceEqual(new[] { 3, 2, 1 })));
 
             test.Execute();
         }
@@ -163,8 +163,8 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3, 4 });
-            collection.Assert.IsTrue(c => c.GetAll(x => x % 2 == 0).SequenceEqual(new[] { 2, 4 }));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3, 4 }));
+            test.Assert.IsTrue(Expr(collection, c => c.GetAll(x => x % 2 == 0).SequenceEqual(new[] { 2, 4 })));
 
             test.Execute();
         }
@@ -175,8 +175,8 @@ namespace Lecture_9_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
-            collection.Arrange(() => new SortedCollection<int>() { 1, 2, 3, 4 });
-            collection.Assert.IsTrue(c => c.GetAllReversed(x => x % 2 == 0).SequenceEqual(new[] { 4, 2 }));
+            test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3, 4 }));
+            test.Assert.IsTrue(Expr(collection, c => c.GetAllReversed(x => x % 2 == 0).SequenceEqual(new[] { 4, 2 })));
 
             test.Execute();
         }
