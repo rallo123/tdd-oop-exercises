@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Text;
 
-namespace TestTools.UnitTests
+namespace TestTools.Unit
 {
     // based on IFileSystem
     public class TestFileSystem

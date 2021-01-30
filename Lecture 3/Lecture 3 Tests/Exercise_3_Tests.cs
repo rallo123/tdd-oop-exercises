@@ -1,8 +1,8 @@
 ﻿using Lecture_3_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TestTools.StructureTests;
-using TestTools.UnitTests;
+using TestTools.Structure;
+using TestTools.Unit;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_3_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;

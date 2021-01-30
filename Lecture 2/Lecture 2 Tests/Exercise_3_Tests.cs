@@ -2,8 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools;
-using TestTools.UnitTests;
-using TestTools.StructureTests;
+using TestTools.Unit;
+using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_2_Tests.TestHelper;

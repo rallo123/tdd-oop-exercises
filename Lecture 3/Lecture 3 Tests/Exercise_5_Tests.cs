@@ -2,8 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Operation;
-using TestTools.UnitTests;
-using TestTools.StructureTests;
+using TestTools.Unit;
+using TestTools.Structure;
 using static TestTools.Helpers.ExpressionHelper;
 using System.Linq.Expressions;
 using TestTools.Structure;

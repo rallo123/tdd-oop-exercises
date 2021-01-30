@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TestTools.UnitTests;
-using TestTools.StructureTests;
+using TestTools.Unit;
+using TestTools.Structure;
 
 namespace TestTools
 {

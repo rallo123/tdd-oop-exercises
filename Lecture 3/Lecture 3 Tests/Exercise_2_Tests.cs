@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using TestTools.StructureTests;
+using TestTools.Structure;
 using TestTools.Operation;
 using TestTools.Structure;
 using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_3_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
-using TestTools.UnitTests;
+using TestTools.Unit;
 
 namespace Lecture_3_Tests
 {

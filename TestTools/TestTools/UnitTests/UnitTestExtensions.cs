@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestTools.UnitTests
+namespace TestTools.Unit
 {
     public static class UnitTestExtensions
     {

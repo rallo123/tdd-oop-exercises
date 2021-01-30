@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace TestTools.UnitTests
+namespace TestTools.Unit
 {
     public class TestConsole
     {

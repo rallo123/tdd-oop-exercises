@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq.Expressions;
 
-namespace TestTools.UnitTests
+namespace TestTools.Unit
 {
     public class TestExpression
     {

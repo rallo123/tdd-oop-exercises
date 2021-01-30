@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using TestTools.StructureTests;
-using TestTools.UnitTests;
+using TestTools.Structure;
+using TestTools.Unit;
 using Lecture_3_Solutions;
 using static Lecture_3_Tests.TestHelper;
 

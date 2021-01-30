@@ -1,8 +1,8 @@
 ﻿using Lecture_3_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestTools.UnitTests;
+using TestTools.Unit;
 using TestTools;
-using TestTools.StructureTests;
+using TestTools.Structure;
 using static Lecture_3_Tests.TestHelper;
 
 namespace Lecture_3_Tests

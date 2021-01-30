@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq.Expressions;
 using TestTools;
-using TestTools.UnitTests;
+using TestTools.Unit;
 
 namespace Lecture_6_Tests
 {
