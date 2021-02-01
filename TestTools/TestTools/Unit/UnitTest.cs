@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -15,16 +16,13 @@ namespace TestTools.Unit
 
         public DelegateAssertObject DelegateAssert { get; } = new DelegateAssertObject();
 
+        public ConsoleAssertObject ConsoleAssert { get; } = new ConsoleAssertObject();
+
         internal UnitTest()
         {
         }
 
-        public TestConsole CaptureConsole()
-        {
-            throw new NotImplementedException();
-        }
-
-        public TestFileSystem CaptureFileSystem()
+        public TestVariable<IFileSystem> CaptureFileSystem()
         {
             throw new NotImplementedException();
         }
@@ -123,6 +121,19 @@ namespace TestTools.Unit
             }
 
             public void IsNotInvoked<TDelegate>(TestExpression<Action<TDelegate>> subscribe) where TDelegate : Delegate
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class ConsoleAssertObject
+        {
+            public void WritesOut(TestExpression<Action> action, TestExpression<string> writeout)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void WritesErr(TestExpression<Action> action, TestExpression<string> writeout)
             {
                 throw new NotImplementedException();
             }

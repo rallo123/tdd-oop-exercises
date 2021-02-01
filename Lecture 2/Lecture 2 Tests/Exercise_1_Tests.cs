@@ -370,13 +370,13 @@ namespace Lecture_2_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
             TestVariable<PersonPrinter> printer = test.CreateVariable<PersonPrinter>(nameof(printer));
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(person, Expr(() => new Person() { FirstName = "Adam", LastName = "Smith", Age = 36 }));
             test.Arrange(printer, Expr(() => new PersonPrinter()));
-            test.Act(Expr(printer, person, (p1, p2) => p1.PrintPerson(p2)));
-            console.Assert.HasWritten("Adam Smith (36)");
-
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(printer, person, (p1, p2) => p1.PrintPerson(p2))), 
+                Const("Adam Smith (36)"));
+            
             test.Execute();
         }
         #endregion
@@ -396,7 +396,15 @@ namespace Lecture_2_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> person = test.CreateVariable<Person>("person");
             TestVariable<PersonPrinter> printer = test.CreateVariable<PersonPrinter>("printer");
-            TestConsole console = test.CaptureConsole();
+
+            string expectedOutput = string.Join(
+                Environment.NewLine,
+                "Adam Smith (36)",
+                "Robin Rich (10)",
+                "Warren Rich (36)",
+                "Gustav Rich (66)",
+                "Elsa Johnson (65)",
+                "Anna Smith (38)");
 
             test.Arrange(person, Expr(() => 
                 new Person() { 
@@ -425,14 +433,9 @@ namespace Lecture_2_Tests
                     }
                 })
             );
-            test.Act(Expr(printer, person, (p1, p2) => p1.PrintFamily(p2)));
-
-            console.Assert.HasWritten("Adam Smith (36)\n");
-            console.Assert.HasWritten("Robin Rich (10)\n");
-            console.Assert.HasWritten("  Warren Rich (36)\n");
-            console.Assert.HasWritten("    Gustav Rich (66)\n");
-            console.Assert.HasWritten("    Elsa Johnson (65)\n");
-            console.Assert.HasWritten("  Anna Smith (38)\n");
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(printer, person, (p1, p2) => p1.PrintFamily(p2))),
+                Const(expectedOutput));
 
             test.Execute();
         }

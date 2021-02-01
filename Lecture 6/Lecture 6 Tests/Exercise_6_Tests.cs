@@ -12,6 +12,7 @@ using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_6_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
 using System.Linq;
+using System.IO.Abstractions;
 
 namespace Lecture_6_Tests
 {
@@ -67,19 +68,27 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 6E
+        public void FileLoggerAppendsFileSetup()
+        {
+            IFileSystem fs = new FileSystem();
+            fs.File.Create("/log.txt");
+            fs.File.WriteAllText("/log.txt", "Customer Ryan Johnson was created"))
+        }
+
         [TestMethod("b. FileLogger.Log(string message) appends file"), TestCategory("6E")]
         public void FileLoggerAppendsFile()
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<FileLogger> file = test.CreateVariable<FileLogger>();
-            TestFileSystem fileSystem = test.CaptureFileSystem();
-            
-            fileSystem.Act(fs => fs.File.Create("/log.txt"));
-            fileSystem.Act(fs => fs.File.WriteAllText("/log.txt", "Customer Ryan Johnson was created"));
+            TestVariable<IFileSystem> fileSystem = test.CaptureFileSystem();
+
+            FileLoggerAppendsFileSetup();
             test.Arrange(file, Expr(() => new FileLogger("/log.txt")));
             test.Act(Expr(file, l => l.Log("Customer Ryan Johnson was deleted")));
             test.Act(Expr(file, l => l.Dispose()));
-            //fileSystem.Assert.IsTrue(fs.File.ReadAllTest("/log.text") == "Customer Ryan Johnson was Created\n Customer Ryan Johnson was deleted")
+            test.Assert.AreEqual(
+                Expr(fileSystem, fs => fs.File.ReadAllText("/log.text")), 
+                Const("Customer Ryan Johnson was Created\n Customer Ryan Johnson was deleted"));
 
             test.Execute();
         }

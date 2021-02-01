@@ -4,6 +4,7 @@ using TestTools.Structure;
 using TestTools.Unit;
 using Lecture_3_Solutions;
 using static Lecture_3_Tests.TestHelper;
+using static TestTools.Helpers.ExpressionHelper;
 
 namespace Lecture_3_Tests
 {
@@ -29,12 +30,12 @@ namespace Lecture_3_Tests
 
             UnitTest test = Factory.CreateTest();
             TestVariable<FileExplorer> explorer = test.CreateVariable<FileExplorer>();
-            TestConsole console = test.CaptureConsole();
             DirectoryInfo directoryInfo = new DirectoryInfo("../../../");
 
             test.Arrange(explorer, Expr(() => new FileExplorer()));
-            test.Act(Expr(explorer, e => e.PrintDirectory(directoryInfo)));
-            console.Assert.HasWritten(ProduceExpected(directoryInfo));
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(explorer, e => e.PrintDirectory(directoryInfo))), 
+                Const(ProduceExpected(directoryInfo)));
 
             test.Execute();
         }

@@ -31,11 +31,11 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(controller, Expr(() => new ConsoleController()));
-            test.Act(Expr(controller, c => c.HandleInput("Echo Hello world")));
-            console.Assert.HasWrittenLine("Hello world");
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(controller, c => c.HandleInput("Echo Hello world"))),
+                Const("Hello world"));
 
             test.Execute();
         }
@@ -45,11 +45,11 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(controller, Expr(() => new ConsoleController()));
-            test.Act(Expr(controller, c => c.HandleInput("Reverse Hello world")));
-            console.Assert.HasWrittenLine("dlroW olleH");
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(controller, c => c.HandleInput("Reverse Hello world"))),
+                Const("dlroW olleH"));
 
             test.Execute();
         }
@@ -59,11 +59,11 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(controller, Expr(() => new ConsoleController()));
-            test.Act(Expr(controller, c => c.HandleInput("Greet World")));
-            console.Assert.HasWrittenLine("Hello World");
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(controller, c => c.HandleInput("Greet World"))),
+                Const("Hello World"));
 
             test.Execute();
         }
@@ -73,11 +73,11 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(controller, Expr(() => new ConsoleController()));
-            test.Act(Expr(controller, c => c.HandleInput("NonExistentCommand Hello World")));
-            console.Assert.HasWrittenLine("Command NonExistentCommand not found");
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(controller, c => c.HandleInput("NonExistentCommand Hello World"))),
+                Const("Command NonExistentCommand not found"));
 
             test.Execute();
         }
@@ -87,11 +87,11 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(controller, Expr(() => new ConsoleController()));
-            test.Act(Expr(controller, c => c.HandleInput("Greet")));
-            console.Assert.HasWrittenLine("Please provide a command argument");
+            test.ConsoleAssert.WritesOut(
+               Lambda(Expr(controller, c => c.HandleInput("Greet"))),
+               Const("Please provide a command argument"));
 
             test.Execute();
         }
@@ -101,11 +101,11 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(controller, Expr(() => new ConsoleController()));
-            test.Act(Expr(controller, c => c.HandleInput("")));
-            console.Assert.HasWrittenLine("Please provide a command");
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(controller, c => c.HandleInput(""))),
+                Const("Please provide a command"));
 
             test.Execute();
         }
@@ -125,12 +125,12 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(controller, Expr(() => new ConsoleController()));
             test.Act(Expr(controller, (c) => c.AddCommand("SayGoodbye", s => Console.WriteLine(s))));
-            test.Act(Expr(controller, c => c.HandleInput("SayGoodbye World")));
-            console.Assert.HasWrittenLine("Goodbye World");
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(controller, c => c.HandleInput("SayGoodbye World"))),
+                Const("Goodbye World"));
 
             test.Execute();
         }
@@ -149,13 +149,13 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleController> controller = test.CreateVariable<ConsoleController>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(controller, Expr(() => new ConsoleController()));
             test.Act(Expr(controller, c => c.AddCommand("SayGoodbye", s => Console.WriteLine(s))));
             test.Act(Expr(controller, c => c.RemoveCommand("SayGoodbye")));
-            test.Act(Expr(controller, c => c.HandleInput("SayGoodbye World")));
-            console.Assert.HasWrittenLine("Command SayGoodbye not found");
+            test.ConsoleAssert.WritesOut(
+                Lambda(Expr(controller, c => c.HandleInput("SayGoodbye World"))),
+                Const("Command SayGoodbye not found"));
 
             test.Execute();
         }

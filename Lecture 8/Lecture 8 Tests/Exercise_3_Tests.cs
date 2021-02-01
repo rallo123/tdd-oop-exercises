@@ -31,10 +31,9 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(view, Expr(() => new ConsoleView()));
-            console.Act(writer => writer.WriteLine());
+            test.Act(Expr(() => ConsoleInputter.WriteLine()));
             test.Act(Expr(view, v => v.Run()));
 
             test.Execute();
@@ -65,12 +64,11 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(view, Expr(() => new ConsoleView()));
             test.DelegateAssert.IsInvoked(LambdaSubscribe<ConsoleView, InputHandler>("Input"));
-            console.Act(writer => writer.WriteLine("User input"));
-            console.Act(writer => writer.WriteLine());
+            test.Act(Expr(() => ConsoleInputter.WriteLine("User input")));
+            test.Act(Expr(() => ConsoleInputter.WriteLine()));
             test.Act(Expr(view, v => v.Run()));
             test.Execute();
         }
@@ -80,12 +78,12 @@ namespace Lecture_8_Tests
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
-            TestConsole console = test.CaptureConsole();
 
             test.Arrange(view, Expr(() => new ConsoleView()));
             test.DelegateAssert.IsNotInvoked(LambdaSubscribe<ConsoleView, InputHandler>("Input"));
-            console.Act(writer => writer.WriteLine());
+            test.Act(Expr(() => ConsoleInputter.WriteLine()));
             test.Act(Expr(view, v => v.Run()));
+
             test.Execute();
         }
         #endregion

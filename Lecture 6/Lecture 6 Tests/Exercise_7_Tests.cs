@@ -11,6 +11,7 @@ using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_6_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
+using System.IO.Abstractions;
 
 namespace Lecture_6_Tests
 {
@@ -36,15 +37,20 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
+        public void TestFileContentReadsFileContentCorrectlySetup()
+        {
+            IFileSystem fs = new FileSystem();
+            fs.File.Create("/file.txt");
+            fs.File.WriteAllText("/file.txt", "content of file");
+        }
+
         [TestMethod("TestFile.Content reads file content correctly"), TestCategory("7B")]
         public void TestFileContentReadsFileContentCorrectly()
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<TextFile> file = test.CreateVariable<TextFile>();
-            TestFileSystem fileSystem = test.CaptureFileSystem();
 
-            fileSystem.Act(fs => fs.File.Create("/file.txt"));
-            fileSystem.Act(fs => fs.File.WriteAllText("/file.txt", "content of file"));
+            TestFileContentReadsFileContentCorrectlySetup();
             test.Arrange(file, Expr(() => new TextFile("/file.txt")));
             test.Assert.IsTrue(Expr(file, f => f.Content == "content of file"));
 
@@ -61,15 +67,20 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
+        public void TextFileContentEqualsNullAfterDisposableSetup()
+        {
+            IFileSystem fs = new FileSystem();
+            fs.File.Create("/file.txt");
+            fs.File.WriteAllText("/file.txt", "content of file");
+        }
+
         [TestMethod("TextFile.Content equals null after TextFile.Dispose()"), TestCategory("7C")]
         public void TextFileContentEqualsNullAfterDisposable()
         {
             UnitTest test = Factory.CreateTest();
             TestVariable<TextFile> file = test.CreateVariable<TextFile>();
-            TestFileSystem fileSystem = test.CaptureFileSystem();
 
-            fileSystem.Act(fs => fs.File.Create("/file.txt"));
-            fileSystem.Act(fs => fs.File.WriteAllText("/file.txt", "content of file"));
+            TextFileContentEqualsNullAfterDisposableSetup();
             test.Arrange(file, Expr(() => new TextFile("/file.txt")));
             test.Act(Expr(file, f => f.Dispose()));
             test.Assert.IsNotNull(Expr(file, f => f.Content == null));
