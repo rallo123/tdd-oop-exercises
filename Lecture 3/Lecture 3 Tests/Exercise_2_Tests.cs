@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using TestTools.Structure;
 using TestTools.Operation;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_3_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
@@ -309,7 +308,7 @@ namespace Lecture_3_Tests
         public void CompanyCalculateYearlySalaryCostsReturnsZeroForCompanyWithoutEmployees()
         {
             UnitTest test = Factory.CreateTest();
-            TestVariable<Company> company = test.CreateVariable<Company>(nameof());
+            TestVariable<Company> company = test.CreateVariable<Company>(nameof(company));
 
             test.Arrange(company, Expr(() => new Company()));
             test.Assert.AreEqual(Expr(company, c => c.CalculateYearlySalaryCosts()), Const(0M));

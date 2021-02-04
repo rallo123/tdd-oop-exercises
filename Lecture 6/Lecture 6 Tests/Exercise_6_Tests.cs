@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using TestTools.Structure;
 using TestTools.Unit;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_6_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
@@ -72,7 +71,7 @@ namespace Lecture_6_Tests
         {
             IFileSystem fs = new FileSystem();
             fs.File.Create("/log.txt");
-            fs.File.WriteAllText("/log.txt", "Customer Ryan Johnson was created"));
+            fs.File.WriteAllText("/log.txt", "Customer Ryan Johnson was created");
         }
 
         [TestMethod("b. FileLogger.Log(string message) appends file"), TestCategory("6E")]

@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using TestTools.Structure;
 using TestTools.Unit;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_9_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
@@ -74,7 +73,7 @@ namespace Lecture_9_Tests
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
-            test.Assert.IsTrue(Expr(collection c => c.Contains(4)));
+            test.Assert.IsTrue(Expr(collection, c => c.Contains(4)));
 
             test.Execute();
         }
@@ -124,7 +123,7 @@ namespace Lecture_9_Tests
             TestVariable<SortedCollection<int>> collection = test.CreateVariable<SortedCollection<int>>();
 
             test.Arrange(collection, Expr(() => new SortedCollection<int>() { 1, 2, 3 }));
-            test.Assert.AreEqual(Expr(collection, c => c[1]), Const(2)));
+            test.Assert.AreEqual(Expr(collection, c => c[1]), Const(2));
 
             test.Execute();
         }

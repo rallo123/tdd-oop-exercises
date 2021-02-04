@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Structure;
 using TestTools.Unit;
-using TestTools.Structure.Generic;
 using static Lecture_4_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
 

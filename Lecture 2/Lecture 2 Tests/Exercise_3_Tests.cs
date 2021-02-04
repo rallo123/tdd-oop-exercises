@@ -4,7 +4,6 @@ using System;
 using TestTools;
 using TestTools.Unit;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_2_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;

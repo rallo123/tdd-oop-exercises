@@ -1,6 +1,5 @@
 ﻿using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestTools.Structure.Generic;
 using TestTools.Structure;
 using TestTools.Unit;
 using static Lecture_2_Tests.TestHelper;

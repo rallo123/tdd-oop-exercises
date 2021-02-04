@@ -9,13 +9,14 @@ namespace Lecture_7_Solutions
         ILogger _logger;
         List<TEntity> _entities = new List<TEntity>();
 
+        public Repository()
+        {
+        }
+
+
         public Repository(ILogger logger)
         {
             _logger = logger;
-        }
-
-        public Repository()
-        {
         }
 
         public void Add(TEntity entity)
@@ -34,13 +35,13 @@ namespace Lecture_7_Solutions
             return copyOfEntities;
         } 
 
-        public void Update(TEntity oldEntity, TEntity newEntity)
+        public void Update(TEntity entity)
         {
-            bool wasRemoved = _entities.Remove(oldEntity);
-            _entities.Add((TEntity)newEntity.Clone());
+            bool wasRemoved = _entities.Remove(entity);
+            _entities.Add((TEntity)entity.Clone());
 
             if (wasRemoved)
-                _logger?.Log($"{oldEntity} was updated");
+                _logger?.Log($"{entity} was updated");
         }
 
         public void Delete(TEntity entity)

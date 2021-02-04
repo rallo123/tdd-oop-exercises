@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using TestTools.Unit;
 using TestTools.Structure;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
 using static TestTools.Helpers.ExpressionHelper;
 using static Lecture_9_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
@@ -217,7 +216,7 @@ namespace Lecture_9_Tests
             test.Arrange(oldestStudent, Expr(() => new Student() { Age = 23 }));
             test.Act(Expr(course, youngestStudent, (c, s) => c.Enroll(s)));
             test.Act(Expr(course, oldestStudent, (c, s) => c.Enroll(s)));
-            test.Assert.AreEqual(Expr(course, youngestStudent, (c, s) => c.GetAverageStudentAge()), Const(21.0)));
+            test.Assert.AreEqual(Expr(course, youngestStudent, (c, s) => c.GetAverageStudentAge()), Const(21.0));
 
             test.Execute();
         }
