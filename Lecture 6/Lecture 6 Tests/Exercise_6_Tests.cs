@@ -72,7 +72,7 @@ namespace Lecture_6_Tests
         {
             IFileSystem fs = new FileSystem();
             fs.File.Create("/log.txt");
-            fs.File.WriteAllText("/log.txt", "Customer Ryan Johnson was created"))
+            fs.File.WriteAllText("/log.txt", "Customer Ryan Johnson was created"));
         }
 
         [TestMethod("b. FileLogger.Log(string message) appends file"), TestCategory("6E")]
