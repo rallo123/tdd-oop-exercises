@@ -91,7 +91,7 @@ namespace Lecture_3_Tests
             TestVariable<Circle> circle = test.CreateVariable<Circle>(nameof(circle));
 
             test.Arrange(circle, Expr(() => new Circle(new Point(0, 0), -1.0)));
-            test.Assert.AreNotEqual(Expr(circle, c => c.Radius), Const(-1.0));
+            test.Assert.AreNotEqual(Expr(circle, c => c.Radius), Const(-1.0), 0.001);
 
             test.Execute();
         }
@@ -148,7 +148,7 @@ namespace Lecture_3_Tests
 
             Circle orignalCircle = new Circle(new Point(0, 0), 42.3);
             test.Arrange(circle, Expr(() => new Circle(new Point(0, 0), 42.3)));
-            test.Assert.AreEqual(Expr(circle, c => c.CalculateArea()), Const(orignalCircle.CalculateArea()));
+            test.Assert.AreEqual(Expr(circle, c => c.CalculateArea()), Const(orignalCircle.CalculateArea()), 0.001);
 
             test.Execute();
         }
@@ -196,7 +196,7 @@ namespace Lecture_3_Tests
             TestVariable<Rectangle> rectangle = test.CreateVariable<Rectangle>(nameof(rectangle));
 
             test.Arrange(rectangle, Expr(() => new Rectangle(new Point(0, 0), new Point(2, 3))));
-            test.Assert.AreEqual(Expr(rectangle, r => r.CalculateArea()), Const(6.0));
+            test.Assert.AreEqual(Expr(rectangle, r => r.CalculateArea()), Const(6.0), 0.001);
 
             test.Execute();
         }

@@ -103,17 +103,17 @@ namespace TestTools.Unit
                 throw new NotImplementedException();
             }
 
-            public void AreEqual(TestExpression<double> expected, TestExpression<double> actual, float delta)
+            public void AreEqual(TestExpression<double> expected, TestExpression<double> actual, double delta)
             {
                 throw new NotImplementedException();
             }
 
-            public void AreEqual(TestExpression<double> expected, TestExpression<double> actual, float delta, string message)
+            public void AreEqual(TestExpression<double> expected, TestExpression<double> actual, double delta, string message)
             {
                 throw new NotImplementedException();
             }
 
-            public void AreEqual(TestExpression<double> expected, TestExpression<double> actual, float delta, string message, params object[] parameters)
+            public void AreEqual(TestExpression<double> expected, TestExpression<double> actual, double delta, string message, params object[] parameters)
             {
                 throw new NotImplementedException();
             }

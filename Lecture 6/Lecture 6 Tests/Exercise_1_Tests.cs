@@ -86,7 +86,7 @@ namespace Lecture_6_Tests
 
             test.Arrange(temperature, Expr(() => new Temperature()));
             test.Assign(Expr(temperature, t => t.Celcius), Const(-275.15));
-            test.Assert.AreEqual(Expr(temperature, t => t.Kelvin), Const(0.0));
+            test.Assert.AreEqual(Expr(temperature, t => t.Kelvin), Const(0.0), 0.001);
 
             test.Execute();
         }
@@ -99,7 +99,7 @@ namespace Lecture_6_Tests
 
             test.Arrange(temperature, Expr(() => new Temperature()));
             test.Assign(Expr(temperature, t => t.Fahrenheit), Const(-459.67));
-            test.Assert.AreEqual(Expr(temperature, t => t.Kelvin), Const(0.0));
+            test.Assert.AreEqual(Expr(temperature, t => t.Kelvin), Const(0.0), 0.001);
 
             test.Execute();
         }

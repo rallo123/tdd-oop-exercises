@@ -13,9 +13,6 @@ namespace Lecture_2_Tests
         {
             DefaultConfiguration = new UnitTestConfiguration()
             {
-                FloatPrecision = 0.001F,
-                DecimalPrecision = 0.001M,
-                DoublePrecision = 0.001
             }
         };
 

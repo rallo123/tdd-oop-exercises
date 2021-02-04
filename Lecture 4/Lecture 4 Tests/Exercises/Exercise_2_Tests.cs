@@ -85,7 +85,7 @@ namespace Lecture_4_Tests
 
             Person originalPerson = new Person("abc") { Height = 1.80, Weight = 80 };
             test.Arrange(person, Expr(() => new Person("abc") { Height = 1.80, Weight = 80 }));
-            test.Assert.AreEqual(Expr(person, p => p.CalculateBMI()), Const(originalPerson.CalculateBMI()));
+            test.Assert.AreEqual(Expr(person, p => p.CalculateBMI()), Const(originalPerson.CalculateBMI()), 0.001);
 
             test.Execute();
         }
