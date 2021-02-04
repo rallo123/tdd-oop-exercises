@@ -35,5 +35,10 @@ namespace TestTools.Unit
         {
             throw new NotImplementedException();
         }
+
+        public static void IsEventInvoked<T, TDelegate>(this UnitTest.DelegateAssertObject assertObject, TestExpression<T> expression, string eventName) where TDelegate : Delegate
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using TestTools.Structure;
 using TestTools.Unit;
 using TestTools.Structure;
-using static TestTools.Helpers.ExpressionHelper;
+using static TestTools.Unit.TestExpression;
 using static Lecture_9_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
 using System.Collections.Specialized;
@@ -43,7 +43,7 @@ namespace Lecture_9_Tests
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
             test.Arrange(collection, Expr(() => new ObservableCollection<int>()));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            test.DelegateAssert.IsEventInvoked<ObservableCollection<int>, NotifyCollectionChangedEventHandler>(Expr(collection, x => x), "CollectionChanged");
             test.Act(Expr(collection, c => c.Add(5)));
 
             test.Execute();
@@ -56,7 +56,7 @@ namespace Lecture_9_Tests
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
             test.Arrange(collection, Expr(() => new ObservableCollection<int>()));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            test.DelegateAssert.IsEventInvoked<ObservableCollection<int>, NotifyCollectionChangedEventHandler>(Expr(collection, x => x), "CollectionChanged");
             test.Act(Expr(collection, c => c.Clear()));
 
             test.Execute();
@@ -69,7 +69,7 @@ namespace Lecture_9_Tests
             TestVariable<ObservableCollection<int>> collection = test.CreateVariable<ObservableCollection<int>>();
 
             test.Arrange(collection, Expr(() => new ObservableCollection<int>() { 1 }));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<ObservableCollection<int>, NotifyCollectionChangedEventHandler>("CollectionChanged"));
+            test.DelegateAssert.IsEventInvoked<ObservableCollection<int>, NotifyCollectionChangedEventHandler>(Expr(collection, x => x), "CollectionChanged");
             test.Act(Expr(collection, c => c.Remove(1)));
 
             test.Execute();

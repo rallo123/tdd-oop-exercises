@@ -4,9 +4,9 @@ using System;
 using System.Linq.Expressions;
 using TestTools.Unit;
 using TestTools.Structure;
-using static TestTools.Helpers.ExpressionHelper;
 using static TestTools.Helpers.StructureHelper;
 using static Lecture_2_Tests.TestHelper;
+using static TestTools.Unit.TestExpression;
 
 namespace Lecture_2_Tests
 {

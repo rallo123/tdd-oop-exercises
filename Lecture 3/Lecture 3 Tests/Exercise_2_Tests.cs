@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using TestTools.Structure;
 using TestTools.Operation;
 using TestTools.Structure;
-using static TestTools.Helpers.ExpressionHelper;
+using static TestTools.Unit.TestExpression;
 using static Lecture_3_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
 using TestTools.Unit;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TestTools.Unit;
 using TestTools.Structure;
-using static TestTools.Helpers.ExpressionHelper;
+using static TestTools.Unit.TestExpression;
 using static Lecture_7_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
 

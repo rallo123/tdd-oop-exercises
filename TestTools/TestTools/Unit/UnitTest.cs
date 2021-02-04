@@ -41,7 +41,7 @@ namespace TestTools.Unit
 
         public void Arrange<T>(TestVariable<T> variable)
         {
-            Arrange(variable, TestExpression.Create(() => default(T)));
+            Arrange(variable, TestExpression.Expr(() => default(T)));
         }
 
         public void Arrange<T>(TestVariable<T> variable, TestExpression<T> initialization)

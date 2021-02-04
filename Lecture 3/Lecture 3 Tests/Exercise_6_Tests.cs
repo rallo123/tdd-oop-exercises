@@ -4,7 +4,7 @@ using TestTools.Structure;
 using TestTools.Unit;
 using Lecture_3_Solutions;
 using static Lecture_3_Tests.TestHelper;
-using static TestTools.Helpers.ExpressionHelper;
+using static TestTools.Unit.TestExpression;
 
 namespace Lecture_3_Tests
 {

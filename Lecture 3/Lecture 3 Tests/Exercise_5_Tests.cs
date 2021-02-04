@@ -4,7 +4,7 @@ using System;
 using TestTools.Operation;
 using TestTools.Unit;
 using TestTools.Structure;
-using static TestTools.Helpers.ExpressionHelper;
+using static TestTools.Unit.TestExpression;
 using System.Linq.Expressions;
 using TestTools.Structure;
 using static Lecture_3_Tests.TestHelper;
