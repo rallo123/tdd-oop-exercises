@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO.Abstractions;
@@ -476,10 +477,219 @@ namespace TestTools.Unit
         // Based on Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert
         public class CollectionAssertObject
         {
-            public void Contains<T1, T2>(TestExpression<ICollection<T1>> collection, TestExpression<T2> element) where T2 : T1
+            #region AllItemsAreInstancesOfType Overloads
+            public void AllItemsAreInstancesOfType(TestExpression<ICollection> collection, TestExpression<Type> expectedType)
             {
                 throw new NotImplementedException();
             }
+
+            public void AllItemsAreInstancesOfType(TestExpression<ICollection> collection, TestExpression<Type> expectedType, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AllItemsAreInstancesOfType(TestExpression<ICollection> collection, TestExpression<Type> expectedType, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region AllItemsAreNotNull Overloads
+            public void AllItemsAreNotNull(TestExpression<ICollection> collection)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AllItemsAreNotNull(TestExpression<ICollection> collection, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AllItemsAreNotNull(TestExpression<ICollection> collection, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region AllItemsAreUnique Overloads
+            public void AllItemsAreUnique(TestExpression<ICollection> collection)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AllItemsAreUnique(TestExpression<ICollection> collection, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AllItemsAreUnique(TestExpression<ICollection> collection, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region AreEqual Overloads
+            public void AreEqual(TestExpression<ICollection> expected, TestExpression<ICollection> actual)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreEqual(TestExpression<ICollection> expected, TestExpression<ICollection> actual, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreEqual(TestExpression<ICollection> expected, TestExpression<ICollection> actual, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreEqual(TestExpression<ICollection> expected, TestExpression<ICollection> actual, IComparer comparer)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreEqual(TestExpression<ICollection> expected, TestExpression<ICollection> actual, IComparer comparer, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreEqual(TestExpression<ICollection> expected, TestExpression<ICollection> actual, IComparer comparer, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region AreNotEqual Overloads
+            public void AreNotEqual(TestExpression<ICollection> notExpected, TestExpression<ICollection> actual)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreNotEqual(TestExpression<ICollection> notExpected, TestExpression<ICollection> actual, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreNotEqual(TestExpression<ICollection> notExpected, TestExpression<ICollection> actual, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreNotEqual(TestExpression<ICollection> notExpected, TestExpression<ICollection> actual, IComparer comparer)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreNotEqual(TestExpression<ICollection> notExpected, TestExpression<ICollection> actual, IComparer comparer, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreNotEqual(TestExpression<ICollection> notExpected, TestExpression<ICollection> actual, IComparer comparer, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region AreEquivalent Overloads
+            public void AreEquivalent(TestExpression<ICollection> expected, TestExpression<ICollection> actual)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreEquivalent(TestExpression<ICollection> expected, TestExpression<ICollection> actual, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreEquivalent(TestExpression<ICollection> expected, TestExpression<ICollection> actual, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region AreNotEquivalent Overloads
+            public void AreNotEquivalent(TestExpression<ICollection> expected, TestExpression<ICollection> actual)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreNotEquivalent(TestExpression<ICollection> expected, TestExpression<ICollection> actual, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AreNotEquivalent(TestExpression<ICollection> expected, TestExpression<ICollection> actual, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region Contains Overloads
+            public void Contains(TestExpression<ICollection> collection, TestExpression<object> element)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Contains(TestExpression<ICollection> collection, TestExpression<object> element, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Contains(TestExpression<ICollection> collection, TestExpression<object> element, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region DoesNotContain Overloads
+            public void DoesNotContain(TestExpression<ICollection> collection, TestExpression<object> element)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void DoesNotContain(TestExpression<ICollection> collection, TestExpression<object> element, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void DoesNotContain(TestExpression<ICollection> collection, TestExpression<object> element, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region IsSubsetOf Overloads
+            public void IsSubsetOf(TestExpression<ICollection> subset, TestExpression<ICollection> superset) 
+            { 
+                throw new NotImplementedException();
+            }
+            public void IsSubsetOf(TestExpression<ICollection> subset, TestExpression<ICollection> superset, string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IsSubsetOf(TestExpression<ICollection> subset, TestExpression<ICollection> superset, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
+
+            #region IsNotSubsetOf Overloads
+            public void IsNotSubsetOf(TestExpression<ICollection> subset, TestExpression<ICollection> superset)
+            {
+                throw new NotImplementedException();
+            }
+            public void IsNotSubsetOf(TestExpression<ICollection> subset, TestExpression<ICollection> superset, string message)
+            {
+                throw new NotImplementedException();
+            }
+            public void IsNotSubsetOf(TestExpression<ICollection> subset, TestExpression<ICollection> superset, string message, params object[] parameters)
+            {
+                throw new NotImplementedException();
+            }
+            #endregion
         }
 
         public class DelegateAssertObject
