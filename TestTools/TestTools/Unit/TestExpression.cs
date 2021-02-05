@@ -7,7 +7,19 @@ namespace TestTools.Unit
 {
     public class TestExpression
     {
+        Expression Expression { get; }
+
         protected TestExpression()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static TestExpression<T> Add<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static TestExpression<T> AddAssign<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
         {
             throw new NotImplementedException();
         }
@@ -23,12 +35,7 @@ namespace TestTools.Unit
         }
 
         public static TestExpression<T> Const<T>(T value) => Expr(() => value);
-
-        public static TestExpression<TDelegate> Event<TDelegate>(TestExpression<object> expression, string eventName) where TDelegate : Delegate
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public static TestExpression Expr(Expression<Action> expression)
         {
             throw new NotImplementedException();
@@ -89,14 +96,35 @@ namespace TestTools.Unit
             throw new NotImplementedException();
         }
 
-        public static TestExpression Subscribe<TDelegate>(TestExpression<TDelegate> rightSide, TestExpression<TDelegate> leftSide) where TDelegate : Delegate
+        public static TestExpression<T> Subtract<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
         {
             throw new NotImplementedException();
         }
 
-        public static TestExpression UnSubscribe<TDelegate>(TestExpression<TDelegate> rightSide, TestExpression<TDelegate> leftSide) where TDelegate : Delegate
+        public static TestExpression<T> SutractAssign<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
         {
             throw new NotImplementedException();
+        }
+
+        public static TestExpression<T> Var<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static TestVariable<T> Var<T>(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            TestExpression other = obj as TestExpression;
+            return Object.Equals(this.Expression, other?.Expression);
+        }
+
+        public override int GetHashCode()
+        {
+            return Expression.GetHashCode();
         }
     }
 

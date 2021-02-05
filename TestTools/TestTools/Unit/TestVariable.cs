@@ -6,7 +6,7 @@ using System.Text;
 namespace TestTools.Unit
 {
     // For object members
-    public class TestVariable<T>
+    public class TestVariable<T> : TestExpression<T>
     {
         internal TestVariable() {}
     }
