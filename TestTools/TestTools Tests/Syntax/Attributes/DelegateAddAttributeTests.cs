@@ -46,7 +46,7 @@ namespace TestTools_Tests.Syntax.Attributes
             Expression call = Expression.Call(DelegateCombine, field, handler);
             Expression expected = Expression.Assign(field, call);
 
-            Expression actual = new EventAddAttribute("FieldDelegate").Transform(input);
+            Expression actual = new DelegateAddAttribute("FieldDelegate").Transform(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -65,7 +65,7 @@ namespace TestTools_Tests.Syntax.Attributes
             Expression call = Expression.Call(DelegateCombine, property, handler);
             Expression expected = Expression.Assign(property, call);
 
-            Expression actual = new EventAddAttribute("PropertyDelegate").Transform(input);
+            Expression actual = new DelegateAddAttribute("PropertyDelegate").Transform(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -79,7 +79,7 @@ namespace TestTools_Tests.Syntax.Attributes
             // instance.AddNonExistentDelegate(handler);
             Expression input = Expression.Call(instance, FixtureAddNonExistentDelegate, handler);
 
-            EventAddAttribute attribute = new EventAddAttribute("NonExistentDelegate");
+            EventAddAttribute attribute = new DelegateAddAttribute("NonExistentDelegate");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
     }

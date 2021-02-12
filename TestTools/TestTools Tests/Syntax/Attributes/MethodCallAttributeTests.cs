@@ -50,7 +50,7 @@ namespace TestTools_Tests.Syntax
             // instance.ViodMethod()
             Expression expected = Expression.Call(instance, FixtureVoidMethod1);
             
-            Expression actual = new ConstructorCallAttribute().Transform(input);
+            Expression actual = new MethodCallAttribute("VoidMethod").Transform(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -66,7 +66,7 @@ namespace TestTools_Tests.Syntax
             // instance.VoidMethod(5)
             Expression expected = Expression.Call(instance, FixtureVoidMethod2, Expression.Constant(5));
 
-            Expression actual = new ConstructorCallAttribute().Transform(input);
+            Expression actual = new MethodCallAttribute("VoidMethod").Transform(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -79,7 +79,7 @@ namespace TestTools_Tests.Syntax
             // Fixture.CallVoidMethod(5, 5)
             Expression input = Expression.Call(instance, FixtureCallVoidMethod3, Expression.Constant(5), Expression.Constant(5));
 
-            ConstructorCallAttribute attribute = new ConstructorCallAttribute();
+            MethodCallAttribute attribute = new MethodCallAttribute("VoidMethod");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
 
@@ -91,7 +91,7 @@ namespace TestTools_Tests.Syntax
             // Fixture.CallVoidMethodAsInt()
             Expression input = Expression.Call(instance, FixtureCallVoidMethodAsInt);
 
-            ConstructorCallAttribute attribute = new ConstructorCallAttribute();
+            MethodCallAttribute attribute = new MethodCallAttribute("VoidMethod");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
     }

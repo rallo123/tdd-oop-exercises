@@ -45,7 +45,7 @@ namespace TestTools_Tests.Syntax.Attributes
             Expression property = Expression.Property(instance, FixtureProperty);
             Expression expected = Expression.Assign(property, Expression.Constant(5));
 
-            Expression actual = new ConstructorCallAttribute().Transform(input);
+            Expression actual = new PropertySetAttribute("Property").Transform(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -58,7 +58,7 @@ namespace TestTools_Tests.Syntax.Attributes
             // instance.SetNonExistentProperty(5)
             Expression input = Expression.Call(instance, FixtureSetNonExistentProperty, Expression.Constant(5));
 
-            ConstructorCallAttribute attribute = new ConstructorCallAttribute();
+            PropertySetAttribute attribute = new PropertySetAttribute("NonExistentProperty");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
 
@@ -70,7 +70,7 @@ namespace TestTools_Tests.Syntax.Attributes
             // instance.SetReadonlyProperty(5)
             Expression input = Expression.Call(instance, FixtureReadonlyProperty, Expression.Constant(5));
 
-            ConstructorCallAttribute attribute = new ConstructorCallAttribute();
+            PropertySetAttribute attribute = new PropertySetAttribute("ReadonlyProperty");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
     }

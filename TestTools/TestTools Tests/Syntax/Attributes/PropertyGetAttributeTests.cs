@@ -41,7 +41,7 @@ namespace TestTools_Tests.Syntax.Attributes
             // instance.Property
             Expression expected = Expression.Property(instance, FixtureProperty);
 
-            Expression actual = new ConstructorCallAttribute().Transform(input);
+            Expression actual = new PropertyGetAttribute("Property").Transform(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -54,7 +54,7 @@ namespace TestTools_Tests.Syntax.Attributes
             // instance.GetNonExistentProperty()
             Expression input = Expression.Call(instance, FixtureGetNonExistentProperty);
 
-            ConstructorCallAttribute attribute = new ConstructorCallAttribute();
+            PropertyGetAttribute attribute = new PropertyGetAttribute("NonExistentProperty");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
 
@@ -66,7 +66,7 @@ namespace TestTools_Tests.Syntax.Attributes
             // instance.GetWriteonlyProperty()
             Expression input = Expression.Call(instance, FixtureGetWriteonlyProperty);
 
-            ConstructorCallAttribute attribute = new ConstructorCallAttribute();
+            PropertyGetAttribute attribute = new PropertyGetAttribute("ReadonlyProperty");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
     }

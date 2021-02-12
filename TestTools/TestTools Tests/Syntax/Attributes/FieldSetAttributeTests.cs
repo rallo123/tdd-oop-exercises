@@ -15,10 +15,8 @@ namespace TestTools_Tests.Syntax.Attributes
         {
             public int Field;
 
-            [FieldGet("Field")]
             public int SetField(int value) => Field = value;
 
-            [FieldGet("NonExistentField")]
             public int GetNonExistentField() => throw new NotImplementedException();
         }
 
@@ -38,7 +36,7 @@ namespace TestTools_Tests.Syntax.Attributes
             Expression field = Expression.Field(instance, FixtureField);
             Expression expected = Expression.Assign(field, Expression.Constant(5));
 
-            Expression actual = new ConstructorCallAttribute().Transform(input);
+            Expression actual = new FieldSetAttribute("Field").Transform(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -51,7 +49,7 @@ namespace TestTools_Tests.Syntax.Attributes
             // instance.SetNonExistentField(5)
             Expression input = Expression.Call(instance, FixutreSetNonExistentField, Expression.Constant(5));
 
-            ConstructorCallAttribute attribute = new ConstructorCallAttribute();
+            FieldSetAttribute attribute = new FieldSetAttribute("NonExistentField");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
     }
