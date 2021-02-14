@@ -9,7 +9,7 @@ using TestTools.Syntax.Attributes;
 namespace TestTools_Tests.Syntax.Attributes
 {
     [TestClass]
-    class FieldSetAttributeTests
+    public class FieldSetAttributeTests
     {
         class Fixture
         {
