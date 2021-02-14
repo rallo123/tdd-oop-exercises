@@ -79,7 +79,7 @@ namespace TestTools_Tests.Syntax.Attributes
             // instance.AddNonExistentDelegate(handler);
             Expression input = Expression.Call(instance, FixtureAddNonExistentDelegate, handler);
 
-            EventAddAttribute attribute = new DelegateAddAttribute("NonExistentDelegate");
+            DelegateAddAttribute attribute = new DelegateAddAttribute("NonExistentDelegate");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
     }
