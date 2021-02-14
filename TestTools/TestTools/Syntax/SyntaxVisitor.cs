@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace TestTools.Syntax
 {
-    public class SyntaxVisitor
+    public class SyntaxVisitor : ExpressionVisitor
     {
     }
 }
