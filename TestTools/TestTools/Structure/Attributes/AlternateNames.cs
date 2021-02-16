@@ -24,7 +24,7 @@ namespace TestTools.Structure.Attributes
 
         public MemberInfo Translate(Type targetType, MemberInfo member)
         {
-            Verifier.VerifyTypeHasMember(targetType, new string[] { member.Name }.Union(_alternateNames));
+            Verifier.VerifyTypeHasMember(targetType, new string[] { member.Name }.Union(_alternateNames).ToArray());
 
             IEnumerable<MemberInfo> members = targetType.GetMembers().Where(m => m.Name == member.Name || _alternateNames.Contains(m.Name));
             
