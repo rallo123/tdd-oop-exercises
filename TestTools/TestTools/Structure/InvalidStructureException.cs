@@ -3,10 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestTools.Structure.Exceptions
+namespace TestTools.Structure
 {
     public class InvalidStructureException : AssertFailedException
     {
+        public InvalidStructureException(string message) : base(message)
+        {
+
+        }
+
         public InvalidStructureException(string template, params object[] values)
             : base(string.Format(template, values))
         {

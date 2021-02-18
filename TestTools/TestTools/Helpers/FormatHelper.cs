@@ -47,43 +47,76 @@ namespace TestTools.Helpers
             return LiteralRepresentations[type](value);
         }
         
-        public static string FormatList(string[] list)
+        public static string FormatAndList(IEnumerable<string> list)
         {
+            int i = 0; 
+            int count = list.Count();
             StringBuilder builder = new StringBuilder();
-            for(int i = 0; i < list.Length; i++)
+
+            if (count == 1)
+                return list.First();
+
+            foreach(var item in list)
             {
-                builder.Append(list[i]);
-                builder.Append((i < list.Length - 1) ? ", " : " & ");
+                builder.Append(item);
+                builder.Append((i < count - 1) ? ", " : "and ");
             }
             return builder.ToString();
         }
 
-        public static string FormatMemberModifier(MemberModifiers modifier)
+        public static string FormatOrList(IEnumerable<string> list)
         {
-            return modifier.ToString().ToLower();
+            int i = 0;
+            int count = list.Count();
+            StringBuilder builder = new StringBuilder();
+
+            if (count == 1)
+                return list.First();
+
+            foreach (var item in list)
+            {
+                builder.Append(item);
+                builder.Append((i < count - 1) ? ", " : "or ");
+            }
+            return builder.ToString();
         }
 
-        public static string FormatMethodAccess(Type classType, MethodRequirements options)
+        public static string FormatAccessLevel(AccessLevels accessLevel)
         {
-            return options.Name + "(" + FormatParameters(options.Parameters) + ")";
+            switch (accessLevel)
+            {
+                case AccessLevels.Private:
+                    return "private";
+                case AccessLevels.Protected:
+                    return "protected";
+                case AccessLevels.Public:
+                    return "public";
+                case AccessLevels.InternalPrivate:
+                    return "internal private";
+                case AccessLevels.InternalProtected:
+                    return "internal protected";
+                case AccessLevels.InternalPublic:
+                    return "internal public";
+                default: throw new NotImplementedException();
+            }
         }
 
-        public static string FormatMethodDeclaration(MethodRequirements options)
+        public static string FormatMethod(MethodInfo methodInfo)
         {
-            return FormatType(options.ReturnType) + " " + options.Name + "(" + FormatParameters(options.Parameters) + ")";
-        }
-        
-        public static string FormatConstructorDeclaration(Type classType,  ConstructorRequirements options)
-        {
-            return FormatType(classType) + "(" + FormatParameters(options.Parameters) + ")";
+            return methodInfo.Name + "(" + FormatParameters(methodInfo.GetParameters()) + ")";
         }
 
-        private static string FormatParameters(ParameterOptions[] parameters)
+        public static string FormatConstructor(ConstructorInfo constructorInfo)
+        {
+            return FormatType(constructorInfo.DeclaringType) + "(" + FormatParameters(constructorInfo.GetParameters()) + ")";
+        }
+
+        private static string FormatParameters(ParameterInfo[] parameters)
         {
             StringBuilder builder = new StringBuilder();
 
             int i = 0; 
-            foreach(ParameterOptions parameter in parameters)
+            foreach(ParameterInfo parameter in parameters)
             {
                 if (i != 0)
                     builder.Append(", ");
@@ -153,16 +186,6 @@ namespace TestTools.Helpers
                 return BuiltinTypes[type];
 
             else return type.Name;
-        }
-
-        public static string FormatDefinitionChain(IElement definition)
-        {
-            string prefix = "";
-
-            if (definition.PreviousElement != null)
-                prefix += ".";
-
-            return prefix + definition.Name;
         }
     }
 }
