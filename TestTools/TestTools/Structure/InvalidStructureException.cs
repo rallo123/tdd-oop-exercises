@@ -11,10 +11,5 @@ namespace TestTools.Structure
         {
 
         }
-
-        public InvalidStructureException(string template, params object[] values)
-            : base(string.Format(template, values))
-        {
-        }
     }
 }

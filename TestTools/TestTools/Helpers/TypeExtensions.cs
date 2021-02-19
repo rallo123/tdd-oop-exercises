@@ -11,5 +11,10 @@ namespace TestTools.Helpers
         {
             return type.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
         }
+
+        public static bool IsStatic(this Type type)
+        {
+            return type.IsAbstract && type.IsSealed;
+        }
     }
 }
