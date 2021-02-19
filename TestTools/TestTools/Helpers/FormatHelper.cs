@@ -137,25 +137,6 @@ namespace TestTools.Helpers
             return memberType.ToString().ToLower();
         }
 
-        public static string FormatMemberType(Type memberType)
-        {
-            if (memberType == null)
-                throw new ArgumentNullException(nameof(memberType));
-            if (memberType.IsSubclassOf(memberType))
-                throw new ArgumentException($"Type {memberType.Name} is not subtype of MemberInfo");
-
-            if (TypeHelper.IsType(typeof(FieldInfo), memberType))
-                return "field";
-            if (TypeHelper.IsType(typeof(PropertyInfo), memberType))
-                return "property";
-            if (TypeHelper.IsType(typeof(MethodInfo), memberType))
-                return "method";
-            if (TypeHelper.IsType(typeof(ConstructorInfo), memberType))
-                return "constructor";
-
-            throw new NotImplementedException("Unknown MemberInfo type");
-        }
-
         public static string FormatType(Type type)
         {
             if (type == null)
