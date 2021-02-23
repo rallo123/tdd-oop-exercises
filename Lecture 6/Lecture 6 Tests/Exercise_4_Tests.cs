@@ -21,7 +21,7 @@ namespace Lecture_6_Tests
         public void DieConstructorTakesIRandom()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<IRandom, Die>(r => new Die(r), IsPublicConstructor);
+            test.AssertPublicConstructor<IRandom, Die>(r => new Die(r));
             test.Execute();
         }
         #endregion
@@ -31,7 +31,7 @@ namespace Lecture_6_Tests
         public void DieConstructorTakesIRandomAndInt()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<IRandom, int, Die>((r, s) => new Die(r, s), IsPublicConstructor);
+            test.AssertPublicConstructor<IRandom, int, Die>((r, s) => new Die(r, s));
             test.Execute();
         }
         #endregion

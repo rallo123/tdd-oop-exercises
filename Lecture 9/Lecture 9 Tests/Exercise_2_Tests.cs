@@ -21,7 +21,7 @@ namespace Lecture_9_Tests
         public void StudentIDIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Student, int>(s => s.ID, IsPublicProperty);
+            test.AssertPublicProperty<Student, int>(s => s.ID);
             test.Execute();
         }
 
@@ -29,7 +29,7 @@ namespace Lecture_9_Tests
         public void StudentFirstNameIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Student, string>(s => s.FirstName, IsPublicProperty);
+            test.AssertPublicProperty<Student, string>(s => s.FirstName);
             test.Execute();
         }
 
@@ -37,7 +37,7 @@ namespace Lecture_9_Tests
         public void StudentLastNameIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Student, string>(s => s.LastName, IsPublicProperty);
+            test.AssertPublicProperty<Student, string>(s => s.LastName);
             test.Execute();
         }
 
@@ -45,7 +45,7 @@ namespace Lecture_9_Tests
         public void StudentAgeIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Student, int>(s => s.Age, IsPublicProperty);
+            test.AssertPublicProperty<Student, int>(s => s.Age);
             test.Execute();
         }
         #endregion
@@ -55,7 +55,7 @@ namespace Lecture_9_Tests
         public void CourseStudentIsAReadonlyProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Course, IEnumerable<Student>>(c => c.Students, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Course, IEnumerable<Student>>(c => c.Students);
             test.Execute();
         }
 
@@ -63,7 +63,7 @@ namespace Lecture_9_Tests
         public void CourseEnrollIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Course, Student>((c, s) => c.Enroll(s), IsPublicMethod);
+            test.AssertPublicMethod<Course, Student>((c, s) => c.Enroll(s));
             test.Execute();
         }
 
@@ -71,7 +71,7 @@ namespace Lecture_9_Tests
         public void CourseDisenrollIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Course, Student>((c, s) => c.Disenroll(s), IsPublicMethod);
+            test.AssertPublicMethod<Course, Student>((c, s) => c.Disenroll(s));
             test.Execute();
         }
 
@@ -125,7 +125,7 @@ namespace Lecture_9_Tests
         public void CourseGetStudentByIDIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Course, int, Student>((c, i) => c.GetStudentByID(i), IsPublicMethod);
+            test.AssertPublicMethod<Course, int, Student>((c, i) => c.GetStudentByID(i));
             test.Execute();
         }
 
@@ -133,7 +133,7 @@ namespace Lecture_9_Tests
         public void CourseGetYoungestStudentIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Course, Student>(c => c.GetYoungestStudent(), IsPublicMethod);
+            test.AssertPublicMethod<Course, Student>(c => c.GetYoungestStudent());
             test.Execute();
         }
 
@@ -141,7 +141,7 @@ namespace Lecture_9_Tests
         public void CourseGetOldestStudentIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Course, Student>(c => c.GetOldestStudent(), IsPublicMethod);
+            test.AssertPublicMethod<Course, Student>(c => c.GetOldestStudent());
             test.Execute();
         }
 
@@ -149,7 +149,7 @@ namespace Lecture_9_Tests
         public void CourseGetAverageStudentAgeIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Course, double>(c => c.GetAverageStudentAge(), IsPublicMethod);
+            test.AssertPublicMethod<Course, double>(c => c.GetAverageStudentAge());
             test.Execute();
         }
 

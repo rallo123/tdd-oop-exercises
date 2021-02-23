@@ -21,7 +21,7 @@ namespace Lecture_9_Tests
         public void ProductIDISAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Product, int>(s => s.ID, IsPublicProperty);
+            test.AssertPublicProperty<Product, int>(s => s.ID);
             test.Execute();
         }
 
@@ -29,7 +29,7 @@ namespace Lecture_9_Tests
         public void ProductTitleIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Product, string>(s => s.Name, IsPublicProperty);
+            test.AssertPublicProperty<Product, string>(s => s.Name);
             test.Execute();
         }
 
@@ -37,7 +37,7 @@ namespace Lecture_9_Tests
         public void ProductCategoryIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Product, string>(s => s.Category, IsPublicProperty);
+            test.AssertPublicProperty<Product, string>(s => s.Category);
             test.Execute();
         }
 
@@ -45,7 +45,7 @@ namespace Lecture_9_Tests
         public void StudentAgeIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Product, decimal>(s => s.Price, IsPublicProperty);
+            test.AssertPublicProperty<Product, decimal>(s => s.Price);
             test.Execute();
         }
 
@@ -111,7 +111,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryAddIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, Product>((r, p) => r.Add(p), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, Product>((r, p) => r.Add(p));
             test.Execute();
         }
 
@@ -119,7 +119,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryUpdateIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, Product>((r, p) => r.Update(p), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, Product>((r, p) => r.Update(p));
             test.Execute();
         }
 
@@ -127,7 +127,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryDeleteIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, Product>((r, p) => r.Update(p), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, Product>((r, p) => r.Update(p));
             test.Execute();
         }
         #endregion
@@ -137,7 +137,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryImplementsIEnumerable()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<ProductRepository>(HasClassImplementedInterface(typeof(IEnumerable<Product>)));
+            test.AssertClass<ProductRepository>(new TypeIsSubclassOfVerifier(typeof(IEnumerable<Product>)));
             test.Execute();
         }
 
@@ -211,7 +211,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetProductByIDIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, int, Product>((r, i) => r.GetProductByID(i), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, int, Product>((r, i) => r.GetProductByID(i));
             test.Execute();
         }
 
@@ -219,7 +219,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetLeastExpensiveProductIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, Product>(r => r.GetLeastExpensiveProduct(), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, Product>(r => r.GetLeastExpensiveProduct());
             test.Execute();
         }
 
@@ -227,7 +227,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetMostExpensiveProductIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, Product>(r => r.GetMostExpensiveProduct(), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, Product>(r => r.GetMostExpensiveProduct());
             test.Execute();
         }
 
@@ -235,7 +235,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetAverageProductPriceIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, decimal>(r => r.GetAverageProductPrice(), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, decimal>(r => r.GetAverageProductPrice());
             test.Execute();
         }
 
@@ -243,7 +243,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetProductsInCategoryIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, string, IEnumerable<Product>>((r, s) => r.GetProductsInCategory(s), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, string, IEnumerable<Product>>((r, s) => r.GetProductsInCategory(s));
             test.Execute();
         }
 
@@ -251,7 +251,7 @@ namespace Lecture_9_Tests
         public void ProductRepositoryGetProductCategoriesIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ProductRepository, IEnumerable<string>>(r => r.GetProductCategories(), IsPublicMethod);
+            test.AssertPublicMethod<ProductRepository, IEnumerable<string>>(r => r.GetProductCategories());
             test.Execute();
         }
 

@@ -54,7 +54,7 @@ namespace Lecture_4_Tests
         public void PersonAgeIsPublicIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, int>(p => p.Age, IsPublicProperty);
+            test.AssertPublicProperty<Person, int>(p => p.Age);
             test.Execute();
         }
 

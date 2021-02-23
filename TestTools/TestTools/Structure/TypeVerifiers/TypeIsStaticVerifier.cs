@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TestTools.Helpers;
 
-namespace TestTools.Structure.TypeVerifiers
+namespace TestTools.Structure
 {
-    public class UnchangedAccessLevelVerifier : ITypeVerifier
+    public class TypeIsStaticVerifier : ITypeVerifier
     {
+        bool _isStatic;
+
+        public TypeIsStaticVerifier(bool isStatic = true)
+        {
+            _isStatic = isStatic;
+        }
+
         public StructureVerifier Verifier { get; set; }
         public ITypeTranslator TypeTranslator { get; set; }
         public TypeVerificationAspect[] Aspects => new[] { TypeVerificationAspect.AccessLevel };
 
         public void Verify(Type originalType, Type translatedType)
         {
-            AccessLevels accessLevel = ReflectionHelper.GetAccessLevel(originalType);
-            Verifier.VerifyAccessLevel(translatedType, new[] { accessLevel });
+            Verifier.VerifyIsStatic(translatedType, _isStatic);
         }
     }
 }

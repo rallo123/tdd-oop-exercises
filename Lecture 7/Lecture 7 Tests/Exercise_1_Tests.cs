@@ -22,8 +22,8 @@ namespace Lecture_7_Tests
         public void FstIsPublicReadOnlyT1Property()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertField<Pair<string, int>, string>(p => p.Fst, IsPublicReadOnlyField); 
-            test.AssertField<Pair<double, int>, double>(p => p.Fst, IsPublicReadOnlyField);
+            test.AssertPublicReadonlyField<Pair<string, int>, string>(p => p.Fst); 
+            test.AssertPublicReadonlyField<Pair<double, int>, double>(p => p.Fst);
             test.Execute();
         }
 
@@ -31,8 +31,8 @@ namespace Lecture_7_Tests
         public void SndIsPublicReadOnlyT2Property()
         {
             StructureTest test = Factory.CreateStructureTest(); 
-            test.AssertField<Pair<string, int>, int>(p => p.Snd, IsPublicReadOnlyField);
-            test.AssertField<Pair<string, double>, double>(p => p.Snd, IsPublicReadOnlyField);
+            test.AssertPublicReadonlyField<Pair<string, int>, int>(p => p.Snd);
+            test.AssertPublicReadonlyField<Pair<string, double>, double>(p => p.Snd);
             test.Execute();
         }
         #endregion
@@ -42,8 +42,8 @@ namespace Lecture_7_Tests
         public void PairHasCorrectConstructor()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<string, int, Pair<string, int>>((v1, v2) => new Pair<string, int>(v1, v2), IsPublicConstructor);
-            test.AssertConstructor<string, double, Pair<string, double>>((v1, v2) => new Pair<string, double>(v1, v2), IsPublicConstructor);
+            test.AssertPublicConstructor<string, int, Pair<string, int>>((v1, v2) => new Pair<string, int>(v1, v2));
+            test.AssertPublicConstructor<string, double, Pair<string, double>>((v1, v2) => new Pair<string, double>(v1, v2));
             test.Execute();
         }
 
@@ -77,8 +77,8 @@ namespace Lecture_7_Tests
         public void PairSwapIsPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Pair<string, int>, Pair<int, string>>(p => p.Swap(), IsPublicMethod);
-            test.AssertMethod<Pair<string, double>, Pair<double, string>>(p => p.Swap(), IsPublicMethod);
+            test.AssertPublicMethod<Pair<string, int>, Pair<int, string>>(p => p.Swap());
+            test.AssertPublicMethod<Pair<string, double>, Pair<double, string>>(p => p.Swap());
             test.Execute();
         }
         
@@ -103,7 +103,7 @@ namespace Lecture_7_Tests
         public void PairSetFstIsPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Pair<string, int>, double, Pair<double, int>>((p, d) => p.SetFst(d), IsPublicMethod);
+            test.AssertPublicMethod<Pair<string, int>, double, Pair<double, int>>((p, d) => p.SetFst(d));
             test.Execute();
         }
 
@@ -111,7 +111,7 @@ namespace Lecture_7_Tests
         public void PairSetSndIsPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Pair<string, int>, double, Pair<string, double>>((p, d) => p.SetSnd(d), IsPublicMethod);
+            test.AssertPublicMethod<Pair<string, int>, double, Pair<string, double>>((p, d) => p.SetSnd(d));
             test.Execute();
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace TestTools.Structure.MemberVerifiers
+namespace TestTools.Structure
 {
     public abstract class MemberVerifier : IMemberVerifier
     {

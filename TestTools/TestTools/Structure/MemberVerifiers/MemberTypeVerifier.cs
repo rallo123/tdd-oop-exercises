@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace TestTools.Structure.MemberVerifiers
+namespace TestTools.Structure
 {
     public class MemberTypeVerifier : MemberVerifier
     {
         MemberTypes[] _memberTypes;
+
+        public MemberTypeVerifier(MemberTypes memberType) : this(new[] { memberType })
+        {
+        }
 
         public MemberTypeVerifier(MemberTypes[] memberTypes)
         {

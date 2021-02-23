@@ -21,7 +21,7 @@ namespace Lecture_6_Tests
         public void TemperatureCelciusIsPublicDoubleProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Temperature, double>(t => t.Celcius, IsPublicProperty);
+            test.AssertPublicProperty<Temperature, double>(t => t.Celcius);
             test.Execute();
         }
 
@@ -29,7 +29,7 @@ namespace Lecture_6_Tests
         public void TemperatureFahrenheitIsPublicDoubleProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Temperature, double>(t => t.Fahrenheit, IsPublicProperty);
+            test.AssertPublicProperty<Temperature, double>(t => t.Fahrenheit);
             test.Execute();
         }
 
@@ -37,7 +37,7 @@ namespace Lecture_6_Tests
         public void TemperatureKelvinIsPublicDoubleProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Temperature, double>(t => t.Kelvin, IsPublicProperty);
+            test.AssertPublicProperty<Temperature, double>(t => t.Kelvin);
             test.Execute();
         }
 

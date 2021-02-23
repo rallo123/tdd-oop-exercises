@@ -21,7 +21,7 @@ namespace Lecture_8_Tests
         public void ConsoleViewRunIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ConsoleView>(v => v.Run(), IsPublicMethod);
+            test.AssertPublicMethod<ConsoleView>(v => v.Run());
             test.Execute();
         }
 
@@ -44,7 +44,7 @@ namespace Lecture_8_Tests
         public void InputHandlerIsPublicDelegate()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertDelegate<InputHandler, Action<string>>(IsPublicDelegate);
+            test.AssertPublicDelegate<InputHandler, Action<string>>();
             test.Execute();
         }
         #endregion
@@ -54,7 +54,10 @@ namespace Lecture_8_Tests
         public void ConsoleViewInputIsPublicEvent()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertEvent<ConsoleView, InputHandler>(GetEventInfo<BankAccount>("Input"), IsPublicEvent);
+            test.AssertEvent(
+                typeof(BankAccount).GetEvent("Input"),
+                new MemberAccessLevelVerifier(AccessLevels.Public),
+                new EventHandlerTypeVerifier(typeof(InputHandler)));
             test.Execute();
         }
 

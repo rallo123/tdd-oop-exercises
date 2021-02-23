@@ -13,5 +13,6 @@ namespace TestTools.Structure
         public static TypeVerificationAspect AccessLevel { get; } = new TypeVerificationAspect();
         public static TypeVerificationAspect IsAbstract { get; } = new TypeVerificationAspect();
         public static TypeVerificationAspect IsStatic { get; } = new TypeVerificationAspect();
+        public static TypeVerificationAspect IsSubclassOf { get; } = new TypeVerificationAspect();
     }
 }

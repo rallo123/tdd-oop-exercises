@@ -21,7 +21,7 @@ namespace Lecture_6_Tests
         public void CarIDIsPublicReadOnlyIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Car, int>(c => c.ID, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Car, int>(c => c.ID);
             test.Execute();
         }
 
@@ -45,7 +45,7 @@ namespace Lecture_6_Tests
         public void CarMakeIsPublicReadOnlyStringProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Car, string>(c => c.Make, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Car, string>(c => c.Make);
             test.Execute();
         }
 
@@ -53,7 +53,7 @@ namespace Lecture_6_Tests
         public void CarModelIsPublicReadOnlyStringProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Car, string>(c => c.Model, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Car, string>(c => c.Model);
             test.Execute();
         }
 
@@ -61,7 +61,7 @@ namespace Lecture_6_Tests
         public void CarPriceIsPublicDecimalReadOnlyProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Car, decimal>(c => c.Price, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Car, decimal>(c => c.Price);
             test.Execute();
         }
 
@@ -107,7 +107,9 @@ namespace Lecture_6_Tests
         public void CarImplementsIcomparable()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Car>(t => t.GetInterface("IComparable") != null);
+            test.AssertClass<Car>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeIsSubclassOfVerifier(typeof(IComparable)));
             test.Execute();
         }
 
@@ -142,7 +144,9 @@ namespace Lecture_6_Tests
         public void CarPriceComparerImplementsIComparerCar()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<CarPriceComparer>(t => t.GetInterface("IComparer<Car>") != null);
+            test.AssertClass<CarPriceComparer>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeIsSubclassOfVerifier(typeof(IComparer<Car>)));
             test.Execute();
         }
 
@@ -197,7 +201,9 @@ namespace Lecture_6_Tests
         public void Test2E1()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<CarMakeModelPriceComparer>(t => t.GetInterface("IComparer<Car>") != null);
+            test.AssertClass<CarMakeModelPriceComparer>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeIsSubclassOfVerifier(typeof(IComparer<Car>)));
             test.Execute();
         }
 

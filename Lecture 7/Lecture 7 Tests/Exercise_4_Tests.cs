@@ -19,7 +19,7 @@ namespace Lecture_7_Tests
         public void RepositoryHasPublicDefaultConstructor()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<Repository<ICloneable>>(() => new Repository<ICloneable>(), IsPublicConstructor);
+            test.AssertPublicConstructor<Repository<ICloneable>>(() => new Repository<ICloneable>());
             test.Execute();
         }
 
@@ -27,7 +27,7 @@ namespace Lecture_7_Tests
         public void RepositoryHasPublicDefaultConstructorThatTakesILogger()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<ILogger, Repository<ICloneable>>(l => new Repository<ICloneable>(l), IsPublicConstructor);
+            test.AssertPublicConstructor<ILogger, Repository<ICloneable>>(l => new Repository<ICloneable>(l));
             test.Execute();
         }
         #endregion

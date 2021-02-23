@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using TestTools.Unit;
 using TestTools.Structure;
-using TestTools.Structure;
 using static TestTools.Unit.TestExpression;
 using static Lecture_8_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
@@ -21,7 +20,7 @@ namespace Lecture_8_Tests
         public void ArrayHelperIsAnStaticClass()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass(typeof(ArrayHelper), IsStaticClass);
+            test.AssertType(typeof(ArrayHelper), new TypeIsStaticVerifier());
             test.Execute();
         }
 
@@ -29,8 +28,10 @@ namespace Lecture_8_Tests
         public void ArrayHelperFilterIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertStaticMethod<int[], Predicate<int>, int[]>((array, p) => ArrayHelper.Filter(array, p), IsPublicMethod);
-            test.AssertStaticMethod<double[], Predicate<double>, double[]>((array, p) => ArrayHelper.Filter(array, p), IsPublicMethod);
+            test.AssertStaticMethod<int[], Predicate<int>, int[]>(
+                (array, p) => ArrayHelper.Filter(array, p), 
+                new MemberAccessLevelVerifier(AccessLevels.Public));
+            test.AssertStaticMethod<double[], Predicate<double>, double[]>((array, p) => ArrayHelper.Filter(array, p));
             test.Execute();
         }
 
@@ -38,8 +39,10 @@ namespace Lecture_8_Tests
         public void ArrayHelperMapIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertStaticMethod<int[], Func<int, double>, double[]>((array, f) => ArrayHelper.Map(array, f), IsPublicMethod);
-            test.AssertStaticMethod<double[], Func<double, int>, int[]>((array, f) => ArrayHelper.Map(array, f), IsPublicMethod);
+            test.AssertStaticMethod<int[], Func<int, double>, double[]>(
+                (array, f) => ArrayHelper.Map(array, f), 
+                new MemberAccessLevelVerifier(AccessLevels.Public));
+            test.AssertStaticMethod<double[], Func<double, int>, int[]>((array, f) => ArrayHelper.Map(array, f));
             test.Execute();
         }
 
@@ -47,8 +50,10 @@ namespace Lecture_8_Tests
         public void ArrayHelperSortIsPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertStaticMethod<string[], Func<string, string, int>>((array, c) => ArrayHelper.Sort(array, c), IsPublicMethod);
-            test.AssertStaticMethod<double[], Func<double, double, int>>((array, c) => ArrayHelper.Sort(array, c), IsPublicMethod);
+            test.AssertStaticMethod<string[], Func<string, string, int>>(
+                (array, c) => ArrayHelper.Sort(array, c), 
+                new MemberAccessLevelVerifier(AccessLevels.Public));
+            test.AssertStaticMethod<double[], Func<double, double, int>>((array, c) => ArrayHelper.Sort(array, c));
             test.Execute();
         }
 
@@ -56,8 +61,10 @@ namespace Lecture_8_Tests
         public void ArrayHelperFindIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertStaticMethod<int[], Predicate<int>, int>((array, p) => ArrayHelper.Find(array, p), IsPublicMethod);
-            test.AssertStaticMethod<double[], Predicate<double>, double>((array, p) => ArrayHelper.Find(array, p), IsPublicMethod);
+            test.AssertStaticMethod<int[], Predicate<int>, int>(
+                (array, p) => ArrayHelper.Find(array, p), 
+                new MemberAccessLevelVerifier(AccessLevels.Public));
+            test.AssertStaticMethod<double[], Predicate<double>, double>((array, p) => ArrayHelper.Find(array, p));
             test.Execute();
         }
 
@@ -65,8 +72,10 @@ namespace Lecture_8_Tests
         public void ArrayContainsIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertStaticMethod<int[], Predicate<int>, bool>((array, c) => ArrayHelper.Contains(array, c), IsPublicMethod);
-            test.AssertStaticMethod<double[], Predicate<double>, bool>((array, c) => ArrayHelper.Contains(array, c), IsPublicMethod);
+            test.AssertStaticMethod<int[], Predicate<int>, bool>(
+                (array, c) => ArrayHelper.Contains(array, c),
+                new MemberAccessLevelVerifier(AccessLevels.Public));
+            test.AssertStaticMethod<double[], Predicate<double>, bool>((array, c) => ArrayHelper.Contains(array, c));
             test.Execute();
         }
 

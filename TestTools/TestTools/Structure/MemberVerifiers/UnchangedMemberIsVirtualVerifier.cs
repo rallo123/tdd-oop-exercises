@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace TestTools.Structure.MemberVerifiers
+namespace TestTools.Structure
 {
-    public class UnchangedIsVirtualVerifier : MemberVerifier
+    public class UnchangedMemberIsVirtualVerifier : MemberVerifier
     {
         public override MemberVerificationAspect[] Aspect => new[] {
             MemberVerificationAspect.PropertyGetIsVirtual,

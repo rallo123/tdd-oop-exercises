@@ -22,7 +22,7 @@ namespace Lecture_9_Tests
         public void ObservableCollectionImplementsICollection()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<ObservableCollection<int>>(HasClassImplementedInterface(typeof(ICollection<int>)));
+            test.AssertClass<ObservableCollection<int>>(new TypeIsSubclassOfVerifier(typeof(ICollection<int>)));
             test.Execute();
         }
         #endregion
@@ -32,7 +32,7 @@ namespace Lecture_9_Tests
         public void ObservableCollectionImplementsINotifyCollectionChanged()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<ObservableCollection<int>>(HasClassImplementedInterface(typeof(INotifyCollectionChanged)));
+            test.AssertClass<ObservableCollection<int>>(new TypeIsSubclassOfVerifier(typeof(INotifyCollectionChanged)));
             test.Execute();
         }
 

@@ -36,6 +36,32 @@ namespace TestTools.Structure
             throw new InvalidStructureException(message);
         }
 
+        public virtual void VerifyAccessLevel(EventInfo eventInfo, AccessLevels[] accessLevels, bool AddMethod = false, bool RemoveMethod = false)
+        {
+            string message;
+
+            if (AddMethod && !accessLevels.Contains(ReflectionHelper.GetAccessLevel(eventInfo.AddMethod)))
+            {
+                message = string.Format(
+                    "{0}.{1} add accessor is not {2}",
+                    FormatHelper.FormatType(eventInfo.AddMethod.DeclaringType),
+                    eventInfo.Name,
+                    FormatHelper.FormatOrList(accessLevels.Select(FormatHelper.FormatAccessLevel)));
+
+                throw new InvalidStructureException(message);
+            }
+            else if (RemoveMethod && !accessLevels.Contains(ReflectionHelper.GetAccessLevel(eventInfo.RemoveMethod)))
+            {
+                message = string.Format(
+                    "{0}.{1} set accessor is not {2}",
+                    FormatHelper.FormatType(eventInfo.RemoveMethod.DeclaringType),
+                    eventInfo.Name,
+                    FormatHelper.FormatOrList(accessLevels.Select(FormatHelper.FormatAccessLevel)));
+
+                throw new InvalidStructureException(message);
+            }
+        }
+
         public virtual void VerifyAccessLevel(FieldInfo fieldInfo, AccessLevels[] accessLevels)
         {
             if (accessLevels.Contains(ReflectionHelper.GetAccessLevel(fieldInfo)))
@@ -152,7 +178,22 @@ namespace TestTools.Structure
                 throw new InvalidStructureException(message);
             }
         }
-        
+
+
+        public virtual void VerifyEventHandlerType(EventInfo eventInfo, Type type)
+        {
+            if (eventInfo.EventHandlerType == type)
+                return;
+
+            string message = string.Format(
+                "{0}.{1} is not of type {2}",
+                FormatHelper.FormatType(eventInfo.DeclaringType),
+                eventInfo.Name,
+                FormatHelper.FormatType(type));
+
+            throw new InvalidStructureException(message);
+        }
+
         public virtual void VerifyFieldType(FieldInfo fieldInfo, Type type)
         {
             if (fieldInfo.FieldType == type)

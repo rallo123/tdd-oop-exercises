@@ -70,7 +70,7 @@ namespace Lecture_3_Tests
         public void NameIsPublicStringProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Employee, string>(e => e.Name, IsPublicProperty);
+            test.AssertPublicProperty<Employee, string>(e => e.Name);
             test.Execute();
         }
 
@@ -78,7 +78,7 @@ namespace Lecture_3_Tests
         public void TitleIsPublicStringProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Employee, string>(e => e.Title, IsPublicProperty);
+            test.AssertPublicProperty<Employee, string>(e => e.Title);
             test.Execute();
         }
 
@@ -86,7 +86,7 @@ namespace Lecture_3_Tests
         public void MonthlySalaryIsPublicDecimalProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Employee, decimal>(e => e.MonthlySalary, IsPublicProperty);
+            test.AssertPublicProperty<Employee, decimal>(e => e.MonthlySalary);
             test.Execute();
         }
 
@@ -94,7 +94,7 @@ namespace Lecture_3_Tests
         public void SeniorityIsPublicIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Employee, int>(e => e.Seniority, IsPublicProperty);
+            test.AssertPublicProperty<Employee, int>(e => e.Seniority);
             test.Execute();
         }
 
@@ -102,7 +102,7 @@ namespace Lecture_3_Tests
         public void EmployeeConstructorTakesStringAsArgument()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<string, Employee>(name => new Employee(name), IsPublicConstructor);
+            test.AssertPublicConstructor<string, Employee>(name => new Employee(name));
             test.Execute();
         }
 
@@ -191,7 +191,7 @@ namespace Lecture_3_Tests
         public void BonusIsPublicDecimalProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Manager, decimal>(e => e.Bonus, IsPublicProperty);
+            test.AssertPublicProperty<Manager, decimal>(e => e.Bonus);
             test.Execute();
         }
 
@@ -235,7 +235,7 @@ namespace Lecture_3_Tests
         [TestMethod("a. Company.Employees is a public read-only List<Employee> property"), TestCategory("Exercise 2E")]
         public void EmployeesIsPublicListEmployeeProperty() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Company, List<Employee>>(c => c.Employees, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Company, List<Employee>>(c => c.Employees);
             test.Execute();
         }
 

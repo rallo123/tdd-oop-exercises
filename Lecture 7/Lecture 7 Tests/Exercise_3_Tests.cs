@@ -20,7 +20,7 @@ namespace Lecture_7_Tests
         public void DogHasPublicDefaultConstructor()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<Dog>(() => new Dog(), IsPublicConstructor);
+            test.AssertPublicConstructor<Dog>(() => new Dog());
             test.Execute();
         }
 
@@ -28,7 +28,7 @@ namespace Lecture_7_Tests
         public void DogIDIsPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Dog, int>(d => d.ID, IsPublicProperty);
+            test.AssertPublicProperty<Dog, int>(d => d.ID);
             test.Execute();
         }
 
@@ -36,7 +36,7 @@ namespace Lecture_7_Tests
         public void DogNameIsPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Dog, string>(d => d.Name, IsPublicProperty);
+            test.AssertPublicProperty<Dog, string>(d => d.Name);
             test.Execute();
         }
 
@@ -44,7 +44,7 @@ namespace Lecture_7_Tests
         public void DogBreedIsPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Dog, string>(d => d.Breed, IsPublicProperty);
+            test.AssertPublicProperty<Dog, string>(d => d.Breed);
             test.Execute();
         }
 
@@ -52,7 +52,7 @@ namespace Lecture_7_Tests
         public void DogAgeIsPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Dog, int>(d => d.Age, IsPublicProperty);
+            test.AssertPublicProperty<Dog, int>(d => d.Age);
             test.Execute();
         }
 
@@ -86,7 +86,7 @@ namespace Lecture_7_Tests
         public void MyQueueCountIsReadOnlyIntProoerty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Dog>(HasClassImplementedInterface(typeof(ICloneable)));
+            test.AssertClass<Dog>(new TypeIsSubclassOfVerifier(typeof(ICloneable)));
             test.Execute();
         }
 

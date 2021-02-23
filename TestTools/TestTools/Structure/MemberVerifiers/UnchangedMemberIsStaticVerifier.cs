@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace TestTools.Structure.MemberVerifiers
+namespace TestTools.Structure
 {
-    public class UnchangedIsStaticVerifier : MemberVerifier
+    public class UnchangedMemberIsStaticVerifier : MemberVerifier
     {
         public override MemberVerificationAspect[] Aspect => new[] {
-            MemberVerificationAspect.MethodDeclaringType,
-            MemberVerificationAspect.PropertyGetDeclaringType,
-            MemberVerificationAspect.PropertySetDeclaringType
+            MemberVerificationAspect.FieldIsStatic,
+            MemberVerificationAspect.MethodIsStatic,
+            MemberVerificationAspect.PropertyIsStatic
         };
 
         public override void Verify(MemberInfo originalMember, MemberInfo translatedMember)

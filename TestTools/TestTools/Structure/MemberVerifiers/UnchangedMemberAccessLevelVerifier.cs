@@ -4,9 +4,9 @@ using System.Reflection;
 using System.Text;
 using TestTools.Helpers;
 
-namespace TestTools.Structure.MemberVerifiers
+namespace TestTools.Structure
 {
-    public class UnchangedAccessLevelVerifier : MemberVerifier
+    public class UnchangedMemberAccessLevelVerifier : MemberVerifier
     {
         public override MemberVerificationAspect[] Aspect => new[] {
             MemberVerificationAspect.ConstructorAccessLevel,

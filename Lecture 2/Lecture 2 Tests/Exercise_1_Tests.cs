@@ -22,7 +22,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. Person.FirstName is public string property"), TestCategory("Exercise 1A")]
         public void FirstNameIsPublicStringProperty() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, string>(p => p.FirstName, IsPublicProperty);
+            test.AssertPublicProperty<Person, string>(p => p.FirstName);
             test.Execute();
         }
 
@@ -30,7 +30,7 @@ namespace Lecture_2_Tests
         public void LastNameIsPublicStringProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, string>(p => p.LastName, IsPublicProperty);
+            test.AssertPublicProperty<Person, string>(p => p.LastName);
             test.Execute();
         }
 
@@ -38,7 +38,7 @@ namespace Lecture_2_Tests
         public void AgeIsPublicIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, int>(p => p.Age, IsPublicProperty);
+            test.AssertPublicProperty<Person, int>(p => p.Age);
             test.Execute();
         }
 
@@ -174,14 +174,14 @@ namespace Lecture_2_Tests
         public void MotherIsPublicPersonProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, Person>(p => p.Mother, IsPublicProperty);
+            test.AssertPublicProperty<Person, Person>(p => p.Mother);
             test.Execute();
         }
 
         [TestMethod("b. Person.Father is public Person property"), TestCategory("Exercise 1B")]
         public void FatherIsPublicPersonProperty() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, Person>(p => p.Father, IsPublicProperty);
+            test.AssertPublicProperty<Person, Person>(p => p.Father);
             test.Execute();
         }
 
@@ -245,7 +245,7 @@ namespace Lecture_2_Tests
         public void GeneratePersonReturnsPerson()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<PersonGenerator, Person>(g => g.GeneratePerson(), IsPublicMethod);
+            test.AssertPublicMethod<PersonGenerator, Person>(g => g.GeneratePerson());
             test.Execute();
         }
 
@@ -271,7 +271,7 @@ namespace Lecture_2_Tests
         public void GenerateFamilyReturnsPerson()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<PersonGenerator, Person>(g => g.GenerateFamily(), IsPublicMethod);
+            test.AssertPublicMethod<PersonGenerator, Person>(g => g.GenerateFamily());
             test.Execute();
         }
 
@@ -360,7 +360,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. PersonPrinter.PrintPerson takes person as argument and returns nothing"), TestCategory("Exercise 1E")]
         public void PrintPersonTakesPersonAsArgumentAndReturnsNothing() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<PersonPrinter, Person>((p1, p2) => p1.PrintPerson(p2), IsPublicMethod);
+            test.AssertPublicMethod<PersonPrinter, Person>((p1, p2) => p1.PrintPerson(p2));
             test.Execute();
         }
 
@@ -386,7 +386,7 @@ namespace Lecture_2_Tests
         public void PrintFamilyTakesPersonAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<PersonPrinter, Person>((p1, p2) => p1.PrintFamily(p2), IsPublicMethod);
+            test.AssertPublicMethod<PersonPrinter, Person>((p1, p2) => p1.PrintFamily(p2));
             test.Execute();
         }
 
@@ -446,7 +446,9 @@ namespace Lecture_2_Tests
         public void PersonHasConstructorWhichTakesNoArguments()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<Person>(() => new Person(), IsPublicConstructor);
+            test.AssertConstructor<Person>(
+                () => new Person(),
+                new MemberAccessLevelVerifier(AccessLevels.Public));
             test.Execute();
         }
 
@@ -454,7 +456,9 @@ namespace Lecture_2_Tests
         public void PersonHasconstructorWhichTakesTwoPersonsAsArguments()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<Person, Person, Person>((p1, p2) => new Person(p1, p2), IsPublicConstructor);
+            test.AssertConstructor<Person, Person, Person>(
+                (p1, p2) => new Person(p1, p2), 
+                new MemberAccessLevelVerifier(AccessLevels.Public));
             test.Execute();
         }
 
@@ -480,7 +484,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. Person.ID is public read-only int property"), TestCategory("Exercise 1H")]
         public void IDIsPublicReadonlyIntProperty() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, int>(p => p.ID, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Person, int>(p => p.ID);
             test.Execute();
         }
 

@@ -18,7 +18,7 @@ namespace Lecture_4_Tests
         public void PersonNameIsStringProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, string>(p => p.Name, IsPublicProperty);
+            test.AssertPublicProperty<Person, string>(p => p.Name);
             test.Execute();
         }
 
@@ -26,7 +26,7 @@ namespace Lecture_4_Tests
         public void PersonHeightIsPublicDoubleProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, double>(p => p.Height, IsPublicProperty);
+            test.AssertPublicProperty<Person, double>(p => p.Height);
             test.Execute();
         }
 
@@ -34,7 +34,7 @@ namespace Lecture_4_Tests
         public void PersonWeightIsPublicDoubleProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Person, double>(p => p.Weight, IsPublicProperty);
+            test.AssertPublicProperty<Person, double>(p => p.Weight);
             test.Execute();
         }
 

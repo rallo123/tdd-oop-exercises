@@ -31,7 +31,7 @@ namespace Lecture_6_Tests
         public void ILoggerLogIsAMehthod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ILogger, string>((l, s) => l.Log(s), IsPublicMethod);
+            test.AssertPublicMethod<ILogger, string>((l, s) => l.Log(s));
             test.Execute();
         }
         #endregion
@@ -41,7 +41,7 @@ namespace Lecture_6_Tests
         public void DieConstructorTakesIRandomAndInt()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<string, ILogger>(s => new FileLogger(s), IsPublicConstructor);
+            test.AssertPublicConstructor<string, ILogger>(s => new FileLogger(s));
             test.Execute();
         }
         #endregion
@@ -51,7 +51,9 @@ namespace Lecture_6_Tests
         public void FileLoggerImplementILogger()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<FileLogger>(t => t.GetInterface("ILogger") != null);
+            test.AssertClass<FileLogger>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeIsSubclassOfVerifier(typeof(ILogger)));
             test.Execute();
         }
         #endregion
@@ -61,7 +63,9 @@ namespace Lecture_6_Tests
         public void FileLoggerImplementIDisposable()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<FileLogger>(t => t.GetInterface("IDisposable") != null);
+            test.AssertClass<FileLogger>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeIsSubclassOfVerifier(typeof(IDisposable)));
             test.Execute();
         }
         #endregion

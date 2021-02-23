@@ -17,7 +17,7 @@ namespace Lecture_2_Tests
         public void ValueIsPublicReadonlyIntProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Number, int>(n => n.Value, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Number, int>(n => n.Value);
             test.Execute();
         }
         #endregion
@@ -26,7 +26,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. Number constructor takes int as argument"), TestCategory("Exercise 2B")]
         public void NumberConstructorTakesIntAsArgument() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<int, Number>(i => new Number(i), IsPublicConstructor);
+            test.AssertPublicConstructor<int, Number>(i => new Number(i));
             test.Execute();
         }
 
@@ -47,7 +47,7 @@ namespace Lecture_2_Tests
         [TestMethod("a. Number.Add takes Number as argument and returns nothing"), TestCategory("Exercise 2C")]
         public void AddTakesNumberAsArgumentsAndReturnsNothing() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Number, Number>((n1, n2) => n1.Add(n2), IsPublicMethod);
+            test.AssertPublicMethod<Number, Number>((n1, n2) => n1.Add(n2));
             test.Execute();
         }
 
@@ -69,7 +69,7 @@ namespace Lecture_2_Tests
         public void SubtractTakesNumberAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Number, Number>((n1, n2) => n1.Subtract(n2), IsPublicMethod);
+            test.AssertPublicMethod<Number, Number>((n1, n2) => n1.Subtract(n2));
             test.Execute();
         }
 
@@ -91,7 +91,7 @@ namespace Lecture_2_Tests
         public void MultiplyTakesNumberAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Number, Number>((n1, n2) => n1.Multiply(n2), IsPublicMethod);
+            test.AssertPublicMethod<Number, Number>((n1, n2) => n1.Multiply(n2));
             test.Execute();
         }
 

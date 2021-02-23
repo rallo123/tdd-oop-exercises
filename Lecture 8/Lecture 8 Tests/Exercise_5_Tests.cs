@@ -22,7 +22,7 @@ namespace Lecture_8_Tests
         public void CustomerIDIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Customer, int>(c => c.ID, IsPublicProperty);
+            test.AssertPublicProperty<Customer, int>(c => c.ID);
             test.Execute();
         }
 
@@ -30,7 +30,7 @@ namespace Lecture_8_Tests
         public void CustomerFirstNameIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Customer, string>(c => c.FirstName, IsPublicProperty);
+            test.AssertPublicProperty<Customer, string>(c => c.FirstName);
             test.Execute();
         }
 
@@ -38,7 +38,7 @@ namespace Lecture_8_Tests
         public void CustomerLastNameIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Customer, string>(c => c.LastName, IsPublicProperty);
+            test.AssertPublicProperty<Customer, string>(c => c.LastName);
             test.Execute();
         }
         #endregion

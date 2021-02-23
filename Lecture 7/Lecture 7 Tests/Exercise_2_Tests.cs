@@ -20,7 +20,7 @@ namespace Lecture_7_Tests
         public void MyQueueHasConstructorWhichTakesInt()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<int, MyQueue<int>>(i => new MyQueue<int>(i), IsPublicConstructor);
+            test.AssertPublicConstructor<int, MyQueue<int>>(i => new MyQueue<int>(i));
             test.Execute();
         }
 
@@ -28,7 +28,7 @@ namespace Lecture_7_Tests
         public void MyQueueMaxCountIsPublicReadonlyProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<MyQueue<int>, int>(q => q.MaxCount, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<MyQueue<int>, int>(q => q.MaxCount);
             test.Execute();
         }
 
@@ -50,7 +50,7 @@ namespace Lecture_7_Tests
         public void MyQueueCountIsReadOnlyIntProoerty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<MyQueue<int>, int>(q => q.Count, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<MyQueue<int>, int>(q => q.Count);
             test.Execute();
         }
 
@@ -72,8 +72,8 @@ namespace Lecture_7_Tests
         public void MyQueueEnqueueTakesTAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<MyQueue<int>, int>(q => q.Peek(), IsPublicMethod);
-            test.AssertMethod<MyQueue<double>, double>(q => q.Peek(), IsPublicMethod);
+            test.AssertPublicMethod<MyQueue<int>, int>(q => q.Peek());
+            test.AssertPublicMethod<MyQueue<double>, double>(q => q.Peek());
             test.Execute();
         }
 
@@ -81,8 +81,8 @@ namespace Lecture_7_Tests
         public void MyQueueDequeueTakesNothingAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<MyQueue<int>, int>(q => q.Peek(), IsPublicMethod);
-            test.AssertMethod<MyQueue<double>, double>(q => q.Peek(), IsPublicMethod);
+            test.AssertPublicMethod<MyQueue<int>, int>(q => q.Peek());
+            test.AssertPublicMethod<MyQueue<double>, double>(q => q.Peek());
             test.Execute();
         }
 
@@ -143,8 +143,8 @@ namespace Lecture_7_Tests
         public void MyQueuePeekIsPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<MyQueue<int>, int>(q => q.Peek(), IsPublicMethod);
-            test.AssertMethod<MyQueue<double>, double>(q => q.Peek(), IsPublicMethod);
+            test.AssertPublicMethod<MyQueue<int>, int>(q => q.Peek());
+            test.AssertPublicMethod<MyQueue<double>, double>(q => q.Peek());
             test.Execute();
         }
 

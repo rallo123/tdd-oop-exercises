@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace TestTools.Structure.MemberVerifiers
+namespace TestTools.Structure
 {
-    public class UnchangedDeclaringType : MemberVerifier
+    public class UnchangedMemberDeclaringType : MemberVerifier
     {
         public override MemberVerificationAspect[] Aspect => new[] {
             MemberVerificationAspect.MethodDeclaringType,

@@ -22,7 +22,7 @@ namespace Lecture_6_Tests
         public void CarListSorterComparerIsPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<CarSorter, IComparer<Car>>(c => c.Comparer, IsPublicProperty);
+            test.AssertPublicProperty<CarSorter, IComparer<Car>>(c => c.Comparer);
             test.Execute();
         }
 
@@ -44,7 +44,7 @@ namespace Lecture_6_Tests
         public void DieConstructorTakesIRandomAndInt()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<CarSorter, Car[]>((c1, c2) => c1.Sort(c2), IsPublicMethod);
+            test.AssertPublicMethod<CarSorter, Car[]>((c1, c2) => c1.Sort(c2));
             test.Execute();
         }
 

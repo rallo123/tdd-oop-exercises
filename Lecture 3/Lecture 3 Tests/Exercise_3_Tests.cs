@@ -17,7 +17,7 @@ namespace Lecture_3_Tests
         public void FigureIsAbstractClass()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Figure>(t => t.IsAbstract);
+            test.AssertAbstractClass<Figure>();
             test.Execute();
         }
 
@@ -25,7 +25,10 @@ namespace Lecture_3_Tests
         public void FigureCalculateAreaIsAbstractMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Figure, double>(f => f.CalculateArea(), IsAbstractMethod);
+            test.AssertMethod<Figure, double>(
+                f => f.CalculateArea(), 
+                new MemberAccessLevelVerifier(AccessLevels.Public),
+                new MemberIsAbstractVerifier());
             test.Execute();
         }
 
@@ -33,7 +36,10 @@ namespace Lecture_3_Tests
         public void FigureContainsIsAbstractMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<Figure, Point, bool>((f, p) => f.Contains(p), IsAbstractMethod);
+            test.AssertMethod<Figure, Point, bool>(
+                (f, p) => f.Contains(p), 
+                new MemberAccessLevelVerifier(AccessLevels.Public),
+                new MemberIsAbstractVerifier());
             test.Execute();
         }
         #endregion
@@ -42,7 +48,9 @@ namespace Lecture_3_Tests
         [TestMethod("a. Circle is subclass of Figure"), TestCategory("Exercise 3B")]
         public void CircleIsSubclassOfFigure() {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Circle>(t => t.BaseType == typeof(Figure));
+            test.AssertClass<Circle>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeBaseClassVerifier(typeof(Figure)));
             test.Execute();
         }
 
@@ -50,7 +58,9 @@ namespace Lecture_3_Tests
         public void RectangleIsSubclassOfFigure()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Rectangle>(t => t.BaseType == typeof(Figure));
+            test.AssertClass<Rectangle>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeBaseClassVerifier(typeof(Figure)));
             test.Execute();
         }
         #endregion
@@ -60,7 +70,7 @@ namespace Lecture_3_Tests
         public void CenterIsPublicPointProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Circle, Point>(c => c.Center, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Circle, Point>(c => c.Center);
             test.Execute();
         }
 
@@ -68,7 +78,7 @@ namespace Lecture_3_Tests
         public void RadiusIsPublicDoubleProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Circle, double>(c => c.Radius, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Circle, double>(c => c.Radius);
             test.Execute();
         }
 
@@ -102,7 +112,7 @@ namespace Lecture_3_Tests
         public void P1IsPublicPointProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Rectangle, Point>(r => r.P1, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Rectangle, Point>(r => r.P1);
             test.Execute();
         }
 
@@ -110,7 +120,7 @@ namespace Lecture_3_Tests
         public void P2IsPublicPointProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<Rectangle, Point>(r => r.P2, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<Rectangle, Point>(r => r.P2);
             test.Execute();
         }
 

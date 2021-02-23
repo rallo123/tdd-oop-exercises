@@ -21,8 +21,8 @@ namespace Lecture_9_Tests
         public void SortedCollectionImplementsICollections()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<SortedCollection<int>>(HasClassImplementedInterface(typeof(ICollection<int>)));
-            test.AssertClass<SortedCollection<double>>(HasClassImplementedInterface(typeof(ICollection<double>)));
+            test.AssertClass<SortedCollection<int>>(new TypeIsSubclassOfVerifier(typeof(ICollection<int>)));
+            test.AssertClass<SortedCollection<double>>(new TypeIsSubclassOfVerifier(typeof(ICollection<double>)));
             test.Execute();
         }
 

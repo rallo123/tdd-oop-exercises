@@ -18,7 +18,7 @@ namespace Lecture_2_Tests
         public void ValueIsPublicReadonlyProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<ImmutableNumber, int>(n => n.Value, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<ImmutableNumber, int>(n => n.Value);
             test.Execute();
         }
         #endregion
@@ -28,7 +28,7 @@ namespace Lecture_2_Tests
         public void ImmutableNumberConstructorTakesIntAsArgument() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<int, ImmutableNumber>(i => new ImmutableNumber(i), IsPublicConstructor);
+            test.AssertPublicConstructor<int, ImmutableNumber>(i => new ImmutableNumber(i));
             test.Execute();
         }
 
@@ -50,7 +50,7 @@ namespace Lecture_2_Tests
         public void AddTakesImmutableNumberAsArgumentAndReturnsImmutableNumber()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Add(n2), IsPublicMethod);
+            test.AssertPublicMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Add(n2));
             test.Execute();
         }
 
@@ -73,7 +73,7 @@ namespace Lecture_2_Tests
         public void SubtractTakesImmutableNumberAsArgumentAndReturnsImmutableNumber() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Subtract(n2), IsPublicMethod);
+            test.AssertPublicMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Subtract(n2));
             test.Execute();
         }
 
@@ -96,7 +96,7 @@ namespace Lecture_2_Tests
         public void MultiplyTakesImmutableAsArgumentAndReturnsNothing()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Multiply(n2), IsPublicMethod);
+            test.AssertPublicMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Multiply(n2));
             test.Execute();
         }
 

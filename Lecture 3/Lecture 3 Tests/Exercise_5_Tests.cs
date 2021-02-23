@@ -32,7 +32,7 @@ namespace Lecture_3_Tests
         public void BankAccountBalanceIsDecimalProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(b => b.Balance, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<BankAccount, decimal>(b => b.Balance);
             test.Execute();
         }
 
@@ -40,7 +40,7 @@ namespace Lecture_3_Tests
         public void BankAccountBorrowingRateIsPublicDecimalProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(b => b.BorrowingRate, IsPublicProperty);
+            test.AssertPublicProperty<BankAccount, decimal>(b => b.BorrowingRate);
             test.Execute();
         }
 
@@ -48,7 +48,7 @@ namespace Lecture_3_Tests
         public void BankAccountSavingsRateIsPublicDecimalProperty() 
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(b => b.SavingsRate, IsPublicProperty);
+            test.AssertPublicProperty<BankAccount, decimal>(b => b.SavingsRate);
             test.Execute();
         }
 

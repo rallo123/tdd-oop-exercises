@@ -10,11 +10,25 @@ namespace TestTools.Structure
     {
         public ITypeTranslator TypeTranslator { get; set; }
 
-        public ICollection<ITypeVerifier> TypeVerifiers { get; set; }
+        public ICollection<ITypeVerifier> TypeVerifiers { get; set; } = new List<ITypeVerifier>()
+        {
+            new UnchangedTypeAccessLevelVerifier(),
+            new UnchangedTypeIsAbstractVerifier(),
+            new UnchangedTypeIsStaticVerifier()
+        };
 
         public IMemberTranslator MemberTranslator { get; set; }
 
-        public ICollection<IMemberVerifier> MemberVerifiers { get; set; }
+        public ICollection<IMemberVerifier> MemberVerifiers { get; set; } = new List<IMemberVerifier>()
+        {
+            new UnchangedFieldTypeVerifier(),
+            new UnchangedMemberAccessLevelVerifier(),
+            new UnchangedMemberDeclaringType(),
+            new UnchangedMemberIsStaticVerifier(),
+            new UnchangedMemberIsVirtualVerifier(),
+            new UnchangedMemberTypeVerifier(),
+            new UnchangedPropertyTypeVerifier()
+        };
 
         public override Expression Visit(Expression node)
         {

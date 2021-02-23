@@ -22,7 +22,7 @@ namespace Lecture_6_Tests
         public void TextFileConstructorTakesString()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertConstructor<string, TextFile>(s => new TextFile(s), IsPublicConstructor);
+            test.AssertPublicConstructor<string, TextFile>(s => new TextFile(s));
             test.Execute();
         }
         #endregion
@@ -32,7 +32,7 @@ namespace Lecture_6_Tests
         public void TestFileContentIsPublicReadOnlyString()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<TextFile, string>(t => t.Content, IsPublicReadonlyProperty);
+            test.AssertPublicReadonlyProperty<TextFile, string>(t => t.Content);
             test.Execute();
         }
 

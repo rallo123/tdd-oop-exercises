@@ -21,7 +21,7 @@ namespace Lecture_8_Tests
         public void BankAccountBalanceIsAPublicReadonlyBalance()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(b => b.Balance, IsPublicProperty);
+            test.AssertPublicProperty<BankAccount, decimal>(b => b.Balance);
             test.Execute();
         }
 
@@ -43,7 +43,7 @@ namespace Lecture_8_Tests
         public void BankAccountLowBalanceThresholdsIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(b => b.LowBalanceThreshold, IsPublicProperty);
+            test.AssertPublicProperty<BankAccount, decimal>(b => b.LowBalanceThreshold);
             test.Execute();
         }
 
@@ -51,7 +51,7 @@ namespace Lecture_8_Tests
         public void BankAccountHighBalanceThresholdsIsAPublicProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<BankAccount, decimal>(b => b.HighBalanceThreshold, IsPublicProperty);
+            test.AssertPublicProperty<BankAccount, decimal>(b => b.HighBalanceThreshold);
             test.Execute();
         }
 
@@ -85,7 +85,7 @@ namespace Lecture_8_Tests
         public void BankAccountDepositIsAPublicMehtod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<BankAccount, decimal>((b, d) => b.Deposit(d), IsPublicMethod);
+            test.AssertPublicMethod<BankAccount, decimal>((b, d) => b.Deposit(d));
             test.Execute();
         }
 
@@ -93,7 +93,7 @@ namespace Lecture_8_Tests
         public void BankAccountWithdrawIsAPublicMehtod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<BankAccount, decimal>((b, d) => b.Withdraw(d), IsPublicMethod);
+            test.AssertPublicMethod<BankAccount, decimal>((b, d) => b.Withdraw(d));
             test.Execute();
         }
 
@@ -129,7 +129,7 @@ namespace Lecture_8_Tests
         public void BalanceChangeHandlerIsPublicDelegate()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertDelegate<BalanceChangeHandler, Action<decimal>>(IsPublicDelegate);
+            test.AssertPublicDelegate<BalanceChangeHandler, Action<decimal>>();
             test.Execute();
         }
         #endregion
@@ -139,7 +139,11 @@ namespace Lecture_8_Tests
         public void BankAccountMinEventIsPublicEvent()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertEvent<BankAccount, BalanceChangeHandler>(GetEventInfo<BankAccount>("LowBalance"), IsPublicEvent);
+            test.AssertEvent(
+                typeof(BankAccount).GetEvent("LowBalance"),
+                new MemberAccessLevelVerifier(AccessLevels.Public),
+                new EventHandlerTypeVerifier(typeof(BalanceChangeHandler)));
+
             test.Execute();
         }
 
@@ -147,7 +151,10 @@ namespace Lecture_8_Tests
         public void BankAccountHighBalanceMinEvent()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertEvent<BankAccount, BalanceChangeHandler>(GetEventInfo<BankAccount>("HighBalance"), IsPublicEvent);
+            test.AssertEvent(
+                typeof(BankAccount).GetEvent("HighBalance"),
+                new MemberAccessLevelVerifier(AccessLevels.Public),
+                new EventHandlerTypeVerifier(typeof(BalanceChangeHandler)));
             test.Execute();
         }
 

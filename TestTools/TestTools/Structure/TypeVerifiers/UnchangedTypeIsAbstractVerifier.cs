@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestTools.Structure.TypeVerifiers
+namespace TestTools.Structure
 {
-    public class UnchangedIsAbstractVerifier : ITypeVerifier
+    public class UnchangedTypeIsAbstractVerifier : ITypeVerifier
     {
         public StructureVerifier Verifier { get; set; }
         public ITypeTranslator TypeTranslator { get; set; }

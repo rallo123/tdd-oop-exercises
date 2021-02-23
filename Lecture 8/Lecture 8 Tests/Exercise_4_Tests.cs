@@ -21,7 +21,7 @@ namespace Lecture_8_Tests
         public void ConsoleViewRunIsAPublicMethod()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ConsoleController, string>((c, s) => c.HandleInput(s), IsPublicMethod);
+            test.AssertPublicMethod<ConsoleController, string>((c, s) => c.HandleInput(s));
             test.Execute();
         }
 
@@ -115,7 +115,7 @@ namespace Lecture_8_Tests
         public void ConsoleControllerAddCommand()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ConsoleController, string, Action<string>>((c, s, a) => c.AddCommand(s, a), IsPublicMethod);
+            test.AssertPublicMethod<ConsoleController, string, Action<string>>((c, s, a) => c.AddCommand(s, a));
             test.Execute();
         }
 
@@ -139,7 +139,7 @@ namespace Lecture_8_Tests
         public void ConsoleControllerRemoveCommand()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertMethod<ConsoleController, string>((c, s) => c.RemoveCommand(s), IsPublicMethod);
+            test.AssertPublicMethod<ConsoleController, string>((c, s) => c.RemoveCommand(s));
             test.Execute();
         }
 
