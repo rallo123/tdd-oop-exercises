@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using TestTools.Structure;
 using TestTools.Unit;
-using TestTools.Structure;
 using System.ComponentModel;
 using static TestTools.Unit.TestExpression;
 using static Lecture_8_Tests.TestHelper;

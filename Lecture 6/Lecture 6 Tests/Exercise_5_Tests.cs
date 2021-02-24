@@ -6,11 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using TestTools.Structure;
 using TestTools.Unit;
-using TestTools.Structure;
 using static TestTools.Unit.TestExpression;
 using static Lecture_6_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
-using System.Linq;
 
 namespace Lecture_6_Tests
 {
