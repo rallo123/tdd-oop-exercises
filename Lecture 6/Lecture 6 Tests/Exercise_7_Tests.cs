@@ -62,7 +62,7 @@ namespace Lecture_6_Tests
         public void TextFileImplementsIDisposable()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<TextFile>(t => t.GetInterface("IDisposable") != null);
+            test.AssertClass<TextFile>(new TypeIsSubclassOfVerifier(typeof(IDisposable)));
             test.Execute();
         }
 

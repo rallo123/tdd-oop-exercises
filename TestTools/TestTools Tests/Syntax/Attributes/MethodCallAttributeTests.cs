@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TestTools.Syntax.Attributes;
+using TestTools.Syntax;
 using System.Linq.Expressions;
 using System.Reflection;
 

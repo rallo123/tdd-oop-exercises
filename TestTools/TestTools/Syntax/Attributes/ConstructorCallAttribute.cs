@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace TestTools.Syntax.Attributes
+namespace TestTools.Syntax
 {
     public class ConstructorCallAttribute : Attribute, ISyntaxTransformer
     {

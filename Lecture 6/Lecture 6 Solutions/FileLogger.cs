@@ -27,7 +27,5 @@ namespace Lecture_6_Solutions
             stream.Close();
             stream.Dispose();
         }
-
-
     }
 }

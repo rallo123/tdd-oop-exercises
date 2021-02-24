@@ -112,7 +112,7 @@ namespace Lecture_9_Tests
         public void SortedCollectionIsAReadonlyProperty()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertProperty<SortedCollection<int>, int>(GetIndexProperty<SortedCollection<int>>(), IsPublicProperty);
+            test.AssertPublicProperty<SortedCollection<int>, int>(GetIndexProperty<SortedCollection<int>>());
             test.Execute();
         }
 

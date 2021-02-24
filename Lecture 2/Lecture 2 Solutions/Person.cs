@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestTools.Syntax;
 
 namespace Lecture_2_Solutions
 {
@@ -115,5 +116,21 @@ namespace Lecture_2_Solutions
 
             return parent.Age > Age;
         }
+
+        // TestTools Code
+        [PropertySet("FirstName")]
+        public void SetFirstName(string value) => FirstName = value;
+
+        [PropertySet("LastName")]
+        public void SetLastName(string value) => LastName = value;
+
+        [PropertySet("Age")]
+        public void SetAge(int value) => Age = value;
+
+        [PropertySet("Mother")]
+        public void SetMother(Person value) => Mother = value;
+
+        [PropertySet("Father")]
+        public void SetFather(Person value) => Father = value;
     }
 }

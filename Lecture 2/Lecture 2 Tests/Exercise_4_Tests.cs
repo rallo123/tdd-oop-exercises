@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestTools.Structure;
 using TestTools.Unit;
 using static Lecture_2_Tests.TestHelper;
+using static TestTools.Unit.TestExpression;
 
 namespace Lecture_2_Tests
 {

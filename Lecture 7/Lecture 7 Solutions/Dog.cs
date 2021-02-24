@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestTools.Syntax;
 
 namespace Lecture_7_Solutions
 {
@@ -79,5 +80,18 @@ namespace Lecture_7_Solutions
         {
             return _id;
         }
+
+        // TestTools Code
+        [PropertySet("ID")]
+        public void SetID(int value) => ID = value;
+
+        [PropertySet("Name")]
+        public void SetName(string value) => Name = value;
+
+        [PropertySet("Breed")]
+        public void SetBreed(string value) => Breed = value;
+
+        [PropertySet("Age")]
+        public void SetAge(int value) => Age = value;
     }
 }

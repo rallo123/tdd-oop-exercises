@@ -95,6 +95,5 @@ namespace Lecture_6_Tests
             test.Execute();
         }
         #endregion
-
     }
 }

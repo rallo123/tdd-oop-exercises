@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestTools.Structure;
+using TestTools.Syntax;
 
 namespace Lecture_8_Solutions
 {
@@ -21,5 +23,9 @@ namespace Lecture_8_Solutions
                 else Input?.Invoke(line);
             }
         }
+
+        // TestTools Code
+        [EventAdd("Input")]
+        public void AddInput(InputHandler handler) => Input += handler;
     }
 }

@@ -124,6 +124,11 @@ namespace TestTools.Structure
             throw new NotImplementedException();
         }
 
+        public static void AssertPublicProperty<TInstance, TProperty>(this StructureTest test, PropertyInfo propertyInfo)
+        {
+            throw new NotImplementedException();
+        }
+
         public static void AssertPublicProperty<TInstance, TProperty>(this StructureTest test, Expression<Func<TInstance, TProperty>> locator)
         {
             throw new NotImplementedException();

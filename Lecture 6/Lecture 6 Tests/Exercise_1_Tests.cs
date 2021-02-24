@@ -48,7 +48,7 @@ namespace Lecture_6_Tests
             TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             test.Arrange(temperature, Expr(() => new Temperature()));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, double>(Expr(temperature, t => t.Celcius), Const(-276.0));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(temperature, t => t.SetCelcius(-276.0)));
 
             test.Execute();
         }
@@ -60,7 +60,7 @@ namespace Lecture_6_Tests
             TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             test.Arrange(temperature, Expr(() => new Temperature()));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, double>(Expr(temperature, t => t.Fahrenheit), Const(-460.0));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(temperature, t => t.SetFahrenheit(-476.0)));
 
             test.Execute();
         }
@@ -72,7 +72,7 @@ namespace Lecture_6_Tests
             TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             test.Arrange(temperature, Expr(() => new Temperature()));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, double>(Expr(temperature, t => t.Kelvin), Const(-1.0));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(temperature, t => t.SetKelvin(-1.0)));
 
             test.Execute();
         }
@@ -84,7 +84,7 @@ namespace Lecture_6_Tests
             TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             test.Arrange(temperature, Expr(() => new Temperature()));
-            test.Assign(Expr(temperature, t => t.Celcius), Const(-275.15));
+            test.Act(Expr(temperature, t => t.SetCelcius(-275.15)));
             test.Assert.AreEqual(Expr(temperature, t => t.Kelvin), Const(0.0), 0.001);
 
             test.Execute();
@@ -97,7 +97,7 @@ namespace Lecture_6_Tests
             TestVariable<Temperature> temperature = test.CreateVariable<Temperature>();
 
             test.Arrange(temperature, Expr(() => new Temperature()));
-            test.Assign(Expr(temperature, t => t.Fahrenheit), Const(-459.67));
+            test.Act(Expr(temperature, t => t.SetFahrenheit(-459.67)));
             test.Assert.AreEqual(Expr(temperature, t => t.Kelvin), Const(0.0), 0.001);
 
             test.Execute();
@@ -109,7 +109,7 @@ namespace Lecture_6_Tests
         public void TemperatureImplementsIComparable()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Temperature>(t => t.GetInterface("IComparable") != null);
+            test.AssertClass<Temperature>(new TypeIsSubclassOfVerifier(typeof(IComparable)));
             test.Execute();
         }
 

@@ -1,32 +1,15 @@
 ﻿using Lecture_3_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using TestTools.Operation;
 using TestTools.Unit;
 using TestTools.Structure;
 using static TestTools.Unit.TestExpression;
-using System.Linq.Expressions;
-using TestTools.Structure;
 using static Lecture_3_Tests.TestHelper;
-using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_5_Tests
     {
-        private void TestAssignmentOfBankAccontPropertyIgnoresValue<T>(Expression<Func<BankAccount, T>> property, T value, T defaultValue)
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
-
-            test.Arrange(account, Expr(() => new BankAccount()));
-            test.Assign(Expr(account, property), Const(value));
-            test.Assert.AreEqual(Expr(account, property), Const(defaultValue));
-
-            test.Execute();
-        }
-
         #region Exercise 5A
         [TestMethod("a. BankAccount.Balance is public read-only decimal property"), TestCategory("Exercise 5A")]
         public void BankAccountBalanceIsDecimalProperty()
@@ -88,17 +71,30 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("g. BankAccount.Balance ignores assignment of -100001M"), TestCategory("Exercise 5A")]
-        public void BankAccountBalanceIgnoresAssignmentOfMinusOneHundredThousand() => TestAssignmentOfBankAccontPropertyIgnoresValue(b => b.Balance, -100001M, 0M);
+        [TestMethod("g. BankAccount.BorrowingRate ignores assignment of 0.05M"), TestCategory("Exercise 5A")]
+        public void BankAccountBorrowingRateIgnoresAssignmentOfFivePercent() {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
 
-        [TestMethod("h. BankAccount.Balance ignores assignment of 250001M"), TestCategory("Exercise 5A")]
-        public void BankAccountBalanceIgnoresAssignmentOfTwoHundredThousand() => TestAssignmentOfBankAccontPropertyIgnoresValue(b => b.Balance, 250001M, 0);
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Act(Expr(account, a => a.SetBorrowingRate(0.05M)));
+            test.Assert.AreEqual(Expr(account, a => a.BorrowingRate), Const(0.06M));
 
-        [TestMethod("i. BankAccount.BorrowingRate ignores assignment of 0.05M"), TestCategory("Exercise 5A")]
-        public void BankAccountBorrowingRateIgnoresAssignmentOfFivePercent() => TestAssignmentOfBankAccontPropertyIgnoresValue(b => b.BorrowingRate, 0.05M, 0.06M);
+            test.Execute();
+        }
 
-        [TestMethod("j. BankAccount.SavingsRate ignores assignment of 0.03M"), TestCategory("Exercise 5A")]
-        public void BankAccountSavingsRateIgnoresAssignmentOfThreePercent() => TestAssignmentOfBankAccontPropertyIgnoresValue(b => b.SavingsRate, 0.03M, 0.02M);
+        [TestMethod("h. BankAccount.SavingsRate ignores assignment of 0.03M"), TestCategory("Exercise 5A")]
+        public void BankAccountSavingsRateIgnoresAssignmentOfThreePercent()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<BankAccount> account = test.CreateVariable<BankAccount>(nameof(account));
+
+            test.Arrange(account, Expr(() => new BankAccount()));
+            test.Act(Expr(account, a => a.SetSavingsRate(0.03M)));
+            test.Assert.AreEqual(Expr(account, a => a.BorrowingRate), Const(0.02M));
+
+            test.Execute();
+        }
         #endregion
 
         #region Exercise 5B

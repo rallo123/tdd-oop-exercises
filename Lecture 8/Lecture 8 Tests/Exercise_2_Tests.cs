@@ -62,7 +62,7 @@ namespace Lecture_8_Tests
             TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
             test.Arrange(account, Expr(() => new BankAccount() { HighBalanceThreshold = 0 }));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, decimal>(Expr(account, a => a.Balance), Const(1M));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(account, a => a.SetLowBalanceThreshold(1M)));
 
             test.Execute();
         }
@@ -74,7 +74,7 @@ namespace Lecture_8_Tests
             TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
             test.Arrange(account, Expr(() => new BankAccount() { LowBalanceThreshold = 0 }));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, decimal>(Expr(account, a => a.Balance), Const(-1M));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(account, a => a.SetHighBalanceThreshold(-1M)));
 
             test.Execute();
         }
@@ -165,7 +165,7 @@ namespace Lecture_8_Tests
             TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
             
             test.Arrange(account, Expr(() => new BankAccount() { LowBalanceThreshold = 0 }));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
+            test.DelegateAssert.IsInvoked(Lambda<BalanceChangeHandler>(handler => Expr(account, a => a.AddLowBalance(handler))));
             test.Act(Expr(account, a => a.Withdraw(50M)));
             test.Execute();
         }
@@ -177,7 +177,7 @@ namespace Lecture_8_Tests
             TestVariable<BankAccount> account = test.CreateVariable<BankAccount>();
 
             test.Arrange(account, Expr(() => new BankAccount() { HighBalanceThreshold = 0 }));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<BankAccount, BalanceChangeHandler>("HighBalance"));
+            test.DelegateAssert.IsInvoked(Lambda<BalanceChangeHandler>(handler => Expr(account, a => a.AddHighBalance(handler))));
             test.Act(Expr(account, a => a.Deposit(50)));
             test.Execute();
         }

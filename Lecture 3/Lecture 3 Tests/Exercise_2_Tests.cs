@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using TestTools.Structure;
-using TestTools.Operation;
-using TestTools.Structure;
 using static TestTools.Unit.TestExpression;
 using static Lecture_3_Tests.TestHelper;
 using static TestTools.Helpers.StructureHelper;
@@ -17,54 +15,6 @@ namespace Lecture_3_Tests
     [TestClass]
     public class Exercise_2_Tests 
     {   
-        private void TestAssignmentOfEmployeePropertyIgnoresValue<T>(Expression<Func<Employee, T>> property, T value, T defaultValue)
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
-
-            test.Arrange(employee, Expr(() => new Employee("abc")));
-            test.Assign(Expr(employee, property), Const(value));
-            test.Assert.AreEqual(Expr(employee, property), Const(defaultValue));
-
-            test.Execute();
-        }
-
-        private void TestAssignmentOfManagerPropertyIgnoresValue<T>(Expression<Func<Manager, T>> property, T value, T defaultValue)
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
-
-            test.Arrange(manager, Expr(() => new Manager("abc")));
-            test.Assign(Expr(manager, property), Const(value));
-            test.Assert.AreEqual(Expr(manager, property), Const(defaultValue));
-
-            test.Execute();
-        }
-
-        private void TestEmployeeCalculateYearlySalary(decimal monthlySalary, int senority)
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
-            
-            Employee originalEmployee = new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority };
-            test.Arrange(employee, Expr(() => new Employee("abc") { MonthlySalary = monthlySalary, Seniority = senority }));
-            test.Assert.AreEqual(Expr(employee, e => e.CalculateYearlySalary()), Const(originalEmployee.CalculateYearlySalary()));
-
-            test.Execute();
-        }
-
-        public void TestManagerCalculateYearlySalary(decimal monthlySalary, decimal bonus, int senority)
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
-
-            Manager originalManager = new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority };
-            test.Arrange(manager, Expr(() => new Manager("abc") { MonthlySalary = monthlySalary, Bonus = bonus, Seniority = senority }));
-            test.Assert.AreEqual(Expr(manager, e => e.CalculateYearlySalary()), Const(originalManager.CalculateYearlySalary()));
-
-            test.Execute();
-        }
-
         #region Exercise 2A
         [TestMethod("a. Name is public string property"), TestCategory("Exercise 2A")]
         public void NameIsPublicStringProperty()
@@ -143,39 +93,143 @@ namespace Lecture_3_Tests
         }
 
         [TestMethod("h. Title ignores assignment of null"), TestCategory("Exercise 2A")]
-        public void TitleIgnoresAssignmentOfNull() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, null, "abc");
+        public void TitleIgnoresAssignmentOfNull()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
 
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Act(Expr(employee, e => e.SetTitle(null)));
+            test.Assert.AreEqual(Expr(employee, e => e.Title), Const("Unknown")); ;
+
+            test.Execute();
+        }
+       
         [TestMethod("i. Title ignores assignment of empty string"), TestCategory("Exercise 2A")]
-        public void TitleIgnoresAssignmentOfEmptyString() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Title, "", "abc");
+        public void TitleIgnoresAssignmentOfEmptyString()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Act(Expr(employee, e => e.SetTitle("")));
+            test.Assert.AreEqual(Expr(employee, e => e.Title), Const("Unknown")); ;
+
+            test.Execute();
+        }
         
         [TestMethod("j. MonthlySalary ignores assignment of -1M"), TestCategory("Exercise 2A")]
-        public void MonthlySalaryIgnoresAssignmentOfMinusOne() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.MonthlySalary, -1M, 0M);
+        public void MonthlySalaryIgnoresAssignmentOfMinusOne()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Act(Expr(employee, e => e.SetMonthlySalary(-1M)));
+            test.Assert.AreEqual(Expr(employee, e => e.MonthlySalary), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("k. Seniority ignores assignment of 0"), TestCategory("Exercise 2A")]
-        public void SeniorityIgnoresAssignmentOfZero() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 0, 1);
+        public void SeniorityIgnoresAssignmentOfZero()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Act(Expr(employee, e => e.SetSeniority(0)));
+            test.Assert.AreEqual(Expr(employee, e => e.Seniority), Const(1)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("l. Seniority ignores assigment of 11"), TestCategory("Exercise 2A")]
-        public void SeniorityIgnoresAssignmentOfEleven() => TestAssignmentOfEmployeePropertyIgnoresValue(e => e.Seniority, 11, 1);
+        public void SeniorityIgnoresAssignmentOfEleven()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc")));
+            test.Act(Expr(employee, e => e.SetSeniority(11)));
+            test.Assert.AreEqual(Expr(employee, e => e.Seniority), Const(1)); ;
+
+            test.Execute();
+        }
         #endregion
 
         #region Exercise 2B
         [TestMethod("a. Employee.CalculateYearlySalary() returns expected output for seniority 1"), TestCategory("Exercise 2B")]
-        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelOne()  => TestEmployeeCalculateYearlySalary(34000, 1);
+        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelOne()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc") { MonthlySalary = 34000M, Seniority = 1 }));
+            test.Assert.AreEqual(Expr(employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("b. Employee.CalculateYearlySalary() returns expected output for seniority 2"), TestCategory("Exercise 2B")]
-        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelTwo() => TestEmployeeCalculateYearlySalary(15340, 2);
+        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelTwo()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc") { MonthlySalary = 15340, Seniority = 2 }));
+            test.Assert.AreEqual(Expr(employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("c. Employee.CalculateYearlySalary() returns expected output for seniority 3"), TestCategory("Exercise 2B")]
-        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelThree() => TestEmployeeCalculateYearlySalary(26500, 3);
+        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelThree()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc") { MonthlySalary = 20000, Seniority = 3 }));
+            test.Assert.AreEqual(Expr(employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("d. Employee.CalculateYearlySalary() returns expected output for seniority 6"), TestCategory("Exercise 2B")]
-        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelSix() => TestEmployeeCalculateYearlySalary(20000, 6);
+        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelSix()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc") { MonthlySalary = 20000, Seniority = 6 }));
+            test.Assert.AreEqual(Expr(employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("e. Employee.CalculateYearlySalary() returns expected output for seniority 7"), TestCategory("Exercise 2B")]
-        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelSeven() => TestEmployeeCalculateYearlySalary(12300, 7);
+        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelSeven()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc") { MonthlySalary = 12300, Seniority = 7 }));
+            test.Assert.AreEqual(Expr(employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("f. Employee.CalculateYearlySalary() returns expected output for seniority 10"), TestCategory("Exercise 2B")]
-        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelTen() => TestEmployeeCalculateYearlySalary(35250, 10);
+        public void EmployeeCalculateYearlySalaryAddsTenProcentForSeniorityLevelTen()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> employee = test.CreateVariable<Employee>(nameof(employee));
+
+            test.Arrange(employee, Expr(() => new Employee("abc") { MonthlySalary = 35250, Seniority = 10 }));
+            test.Assert.AreEqual(Expr(employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
         #endregion
 
         #region Exercise 2C
@@ -183,7 +237,7 @@ namespace Lecture_3_Tests
         public void ManagerIsSubclassOfEmployee()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<Manager>(t => t.BaseType == typeof(Employee));
+            test.AssertClass<Manager>(new TypeBaseClassVerifier(typeof(Employee)));
             test.Execute();
         }
 
@@ -208,27 +262,91 @@ namespace Lecture_3_Tests
         }
 
         [TestMethod("d. Bonus ignores assignment of -1M"), TestCategory("Exercise 2C")]
-        public void BonusIgnoresAssignmentOfMinusOne() => TestAssignmentOfManagerPropertyIgnoresValue(m => m.Bonus, -1, 0);
+        public void BonusIgnoresAssignmentOfMinusOne()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+
+            test.Arrange(manager, Expr(() => new Manager("abc")));
+            test.Act(Expr(manager, e => e.SetBonus(-1M)));
+            test.Assert.AreEqual(Expr(manager, e => e.Bonus), Const(0M)); ;
+
+            test.Execute();
+        }
         #endregion
 
         #region Exercise 2D
         [TestMethod("a. Manager.CalculateYearlySalary() returns expected output for seniority 1"), TestCategory("Exercise 2D")]
-        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelOne() => TestManagerCalculateYearlySalary(34000, 0, 1);
+        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelOne()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+
+            test.Arrange(manager, Expr(() => new Manager("abc") { MonthlySalary = 35250, Bonus = 0, Seniority = 1 }));
+            test.Assert.AreEqual(Expr(manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("b. Manager.CalculateYearlySalary() returns expected output for seniority 2"), TestCategory("Exercise 2D")]
-        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelTwo() => TestManagerCalculateYearlySalary(15340, 500, 2);
+        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelTwo()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+
+            test.Arrange(manager, Expr(() => new Manager("abc") { MonthlySalary = 15340, Bonus = 500, Seniority = 2 }));
+            test.Assert.AreEqual(Expr(manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("c. Manager.CalculateYearlySalary() returns expected output for seniority 3"), TestCategory("Exercise 2D")]
-        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelThree() => TestManagerCalculateYearlySalary(26500, 1000, 3);
+        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelThree()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+
+            test.Arrange(manager, Expr(() => new Manager("abc") { MonthlySalary = 26500, Bonus = 1000, Seniority = 3 }));
+            test.Assert.AreEqual(Expr(manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("d. Manager.CalculateYearlySalary() returns expected output for seniority 6"), TestCategory("Exercise 2D")]
-        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelSix() => TestManagerCalculateYearlySalary(20000, 300, 6);
+        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelSix()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+
+            test.Arrange(manager, Expr(() => new Manager("abc") { MonthlySalary = 20000, Bonus = 300, Seniority = 6 }));
+            test.Assert.AreEqual(Expr(manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("e. Manager.CalculateYearlySalary() returns expected output for seniority 7"), TestCategory("Exercise 2D")]
-        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelSeven() => TestManagerCalculateYearlySalary(12300, 3000,  7);
+        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelSeven()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+
+            test.Arrange(manager, Expr(() => new Manager("abc") { MonthlySalary = 12300, Bonus = 3000, Seniority = 7 }));
+            test.Assert.AreEqual(Expr(manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
 
         [TestMethod("f. Employee.CalculateYearlySalary() returns expected output for seniority 10"), TestCategory("Exercise 2D")]
-        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelTen() => TestManagerCalculateYearlySalary(35250, 3400, 10);
+        public void ManagerCalculateYearlySalaryAddsTenProcentForSeniorityLevelTen()
+        {
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Manager> manager = test.CreateVariable<Manager>(nameof(manager));
+
+            test.Arrange(manager, Expr(() => new Manager("abc") { MonthlySalary = 35250, Bonus = 34000, Seniority = 10 }));
+            test.Assert.AreEqual(Expr(manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+
+            test.Execute();
+        }
         #endregion
 
         #region Exercise 2E
@@ -342,17 +460,12 @@ namespace Lecture_3_Tests
             TestVariable<Employee> employee1 = test.CreateVariable<Employee>(nameof(employee1));
             TestVariable<Employee> employee2 = test.CreateVariable<Employee>(nameof(employee1));
 
-            Company originalCompany = new Company();
-            Employee originalEmployee1 = new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 };
-            Employee originalEmployee2 = new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 7 };
             test.Arrange(company, Expr(() => new Company()));
             test.Arrange(employee1, Expr(() => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 }));
             test.Arrange(employee2, Expr(() => new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 7 }));
-            originalCompany.Hire(originalEmployee1);
-            originalCompany.Hire(originalEmployee2);
             test.Act(Expr(company, employee1, (c, e) => c.Hire(e)));
             test.Act(Expr(company, employee2, (c, e) => c.Hire(e)));
-            test.Assert.AreEqual(Expr(company, c => c.CalculateYearlySalaryCosts()), Const(originalCompany.CalculateYearlySalaryCosts()));
+            test.Assert.AreEqual(Expr(company, c => c.CalculateYearlySalaryCosts()), Const(0M));
 
             test.Execute();
         }

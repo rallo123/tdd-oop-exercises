@@ -72,7 +72,7 @@ namespace Lecture_2_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person()));
-            test.Assign(Expr(person, p => p.FirstName), Const<string>(null));
+            test.Act(Expr(person, p => p.SetFirstName(null)));
             test.Assert.AreEqual(Expr(person, p => p.FirstName), Const("Unknown"));
 
             test.Execute();
@@ -85,7 +85,7 @@ namespace Lecture_2_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person()));
-            test.Assign(Expr(person, p => p.LastName), Const<string>(null));
+            test.Act(Expr(person, p => p.SetLastName(null)));
             test.Assert.AreEqual(Expr(person, p => p.LastName), Const("Unknown"));
 
             test.Execute();
@@ -98,7 +98,7 @@ namespace Lecture_2_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person()));
-            test.Assign(Expr(person, p => p.FirstName), Const("123456789"));
+            test.Act(Expr(person, p => p.SetFirstName("123456789")));
             test.Assert.AreEqual(Expr(person, p => p.FirstName), Const("Unknown"));
 
             test.Execute();
@@ -111,7 +111,7 @@ namespace Lecture_2_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person()));
-            test.Assign(Expr(person, p => p.LastName), Const("123456789"));
+            test.Act(Expr(person, p => p.SetLastName("123456789")));
             test.Assert.AreEqual(Expr(person, p => p.LastName), Const("Unknown"));
 
             test.Execute();
@@ -124,7 +124,7 @@ namespace Lecture_2_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person()));
-            test.Assign(Expr(person, p => p.FirstName), Const(CreateName(101)));
+            test.Act(Expr(person, p => p.SetFirstName(CreateName(101))));
             test.Assert.AreEqual(Expr(person, p => p.FirstName), Const("Unknown"));
 
             test.Execute();
@@ -137,7 +137,7 @@ namespace Lecture_2_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person()));
-            test.Assign(Expr(person, p => p.LastName), Const(CreateName(101)));
+            test.Act(Expr(person, p => p.SetLastName(CreateName(101))));
             test.Assert.AreEqual(Expr(person, p => p.LastName), Const("Unknown"));
 
             test.Execute();
@@ -162,7 +162,7 @@ namespace Lecture_2_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person()));
-            test.Assign(Expr(person, p => p.Age), Const(-1));
+            test.Act(Expr(person, p => p.SetAge(-1)));
             test.Assert.AreEqual(Expr(person, p => p.Age), Const(-1));
 
             test.Execute();
@@ -218,7 +218,7 @@ namespace Lecture_2_Tests
 
             test.Arrange(child, Expr(() => new Person() { Age = 1 }));
             test.Arrange(mother, Expr(() => new Person() { Age = 0 }));
-            test.Assign(Expr(child, p => p.Mother), Expr(mother, p => p));
+            test.Act(Expr(child, mother, (p1, p2) => p1.SetMother(p2)));
             test.Assert.IsNull(Expr(mother, p => p.Mother));
 
             test.Execute();
@@ -233,7 +233,7 @@ namespace Lecture_2_Tests
 
             test.Arrange(child, Expr(() => new Person() { Age = 1 }));
             test.Arrange(father, Expr(() => new Person() { Age = 0 }));
-            test.Assign(Expr(child, p => p.Father), Expr(father, p => p));
+            test.Act(Expr(child, father, (p1, p2) => p1.SetFather(p2)));
             test.Assert.IsNull(Expr(father, p => p.Father));
 
             test.Execute();

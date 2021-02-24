@@ -166,7 +166,7 @@ namespace Lecture_9_Tests
             test.Arrange(repository, Expr(() => new ProductRepository()));
             test.Arrange(product, Expr(() => new Product() { Name = "Name" }));
             test.Act(Expr(repository, product, (r, p) => r.Add(p)));
-            test.Assign(Expr(product, p => p.Name), Const("NewName"));
+            test.Act(Expr(product, p => p.SetName("NewName")));
             test.Assert.AreEqual(Expr(repository, r => r.First().Name), Const("Name"));
 
             test.Execute();
@@ -182,7 +182,7 @@ namespace Lecture_9_Tests
             test.Arrange(repository, Expr(() => new ProductRepository()));
             test.Arrange(product, Expr(() => new Product() { Name = "Name" }));
             test.Act(Expr(repository, product, (r, p) => r.Add(p)));
-            test.Assign(Expr(product, p => p.Name), Const("NewName"));
+            test.Act(Expr(product, p => p.SetName("NewName")));
             test.Act(Expr(repository, product, (r, p) => r.Update(p)));
             test.Assert.AreEqual(Expr(repository, r => r.First().Name), Const("NewName"));
 

@@ -74,7 +74,7 @@ namespace Lecture_7_Tests
             test.Arrange(repository, Expr(() => new Repository<Dog>()));
             test.Arrange(dog, Expr(() => new Dog() { ID = 2, Name = "Name" }));
             test.Act(Expr(repository, dog, (r, d) => r.Add(d)));
-            test.Assign(Expr(dog, d => d.Name), Const("NewName"));
+            test.Act(Expr(dog, d => d.SetName("NewName")));
             test.Act(Expr(repository, dog, (r, d) => r.Update(d)));
             test.Assert.AreEqual(Expr(repository, r => r.GetAll().First().Name), Const("NewName"));
 

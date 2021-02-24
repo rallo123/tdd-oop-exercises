@@ -13,7 +13,7 @@ namespace Lecture_3_Solutions
 
             // A good default for when center is null
             if (center == null)
-                Center = new Point(0, 0); ;
+                Center = new Point(0, 0);
             if (radius < 0)
                 Radius = 0;
         }

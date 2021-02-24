@@ -51,8 +51,8 @@ namespace Lecture_8_Tests
             TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             test.Arrange(customer, Expr(() => new Customer() { ID = 0 }));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
-            test.Assign(Expr(customer, c => c.ID), Const(1));
+            test.DelegateAssert.IsInvoked(Lambda<PropertyChangedEventHandler>(handler => Expr(customer, c => c.AddPropertyChanged(handler))));
+            test.Act(Expr(customer, c => c.SetID(1)));
 
             test.Execute();
         }
@@ -64,8 +64,8 @@ namespace Lecture_8_Tests
             TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             test.Arrange(customer, Expr(() => new Customer() { ID = 0 }));
-            test.DelegateAssert.IsNotInvoked(LambdaSubscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
-            test.Assign(Expr(customer, c => c.ID), Const(0));
+            test.DelegateAssert.IsNotInvoked(Lambda<PropertyChangedEventHandler>(handler => Expr(customer, c => c.AddPropertyChanged(handler))));
+            test.Act(Expr(customer, c => c.SetID(0)));
 
             test.Execute();
         }
@@ -77,8 +77,8 @@ namespace Lecture_8_Tests
             TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             test.Arrange(customer, Expr(() => new Customer() { FirstName = "abc" }));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
-            test.Assign(Expr(customer, c => c.FirstName), Const("bcd"));
+            test.DelegateAssert.IsInvoked(Lambda<PropertyChangedEventHandler>(handler => Expr(customer, c => c.AddPropertyChanged(handler))));
+            test.Act(Expr(customer, c => c.SetFirstName("bcd")));
 
             test.Execute();
         }
@@ -90,8 +90,8 @@ namespace Lecture_8_Tests
             TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             test.Arrange(customer, Expr(() => new Customer() { FirstName = "abc" }));
-            test.DelegateAssert.IsNotInvoked(LambdaSubscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
-            test.Assign(Expr(customer, c => c.FirstName), Const("abc"));
+            test.DelegateAssert.IsNotInvoked(Lambda<PropertyChangedEventHandler>(handler => Expr(customer, c => c.AddPropertyChanged(handler))));
+            test.Act(Expr(customer, c => c.SetFirstName("abc")));
 
             test.Execute();
         }
@@ -103,8 +103,8 @@ namespace Lecture_8_Tests
             TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             test.Arrange(customer, Expr(() => new Customer() { LastName = "abc" }));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
-            test.Assign(Expr(customer, c => c.LastName), Const("bcd"));
+            test.DelegateAssert.IsInvoked(Lambda<PropertyChangedEventHandler>(handler => Expr(customer, c => c.AddPropertyChanged(handler))));
+            test.Act(Expr(customer, c => c.SetLastName("bcd")));
 
             test.Execute();
         }
@@ -116,8 +116,8 @@ namespace Lecture_8_Tests
             TestVariable<Customer> customer = test.CreateVariable<Customer>();
 
             test.Arrange(customer, Expr(() => new Customer() { LastName = "abc" }));
-            test.DelegateAssert.IsNotInvoked(LambdaSubscribe<Customer, PropertyChangedEventHandler>("PropertyChanged"));
-            test.Assign(Expr(customer, c => c.LastName), Const("abc"));
+            test.DelegateAssert.IsNotInvoked(Lambda<PropertyChangedEventHandler>(handler => Expr(customer, c => c.AddPropertyChanged(handler))));
+            test.Act(Expr(customer, c => c.SetLastName("abc")));
 
             test.Execute();
         }

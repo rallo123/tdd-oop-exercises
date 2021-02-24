@@ -57,7 +57,7 @@ namespace Lecture_4_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person("abc")));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, double>(Expr(person, p => p.Height), Const(-1.0));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(person, p => p.SetHeight(-1.0)));
 
             test.Execute();
         }
@@ -70,7 +70,7 @@ namespace Lecture_4_Tests
             TestVariable<Person> person = test.CreateVariable<Person>(nameof(person));
 
             test.Arrange(person, Expr(() => new Person("abc")));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, double>(Expr(person, p => p.Weight), Const(-1.0));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(person, p => p.SetWeight(-1.0)));
 
             test.Execute();
         }

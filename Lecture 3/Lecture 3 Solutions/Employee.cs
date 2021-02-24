@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using TestTools.Syntax;
 
 namespace Lecture_3_Solutions
 {
@@ -70,5 +71,15 @@ namespace Lecture_3_Solutions
         {
             return $"Employee {Name} ({Title})";
         }
+
+        // TestTools Code
+        [PropertySet("Title")]
+        public void SetTitle(string value) => Title = value;
+
+        [PropertySet("MonthlySalary")]
+        public void SetMonthlySalary(decimal value) => MonthlySalary = value;
+
+        [PropertySet("Seniority")]
+        public void SetSeniority(int value) => Seniority = value;
     }
 }

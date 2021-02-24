@@ -55,7 +55,7 @@ namespace Lecture_6_Tests
         public void MyRandomImplementsIRandom()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<MyRandom>(t => t.GetInterface("IRandom") != null);
+            test.AssertClass<MyRandom>(new TypeIsSubclassOfVerifier(typeof(IRandom)));
             test.Execute();
         }
 
@@ -103,7 +103,7 @@ namespace Lecture_6_Tests
         public void PredictableRandomImplementsIRandom()
         {
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<PredictableRandom>(t => t.GetInterface("IRandom") != null);
+            test.AssertClass<PredictableRandom>(new TypeIsSubclassOfVerifier(typeof(IRandom)));
             test.Execute();
         }
 

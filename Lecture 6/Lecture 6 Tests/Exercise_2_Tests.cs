@@ -64,42 +64,6 @@ namespace Lecture_6_Tests
             test.AssertPublicReadonlyProperty<Car, decimal>(c => c.Price);
             test.Execute();
         }
-
-        [TestMethod("d. Car.Make = null throws ArgumentNullException"), TestCategory("2B")]
-        public void CarMakeAssignmentOfNullThrowsArgumentNullException()
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Car> car = test.CreateVariable<Car>();
-
-            test.Arrange(car, Expr(() => new Car("", "", 0.0M)));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentNullException, string>(Expr(car, c => c.Make), Const<string>(null));
-
-            test.Execute();
-        }
-
-        [TestMethod("e. Car.Model = null throws ArgumentNullException"), TestCategory("2B")]
-        public void CarModelAssignmentOfNullThrowsArgumentNullException()
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Car> car = test.CreateVariable<Car>();
-
-            test.Arrange(car, Expr(() => new Car("", "", 0.0M)));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentNullException, string>(Expr(car, c => c.Model), Const<string>(null));
-
-            test.Execute();
-        }
-
-        [TestMethod("f. Car.Price = -1.0M throws ArgumentException"), TestCategory("2B")]
-        public void CarPriceAssignmentOfMinus1ThrowsArgumentException()
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Car> car = test.CreateVariable<Car>();
-
-            test.Arrange(car, Expr(() => new Car("", "", 0.0M)));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentNullException, decimal>(Expr(car, c => c.Price), Const(-1.0M));
-
-            test.Execute();
-        }
         #endregion
 
         #region Exercise 2C

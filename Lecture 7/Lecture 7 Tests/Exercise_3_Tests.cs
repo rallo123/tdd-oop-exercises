@@ -63,7 +63,7 @@ namespace Lecture_7_Tests
             TestVariable<Dog> dog = test.CreateVariable<Dog>();
 
             test.Arrange(dog, Expr(() => new Dog()));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, int>(Expr(dog, d => d.ID), Const(-1));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(dog, d => d.SetID(-1)));
 
             test.Execute();
         }
@@ -75,7 +75,7 @@ namespace Lecture_7_Tests
             TestVariable<Dog> dog = test.CreateVariable<Dog>();
 
             test.Arrange(dog, Expr(() => new Dog()));
-            test.Assert.ThrowsExceptionOnAssignment<ArgumentException, int>(Expr(dog, d => d.Age), Const(-1));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(dog, d => d.SetAge(-1)));
 
             test.Execute();
         }

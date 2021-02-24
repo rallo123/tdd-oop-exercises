@@ -68,7 +68,7 @@ namespace Lecture_8_Tests
             TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
 
             test.Arrange(view, Expr(() => new ConsoleView()));
-            test.DelegateAssert.IsInvoked(LambdaSubscribe<ConsoleView, InputHandler>("Input"));
+            test.DelegateAssert.IsInvoked(Lambda<InputHandler>(handler => Expr(view, v => v.AddInput(handler))));
             test.Act(Expr(() => ConsoleInputter.WriteLine("User input")));
             test.Act(Expr(() => ConsoleInputter.WriteLine()));
             test.Act(Expr(view, v => v.Run()));
@@ -82,7 +82,7 @@ namespace Lecture_8_Tests
             TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
 
             test.Arrange(view, Expr(() => new ConsoleView()));
-            test.DelegateAssert.IsNotInvoked(LambdaSubscribe<ConsoleView, InputHandler>("Input"));
+            test.DelegateAssert.IsInvoked(Lambda<InputHandler>(handler => Expr(view, v => v.AddInput(handler))));
             test.Act(Expr(() => ConsoleInputter.WriteLine()));
             test.Act(Expr(view, v => v.Run()));
 

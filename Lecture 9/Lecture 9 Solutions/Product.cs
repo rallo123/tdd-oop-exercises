@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestTools.Syntax;
 
 namespace Lecture_9_Solutions
 {
@@ -26,5 +27,9 @@ namespace Lecture_9_Solutions
         {
             return ID;
         }
+
+        // TestTools Code
+        [PropertySet("Name")]
+        public void SetName(string value) => Name = value; 
     }
 }

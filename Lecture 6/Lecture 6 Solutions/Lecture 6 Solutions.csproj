@@ -6,4 +6,8 @@
     <RootNamespace>Lecture_1_Potential_Solutions</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\TestTools\TestTools\TestTools.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -91,7 +91,37 @@ namespace TestTools.Unit
             throw new NotImplementedException();
         }
 
+        public static TestExpression<Action<T1>> Lambda<T1>(Expression<Func<T1, TestExpression>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static TestExpression<Action<T1, T2>> Lambda<T1, T2>(Expression<Func<T1, T2, TestExpression>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static TestExpression<Action<T1, T2, T3>> Lambda<T1, T2, T3>(Expression<Func<T1, T2, T3, TestExpression>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
         public static TestExpression<Func<T>> Lambda<T>(TestExpression<T> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static TestExpression<Func<T1, T>> Lambda<T1, T>(Expression<Func<T1, TestExpression>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static TestExpression<Func<T1, T2, T>> Lambda<T1, T2, T>(Expression<Func<T1, T2, TestExpression>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static TestExpression<Func<T1, T2, T3, T>> Lambda<T1, T2, T3, T>(Expression<Func<T1, T2, T3, TestExpression>> expression)
         {
             throw new NotImplementedException();
         }

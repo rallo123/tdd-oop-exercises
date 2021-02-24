@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq.Expressions;
 using System.Reflection;
-using TestTools.Syntax.Attributes;
+using TestTools.Syntax;
 
 namespace TestTools_Tests.Syntax.Attributes
 {
