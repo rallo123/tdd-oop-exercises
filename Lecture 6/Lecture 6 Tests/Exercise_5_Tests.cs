@@ -19,6 +19,7 @@ namespace Lecture_6_Tests
         [TestMethod("a. CarListSorter.Comparer is a publuc IComparer<Car> property"), TestCategory("5A")]
         public void CarListSorterComparerIsPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<CarSorter, IComparer<Car>>(c => c.Comparer);
             test.Execute();
@@ -27,12 +28,14 @@ namespace Lecture_6_Tests
         [TestMethod("b. CarSorter.Comparer initializes to null"), TestCategory("5A")]
         public void CarSorterComparerInitializesToNull()
         {
+            CarSorter sorter = new CarSorter();
+            Assert.IsNull(sorter.Comparer);
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<CarSorter> sorter = test.CreateVariable<CarSorter>();
-
-            test.Arrange(sorter, Expr(() => new CarSorter()));
-            test.Assert.IsNull(Expr(sorter, s => s.Comparer));
-
+            TestVariable<CarSorter> _sorter = test.CreateVariable<CarSorter>();
+            test.Arrange(_sorter, Expr(() => new CarSorter()));
+            test.Assert.IsNull(Expr(_sorter, s => s.Comparer));
             test.Execute();
         }
         #endregion
@@ -41,6 +44,7 @@ namespace Lecture_6_Tests
         [TestMethod("a. CarListSorter.Sort takes an array of cars"), TestCategory("5B")]
         public void DieConstructorTakesIRandomAndInt()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<CarSorter, Car[]>((c1, c2) => c1.Sort(c2));
             test.Execute();
@@ -49,47 +53,84 @@ namespace Lecture_6_Tests
         [TestMethod("b. CarListSorter.Sort does not sort array if Comparer = null"), TestCategory("5B")]
         public void CarListSorterSortDoesNotSort()
         {
+            CarSorter sorter = new CarSorter();
+            Car[] carsBefore = new Car[]
+            {
+                new Car("Audi", "S3", 1234567.0M),
+                new Car("Audi", "S4", 123464.0M),
+                new Car("Suzuki", "Splash", 123467.0M) 
+            };
+            Car[] carsAfter = new Car[]
+            {
+                new Car("Audi", "S3", 1234567.0M),
+                new Car("Audi", "S4", 123464.0M),
+                new Car("Suzuki", "Splash", 123467.0M)
+            };
+
+            sorter.Sort(carsBefore);
+
+            Assert.IsTrue(carsBefore.SequenceEqual(carsAfter));
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<CarSorter> sorter = test.CreateVariable<CarSorter>();
-            TestVariable<Car[]> carsBefore = test.CreateVariable<Car[]>();
-            TestVariable<Car[]> carsAfter = test.CreateVariable<Car[]>();
-
-            test.Arrange(sorter, Expr(() => new CarSorter()));
-            test.Arrange(carsBefore, Expr(() => new[] {
+            TestVariable<CarSorter> _sorter = test.CreateVariable<CarSorter>();
+            TestVariable<Car[]> _carsBefore = test.CreateVariable<Car[]>();
+            TestVariable<Car[]> _carsAfter = test.CreateVariable<Car[]>();
+            test.Arrange(_sorter, Expr(() => new CarSorter()));
+            test.Arrange(_carsBefore, Expr(() => new[] {
                 new Car("Audi", "S3", 1234567.0M),
                 new Car("Audi", "S4", 123464.0M),
                 new Car("Suzuki", "Splash", 123467.0M) }));
-            test.Arrange(carsAfter, Expr(() => new[] {
+            test.Arrange(_carsAfter, Expr(() => new[] {
                 new Car("Audi", "S3", 1234567.0M),
                 new Car("Audi", "S4", 123464.0M),
                 new Car("Suzuki", "Splash", 123467.0M) }));
-            test.Act(Expr(sorter, carsBefore, (s, c) => s.Sort(c)));
-            test.Assert.IsTrue(Expr(carsBefore, carsAfter, (c1, c2) => c1.SequenceEqual(c2)));
-
+            test.Act(Expr(_sorter, _carsBefore, (s, c) => s.Sort(c)));
+            test.Assert.IsTrue(Expr(_carsBefore, _carsAfter, (c1, c2) => c1.SequenceEqual(c2)));
             test.Execute();
         }
 
         [TestMethod("c. CarListSorter.Sort sorts according to price if Comparer = new CarPriceComparer()"), TestCategory("5B")]
         public void CarListSorterSorts()
         {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<CarSorter> sorter = test.CreateVariable<CarSorter>();
-            TestVariable<Car[]> carsBefore = test.CreateVariable<Car[]>();
-            TestVariable<Car[]> carsAfter = test.CreateVariable<Car[]>();
+            CarSorter sorter = new CarSorter() 
+            {
+                Comparer = new CarPriceComparer()
+            };
+            Car[] carsBefore = new Car[]
+            {
+                new Car("Audi", "S3", 1234567.0M),
+                new Car("Audi", "S4", 123464.0M),
+                new Car("Suzuki", "Splash", 123467.0M)
+            };
+            Car[] carsAfter = new Car[]
+            {
+                new Car("Suzuki", "Splash", 123467.0M),
+                new Car("Audi", "S4", 123464.0M),
+                new Car("Audi", "S3", 1234567.0M)
+            };
 
-            test.Arrange(sorter, Expr(() => new CarSorter() { Comparer = new CarPriceComparer() }));
-            test.Arrange(carsBefore, Expr(() => new[] {
+            sorter.Sort(carsBefore);
+
+            Assert.IsTrue(carsBefore.SequenceEqual(carsAfter));
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<CarSorter> _sorter = test.CreateVariable<CarSorter>();
+            TestVariable<Car[]> _carsBefore = test.CreateVariable<Car[]>();
+            TestVariable<Car[]> _carsAfter = test.CreateVariable<Car[]>();
+            test.Arrange(_sorter, Expr(() => new CarSorter() { Comparer = new CarPriceComparer() }));
+            test.Arrange(_carsBefore, Expr(() => new[] {
                 new Car("Audi", "S3", 1234567.0M),
                 new Car("Audi", "S4", 123464.0M),
                 new Car("Suzuki", "Splash", 123467.0M) }));
-            test.Arrange(carsAfter, Expr(() => new[] {
+            test.Arrange(_carsAfter, Expr(() => new[] {
                 new Car("Suzuki", "Splash", 123467.0M),
                 new Car("Audi", "S4", 123464.0M),
                 new Car("Audi", "S3", 1234567.0M),
             }));
-            test.Act(Expr(sorter, carsBefore, (s, c) => s.Sort(c)));
-            test.Assert.IsTrue(Expr(carsBefore, carsAfter, (c1, c2) => c1.SequenceEqual(c2)));
-
+            test.Act(Expr(_sorter, _carsBefore, (s, c) => s.Sort(c)));
+            test.Assert.IsTrue(Expr(_carsBefore, _carsAfter, (c1, c2) => c1.SequenceEqual(c2)));
             test.Execute();
         }
         #endregion

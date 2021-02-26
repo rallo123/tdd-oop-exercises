@@ -20,6 +20,7 @@ namespace Lecture_6_Tests
         [TestMethod("TextFile constructor takes string"), TestCategory("7A")]
         public void TextFileConstructorTakesString()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicConstructor<string, TextFile>(s => new TextFile(s));
             test.Execute();
@@ -30,12 +31,13 @@ namespace Lecture_6_Tests
         [TestMethod("TestFile.Content is public read-only string"), TestCategory("7B")]
         public void TestFileContentIsPublicReadOnlyString()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicReadonlyProperty<TextFile, string>(t => t.Content);
             test.Execute();
         }
 
-        public void TestFileContentReadsFileContentCorrectlySetup()
+        private void TestSetup()
         {
             IFileSystem fs = new FileSystem();
             fs.File.Create("/file.txt");
@@ -45,13 +47,19 @@ namespace Lecture_6_Tests
         [TestMethod("TestFile.Content reads file content correctly"), TestCategory("7B")]
         public void TestFileContentReadsFileContentCorrectly()
         {
+            TestSetup();
+
+            TextFile file = new TextFile("/file.txt");
+            Assert.AreEqual(file.Content, "content of file");
+            file.Dispose();
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<TextFile> file = test.CreateVariable<TextFile>();
-
-            TestFileContentReadsFileContentCorrectlySetup();
-            test.Arrange(file, Expr(() => new TextFile("/file.txt")));
-            test.Assert.IsTrue(Expr(file, f => f.Content == "content of file"));
-
+            TestVariable<TextFile> _file = test.CreateVariable<TextFile>();
+            TestSetup();
+            test.Arrange(_file, Expr(() => new TextFile("/file.txt")));
+            test.Assert.IsTrue(Expr(_file, f => f.Content == "content of file"));
+            test.Act(Expr(_file, f => f.Dispose()));
             test.Execute();
         }
         #endregion
@@ -60,29 +68,29 @@ namespace Lecture_6_Tests
         [TestMethod("TextFile implements IDisposable"), TestCategory("7C")]
         public void TextFileImplementsIDisposable()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertClass<TextFile>(new TypeIsSubclassOfVerifier(typeof(IDisposable)));
             test.Execute();
         }
 
-        public void TextFileContentEqualsNullAfterDisposableSetup()
-        {
-            IFileSystem fs = new FileSystem();
-            fs.File.Create("/file.txt");
-            fs.File.WriteAllText("/file.txt", "content of file");
-        }
-
         [TestMethod("TextFile.Content equals null after TextFile.Dispose()"), TestCategory("7C")]
         public void TextFileContentEqualsNullAfterDisposable()
         {
+            TestSetup();
+
+            TextFile file = new TextFile("/file.txt");
+
+            file.Dispose();
+
+            Assert.IsNull(file.Content);
+
+            // TestTool Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<TextFile> file = test.CreateVariable<TextFile>();
-
-            TextFileContentEqualsNullAfterDisposableSetup();
-            test.Arrange(file, Expr(() => new TextFile("/file.txt")));
-            test.Act(Expr(file, f => f.Dispose()));
-            test.Assert.IsNotNull(Expr(file, f => f.Content == null));
-
+            TestVariable<TextFile> _file = test.CreateVariable<TextFile>();
+            test.Arrange(_file, Expr(() => new TextFile("/file.txt")));
+            test.Act(Expr(_file, f => f.Dispose()));
+            test.Assert.IsNull(Expr(_file, f => f.Content));
             test.Execute();
         }
         #endregion

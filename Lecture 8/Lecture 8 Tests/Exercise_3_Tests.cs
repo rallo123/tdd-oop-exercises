@@ -19,6 +19,7 @@ namespace Lecture_8_Tests
         [TestMethod("ConsoleView.Run() is a public method"), TestCategory("3A")]
         public void ConsoleViewRunIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<ConsoleView>(v => v.Run());
             test.Execute();
@@ -27,13 +28,18 @@ namespace Lecture_8_Tests
         [TestMethod("BankAccount.Run() returns on empty line input"), TestCategory("3A")]
         public void BankAccount()
         {
+            // MSTest Extended
+            ConsoleView view = new ConsoleView();
+            
+            ConsoleInputter.WriteLine();
+            view.Run();
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
-
-            test.Arrange(view, Expr(() => new ConsoleView()));
+            TestVariable<ConsoleView> _view = test.CreateVariable<ConsoleView>();
+            test.Arrange(_view, Expr(() => new ConsoleView()));
             test.Act(Expr(() => ConsoleInputter.WriteLine()));
-            test.Act(Expr(view, v => v.Run()));
-
+            test.Act(Expr(_view, v => v.Run()));
             test.Execute();
         }
         #endregion
@@ -42,6 +48,7 @@ namespace Lecture_8_Tests
         [TestMethod("InputHandler is public delegate"), TestCategory("3B")]
         public void InputHandlerIsPublicDelegate()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicDelegate<InputHandler, Action<string>>();
             test.Execute();
@@ -52,6 +59,7 @@ namespace Lecture_8_Tests
         [TestMethod("a. ConsoleView.Input is public event"), TestCategory("3C")]
         public void ConsoleViewInputIsPublicEvent()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertEvent(
                 typeof(BankAccount).GetEvent("Input"),
@@ -63,28 +71,44 @@ namespace Lecture_8_Tests
         [TestMethod("b. ConsoleView.Run emits Input on non-empty-line input"), TestCategory("3C")]
         public void ConsoleViewRunEmitsInputOnNonEmptyLineInput()
         {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
+            ConsoleView view = new ConsoleView();
+            DelegateAssert.IsInvoked<InputHandler>(handler => view.Input += handler);
+            
+            ConsoleInputter.WriteLine("User input");
+            ConsoleInputter.WriteLine();
+            view.Run();
 
-            test.Arrange(view, Expr(() => new ConsoleView()));
-            test.DelegateAssert.IsInvoked(Lambda<InputHandler>(handler => Expr(view, v => v.AddInput(handler))));
+            DelegateAssert.Verify();
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<ConsoleView> _view = test.CreateVariable<ConsoleView>();
+            test.Arrange(_view, Expr(() => new ConsoleView()));
+            test.DelegateAssert.IsInvoked(Lambda<InputHandler>(handler => Expr(_view, v => v.AddInput(handler))));
             test.Act(Expr(() => ConsoleInputter.WriteLine("User input")));
             test.Act(Expr(() => ConsoleInputter.WriteLine()));
-            test.Act(Expr(view, v => v.Run()));
+            test.Act(Expr(_view, v => v.Run()));
             test.Execute();
         }
 
         [TestMethod("c. ConsoleView.Run does not emit Input on empty-line input"), TestCategory("3C")]
         public void ConsoleViewRunDoesNotEmitInputOnEmptyLineInput()
         {
+            ConsoleView view = new ConsoleView();
+            DelegateAssert.IsNotInvoked<InputHandler>(handler => view.Input += handler);
+
+            ConsoleInputter.WriteLine();
+            view.Run();
+
+            DelegateAssert.Verify();
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<ConsoleView> view = test.CreateVariable<ConsoleView>();
-
-            test.Arrange(view, Expr(() => new ConsoleView()));
-            test.DelegateAssert.IsInvoked(Lambda<InputHandler>(handler => Expr(view, v => v.AddInput(handler))));
+            TestVariable<ConsoleView> _view = test.CreateVariable<ConsoleView>();
+            test.Arrange(_view, Expr(() => new ConsoleView()));
+            test.DelegateAssert.IsNotInvoked(Lambda<InputHandler>(handler => Expr(_view, v => v.AddInput(handler))));
             test.Act(Expr(() => ConsoleInputter.WriteLine()));
-            test.Act(Expr(view, v => v.Run()));
-
+            test.Act(Expr(_view, v => v.Run()));
             test.Execute();
         }
         #endregion

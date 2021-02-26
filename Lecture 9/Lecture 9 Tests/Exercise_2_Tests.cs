@@ -19,6 +19,7 @@ namespace Lecture_9_Tests
         [TestMethod("a. Student.ID is a public property")]
         public void StudentIDIsAPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Student, int>(s => s.ID);
             test.Execute();
@@ -27,6 +28,7 @@ namespace Lecture_9_Tests
         [TestMethod("b. Student.FirstName is a public property")]
         public void StudentFirstNameIsAPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Student, string>(s => s.FirstName);
             test.Execute();
@@ -35,6 +37,7 @@ namespace Lecture_9_Tests
         [TestMethod("c. Student.LastName is a public property")]
         public void StudentLastNameIsAPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Student, string>(s => s.LastName);
             test.Execute();
@@ -43,6 +46,7 @@ namespace Lecture_9_Tests
         [TestMethod("d. Student.LastName is a public property")]
         public void StudentAgeIsAPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Student, int>(s => s.Age);
             test.Execute();
@@ -53,6 +57,7 @@ namespace Lecture_9_Tests
         [TestMethod("a. Course.Student is a readonly property")]
         public void CourseStudentIsAReadonlyProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicReadonlyProperty<Course, IEnumerable<Student>>(c => c.Students);
             test.Execute();
@@ -61,6 +66,7 @@ namespace Lecture_9_Tests
         [TestMethod("b. Course.Enroll(Student s) is a public method")]
         public void CourseEnrollIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<Course, Student>((c, s) => c.Enroll(s));
             test.Execute();
@@ -69,6 +75,7 @@ namespace Lecture_9_Tests
         [TestMethod("c. Course.Disenroll(Student s) is a public method")]
         public void CourseDisenrollIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<Course, Student>((c, s) => c.Disenroll(s));
             test.Execute();
@@ -77,38 +84,26 @@ namespace Lecture_9_Tests
         [TestMethod("d. Course.Enroll(Student s) adds student")]
         public void CourseEnrollAddsStudent()
         {
+            Course course = new Course();
+            Student student = new Student();
+
+            course.Enroll(student);
+
+            Assert.IsTrue(course.Students.SequenceEqual(new Student[] { student }));
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<Course> course = test.CreateVariable<Course>();
-            TestVariable<Student> student = test.CreateVariable<Student>();
-
-            test.Arrange(course, Expr(() => new Course()));
-            test.Arrange(student, Expr(() => new Student()));
-            test.Act(Expr(course, student, (c, s) => c.Enroll(s)));
-            test.Assert.IsTrue(Expr(course, student, (c, s) => c.Students.SequenceEqual(new[] { s })));
-
+            TestVariable<Course> _course = test.CreateVariable<Course>();
+            TestVariable<Student> _student = test.CreateVariable<Student>();
+            test.Arrange(_course, Expr(() => new Course()));
+            test.Arrange(_student, Expr(() => new Student()));
+            test.Act(Expr(_course, _student, (c, s) => c.Enroll(s)));
+            test.Assert.IsTrue(Expr(_course, _student, (c, s) => c.Students.SequenceEqual(new[] { s })));
             test.Execute();
         }
 
         [TestMethod("e. Course.Disenroll(Student s) removes student again")]
         public void CourseDisenrollRemovesStudentAgain()
-        {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Course> course = test.CreateVariable<Course>();
-            TestVariable<Student> student = test.CreateVariable<Student>();
-
-            test.Arrange(course, Expr(() => new Course()));
-            test.Arrange(student, Expr(() => new Student()));
-            test.Act(Expr(course, student, (c, s) => c.Enroll(s)));
-            test.Act(Expr(course, student, (c, s) => c.Disenroll(s)));
-            test.Assert.IsFalse(Expr(course, student, (c, s) => c.Students.Any()));
-
-            test.Execute();
-        }
-
-        #endregion
-
-        [TestMethod("e. Course.Disenroll(Student s) removes student again")]
-        public void CourseDisenrollRemovesStudentAgain2()
         {
             Course course = new Course();
             Student student = new Student();
@@ -117,12 +112,26 @@ namespace Lecture_9_Tests
             course.Disenroll(student);
 
             Assert.IsFalse(course.Students.Any());
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Course> _course = test.CreateVariable<Course>();
+            TestVariable<Student> _student = test.CreateVariable<Student>();
+            test.Arrange(_course, Expr(() => new Course()));
+            test.Arrange(_student, Expr(() => new Student()));
+            test.Act(Expr(_course, _student, (c, s) => c.Enroll(s)));
+            test.Act(Expr(_course, _student, (c, s) => c.Disenroll(s)));
+            test.Assert.IsFalse(Expr(_course, _student, (c, s) => c.Students.Any()));
+            test.Execute();
         }
+
+        #endregion
 
         #region Exercise 2C
         [TestMethod("a. Course.GetStudentByID(int id) is a public method")]
         public void CourseGetStudentByIDIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<Course, int, Student>((c, i) => c.GetStudentByID(i));
             test.Execute();
@@ -131,6 +140,7 @@ namespace Lecture_9_Tests
         [TestMethod("b. Course.GetYoungestStudent() is a public method")]
         public void CourseGetYoungestStudentIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<Course, Student>(c => c.GetYoungestStudent());
             test.Execute();
@@ -139,6 +149,7 @@ namespace Lecture_9_Tests
         [TestMethod("c. Course.GetOldestStudent() is a public method")]
         public void CourseGetOldestStudentIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<Course, Student>(c => c.GetOldestStudent());
             test.Execute();
@@ -147,6 +158,7 @@ namespace Lecture_9_Tests
         [TestMethod("d. Course.GetAverageStudentAge() is a public method")]
         public void CourseGetAverageStudentAgeIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<Course, double>(c => c.GetAverageStudentAge());
             test.Execute();
@@ -155,68 +167,99 @@ namespace Lecture_9_Tests
         [TestMethod("e. Course.GetStudentByID(int id) returns correctly")]
         public void CourseGetStudentByIDReturnsCorrectly()
         {
+            Course course = new Course();
+            Student student = new Student() { ID = 5 };
+
+            course.Enroll(student);
+
+            Assert.AreEqual(course.GetStudentByID(5), student);
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<Course> course = test.CreateVariable<Course>();
-            TestVariable<Student> student = test.CreateVariable<Student>();
-
-            test.Arrange(course, Expr(() => new Course()));
-            test.Arrange(student, Expr(() => new Student() { ID = 5 }));
-            test.Act(Expr(course, student, (c, s) => c.Enroll(s)));
-            test.Assert.IsTrue(Expr(course, student, (c, s) => c.GetStudentByID(5) == s));
-
+            TestVariable<Course> _course = test.CreateVariable<Course>();
+            TestVariable<Student> _student = test.CreateVariable<Student>();
+            test.Arrange(_course, Expr(() => new Course()));
+            test.Arrange(_student, Expr(() => new Student() { ID = 5 }));
+            test.Act(Expr(_course, _student, (c, s) => c.Enroll(s)));
+            test.Assert.IsTrue(Expr(_course, _student, (c, s) => c.GetStudentByID(5) == s));
             test.Execute();
         }
 
         [TestMethod("f. Course.GetYoungestStudent() returns correctly")]
         public void CourseGetYoungestStudentReturnsCorrectly()
         {
+            Course course = new Course();
+            Student youngestStudent = new Student() { Age = 19 };
+            Student oldestStudent = new Student() { Age = 23 };
+
+            course.Enroll(youngestStudent);
+            course.Disenroll(oldestStudent);
+
+            Assert.AreEqual(course.GetYoungestStudent(), youngestStudent);
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<Course> course = test.CreateVariable<Course>();
-            TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
-            TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
-
-            test.Arrange(course, Expr(() => new Course()));
-            test.Arrange(youngestStudent, Expr(() => new Student() { Age = 19 }));
-            test.Arrange(oldestStudent, Expr(() => new Student() { Age = 23 }));
-            test.Act(Expr(course, youngestStudent, (c, s) => c.Enroll(s)));
-            test.Act(Expr(course, oldestStudent, (c, s) => c.Enroll(s)));
-            test.Assert.IsTrue(Expr(course, youngestStudent, (c, s) => c.GetYoungestStudent() == s));
-
+            TestVariable<Course> _course = test.CreateVariable<Course>();
+            TestVariable<Student> _youngestStudent = test.CreateVariable<Student>();
+            TestVariable<Student> _oldestStudent = test.CreateVariable<Student>();
+            test.Arrange(_course, Expr(() => new Course()));
+            test.Arrange(_youngestStudent, Expr(() => new Student() { Age = 19 }));
+            test.Arrange(_oldestStudent, Expr(() => new Student() { Age = 23 }));
+            test.Act(Expr(_course, _youngestStudent, (c, s) => c.Enroll(s)));
+            test.Act(Expr(_course, _oldestStudent, (c, s) => c.Enroll(s)));
+            test.Assert.IsTrue(Expr(_course, _youngestStudent, (c, s) => c.GetYoungestStudent() == s));
             test.Execute();
         }
 
         [TestMethod("g. Course.GetOldestStudent() returns correctly")]
         public void CourseGetOldestStudentReturnsCorrectly()
         {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Course> course = test.CreateVariable<Course>();
-            TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
-            TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
+            Course course = new Course();
+            Student youngestStudent = new Student() { Age = 19 };
+            Student oldestStudent = new Student() { Age = 23 };
 
-            test.Arrange(course, Expr(() => new Course()));
-            test.Arrange(youngestStudent, Expr(() => new Student() { Age = 19 }));
-            test.Arrange(oldestStudent, Expr(() => new Student() { Age = 23 }));
-            test.Act(Expr(course, youngestStudent, (c, s) => c.Enroll(s)));
-            test.Act(Expr(course, oldestStudent, (c, s) => c.Enroll(s)));
-            test.Assert.IsTrue(Expr(course, oldestStudent, (c, s) => c.GetOldestStudent() == s));
+            course.Enroll(youngestStudent);
+            course.Disenroll(oldestStudent);
+
+            Assert.AreEqual(course.GetOldestStudent(), oldestStudent);
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Course> _course = test.CreateVariable<Course>();
+            TestVariable<Student> _youngestStudent = test.CreateVariable<Student>();
+            TestVariable<Student> _oldestStudent = test.CreateVariable<Student>();
+            test.Arrange(_course, Expr(() => new Course()));
+            test.Arrange(_youngestStudent, Expr(() => new Student() { Age = 19 }));
+            test.Arrange(_oldestStudent, Expr(() => new Student() { Age = 23 }));
+            test.Act(Expr(_course, _youngestStudent, (c, s) => c.Enroll(s)));
+            test.Act(Expr(_course, _oldestStudent, (c, s) => c.Enroll(s)));
+            test.Assert.IsTrue(Expr(_course, _oldestStudent, (c, s) => c.GetOldestStudent() == s));
             test.Execute();
         }
 
         [TestMethod("h. Course.GetAverageStudentAge() returns correctly")]
         public void CourseGetAverageStudentAgeReturnsCorrectly()
         {
+            Course course = new Course();
+            Student youngestStudent = new Student() { Age = 19 };
+            Student oldestStudent = new Student() { Age = 23 };
+
+            course.Enroll(youngestStudent);
+            course.Disenroll(oldestStudent);
+
+            Assert.AreEqual(course.GetAverageStudentAge(), 21.0);
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<Course> course = test.CreateVariable<Course>();
-            TestVariable<Student> youngestStudent = test.CreateVariable<Student>();
-            TestVariable<Student> oldestStudent = test.CreateVariable<Student>();
-
-            test.Arrange(course, Expr(() => new Course()));
-            test.Arrange(youngestStudent, Expr(() => new Student() { Age = 19 }));
-            test.Arrange(oldestStudent, Expr(() => new Student() { Age = 23 }));
-            test.Act(Expr(course, youngestStudent, (c, s) => c.Enroll(s)));
-            test.Act(Expr(course, oldestStudent, (c, s) => c.Enroll(s)));
-            test.Assert.AreEqual(Expr(course, youngestStudent, (c, s) => c.GetAverageStudentAge()), Const(21.0));
-
+            TestVariable<Course> _course = test.CreateVariable<Course>();
+            TestVariable<Student> _youngestStudent = test.CreateVariable<Student>();
+            TestVariable<Student> _oldestStudent = test.CreateVariable<Student>();
+            test.Arrange(_course, Expr(() => new Course()));
+            test.Arrange(_youngestStudent, Expr(() => new Student() { Age = 19 }));
+            test.Arrange(_oldestStudent, Expr(() => new Student() { Age = 23 }));
+            test.Act(Expr(_course, _youngestStudent, (c, s) => c.Enroll(s)));
+            test.Act(Expr(_course, _oldestStudent, (c, s) => c.Enroll(s)));
+            test.Assert.AreEqual(Expr(_course, _youngestStudent, (c, s) => c.GetAverageStudentAge()), Const(21.0));
             test.Execute();
         }
         #endregion

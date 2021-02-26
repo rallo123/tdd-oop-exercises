@@ -18,6 +18,7 @@ namespace Lecture_7_Tests
         [TestMethod("Dog has a public default constructor"), TestCategory("3A")]
         public void DogHasPublicDefaultConstructor()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicConstructor<Dog>(() => new Dog());
             test.Execute();
@@ -26,6 +27,7 @@ namespace Lecture_7_Tests
         [TestMethod("Dog.ID is public property"), TestCategory("3A")]
         public void DogIDIsPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Dog, int>(d => d.ID);
             test.Execute();
@@ -34,6 +36,7 @@ namespace Lecture_7_Tests
         [TestMethod("Dog.Name has is public property"), TestCategory("3A")]
         public void DogNameIsPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Dog, string>(d => d.Name);
             test.Execute();
@@ -42,6 +45,7 @@ namespace Lecture_7_Tests
         [TestMethod("Dog.Breed has is public property"), TestCategory("3A")]
         public void DogBreedIsPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Dog, string>(d => d.Breed);
             test.Execute();
@@ -50,6 +54,7 @@ namespace Lecture_7_Tests
         [TestMethod("Dog.Age has is public property"), TestCategory("3A")]
         public void DogAgeIsPublicProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Dog, int>(d => d.Age);
             test.Execute();
@@ -58,24 +63,28 @@ namespace Lecture_7_Tests
         [TestMethod("Dog.ID = -1 throws ArgumentException"), TestCategory("3A")]
         public void DogIDAssignmentOfMinus1ThrowsArgumentException()
         {
+            Dog dog = new Dog();
+            Assert.ThrowsException<ArgumentException>(() => dog.ID = -1);
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<Dog> dog = test.CreateVariable<Dog>();
-
-            test.Arrange(dog, Expr(() => new Dog()));
-            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(dog, d => d.SetID(-1)));
-
+            TestVariable<Dog> _dog = test.CreateVariable<Dog>();
+            test.Arrange(_dog, Expr(() => new Dog()));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(_dog, d => d.SetID(-1)));
             test.Execute();
         }
 
         [TestMethod("Dog.Age = -1 throws ArgumentException"), TestCategory("3A")]
         public void DogAgeAssignmentOfMinus1ThrowsArgumentException()
         {
+            Dog dog = new Dog();
+            Assert.ThrowsException<ArgumentException>(() => dog.Age = -1);
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<Dog> dog = test.CreateVariable<Dog>();
-
-            test.Arrange(dog, Expr(() => new Dog()));
-            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(dog, d => d.SetAge(-1)));
-
+            TestVariable<Dog> _dog = test.CreateVariable<Dog>();
+            test.Arrange(_dog, Expr(() => new Dog()));
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(_dog, d => d.SetAge(-1)));
             test.Execute();
         }
         #endregion
@@ -84,6 +93,7 @@ namespace Lecture_7_Tests
         [TestMethod("Dog implements ICloneable"), TestCategory("3B")]
         public void MyQueueCountIsReadOnlyIntProoerty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertClass<Dog>(new TypeIsSubclassOfVerifier(typeof(ICloneable)));
             test.Execute();
@@ -92,17 +102,31 @@ namespace Lecture_7_Tests
         [TestMethod("Dog.Clone() clones fields")]
         public void MyQueueCountIsInitializedAs0()
         {
+            Dog dog1 = new Dog()
+            {
+                ID = 5,
+                Name = "Buddy",
+                Breed = "Labrador",
+                Age = 4
+            };
+
+            Dog dog2 = (Dog)dog1.Clone();
+
+            Assert.AreEqual(dog2.ID, 5);
+            Assert.AreEqual(dog2.Name, "Buddy");
+            Assert.AreEqual(dog2.Breed, "Labrador");
+            Assert.AreEqual(dog2.Age, 4);
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<Dog> dog1 = test.CreateVariable<Dog>();
-            TestVariable<Dog> dog2 = test.CreateVariable<Dog>();
-
-            test.Arrange(dog1, Expr(() => new Dog() { ID = 5, Name = "Buddy", Breed = "Labrador", Age = 4 }));
-            test.Arrange(dog2, Expr(dog1, d => (Dog)d.Clone()));
-            test.Assert.AreEqual(Expr(dog2, d => d.ID), Const(5));
-            test.Assert.AreEqual(Expr(dog2, d => d.Name), Const("Buddy"));
-            test.Assert.AreEqual(Expr(dog2, d => d.Breed), Const("Labrador"));
-            test.Assert.AreEqual(Expr(dog2, d => d.Age), Const(4));
-
+            TestVariable<Dog> _dog1 = test.CreateVariable<Dog>();
+            TestVariable<Dog> _dog2 = test.CreateVariable<Dog>();
+            test.Arrange(_dog1, Expr(() => new Dog() { ID = 5, Name = "Buddy", Breed = "Labrador", Age = 4 }));
+            test.Arrange(_dog2, Expr(_dog1, d => (Dog)d.Clone()));
+            test.Assert.AreEqual(Expr(_dog2, d => d.ID), Const(5));
+            test.Assert.AreEqual(Expr(_dog2, d => d.Name), Const("Buddy"));
+            test.Assert.AreEqual(Expr(_dog2, d => d.Breed), Const("Labrador"));
+            test.Assert.AreEqual(Expr(_dog2, d => d.Age), Const(4));
             test.Execute();
         }
         #endregion

@@ -16,6 +16,7 @@ namespace Lecture_4_Tests
         [TestMethod("a. NotOldEnoughException is subclass of Exception"), TestCategory("Exercise 7A")]
         public void NotOldEnoughExceptionIsSubclassOfException()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertClass<NotOldEnoughException>(new TypeBaseClassVerifier(typeof(Exception)));
             test.Execute();
@@ -26,12 +27,14 @@ namespace Lecture_4_Tests
         [TestMethod("a. NotOldEnoughException() results in Message = \"Person is too young\""), TestCategory("Exercise 7B")]
         public void ParameterlessPersonConstructorAssignsMessageProperty()
         {
+            NotOldEnoughException exception = new NotOldEnoughException();
+            Assert.AreEqual(exception.Message, "Person is too young");
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<NotOldEnoughException> exception = test.CreateVariable<NotOldEnoughException>();
-
-            test.Arrange(exception, Expr(() => new NotOldEnoughException()));
-            test.Assert.AreEqual(Expr(exception, e => e.Message), Const("Person is too young"));
-
+            TestVariable<NotOldEnoughException> _exception = test.CreateVariable<NotOldEnoughException>();
+            test.Arrange(_exception, Expr(() => new NotOldEnoughException()));
+            test.Assert.AreEqual(Expr(_exception, e => e.Message), Const("Person is too young"));
             test.Execute();
         }
         #endregion
@@ -40,12 +43,14 @@ namespace Lecture_4_Tests
         [TestMethod("d. NotOldEnoughException(string activity) results in Message = \"Person is too young to [activity]\""), TestCategory("Exercise 7C")]
         public void PersonConstructorAssignsMessageProperty()
         {
+            NotOldEnoughException exception = new NotOldEnoughException("do something");
+            Assert.AreEqual(exception.Message, "Person is too young to do something");
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<NotOldEnoughException> exception = test.CreateVariable<NotOldEnoughException>();
-
-            test.Arrange(exception, Expr(() => new NotOldEnoughException("do something")));
-            test.Assert.AreEqual(Expr(exception, e => e.Message), Const("Person is too do something"));
-
+            TestVariable<NotOldEnoughException> _exception = test.CreateVariable<NotOldEnoughException>();
+            test.Arrange(_exception, Expr(() => new NotOldEnoughException("do something")));
+            test.Assert.AreEqual(Expr(_exception, e => e.Message), Const("Person is too to do something"));
             test.Execute();
         }
         #endregion
@@ -54,6 +59,7 @@ namespace Lecture_4_Tests
         [TestMethod("a. Person.Age is public int property"), TestCategory("Exercise 7D")]
         public void PersonAgeIsPublicIntProperty()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicProperty<Person, int>(p => p.Age);
             test.Execute();
@@ -62,12 +68,17 @@ namespace Lecture_4_Tests
         [TestMethod("b. Person.CalculateBMI() throws NotOldEnoughException for Age = 15"), TestCategory("Exercise 7D")]
         public void PersonCalculateBMIThrowsNotOldEnoughException()
         {
+            Person person = new Person("abc")
+            {
+                Age = 15
+            };
+            Assert.ThrowsException<NotOldEnoughException>(() => person.CalculateBMI());
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<Person> person = test.CreateVariable<Person>();
-
-            test.Arrange(person, Expr(() => new Person("abc") {  Age = 15 }));
-            test.Assert.ThrowsExceptionOn<NotOldEnoughException>(Expr(person, p => p.CalculateBMI()));
-
+            TestVariable<Person> _person = test.CreateVariable<Person>();
+            test.Arrange(_person, Expr(() => new Person("abc") {  Age = 15 }));
+            test.Assert.ThrowsExceptionOn<NotOldEnoughException>(Expr(_person, p => p.CalculateBMI()));
             test.Execute();
         }
         #endregion

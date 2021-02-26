@@ -19,6 +19,7 @@ namespace Lecture_8_Tests
         [TestMethod("a. ArrayHelper is an static class"), TestCategory("1B")]
         public void ArrayHelperIsAnStaticClass()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertType(typeof(ArrayHelper), new TypeIsStaticVerifier());
             test.Execute();
@@ -27,6 +28,7 @@ namespace Lecture_8_Tests
         [TestMethod("b. ArrayHelper.Filter is a public method"), TestCategory("1B")]
         public void ArrayHelperFilterIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertStaticMethod<int[], Predicate<int>, int[]>(
                 (array, p) => ArrayHelper.Filter(array, p), 
@@ -38,6 +40,7 @@ namespace Lecture_8_Tests
         [TestMethod("c. ArrayHelper.Map is a public method"), TestCategory("1B")]
         public void ArrayHelperMapIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertStaticMethod<int[], Func<int, double>, double[]>(
                 (array, f) => ArrayHelper.Map(array, f), 
@@ -49,6 +52,7 @@ namespace Lecture_8_Tests
         [TestMethod("d. ArrayHelper.Sort is a public method"), TestCategory("1B")]
         public void ArrayHelperSortIsPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertStaticMethod<string[], Func<string, string, int>>(
                 (array, c) => ArrayHelper.Sort(array, c), 
@@ -60,6 +64,7 @@ namespace Lecture_8_Tests
         [TestMethod("e. ArrayHelper.Find is a public method"), TestCategory("1B")]
         public void ArrayHelperFindIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertStaticMethod<int[], Predicate<int>, int>(
                 (array, p) => ArrayHelper.Find(array, p), 
@@ -71,6 +76,7 @@ namespace Lecture_8_Tests
         [TestMethod("f. ArrayHelper.Contains is a public method"), TestCategory("1B")]
         public void ArrayContainsIsAPublicMethod()
         {
+            // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertStaticMethod<int[], Predicate<int>, bool>(
                 (array, c) => ArrayHelper.Contains(array, c),
@@ -82,79 +88,103 @@ namespace Lecture_8_Tests
         [TestMethod("g. ArrayHelper.Filter can filter out negative numbers"), TestCategory("1B")]
         public void ArrayFilterReturnsCorrectly()
         {
-            UnitTest test = Factory.CreateTest();
-            TestVariable<int[]> input = test.CreateVariable<int[]>();
-            TestVariable<int[]> output = test.CreateVariable<int[]>();
-            
-            test.Arrange(input, Expr(() => new[] { -2, -1, 0, 1, 2}));
-            test.Arrange(output, Expr(() => new[] { 0, 1, 2 }));
-            test.Assert.IsTrue(Expr(input, output, (i, o) => ArrayHelper.Filter(i, x => x >= 0).SequenceEqual(o)));
+            int[] input = new int[] { -2, -1, 0, 1, 2 };
 
+            int[] expectedOutput = new int[] { 0, 1, 2 };
+            int[] actualOutput = ArrayHelper.Filter(input, x => x >= 0);
+
+            Assert.IsTrue(actualOutput.SequenceEqual(expectedOutput));
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<int[]> _input = test.CreateVariable<int[]>();
+            TestVariable<int[]> _output = test.CreateVariable<int[]>();
+            test.Arrange(_input, Expr(() => new[] { -2, -1, 0, 1, 2}));
+            test.Arrange(_output, Expr(() => new[] { 0, 1, 2 }));
+            test.Assert.IsTrue(Expr(_input, _output, (i, o) => ArrayHelper.Filter(i, x => x >= 0).SequenceEqual(o)));
             test.Execute();
         }
 
         [TestMethod("h. ArrayHelper.Map can convert multiply number by 2"), TestCategory("1B")]
         public void ArrayMapReturnsCorrectly()
         {
+            int[] input = new int[] { 0, 1, 2 };
+
+            int[] expectedOutput = new int[] { 0, 2, 4 };
+            int[] actualOutput = ArrayHelper.Map(input, x => 2*x);
+
+            Assert.IsTrue(actualOutput.SequenceEqual(expectedOutput));
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<int[]> input = test.CreateVariable<int[]>();
-            TestVariable<int[]> output = test.CreateVariable<int[]>();
-
-            test.Arrange(input, Expr(() => new[] { 0, 1, 2 }));
-            test.Arrange(output, Expr(() => new[] { 0, 2, 4 }));
-            test.Assert.IsTrue(Expr(input, output, (i, o) => ArrayHelper.Map(i, x => 2*x).SequenceEqual(o)));
-
+            TestVariable<int[]> _input = test.CreateVariable<int[]>();
+            TestVariable<int[]> _output = test.CreateVariable<int[]>();
+            test.Arrange(_input, Expr(() => new[] { 0, 1, 2 }));
+            test.Arrange(_output, Expr(() => new[] { 0, 2, 4 }));
+            test.Assert.IsTrue(Expr(_input, _output, (i, o) => ArrayHelper.Map(i, x => 2*x).SequenceEqual(o)));
             test.Execute();
         }
 
         [TestMethod("i. ArrayHelper.Sort can sort array of numbers"), TestCategory("1B")]
         public void ArraySortReturnsCorrectly()
         {
+            int[] input = new int[] { 0, 5, 4, 1, 3, 2 };
+
+            int[] expectedOutput = new int[] { 0, 1, 2, 3, 4, 5 };
+            ArrayHelper.Sort(input, (x, y) => x - y);
+
+            Assert.IsTrue(input.SequenceEqual(expectedOutput));
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<int[]> array = test.CreateVariable<int[]>();
-            TestVariable<int[]> sortedArray = test.CreateVariable<int[]>();
-
-            test.Arrange(array, Expr(() => new[] { 0, 5, 4, 1, 3, 2 }));
-            test.Arrange(sortedArray, Expr(() => new[] { 0, 1, 2, 3, 4, 5 }));
-            test.Act(Expr(array, a => ArrayHelper.Sort(a, (x, y) => x - y)));
-            test.Assert.IsTrue(Expr(array, sortedArray, (i, o) => i.SequenceEqual(o)));
-
+            TestVariable<int[]> _array = test.CreateVariable<int[]>();
+            TestVariable<int[]> _sortedArray = test.CreateVariable<int[]>();
+            test.Arrange(_array, Expr(() => new[] { 0, 5, 4, 1, 3, 2 }));
+            test.Arrange(_sortedArray, Expr(() => new[] { 0, 1, 2, 3, 4, 5 }));
+            test.Act(Expr(_array, a => ArrayHelper.Sort(a, (x, y) => x - y)));
+            test.Assert.IsTrue(Expr(_array, _sortedArray, (i, o) => i.SequenceEqual(o)));
             test.Execute();
         }
 
         [TestMethod("j. ArrayHelper.Find can a number"), TestCategory("1B")]
         public void ArrayFindReturnsCorrectly()
         {
+            int[] array = new int[] { 0, 1, 2 };
+            Assert.AreEqual(ArrayHelper.Find(array, x => x == 1), 1);
+ 
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<int[]> array = test.CreateVariable<int[]>();
-
-            test.Arrange(array, Expr(() => new[] { 0, 1, 2 }));
-            test.Assert.AreEqual(Expr(array, a => ArrayHelper.Find(a, x => x == 1)), Const(1));
-
+            TestVariable<int[]> _array = test.CreateVariable<int[]>();
+            test.Arrange(_array, Expr(() => new[] { 0, 1, 2 }));
+            test.Assert.AreEqual(Expr(_array, a => ArrayHelper.Find(a, x => x == 1)), Const(1));
             test.Execute();
         }
 
         [TestMethod("j. ArrayHelper.Contains returns true if predicate equals true"), TestCategory("1B")]
         public void ArrayContainsReturnsTrue()
         {
+            int[] array = new int[] { 0, 1, 2 };
+            Assert.IsTrue(ArrayHelper.Contains(array, x => x == 1));
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<int[]> array = test.CreateVariable<int[]>();
-
-            test.Arrange(array, Expr(() => new[] { 0, 1, 2 }));
-            test.Assert.IsTrue(Expr(array, a => ArrayHelper.Contains(a, x => x == 1)));
-
+            TestVariable<int[]> _array = test.CreateVariable<int[]>();
+            test.Arrange(_array, Expr(() => new[] { 0, 1, 2 }));
+            test.Assert.IsTrue(Expr(_array, a => ArrayHelper.Contains(a, x => x == 1)));
             test.Execute();
         }
 
         [TestMethod("j. ArrayHelper.Contains returns false if predicate equals false"), TestCategory("1B")]
         public void ArrayContainsReturnsFalse()
         {
+            int[] array = new int[] { 0, 1, 2 };
+            Assert.IsFalse(ArrayHelper.Contains(array, x => x == 3));
+
+            // TestTools Code
             UnitTest test = Factory.CreateTest();
-            TestVariable<int[]> array = test.CreateVariable<int[]>();
-
-            test.Arrange(array, Expr(() => new[] { 0, 1, 2 }));
-            test.Assert.IsFalse(Expr(array, a => ArrayHelper.Contains(a, x => x == 3)));
-
+            TestVariable<int[]> _array = test.CreateVariable<int[]>();
+            test.Arrange(_array, Expr(() => new[] { 0, 1, 2 }));
+            test.Assert.IsFalse(Expr(_array, a => ArrayHelper.Contains(a, x => x == 3)));
             test.Execute();
         }
         #endregion
