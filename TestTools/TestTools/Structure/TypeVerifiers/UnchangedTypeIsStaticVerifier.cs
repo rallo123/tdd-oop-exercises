@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestTools.Helpers;
 
 namespace TestTools.Structure
 {
@@ -13,7 +14,7 @@ namespace TestTools.Structure
         public override void Verify(Type originalType, Type translatedType)
         {
             bool isStatic = originalType.IsAbstract && originalType.IsSealed;
-            Verifier.VerifyIsStatic(originalType, isStatic);
+            Verifier.VerifyIsStatic(translatedType, isStatic);
         }
     }
 }
