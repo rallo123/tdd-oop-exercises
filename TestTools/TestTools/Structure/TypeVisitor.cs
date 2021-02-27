@@ -8,7 +8,7 @@ namespace TestTools.Structure
 {
     public class TypeVisitor : ExpressionVisitor
     {
-        public ITypeTranslator TypeTranslator { get; set; }
+        public ITypeTranslator TypeTranslator { get; set; } = new SameNameTypeTranslator();
 
         public ICollection<ITypeVerifier> TypeVerifiers { get; set; } = new List<ITypeVerifier>()
         {
@@ -17,7 +17,7 @@ namespace TestTools.Structure
             new UnchangedTypeIsStaticVerifier()
         };
 
-        public IMemberTranslator MemberTranslator { get; set; }
+        public IMemberTranslator MemberTranslator { get; set; } = new SameNameMemberTranslator();
 
         public ICollection<IMemberVerifier> MemberVerifiers { get; set; } = new List<IMemberVerifier>()
         {
