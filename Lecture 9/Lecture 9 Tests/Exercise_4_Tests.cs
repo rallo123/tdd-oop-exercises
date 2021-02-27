@@ -59,7 +59,7 @@ namespace Lecture_9_Tests
         [TestMethod("c. ObservableCollection<T>.Clear() emits CollectionChanged event")]
         public void ObservableCollectionClearEmitsCollectionChangedEvent()
         {
-            ObservableCollection<int> collection = new ObservableCollection<int>();
+            ObservableCollection<int> collection = new ObservableCollection<int>() { 1 };
             DelegateAssert.IsInvoked<NotifyCollectionChangedEventHandler>(handler => collection.CollectionChanged += handler);
 
             collection.Clear();
@@ -69,7 +69,7 @@ namespace Lecture_9_Tests
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<ObservableCollection<int>> _collection = test.CreateVariable<ObservableCollection<int>>();
-            test.Arrange(_collection, Expr(() => new ObservableCollection<int>()));
+            test.Arrange(_collection, Expr(() => new ObservableCollection<int>() { 1 }));
             test.DelegateAssert.IsInvoked(Lambda<NotifyCollectionChangedEventHandler>(handler => Expr(_collection, c => c.AddCollectionChanged(handler))));
             test.Act(Expr(_collection, c => c.Clear()));// TestTools Code
             test.Execute();
