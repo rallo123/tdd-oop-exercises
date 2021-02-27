@@ -16,7 +16,7 @@ namespace TestTools.Structure
                 return;
 
             string message = string.Format(
-                "{1} is not {2}",
+                "{0} is not {1}",
                 FormatHelper.FormatType(type),
                 FormatHelper.FormatOrList(accessLevels.Select(FormatHelper.FormatAccessLevel)));
 
@@ -29,7 +29,7 @@ namespace TestTools.Structure
                 return;
 
             string message = string.Format(
-                "{1} is not {2}",
+                "{0} is not {1}",
                 FormatHelper.FormatConstructor(constructorInfo),
                 FormatHelper.FormatOrList(accessLevels.Select(FormatHelper.FormatAccessLevel)));
 
