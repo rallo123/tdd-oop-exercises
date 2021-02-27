@@ -5,13 +5,13 @@ using TestTools.Helpers;
 
 namespace TestTools.Structure
 {
-    public class UnchangedTypeAccessLevelVerifier : ITypeVerifier
+    public class UnchangedTypeAccessLevelVerifier : TypeVerifier
     {
-        public StructureVerifier Verifier { get; set; }
-        public ITypeTranslator TypeTranslator { get; set; }
-        public TypeVerificationAspect[] Aspects => new[] { TypeVerificationAspect.AccessLevel };
+        public override TypeVerificationAspect[] Aspects => new[] { 
+            TypeVerificationAspect.AccessLevel 
+        };
 
-        public void Verify(Type originalType, Type translatedType)
+        public override void Verify(Type originalType, Type translatedType)
         {
             AccessLevels accessLevel = ReflectionHelper.GetAccessLevel(originalType);
             Verifier.VerifyAccessLevel(translatedType, new[] { accessLevel });

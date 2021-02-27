@@ -4,14 +4,13 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class UnchangedTypeIsStaticVerifier : ITypeVerifier
+    public class UnchangedTypeIsStaticVerifier : TypeVerifier
     {
-        public StructureVerifier Verifier { get; set; }
-        public ITypeTranslator TypeTranslator { get; set; }
+        public override TypeVerificationAspect[] Aspects => new[] { 
+            TypeVerificationAspect.IsStatic
+        };
 
-        public TypeVerificationAspect[] Aspects => new[] { TypeVerificationAspect.IsStatic };
-
-        public void Verify(Type originalType, Type translatedType)
+        public override void Verify(Type originalType, Type translatedType)
         {
             bool isStatic = originalType.IsAbstract && originalType.IsSealed;
             Verifier.VerifyIsStatic(originalType, isStatic);

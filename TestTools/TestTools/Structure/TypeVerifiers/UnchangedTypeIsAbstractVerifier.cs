@@ -4,14 +4,13 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class UnchangedTypeIsAbstractVerifier : ITypeVerifier
+    public class UnchangedTypeIsAbstractVerifier : TypeVerifier
     {
-        public StructureVerifier Verifier { get; set; }
-        public ITypeTranslator TypeTranslator { get; set; }
+        public override TypeVerificationAspect[] Aspects => new[] { 
+            TypeVerificationAspect.IsAbstract
+        };
 
-        public TypeVerificationAspect[] Aspects => new[] { TypeVerificationAspect.IsAbstract };
-
-        public void Verify(Type originalType, Type translatedType)
+        public override void Verify(Type originalType, Type translatedType)
         {
             Verifier.VerifyIsAbstract(translatedType, originalType.IsAbstract);
         }

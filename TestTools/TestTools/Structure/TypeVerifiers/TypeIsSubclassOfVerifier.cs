@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class TypeIsSubclassOfVerifier : ITypeVerifier
+    public class TypeIsSubclassOfVerifier : TypeVerifier
     {
         Type _type;
 
@@ -13,15 +13,12 @@ namespace TestTools.Structure
             _type = type;
         }
 
-        public StructureVerifier Verifier { get; set; }
-        public ITypeTranslator TypeTranslator { get; set; }
-
-        public TypeVerificationAspect[] Aspects => new[]
+        public override TypeVerificationAspect[] Aspects => new[]
         {
             TypeVerificationAspect.IsSubclassOf
         };
 
-        public void Verify(Type originalType, Type translatedType)
+        public override void Verify(Type originalType, Type translatedType)
         {
             Verifier.VerifyIsSubclassOf(translatedType, _type);
         }

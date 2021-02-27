@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class TypeAccessLevelVerifier : ITypeVerifier
+    public class TypeAccessLevelVerifier : TypeVerifier
     {
         AccessLevels[] _accessLevels;
 
@@ -17,15 +17,12 @@ namespace TestTools.Structure
             _accessLevels = accessLevels;
         }
 
-        public StructureVerifier Verifier { get; set; }
-        public ITypeTranslator TypeTranslator { get; set; }
-
-        public TypeVerificationAspect[] Aspects => new[]
+        public override TypeVerificationAspect[] Aspects => new[]
         {
             TypeVerificationAspect.AccessLevel
         };
 
-        public void Verify(Type originalType, Type translatedType)
+        public override void Verify(Type originalType, Type translatedType)
         {
             Verifier.VerifyAccessLevel(translatedType, _accessLevels);
         }

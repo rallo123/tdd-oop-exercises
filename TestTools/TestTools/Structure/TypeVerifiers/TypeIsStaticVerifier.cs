@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class TypeIsStaticVerifier : ITypeVerifier
+    public class TypeIsStaticVerifier : TypeVerifier
     {
         bool _isStatic;
 
@@ -13,11 +13,11 @@ namespace TestTools.Structure
             _isStatic = isStatic;
         }
 
-        public StructureVerifier Verifier { get; set; }
-        public ITypeTranslator TypeTranslator { get; set; }
-        public TypeVerificationAspect[] Aspects => new[] { TypeVerificationAspect.AccessLevel };
+        public override TypeVerificationAspect[] Aspects => new[] {
+            TypeVerificationAspect.AccessLevel 
+        };
 
-        public void Verify(Type originalType, Type translatedType)
+        public override void Verify(Type originalType, Type translatedType)
         {
             Verifier.VerifyIsStatic(translatedType, _isStatic);
         }
