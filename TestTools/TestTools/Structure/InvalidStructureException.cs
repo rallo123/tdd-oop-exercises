@@ -9,7 +9,6 @@ namespace TestTools.Structure
     {
         public InvalidStructureException(string message) : base(message)
         {
-
         }
     }
 }
