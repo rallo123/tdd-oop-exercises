@@ -7,7 +7,7 @@ namespace TestTools.Structure
 {
     public class MemberAccessLevelVerifier : MemberVerifier
     {
-        AccessLevels[] _accessLevels;
+        readonly AccessLevels[] _accessLevels;
 
         public MemberAccessLevelVerifier(AccessLevels accessLevel) : this(new[] { accessLevel })
         {

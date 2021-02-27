@@ -8,7 +8,7 @@ namespace TestTools.Structure.Attributes
 {
     public class AlternateNames : Attribute, ITypeTranslator, IMemberTranslator
     {
-        string[] _alternateNames;
+        readonly string[] _alternateNames;
 
         public AlternateNames(params string[] alternateNames)
         {
