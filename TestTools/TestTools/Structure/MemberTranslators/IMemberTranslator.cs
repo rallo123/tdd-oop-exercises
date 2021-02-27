@@ -7,7 +7,8 @@ namespace TestTools.Structure
 {
     public interface IMemberTranslator
     {
+        Type TargetType { get; set; }
         StructureVerifier Verifier { get; set; }
-        MemberInfo Translate(Type targetType, MemberInfo member);
+        MemberInfo Translate(MemberInfo member);
     }
 }

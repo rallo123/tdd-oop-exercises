@@ -6,7 +6,8 @@ namespace TestTools.Structure
 {
     public interface ITypeTranslator
     {
+        string TargetNamespace { get; set; }
         StructureVerifier Verifier { get; set; }
-        Type Translate(string targetNamespace, Type type);
+        Type Translate(Type type);
     }
 }

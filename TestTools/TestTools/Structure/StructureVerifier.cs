@@ -23,6 +23,16 @@ namespace TestTools.Structure
             throw new InvalidStructureException(message);
         }
 
+        internal void FailMemberNotFound(Type targetType, string[] vs)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void FailTypeNotFound(string @namespace, string[] name)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual void VerifyAccessLevel(ConstructorInfo constructorInfo, AccessLevels[] accessLevels)
         {
             if (accessLevels.Contains(ReflectionHelper.GetAccessLevel(constructorInfo)))

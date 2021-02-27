@@ -17,15 +17,14 @@ namespace TestTools.Structure
         {
             if (originalMember is MethodInfo originalMethod)
             {
-                // todo fix lacking namespace ""
-                Type type = TypeTranslator.Translate("", originalMethod.DeclaringType);
+                Type type = TypeTranslator.Translate(originalMethod.DeclaringType);
                 Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Method });
                 Verifier.VerifyDeclaringType((MethodInfo)translatedMember, type);
             }
             else if (originalMember is PropertyInfo originalProperty)
             {
-                Type type1 = TypeTranslator.Translate("", originalProperty.GetMethod.DeclaringType);
-                Type type2 = TypeTranslator.Translate("", originalProperty.SetMethod.DeclaringType);
+                Type type1 = TypeTranslator.Translate(originalProperty.GetMethod.DeclaringType);
+                Type type2 = TypeTranslator.Translate(originalProperty.SetMethod.DeclaringType);
 
                 Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Field, MemberTypes.Property });
 
