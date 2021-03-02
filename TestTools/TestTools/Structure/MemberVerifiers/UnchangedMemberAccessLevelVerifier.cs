@@ -8,7 +8,7 @@ namespace TestTools.Structure
 {
     public class UnchangedMemberAccessLevelVerifier : MemberVerifier
     {
-        public override MemberVerificationAspect[] Aspect => new[] {
+        public override MemberVerificationAspect[] Aspects => new[] {
             MemberVerificationAspect.ConstructorAccessLevel,
             MemberVerificationAspect.FieldAccessLevel,
             MemberVerificationAspect.PropertyGetAccessLevel,

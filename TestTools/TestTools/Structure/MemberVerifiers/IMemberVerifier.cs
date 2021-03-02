@@ -7,7 +7,7 @@ namespace TestTools.Structure
 {
     public interface IMemberVerifier
     {
-        MemberVerificationAspect[] Aspect { get; }
+        MemberVerificationAspect[] Aspects { get; }
         
         StructureVerifier Verifier { get; set; }
 

@@ -14,7 +14,7 @@ namespace TestTools.Structure
             _type = type;
         }
 
-        public override MemberVerificationAspect[] Aspect => new[]
+        public override MemberVerificationAspect[] Aspects => new[]
         {
             MemberVerificationAspect.EventHandlerType
         };

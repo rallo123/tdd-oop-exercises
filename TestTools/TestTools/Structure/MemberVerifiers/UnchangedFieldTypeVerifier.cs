@@ -7,7 +7,7 @@ namespace TestTools.Structure
 {
     public class UnchangedFieldTypeVerifier : MemberVerifier
     {
-        public override MemberVerificationAspect[] Aspect => new[] { MemberVerificationAspect.FieldType };
+        public override MemberVerificationAspect[] Aspects => new[] { MemberVerificationAspect.FieldType };
 
         public override void Verify(MemberInfo originalMember, MemberInfo translatedMember)
         {

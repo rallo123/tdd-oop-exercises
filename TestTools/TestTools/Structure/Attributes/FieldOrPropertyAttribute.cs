@@ -11,7 +11,7 @@ namespace TestTools.Structure.Attributes
 
         public ITypeTranslator TypeTranslator { get; set; }
 
-        public MemberVerificationAspect[] Aspect => new[] { MemberVerificationAspect.MemberType };
+        public MemberVerificationAspect[] Aspects => new[] { MemberVerificationAspect.MemberType };
 
         public void Verify( MemberInfo originalMember, MemberInfo translatedMember)
         {

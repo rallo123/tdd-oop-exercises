@@ -7,7 +7,7 @@ namespace TestTools.Structure
 {
     public class UnchangedMemberIsStaticVerifier : MemberVerifier
     {
-        public override MemberVerificationAspect[] Aspect => new[] {
+        public override MemberVerificationAspect[] Aspects => new[] {
             MemberVerificationAspect.FieldIsStatic,
             MemberVerificationAspect.MethodIsStatic,
             MemberVerificationAspect.PropertyIsStatic

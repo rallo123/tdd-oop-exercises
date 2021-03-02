@@ -11,7 +11,7 @@ namespace TestTools.Structure
 
         public ITypeTranslator TypeTranslator { get; set; }
 
-        public abstract MemberVerificationAspect[] Aspect { get; }
+        public abstract MemberVerificationAspect[] Aspects { get; }
 
         public abstract void Verify(MemberInfo originalMember, MemberInfo translatedMember);
     }

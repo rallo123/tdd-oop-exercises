@@ -14,7 +14,7 @@ namespace TestTools.Structure
             _isAbstract = isAbstract;
         }
 
-        public override MemberVerificationAspect[] Aspect => new[] {
+        public override MemberVerificationAspect[] Aspects => new[] {
             MemberVerificationAspect.PropertyGetIsAbstract,
             MemberVerificationAspect.PropertySetIsAbstract,
             MemberVerificationAspect.MethodIsAbstract

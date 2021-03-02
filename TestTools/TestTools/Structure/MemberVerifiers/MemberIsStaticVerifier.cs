@@ -14,7 +14,7 @@ namespace TestTools.Structure
             _isStatic = isStatic;
         }
 
-        public override MemberVerificationAspect[] Aspect => new[] {
+        public override MemberVerificationAspect[] Aspects => new[] {
             MemberVerificationAspect.FieldIsStatic,
             MemberVerificationAspect.MethodIsStatic,
             MemberVerificationAspect.PropertyIsStatic

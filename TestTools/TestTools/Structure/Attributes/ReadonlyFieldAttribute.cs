@@ -10,7 +10,7 @@ namespace TestTools.Structure.Attributes
         public StructureVerifier Verifier { get; set; }
         public ITypeTranslator TypeTranslator { get; set; }
 
-        public MemberVerificationAspect[] Aspect => new[] {  
+        public MemberVerificationAspect[] Aspects => new[] {  
             MemberVerificationAspect.MemberType,
             MemberVerificationAspect.FieldAccessLevel 
         };

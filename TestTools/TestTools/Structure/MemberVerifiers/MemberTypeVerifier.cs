@@ -18,7 +18,7 @@ namespace TestTools.Structure
             _memberTypes = memberTypes;
         }
 
-        public override MemberVerificationAspect[] Aspect => new[] { MemberVerificationAspect.MemberType };
+        public override MemberVerificationAspect[] Aspects => new[] { MemberVerificationAspect.MemberType };
 
         public override void Verify(MemberInfo originalMember, MemberInfo translatedMember)
         {

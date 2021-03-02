@@ -7,7 +7,7 @@ namespace TestTools.Structure
 {
     public class UnchangedPropertyTypeVerifier : MemberVerifier
     {
-        public override MemberVerificationAspect[] Aspect => new[] { MemberVerificationAspect.PropertyType };
+        public override MemberVerificationAspect[] Aspects => new[] { MemberVerificationAspect.PropertyType };
 
         public override void Verify(MemberInfo originalMember, MemberInfo translatedMember)
         {

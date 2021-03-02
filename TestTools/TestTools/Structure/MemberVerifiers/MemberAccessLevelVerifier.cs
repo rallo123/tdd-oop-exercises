@@ -18,7 +18,7 @@ namespace TestTools.Structure
             _accessLevels = accessLevels;
         }
 
-        public override MemberVerificationAspect[] Aspect => new[] {
+        public override MemberVerificationAspect[] Aspects => new[] {
             MemberVerificationAspect.ConstructorAccessLevel,
             MemberVerificationAspect.EventAddAccessLevel,
             MemberVerificationAspect.EventRemoveAccessLevel,

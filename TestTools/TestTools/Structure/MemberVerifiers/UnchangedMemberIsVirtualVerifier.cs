@@ -7,7 +7,7 @@ namespace TestTools.Structure
 {
     public class UnchangedMemberIsVirtualVerifier : MemberVerifier
     {
-        public override MemberVerificationAspect[] Aspect => new[] {
+        public override MemberVerificationAspect[] Aspects => new[] {
             MemberVerificationAspect.PropertyGetIsVirtual,
             MemberVerificationAspect.PropertySetIsVirtual,
             MemberVerificationAspect.MethodIsVirtual

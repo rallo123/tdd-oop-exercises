@@ -7,7 +7,7 @@ namespace TestTools.Structure
 {
     public class UnchangedMemberDeclaringType : MemberVerifier
     {
-        public override MemberVerificationAspect[] Aspect => new[] {
+        public override MemberVerificationAspect[] Aspects => new[] {
             MemberVerificationAspect.MethodDeclaringType,
             MemberVerificationAspect.PropertyGetDeclaringType,
             MemberVerificationAspect.PropertySetDeclaringType
