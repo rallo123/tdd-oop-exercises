@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text;
 using System.Linq;
 
-namespace TestTools.Structure.Attributes
+namespace TestTools.Structure
 {
     public class AlternateNamesAttribute : Attribute, ITypeTranslator, IMemberTranslator
     {

@@ -10,6 +10,28 @@ namespace TestTools.Structure
         {
         }
 
+        public static ICollection<MemberVerificationAspect> DefaultOrder { get; set; } = new[]
+        {
+            MemberType,
+            FieldType,
+            FieldAccessLevel,
+            FieldWriteability,
+            PropertyType,
+            PropertyGetIsAbstract,
+            PropertyGetIsVirtual,
+            PropertyGetDeclaringType,
+            PropertyGetAccessLevel,
+            PropertySetIsAbstract,
+            PropertySetIsVirtual,
+            PropertySetDeclaringType,
+            PropertySetAccessLevel,
+            MethodReturnType,
+            MethodIsAbstract,
+            MethodIsVirtual,
+            MethodDeclaringType,
+            MethodAccessLevel
+        };
+
         public static MemberVerificationAspect MemberType { get; } = new MemberVerificationAspect();
 
         public static MemberVerificationAspect ConstructorAccessLevel { get; } = new MemberVerificationAspect();

@@ -7,7 +7,7 @@ using TestTools.Structure;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace TestTools_Tests.Unit
+namespace TestTools_Tests.Structure
 {
     [TestClass]
     public class TypeVisitorTests
@@ -51,20 +51,21 @@ namespace TestTools_Tests.Unit
         public void TestInitialize()
         {
             typeTranslator = Substitute.For<ITypeTranslator>();
-            typeTranslator.Translate("", typeof(ClassA)).Returns(typeof(ClassB));
+            typeTranslator.Translate(typeof(ClassA)).Returns(typeof(ClassB));
 
             memberTranslator = Substitute.For<IMemberTranslator>();
-            memberTranslator.Translate(typeof(ClassB), ClassAField).Returns(ClassBField);
-            memberTranslator.Translate(typeof(ClassB), ClassAConstructor).Returns(ClassBConstructor);
+            memberTranslator.Translate(ClassAField).Returns(ClassBField);
+            memberTranslator.Translate(ClassAConstructor).Returns(ClassBConstructor);
         }
 
         [TestMethod("Visit applies TypeTranslator on (parameter expression) types")]
         public void Visit_AppliesTypeTranslatorOnTypes()
         {
-            TypeVisitor visitor = new TypeVisitor()
+            StructureService service = new StructureService("")
             {
                 TypeTranslator = typeTranslator
             };
+            TypeVisitor visitor = new TypeVisitor(service);
             Expression input = Expression.Parameter(typeof(ClassA));
             Expression expected = Expression.Parameter(typeof(ClassB));
 
@@ -77,25 +78,28 @@ namespace TestTools_Tests.Unit
         public void Visit_AppliesTypeVerifierOnTypes_AndThereforeThrows()
         {
             ITypeVerifier verifier = Substitute.For<ITypeVerifier>();
-            verifier.When(x => x.Verify(typeof(ClassA), typeof(ClassB))).Throw<Exception>();
-            TypeVisitor visitor = new TypeVisitor()
+            StructureService service = new StructureService("")
             {
                 TypeTranslator = typeTranslator,
-                TypeVerifiers = new[] { verifier }
+                DefaultTypeVerifiers = new[] { verifier }
             };
+            TypeVisitor visitor = new TypeVisitor(service);
             Expression input = Expression.Parameter(typeof(ClassA));
 
-            Assert.ThrowsException<Exception>(() => visitor.Visit(input));
+            visitor.Visit(input);
+
+            verifier.Received().Verify(typeof(ClassA), typeof(ClassB));
         }
 
         [TestMethod("Visit applies MemberTranslator on members")]
         public void Visit_AppliesTypeTranslatorOnMembers()
         {
-            TypeVisitor visitor = new TypeVisitor()
+            StructureService service = new StructureService("")
             {
                 TypeTranslator = typeTranslator,
                 MemberTranslator = memberTranslator
             };
+            TypeVisitor visitor = new TypeVisitor(service);
             Expression instanceA = Expression.Parameter(typeof(ClassA));
             Expression instanceB = Expression.Parameter(typeof(ClassB));
             Expression input = Expression.Field(instanceA, ClassAField);
@@ -110,17 +114,19 @@ namespace TestTools_Tests.Unit
         public void Visit_AppliesIMemberVerfierConstructorInfoOnConstructor_AndThereforeThrows()
         {
             IMemberVerifier verifier = Substitute.For<IMemberVerifier>();
-            verifier.When(x => x.Verify(ClassAConstructor, ClassBConstructor)).Throw<Exception>();
-            TypeVisitor visitor = new TypeVisitor()
+            StructureService service = new StructureService("")
             {
                 TypeTranslator = typeTranslator,
                 MemberTranslator = memberTranslator,
-                MemberVerifiers = new[] { verifier }
+                DefaultMemberVerifiers = new[] { verifier }
             };
+            TypeVisitor visitor = new TypeVisitor(service);
             Expression instance = Expression.Parameter(typeof(ClassA));
             Expression input = Expression.Field(instance, ClassAField);
 
-            Assert.ThrowsException<Exception>(() => visitor.Visit(input));
+            visitor.Visit(input);
+
+            verifier.Received().Verify(ClassAConstructor, ClassBConstructor);
         }
     }
 }

@@ -1,29 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using TestTools.Helpers;
 using TestTools.Structure;
 
 namespace TestTools.Structure
 {
     public class StructureTest
     {
-        internal StructureTest() { }
+        Action _executeAction;
+        StructureService _structureService;
 
-        public void AssertType(Type @class, params ITypeVerifier[] verifiers)
+        public StructureTest(StructureService structureService) 
         {
-            throw new NotImplementedException();
+            _structureService = structureService;
+        }
+
+        public void AssertType(Type type, params ITypeVerifier[] verifiers)
+        {
+            _executeAction += () => _structureService.VerifyType(type, verifiers);
         }
 
         public void AssertMember(MemberInfo memberInfo, params IMemberVerifier[] verifiers)
         {
-            throw new NotImplementedException();
+            _executeAction += () => _structureService.VerifyMember(memberInfo, verifiers);
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            _executeAction?.Invoke();
         }
     }
 }
