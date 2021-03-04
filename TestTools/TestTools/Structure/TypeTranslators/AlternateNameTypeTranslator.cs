@@ -19,17 +19,19 @@ namespace TestTools.Structure
         {
             string[] names = _alternateNames.Union(new[] { type.Name }).ToArray();
 
-            foreach (string name in names)
+            foreach(Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                Type translatedType = Assembly.Load(type.Name).GetTypes().SingleOrDefault(t => t.Namespace == TargetNamespace);
+                Type translatedType = assembly.GetTypes().SingleOrDefault(t => t.Namespace == TargetNamespace && names.Contains(t.Name));
 
-                if (translatedType == null)
+                if (translatedType != null)
                     return translatedType;
             }
 
+            // TODO fix the following lines as they give an unclear program flow
             Verifier.FailTypeNotFound(TargetNamespace, names);
             
-            return null;  
+            // Should never get to here as FailTypeNotFound() should throw an exception
+            throw new NotImplementedException(); 
         }
     }
 }

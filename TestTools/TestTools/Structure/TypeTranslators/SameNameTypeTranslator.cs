@@ -10,12 +10,19 @@ namespace TestTools.Structure
     {
         public override Type Translate(Type type)
         {
-            Type translatedType = Assembly.Load(type.Name).GetTypes().SingleOrDefault(t => t.Namespace == TargetNamespace);
+            foreach(Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                Type translatedType = assembly.GetTypes().SingleOrDefault(t => t.Namespace == TargetNamespace && t.Name == type.Name);
 
-            if (translatedType is null)
-                Verifier.FailTypeNotFound(TargetNamespace, new[] { type.Name });
+                if (translatedType != null)
+                    return translatedType;
+            }
 
-            return type;
+            // TODO fix the following lines as they give an unclear program flow
+            Verifier.FailTypeNotFound(TargetNamespace, new[] { type.Name });
+
+            // Should never get to here as FailTypeNotFound() should throw an exception
+            throw new NotImplementedException();
         }
     }
 }
