@@ -61,7 +61,7 @@ namespace TestTools_Tests.Structure
         [TestMethod("Visit applies TypeTranslator on (parameter expression) types")]
         public void Visit_AppliesTypeTranslatorOnTypes()
         {
-            StructureService service = new StructureService("")
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = typeTranslator
             };
@@ -78,7 +78,7 @@ namespace TestTools_Tests.Structure
         public void Visit_AppliesTypeVerifierOnTypes_AndThereforeThrows()
         {
             ITypeVerifier verifier = Substitute.For<ITypeVerifier>();
-            StructureService service = new StructureService("")
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = typeTranslator,
                 DefaultTypeVerifiers = new[] { verifier }
@@ -94,7 +94,7 @@ namespace TestTools_Tests.Structure
         [TestMethod("Visit applies MemberTranslator on members")]
         public void Visit_AppliesTypeTranslatorOnMembers()
         {
-            StructureService service = new StructureService("")
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = typeTranslator,
                 MemberTranslator = memberTranslator
@@ -114,7 +114,7 @@ namespace TestTools_Tests.Structure
         public void Visit_AppliesIMemberVerfierConstructorInfoOnConstructor_AndThereforeThrows()
         {
             IMemberVerifier verifier = Substitute.For<IMemberVerifier>();
-            StructureService service = new StructureService("")
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = typeTranslator,
                 MemberTranslator = memberTranslator,

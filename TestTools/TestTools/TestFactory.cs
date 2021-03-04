@@ -8,11 +8,13 @@ namespace TestTools
 {
     public class TestFactory
     {
+        public StructureService StructureService { get; set; } 
+
         public UnitTestConfiguration DefaultConfiguration { get; set; } = new UnitTestConfiguration();
 
-        public TestFactory(string namespaceToProjectOn)
+        public TestFactory(string fromNamespace, string toNamespace)
         {
-            throw new NotImplementedException();
+            StructureService = new StructureService(fromNamespace, toNamespace);
         }
 
         public UnitTest CreateTest()
@@ -22,7 +24,7 @@ namespace TestTools
 
         public StructureTest CreateStructureTest()
         {
-            throw new NotImplementedException();
+            return new StructureTest(StructureService);
         }
     }
 }

@@ -7,8 +7,12 @@ using TestTools.Structure;
 
 namespace TestTools_Tests.Structure
 {
+    public class TestTypeWithoutCustomTranslator
+    {
+    }
+
     [AlternateNames("AlternateTestType")]
-    public class TestType
+    public class TestTypeWithCustomTranslator
     {
     }
 
@@ -19,28 +23,28 @@ namespace TestTools_Tests.Structure
         public void TranslateTypeUsesTypeTranslatorIfNoCustomTranslatorIsDefinedOnType()
         {
             ITypeTranslator translator = Substitute.For<ITypeTranslator>();
-            StructureService service = new StructureService("")
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = translator
             };
 
-            service.TranslateType(typeof(object));
+            service.TranslateType(typeof(TestTypeWithoutCustomTranslator));
 
-            translator.Received().Translate(typeof(object));
+            translator.Received().Translate(typeof(TestTypeWithoutCustomTranslator));
         }
 
         [TestMethod("TranslateType does not uses TypeTranslator if custom translator is defined on type")]
         public void TranslateTypeDoesNotUseTypeTranslatorIfCustomTranslatorIsDefinedOnType()
         {
             ITypeTranslator translator = Substitute.For<ITypeTranslator>();
-            StructureService service = new StructureService("")
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = translator
             };
 
-            service.TranslateType(typeof(TestType));
+            service.TranslateType(typeof(TestTypeWithCustomTranslator));
 
-            translator.DidNotReceive().Translate(typeof(TestType));
+            translator.DidNotReceive().Translate(typeof(TestTypeWithCustomTranslator));
         }
 
         [TestMethod("VerifyType(Type, ITypeVerifier[]) uses all type verifiers")]
@@ -48,7 +52,7 @@ namespace TestTools_Tests.Structure
         {
             ITypeVerifier verifier1 = Substitute.For<ITypeVerifier>();
             ITypeVerifier verifier2 = Substitute.For<ITypeVerifier>();
-            StructureService service = new StructureService("");
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
 
             service.VerifyType(typeof(object), new[] { verifier1, verifier2 });
 
@@ -63,7 +67,7 @@ namespace TestTools_Tests.Structure
             verifier1.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
             ITypeVerifier verifier2 = Substitute.For<ITypeVerifier>();
             verifier1.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
-            StructureService service = new StructureService("");
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
 
             service.VerifyType(typeof(object), new[] { verifier1, verifier2 }, TypeVerificationAspect.AccessLevel);
 
@@ -75,7 +79,7 @@ namespace TestTools_Tests.Structure
         public void VerifyTypeOverloadUsesDefaultTypeVerifiers()
         {
             ITypeVerifier verifier = Substitute.For<ITypeVerifier>();
-            StructureService service = new StructureService("");
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
             service.DefaultTypeVerifiers = new[] { verifier };
 
             service.VerifyType(typeof(object));
@@ -90,7 +94,7 @@ namespace TestTools_Tests.Structure
             verifier1.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
             ITypeVerifier verifier2 = Substitute.For<ITypeVerifier>();
             verifier1.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
-            StructureService service = new StructureService("");
+            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
             service.DefaultTypeVerifiers = new[] { verifier1, verifier2 };
 
             service.VerifyType(typeof(object), TypeVerificationAspect.AccessLevel);

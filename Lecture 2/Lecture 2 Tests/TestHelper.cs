@@ -9,7 +9,7 @@ namespace Lecture_2_Tests
 {
     public static class TestHelper
     {
-        public static TestFactory Factory { get; } = new TestFactory("Lecture_2")
+        public static TestFactory Factory { get; } = new TestFactory("Lecture_2_Solutions", "Lecture_2")
         {
             DefaultConfiguration = new UnitTestConfiguration()
             {

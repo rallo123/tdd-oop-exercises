@@ -10,7 +10,9 @@ namespace TestTools.Structure
 {
     public class StructureService
     {
-        string Namespace { get; set; }
+        string FromNamespace { get; set; }
+
+        string ToNamespace { get; set; }
 
         public StructureVerifier StructureVerifier { get; set; } = new StructureVerifier();
 
@@ -66,16 +68,20 @@ namespace TestTools.Structure
             MemberVerificationAspect.MethodAccessLevel
         };
 
-        public StructureService(string @namespace)
+        public StructureService(string fromNamespace, string toNamespace)
         {
-            Namespace = @namespace;
+            FromNamespace = fromNamespace;
+            ToNamespace = toNamespace;
         }
 
         public Type TranslateType(Type type)
         {
+            if (type.Namespace != FromNamespace)
+                return type;
+
             ITypeTranslator translator = type.GetCustomTranslator() ?? TypeTranslator;
 
-            translator.TargetNamespace = Namespace;
+            translator.TargetNamespace = ToNamespace;
             translator.Verifier = StructureVerifier;
 
             return translator.Translate(type);
