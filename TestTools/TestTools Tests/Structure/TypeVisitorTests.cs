@@ -47,15 +47,10 @@ namespace TestTools_Tests.Structure
         MethodInfo ClassBVoidMethod = typeof(ClassB).GetMethod("VoidMethod", new Type[0]);
         PropertyInfo ClassBProperty = typeof(ClassB).GetProperty("Property");
 
-        [TestInitialize]
-        public void TestInitialize()
+        public void AssertAreEqualExpressions(Expression expr1, Expression expr2)
         {
-            typeTranslator = Substitute.For<ITypeTranslator>();
-            typeTranslator.Translate(typeof(ClassA)).Returns(typeof(ClassB));
-
-            memberTranslator = Substitute.For<IMemberTranslator>();
-            memberTranslator.Translate(ClassAField).Returns(ClassBField);
-            memberTranslator.Translate(ClassAConstructor).Returns(ClassBConstructor);
+            // TODO develop a more robust comparison method
+            Assert.AreEqual(expr1.ToString(), expr2.ToString());
         }
 
         [TestMethod("Visit correctly transforms ParameterExpression")]
@@ -65,7 +60,8 @@ namespace TestTools_Tests.Structure
             translator.Translate(typeof(ClassA)).Returns(typeof(ClassB));
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
-                TypeTranslator = translator
+                TypeTranslator = translator,
+                DefaultTypeVerifiers = new ITypeVerifier[0]
             };
             TypeVisitor visitor = new TypeVisitor(service);
 
@@ -74,7 +70,7 @@ namespace TestTools_Tests.Structure
 
             Expression actual = visitor.Visit(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Visit correctly transforms NewExpression")]
@@ -87,7 +83,9 @@ namespace TestTools_Tests.Structure
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = typeTranslator,
-                MemberTranslator = memberTranslator
+                MemberTranslator = memberTranslator,
+                DefaultTypeVerifiers = new ITypeVerifier[0],
+                DefaultMemberVerifiers = new IMemberVerifier[0]
             };
             TypeVisitor visitor = new TypeVisitor(service);
 
@@ -96,7 +94,7 @@ namespace TestTools_Tests.Structure
 
             Expression actual = visitor.Visit(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Visit correctly transforms MethodCallExpression")]
@@ -109,7 +107,9 @@ namespace TestTools_Tests.Structure
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = typeTranslator,
-                MemberTranslator = memberTranslator
+                MemberTranslator = memberTranslator,
+                DefaultTypeVerifiers = new ITypeVerifier[0],
+                DefaultMemberVerifiers = new IMemberVerifier[0]
             };
             TypeVisitor visitor = new TypeVisitor(service);
 
@@ -118,7 +118,7 @@ namespace TestTools_Tests.Structure
 
             Expression actual = visitor.Visit(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Visit correctly transforms MemberExpression for field")]
@@ -131,7 +131,9 @@ namespace TestTools_Tests.Structure
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = typeTranslator,
-                MemberTranslator = memberTranslator
+                MemberTranslator = memberTranslator,
+                DefaultTypeVerifiers = new ITypeVerifier[0],
+                DefaultMemberVerifiers = new IMemberVerifier[0]
             };
             TypeVisitor visitor = new TypeVisitor(service);
 
@@ -140,7 +142,7 @@ namespace TestTools_Tests.Structure
 
             Expression actual = visitor.Visit(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Visit correctly transforms MemberExpression for property")]
@@ -153,7 +155,9 @@ namespace TestTools_Tests.Structure
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
             {
                 TypeTranslator = typeTranslator,
-                MemberTranslator = memberTranslator
+                MemberTranslator = memberTranslator,
+                DefaultTypeVerifiers = new ITypeVerifier[0],
+                DefaultMemberVerifiers = new IMemberVerifier[0]
             };
             TypeVisitor visitor = new TypeVisitor(service);
 
@@ -162,7 +166,7 @@ namespace TestTools_Tests.Structure
 
             Expression actual = visitor.Visit(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
         
         //TODO write tests to verify verifications

@@ -44,7 +44,7 @@ namespace TestTools.Structure
                 MemberVerificationAspect.MethodAccessLevel);
 
             MemberInfo memberInfo = _structureService.TranslateMember(node.Method);
-            return Expression.Call(node.Object, (MethodInfo)memberInfo, node.Arguments);
+            return Expression.Call(Visit(node.Object), (MethodInfo)memberInfo, node.Arguments.Select(Visit));
         }
 
         protected override Expression VisitMember(MemberExpression node)
@@ -61,7 +61,7 @@ namespace TestTools.Structure
                     MemberVerificationAspect.FieldType,
                     MemberVerificationAspect.FieldIsStatic,
                     MemberVerificationAspect.FieldAccessLevel);
-                return Expression.Field(node.Expression, fieldInfo);
+                return Expression.Field(Visit(node.Expression), fieldInfo);
             }
             else if (memberInfo is PropertyInfo propertyInfo)
             {
@@ -73,7 +73,7 @@ namespace TestTools.Structure
                        MemberVerificationAspect.PropertyGetIsAbstract,
                        MemberVerificationAspect.PropertyGetIsVirtual,
                        MemberVerificationAspect.PropertyGetAccessLevel);
-                return Expression.Property(node.Expression, propertyInfo);
+                return Expression.Property(Visit(node.Expression), propertyInfo);
             }
             else throw new ArgumentException("Member was not translated to FieldInfo or PropertyInfo");
         }
@@ -107,6 +107,14 @@ namespace TestTools.Structure
                 return Expression.Bind(propertyInfo, node.Expression);
             }
             else throw new ArgumentException("Member was not translated to FieldInfo or PropertyInfo");
+        }
+
+        protected override Expression VisitParameter(ParameterExpression node)
+        {
+            _structureService.VerifyType(node.Type);
+
+            Type translatedType = _structureService.TranslateType(node.Type);
+            return Expression.Parameter(translatedType, node.Name);
         }
     }
 }

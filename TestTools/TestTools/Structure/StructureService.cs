@@ -178,6 +178,7 @@ namespace TestTools.Structure
 
                 if (verifier != null)
                 {
+                    verifier.Verifier = StructureVerifier;
                     verifier.TypeTranslator = TypeTranslator;
                     verifier.Verify(original, translatedMember);
                 }
@@ -199,6 +200,7 @@ namespace TestTools.Structure
 
                 if (verifier != null)
                 {
+                    verifier.Verifier = StructureVerifier;
                     verifier.TypeTranslator = TypeTranslator;
                     verifier.Verify(original, translatedMember);
                 }
