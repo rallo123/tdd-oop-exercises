@@ -62,7 +62,7 @@ namespace Lecture_8_Tests
             // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertEvent(
-                typeof(BankAccount).GetEvent("Input"),
+                typeof(ConsoleView).GetEvent("Input"),
                 new MemberAccessLevelVerifier(AccessLevels.Public),
                 new EventHandlerTypeVerifier(typeof(InputHandler)));
             test.Execute();
