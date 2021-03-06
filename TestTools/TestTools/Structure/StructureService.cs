@@ -53,6 +53,7 @@ namespace TestTools.Structure
             MemberVerificationAspect.FieldAccessLevel,
             MemberVerificationAspect.FieldWriteability,
             MemberVerificationAspect.PropertyType,
+            MemberVerificationAspect.PropertyIsStatic,
             MemberVerificationAspect.PropertyGetIsAbstract,
             MemberVerificationAspect.PropertyGetIsVirtual,
             MemberVerificationAspect.PropertyGetDeclaringType,
@@ -89,6 +90,9 @@ namespace TestTools.Structure
 
         public MemberInfo TranslateMember(MemberInfo memberInfo)
         {
+            if (memberInfo.DeclaringType.Namespace != FromNamespace)
+                return memberInfo;
+            
             IMemberTranslator translator = memberInfo.GetCustomTranslator() ?? MemberTranslator;
 
             translator.Verifier = StructureVerifier;
@@ -99,6 +103,9 @@ namespace TestTools.Structure
 
         public MemberInfo TranslateMember(Type targetType, MemberInfo memberInfo)
         {
+            if (memberInfo.DeclaringType.Namespace != FromNamespace)
+                return memberInfo;
+
             IMemberTranslator translator = memberInfo.GetCustomTranslator() ?? MemberTranslator;
 
             translator.Verifier = StructureVerifier;
@@ -190,7 +197,7 @@ namespace TestTools.Structure
             Type translatedType = TranslateType(original.DeclaringType);
             MemberInfo translatedMember = TranslateMember(translatedType, original);
 
-            foreach (MemberVerificationAspect aspect in aspects)
+            foreach (MemberVerificationAspect aspect in MemberVerificationOrder)
             {
                 if (!aspects.Contains(aspect))
                     continue;

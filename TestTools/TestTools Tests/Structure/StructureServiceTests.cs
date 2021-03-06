@@ -72,7 +72,9 @@ namespace TestTools_Tests.Structure
             Type typeToVerify = typeof(object);
 
             ITypeVerifier verifier1 = Substitute.For<ITypeVerifier>();
+            verifier1.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
             ITypeVerifier verifier2 = Substitute.For<ITypeVerifier>();
+            verifier2.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
 
             service.VerifyType(typeToVerify, new[] { verifier1, verifier2 });
@@ -89,7 +91,7 @@ namespace TestTools_Tests.Structure
             ITypeVerifier verifier1 = Substitute.For<ITypeVerifier>();
             verifier1.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
             ITypeVerifier verifier2 = Substitute.For<ITypeVerifier>();
-            verifier1.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
+            verifier2.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
 
             service.VerifyType(typeToVerify, new[] { verifier1, verifier2 }, TypeVerificationAspect.AccessLevel);
@@ -104,6 +106,7 @@ namespace TestTools_Tests.Structure
             Type typeToVerify = typeof(object);
 
             ITypeVerifier verifier = Substitute.For<ITypeVerifier>();
+            verifier.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
             service.DefaultTypeVerifiers = new[] { verifier };
 
@@ -120,7 +123,7 @@ namespace TestTools_Tests.Structure
             ITypeVerifier verifier1 = Substitute.For<ITypeVerifier>();
             verifier1.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
             ITypeVerifier verifier2 = Substitute.For<ITypeVerifier>();
-            verifier1.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
+            verifier2.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
             service.DefaultTypeVerifiers = new[] { verifier1, verifier2 };
 
@@ -191,9 +194,11 @@ namespace TestTools_Tests.Structure
         public void VerifyMemberOverloadUsesAllMemberVerifiers()
         {
             PropertyInfo propertyToVerify = typeof(string).GetProperty("Length");
-
+            // The verifiers must have aspects as StructureService depends on aspect to use the verifier
             IMemberVerifier verifier1 = Substitute.For<IMemberVerifier>();
+            verifier1.Aspects.Returns(new[] { MemberVerificationAspect.PropertyType });
             IMemberVerifier verifier2 = Substitute.For<IMemberVerifier>();
+            verifier2.Aspects.Returns(new[] { MemberVerificationAspect.PropertyIsStatic });
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
 
             service.VerifyMember(propertyToVerify, new[] { verifier1, verifier2 });
@@ -210,7 +215,7 @@ namespace TestTools_Tests.Structure
             IMemberVerifier verifier1 = Substitute.For<IMemberVerifier>();
             verifier1.Aspects.Returns(new[] { MemberVerificationAspect.PropertyType });
             IMemberVerifier verifier2 = Substitute.For<IMemberVerifier>();
-            verifier1.Aspects.Returns(new[] { MemberVerificationAspect.PropertyIsStatic });
+            verifier2.Aspects.Returns(new[] { MemberVerificationAspect.PropertyIsStatic });
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
 
             service.VerifyMember(propertyToVerify, new[] { verifier1, verifier2 }, MemberVerificationAspect.PropertyType);
@@ -223,8 +228,9 @@ namespace TestTools_Tests.Structure
         public void VerifyMemberOverloadUsesDefaultMemberVerifiers()
         {
             PropertyInfo propertyToVerify = typeof(string).GetProperty("Length");
-
+            // The verifier must have an aspect as StructureService depends on aspect to use the verifier
             IMemberVerifier verifier = Substitute.For<IMemberVerifier>();
+            verifier.Aspects.Returns(new[] { MemberVerificationAspect.PropertyType });
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
             service.DefaultMemberVerifiers = new[] { verifier };
 
@@ -241,12 +247,11 @@ namespace TestTools_Tests.Structure
             IMemberVerifier verifier1 = Substitute.For<IMemberVerifier>();
             verifier1.Aspects.Returns(new[] { MemberVerificationAspect.PropertyType });
             IMemberVerifier verifier2 = Substitute.For<IMemberVerifier>();
-            verifier1.Aspects.Returns(new[] { MemberVerificationAspect.PropertyIsStatic });
+            verifier2.Aspects.Returns(new[] { MemberVerificationAspect.PropertyIsStatic });
             StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
             service.DefaultMemberVerifiers = new[] { verifier1, verifier2 };
 
             service.VerifyMember(propertyToVerify, MemberVerificationAspect.PropertyType);
-
 
             verifier1.Received().Verify(propertyToVerify, propertyToVerify);
             verifier2.DidNotReceive().Verify(propertyToVerify, propertyToVerify);
