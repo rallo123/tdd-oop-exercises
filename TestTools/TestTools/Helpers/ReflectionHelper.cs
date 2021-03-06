@@ -11,7 +11,7 @@ namespace TestTools.Helpers
     {
         public static AccessLevels GetAccessLevel(Type type)
         {
-            return type.IsPublic ? AccessLevels.Private : AccessLevels.Public;
+            return type.IsPublic ? AccessLevels.Public : AccessLevels.Private;
         }
 
         public static AccessLevels GetAccessLevel(MemberInfo memberInfo)
