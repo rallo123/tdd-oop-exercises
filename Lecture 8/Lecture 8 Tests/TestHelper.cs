@@ -9,11 +9,7 @@ namespace Lecture_8_Tests
 {
     public static class TestHelper
     {
-        public static TestFactory Factory { get; } = new TestFactory("Lecture_8_Solutions", "Lecture_8")
-        {
-            DefaultConfiguration = new UnitTestConfiguration()
-            {
-            }
-        };
+        public static TestFactory Factory { get; } = new TestFactory("Lecture_8_Solutions", "Lecture_8_Solutions");
+        // public static TestFactory Factory { get; } = new TestFactory("Lecture_8_Solutions", "Lecture_8");
     }
 }
