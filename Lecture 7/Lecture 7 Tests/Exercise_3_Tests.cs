@@ -99,7 +99,7 @@ namespace Lecture_7_Tests
             test.Execute();
         }
 
-        [TestMethod("Dog.Clone() clones fields")]
+        [TestMethod("Dog.Clone() clones fields"), TestCategory("3B")]
         public void MyQueueCountIsInitializedAs0()
         {
             Dog dog1 = new Dog()
