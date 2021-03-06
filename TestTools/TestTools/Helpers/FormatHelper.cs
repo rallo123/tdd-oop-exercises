@@ -164,8 +164,17 @@ namespace TestTools.Helpers
             };
 
             if (BuiltinTypes.ContainsKey(type))
+            {
                 return BuiltinTypes[type];
+            }
+            else if (type.IsGenericType)
+            {
+                // This is based on https://stackoverflow.com/questions/1533115/get-generictype-name-in-good-format-using-reflection-on-c-sharp
+                string typeName = type.Name.Substring(0, type.Name.IndexOf('`'));
+                string[] typeArguments = type.GenericTypeArguments.Select(FormatType).ToArray();
 
+                return string.Format("{0}<{1}>", typeName, string.Join(", ", typeArguments));
+            }
             else return type.Name;
         }
     }
