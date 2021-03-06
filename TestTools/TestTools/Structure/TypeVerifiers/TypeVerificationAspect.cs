@@ -6,13 +6,21 @@ namespace TestTools.Structure
 {
     public class TypeVerificationAspect
     {
-        public TypeVerificationAspect()
+        string _name;
+
+        public TypeVerificationAspect(string name)
         {
+            _name = name;
         }
 
-        public static TypeVerificationAspect AccessLevel { get; } = new TypeVerificationAspect();
-        public static TypeVerificationAspect IsAbstract { get; } = new TypeVerificationAspect();
-        public static TypeVerificationAspect IsStatic { get; } = new TypeVerificationAspect();
-        public static TypeVerificationAspect IsSubclassOf { get; } = new TypeVerificationAspect();
+        public override string ToString()
+        {
+            return _name;
+        }
+
+        public static TypeVerificationAspect AccessLevel { get; } = new TypeVerificationAspect(nameof(AccessLevel));
+        public static TypeVerificationAspect IsAbstract { get; } = new TypeVerificationAspect(nameof(IsAbstract));
+        public static TypeVerificationAspect IsStatic { get; } = new TypeVerificationAspect(nameof(IsStatic));
+        public static TypeVerificationAspect IsSubclassOf { get; } = new TypeVerificationAspect(nameof(IsSubclassOf));
     }
 }
