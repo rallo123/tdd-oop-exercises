@@ -478,12 +478,12 @@ namespace TestTools.Structure
             throw new InvalidStructureException(message);
         }
 
-        public virtual void VerifyIsReadonly(PropertyInfo propertyInfo, MemberTypes[] memberTypes)
+        public virtual void VerifyIsReadonly(PropertyInfo propertyInfo, AccessLevels accessLevel)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void VerifyIsWriteonly(PropertyInfo propertyInfo, MemberTypes[] memberTypes)
+        public virtual void VerifyIsWriteonly(PropertyInfo propertyInfo, AccessLevels accessLevel)
         {
             throw new NotImplementedException();
         }
