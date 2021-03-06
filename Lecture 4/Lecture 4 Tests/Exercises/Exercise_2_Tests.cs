@@ -93,14 +93,15 @@ namespace Lecture_4_Tests
             Person person = new Person("abc")
             {
                 Height = 1.80,
-                Weight = 80
+                Weight = 80,
+                Age = 18
             };
             Assert.AreEqual(person.CalculateBMI(), expectedBMI, 0.001);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
-            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.80, Weight = 80 }));
+            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.80, Weight = 80, Age = 18 }));
             test.Assert.AreEqual(Expr(_person, p => p.CalculateBMI()), Const(expectedBMI), 0.001);
             test.Execute();
         }
@@ -113,7 +114,8 @@ namespace Lecture_4_Tests
             Person person = new Person("abc")
             {
                 Height = 1.64,
-                Weight = 47.0
+                Weight = 47.0,
+                Age = 18
             };
             Assert.AreEqual(person.GetClassification(), "under-weight");
 
@@ -131,7 +133,8 @@ namespace Lecture_4_Tests
             Person person = new Person("abc")
             {
                 Height = 1.73,
-                Weight = 58.0
+                Weight = 58.0,
+                Age = 18
             };
             Assert.AreEqual(person.GetClassification(), "normal weight");
 
@@ -149,7 +152,8 @@ namespace Lecture_4_Tests
             Person person = new Person("abc")
             {
                 Height = 1.70,
-                Weight = 74
+                Weight = 74,
+                Age = 18
             };
             Assert.AreEqual(person.GetClassification(), "over-weight");
 
@@ -167,7 +171,8 @@ namespace Lecture_4_Tests
             Person person = new Person("abc")
             {
                 Height = 1.85,
-                Weight = 120.0
+                Weight = 120.0,
+                Age = 18
             };
             Assert.AreEqual(person.GetClassification(), "obese");
 
