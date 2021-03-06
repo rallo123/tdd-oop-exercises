@@ -117,7 +117,7 @@ namespace TestTools.Structure
             VerifyType(original, DefaultTypeVerifiers.ToArray(), aspects);
         }
 
-        public virtual void VerifyType(Type original, ITypeVerifier[] verifiers)
+        public void VerifyType(Type original, ITypeVerifier[] verifiers)
         {
             Type translated = TranslateType(original);
 
@@ -135,7 +135,7 @@ namespace TestTools.Structure
             }
         }
 
-        public virtual void VerifyType(Type original, ITypeVerifier[] verifiers, params TypeVerificationAspect[] aspects)
+        public void VerifyType(Type original, ITypeVerifier[] verifiers, params TypeVerificationAspect[] aspects)
         {
             Type translated = TranslateType(original);
 
@@ -166,7 +166,7 @@ namespace TestTools.Structure
             VerifyMember(original, DefaultMemberVerifiers.ToArray(), aspects);
         }
 
-        public virtual void VerifyMember(MemberInfo original, IMemberVerifier[] verifiers)
+        public void VerifyMember(MemberInfo original, IMemberVerifier[] verifiers)
         {
             Type translatedType = TranslateType(original.DeclaringType);
             MemberInfo translatedMember = TranslateMember(translatedType, original);
@@ -184,7 +184,7 @@ namespace TestTools.Structure
             }
         }
 
-        public virtual void VerifyMember(MemberInfo original, IMemberVerifier[] verifiers, params MemberVerificationAspect[] aspects)
+        public void VerifyMember(MemberInfo original, IMemberVerifier[] verifiers, params MemberVerificationAspect[] aspects)
         {
             Type translatedType = TranslateType(original.DeclaringType);
             MemberInfo translatedMember = TranslateMember(translatedType, original);
