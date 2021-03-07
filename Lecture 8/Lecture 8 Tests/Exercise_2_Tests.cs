@@ -21,7 +21,7 @@ namespace Lecture_8_Tests
         {
             // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertPublicProperty<BankAccount, decimal>(b => b.Balance);
+            test.AssertPublicReadonlyProperty<BankAccount, decimal>(b => b.Balance);
             test.Execute();
         }
 
