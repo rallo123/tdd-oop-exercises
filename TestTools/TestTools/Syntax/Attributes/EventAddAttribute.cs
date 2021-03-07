@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TestTools.Syntax
 {
-    public class EventAddAttribute
+    public class EventAddAttribute : Attribute, ISyntaxTransformer
     {
         public string EventName { get; }
 
