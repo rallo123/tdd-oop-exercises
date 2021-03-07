@@ -13,7 +13,7 @@ namespace Lecture_4_Tests
     public class Exercise_7_Tests
     {
         #region Exercise 7A
-        [TestMethod("a. NotOldEnoughException is subclass of Exception"), TestCategory("Exercise 7A")]
+        [TestMethod("a. NotOldEnoughException's base class is Exception"), TestCategory("Exercise 7A")]
         public void NotOldEnoughExceptionIsSubclassOfException()
         {
             // TestTools Code

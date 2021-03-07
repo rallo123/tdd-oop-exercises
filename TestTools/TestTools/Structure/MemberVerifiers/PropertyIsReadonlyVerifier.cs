@@ -17,7 +17,12 @@ namespace TestTools.Structure
         public override void Verify(MemberInfo originalMember, MemberInfo translatedMember)
         {
             Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Property });
-            Verifier.VerifyIsReadonly((PropertyInfo)translatedMember, ReflectionHelper.GetAccessLevel(translatedMember));
+
+            if (translatedMember is PropertyInfo propertyInfo)
+            {
+                Verifier.VerifyIsReadonly(propertyInfo, ReflectionHelper.GetAccessLevel(((PropertyInfo)originalMember).GetMethod));
+            }
+            else throw new NotImplementedException();
         }
     }
 }

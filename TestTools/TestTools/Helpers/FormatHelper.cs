@@ -106,6 +106,11 @@ namespace TestTools.Helpers
             return methodInfo.Name + "(" + FormatParameters(methodInfo.GetParameters()) + ")";
         }
 
+        public static string FormatSignature(Type type, string name, ParameterInfo[] parameterInfos)
+        {
+            return FormatType(type) + " " + name + "(" + FormatParameters(parameterInfos) + ")";
+        }
+
         public static string FormatConstructor(ConstructorInfo constructorInfo)
         {
             return FormatType(constructorInfo.DeclaringType) + "(" + FormatParameters(constructorInfo.GetParameters()) + ")";

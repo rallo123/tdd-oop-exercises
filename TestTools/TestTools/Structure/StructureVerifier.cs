@@ -25,12 +25,25 @@ namespace TestTools.Structure
 
         internal void FailMemberNotFound(Type targetType, string[] vs)
         {
-            throw new NotImplementedException();
+            if (vs.Length == 1)
+                throw new AssertFailedException($"Target {targetType} does not contain member ${vs[0]}");
+            else throw new NotImplementedException();
         }
 
         internal void FailTypeNotFound(string @namespace, string[] name)
         {
-            throw new NotImplementedException();
+            if (name.Length == 1)
+                throw new AssertFailedException($"Namespace {@namespace} does not contain type ${name[0]}");
+            else throw new NotImplementedException();
+        }
+
+        internal void FailTypeNotFound(string @namespace, Type type)
+        {
+            string message = string.Format(
+                "Namespace {0} does not contain the type {1}",
+                @namespace,
+                FormatHelper.FormatType(type));
+            throw new AssertFailedException(message);
         }
 
         public virtual void VerifyAccessLevel(ConstructorInfo constructorInfo, AccessLevels[] accessLevels)
@@ -128,11 +141,11 @@ namespace TestTools.Structure
 
         public virtual void VerifyBaseType(Type type, Type baseType)
         {
-            if (type.BaseType == type)
+            if (type.BaseType == baseType)
                 return;
 
             string message = string.Format(
-                "{0} does not inherit from {1}",
+                "The baseclass of {0} is not {1}",
                 FormatHelper.FormatType(type),
                 FormatHelper.FormatType(baseType));
 
@@ -189,6 +202,18 @@ namespace TestTools.Structure
             }
         }
 
+        public virtual void VerifyDelegateSignature(Type delegateType, MethodInfo methodInfo)
+        {
+            if (delegateType.IsDelegateOf(methodInfo))
+                return;
+
+            string message = string.Format(
+                "{0} does not match signature {1}",
+                FormatHelper.FormatType(delegateType),
+                FormatHelper.FormatSignature(methodInfo.ReturnType, delegateType.Name, methodInfo.GetParameters()));
+
+            throw new InvalidStructureException(message);
+        }
 
         public virtual void VerifyEventHandlerType(EventInfo eventInfo, Type type)
         {
@@ -271,6 +296,18 @@ namespace TestTools.Structure
             }
         }
 
+        public virtual void VerifyIsDelegate(Type type)
+        {
+            if (type.IsSubclassOf(typeof(Delegate)))
+                return;
+
+            string message = string.Format(
+                "{0} is not a delegate type",
+                FormatHelper.FormatType(type));
+
+            throw new InvalidStructureException(message);
+        }
+
         public virtual void VerifyIsHideBySig(MethodInfo methodInfo, bool isHideBySig)
         {
             if (methodInfo.IsVirtual == isHideBySig)
@@ -321,6 +358,18 @@ namespace TestTools.Structure
                 template,
                 FormatHelper.FormatType(fieldInfo.DeclaringType),
                 fieldInfo.Name);
+
+            throw new InvalidStructureException(message);
+        }
+
+        public virtual void VerifyIsInterface(Type type)
+        {
+            if (type.IsInterface)
+                return;
+
+            string message = string.Format(
+                "{0} is not an interface type",
+                FormatHelper.FormatType(type));
 
             throw new InvalidStructureException(message);
         }
@@ -384,15 +433,31 @@ namespace TestTools.Structure
 
         public virtual void VerifyIsSubclassOf(Type type, Type baseType)
         {
-            if (type.IsAssignableFrom(baseType))
-                return;
+            if (baseType.IsClass)
+            {
+                if (type.IsSubclassOf(baseType))
+                    return;
 
-            string message = string.Format(
-                    "{0} is not a subclass of {1}",
-                    FormatHelper.FormatType(type),
-                    FormatHelper.FormatType(type));
+                string message = string.Format(
+                        "{0} is not a subclass of {1}",
+                        FormatHelper.FormatType(type),
+                        FormatHelper.FormatType(baseType));
 
-            throw new InvalidStructureException(message);
+                throw new InvalidStructureException(message);
+            }
+            else if (baseType.IsInterface)
+            {
+                if (type.IsImplementationOf(baseType))
+                    return;
+
+                string message = string.Format(
+                        "{0} is not an implementation of {1}",
+                        FormatHelper.FormatType(type),
+                        FormatHelper.FormatType(baseType));
+
+                throw new InvalidStructureException(message);
+            }
+            else throw new NotImplementedException();
         }
 
         public virtual void VerifyIsVirtual(MethodInfo methodInfo, bool isVirtual)
@@ -480,20 +545,82 @@ namespace TestTools.Structure
 
         public virtual void VerifyIsReadonly(PropertyInfo propertyInfo, AccessLevels accessLevel)
         {
-            throw new NotImplementedException();
+            VerifyCanRead(propertyInfo, canRead: true);
+            VerifyAccessLevel(propertyInfo, new[] { accessLevel }, GetMethod: true);
+
+            if (!propertyInfo.CanWrite)
+                return;
+
+            AccessLevels setMethodAccessLevel = ReflectionHelper.GetAccessLevel(propertyInfo.SetMethod);
+
+            if (accessLevel == AccessLevels.Protected)
+            {
+                if (setMethodAccessLevel != AccessLevels.Private)
+                {
+                    string message = string.Format(
+                    "{0}.{1} should not have set accessor or the set accessor should be private",
+                    FormatHelper.FormatType(propertyInfo.DeclaringType), 
+                    propertyInfo.Name);
+                    throw new InvalidStructureException(message);
+                }
+                
+            }
+            else if(accessLevel == AccessLevels.Public)
+            {
+                if (setMethodAccessLevel != AccessLevels.Private && setMethodAccessLevel != AccessLevels.Protected)
+                {
+                    string message = string.Format(
+                    "{0}.{1} should not have set accessor or the set accessor should be private or protected",
+                    FormatHelper.FormatType(propertyInfo.DeclaringType),
+                    propertyInfo.Name);
+                    throw new InvalidStructureException(message);
+                }
+            }
+            else throw new NotImplementedException();
         }
 
         public virtual void VerifyIsWriteonly(PropertyInfo propertyInfo, AccessLevels accessLevel)
         {
-            throw new NotImplementedException();
-        }
+            VerifyCanWrite(propertyInfo, canWrite: true);
+            VerifyAccessLevel(propertyInfo, new[] { accessLevel }, SetMethod: true);
 
-        public virtual void VerifyCanWrite(PropertyInfo propertyInfo, bool canRead)
-        {
-            if (propertyInfo.CanRead == canRead)
+            if (!propertyInfo.CanWrite)
                 return;
 
-            string template = canRead ? "{0}.{1} must have a get accessor" : "{0}.{1} cannot have a get accessor";
+            AccessLevels getMethodAccessLevel = ReflectionHelper.GetAccessLevel(propertyInfo.GetMethod);
+
+            if (accessLevel == AccessLevels.Protected)
+            {
+                if (getMethodAccessLevel != AccessLevels.Private)
+                {
+                    string message = string.Format(
+                    "{0}.{1} should not have get accessor or the get accessor should be private",
+                    FormatHelper.FormatType(propertyInfo.DeclaringType),
+                    propertyInfo.Name);
+                    throw new InvalidStructureException(message);
+                }
+
+            }
+            else if (accessLevel == AccessLevels.Public)
+            {
+                if (getMethodAccessLevel != AccessLevels.Private && getMethodAccessLevel != AccessLevels.Protected)
+                {
+                    string message = string.Format(
+                    "{0}.{1} should not have get accessor or the get accessor should be private or protected",
+                    FormatHelper.FormatType(propertyInfo.DeclaringType),
+                    propertyInfo.Name);
+                    throw new InvalidStructureException(message);
+                }
+            }
+            else throw new NotImplementedException();
+        }
+
+        public virtual void VerifyCanWrite(PropertyInfo propertyInfo, bool canWrite)
+        {
+            if (propertyInfo.CanWrite == canWrite)
+                return;
+
+            string template = canWrite ? "{0}.{1} must have a set accessor" : "{0}.{1} cannot have a set accessor";
             string message = string.Format(
                 template,
                 FormatHelper.FormatType(propertyInfo.DeclaringType),

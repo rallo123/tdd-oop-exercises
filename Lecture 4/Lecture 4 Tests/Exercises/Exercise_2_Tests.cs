@@ -13,12 +13,12 @@ namespace Lecture_4_Tests
     public class Exercise_2_Tests
     {
         #region Exercise 2A
-        [TestMethod("a. Person.Name is public string property"), TestCategory("Exercise 2A")]
-        public void PersonNameIsStringProperty() 
+        [TestMethod("a. Person.Name is public readonly string property"), TestCategory("Exercise 2A")]
+        public void PersonNameIsReadonlyStringProperty() 
         {
             // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertPublicProperty<Person, string>(p => p.Name);
+            test.AssertPublicReadonlyProperty<Person, string>(p => p.Name);
             test.Execute();
         }
 

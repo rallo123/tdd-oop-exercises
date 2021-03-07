@@ -19,7 +19,7 @@ namespace TestTools.Structure
             }
 
             // TODO fix the following lines as they give an unclear program flow
-            Verifier.FailTypeNotFound(TargetNamespace, new[] { type.Name });
+            Verifier.FailTypeNotFound(TargetNamespace, type);
 
             // Should never get to here as FailTypeNotFound() should throw an exception
             throw new NotImplementedException();

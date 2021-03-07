@@ -21,6 +21,9 @@ namespace TestTools.Structure
         public static TypeVerificationAspect AccessLevel { get; } = new TypeVerificationAspect(nameof(AccessLevel));
         public static TypeVerificationAspect IsAbstract { get; } = new TypeVerificationAspect(nameof(IsAbstract));
         public static TypeVerificationAspect IsStatic { get; } = new TypeVerificationAspect(nameof(IsStatic));
-        public static TypeVerificationAspect IsSubclassOf { get; } = new TypeVerificationAspect(nameof(IsSubclassOf));
+        public static TypeVerificationAspect IsSubclassOf { get; } = new TypeVerificationAspect(nameof(IsSubclassOf)); 
+        public static TypeVerificationAspect IsInterface { get; } = new TypeVerificationAspect(nameof(IsInterface));
+        public static TypeVerificationAspect IsDelegate { get; } = new TypeVerificationAspect(nameof(IsDelegate));
+        public static TypeVerificationAspect DelegateSignature { get; } = new TypeVerificationAspect(nameof(IsDelegate));
     }
 }

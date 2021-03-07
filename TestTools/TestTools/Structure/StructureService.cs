@@ -40,7 +40,10 @@ namespace TestTools.Structure
 
         public ICollection<TypeVerificationAspect> TypeVerificationOrder { get; set; } = new[]
         {
+            TypeVerificationAspect.IsInterface,
+            TypeVerificationAspect.IsDelegate,
             TypeVerificationAspect.IsSubclassOf,
+            TypeVerificationAspect.DelegateSignature,
             TypeVerificationAspect.IsStatic,
             TypeVerificationAspect.IsAbstract,
             TypeVerificationAspect.AccessLevel

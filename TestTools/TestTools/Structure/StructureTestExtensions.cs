@@ -30,24 +30,30 @@ namespace TestTools.Structure
             test.AssertClass<T>(new TypeAccessLevelVerifier(AccessLevels.Public));
         }
 
-        public static void AssertDelegate<T, TDelegate>(this StructureTest test, params ITypeVerifier[] verifiers)
+        public static void AssertDelegate<T, TDelegate>(this StructureTest test, params ITypeVerifier[] verifiers) where TDelegate : Delegate
         {
-            throw new NotImplementedException();
+            ITypeVerifier[] additionalVerifiers = new ITypeVerifier[] { 
+                new TypeIsDelegateVerifier(),
+                new DelegateSignatureVerifier(typeof(TDelegate))
+            };
+            ITypeVerifier[] allVerifiers = verifiers.Union(additionalVerifiers).ToArray();
+            test.AssertType(typeof(T), allVerifiers);
         }
 
-        public static void AssertPublicDelegate<T, TDelegate>(this StructureTest test)
+        public static void AssertPublicDelegate<T, TDelegate>(this StructureTest test) where TDelegate : Delegate
         {
-            throw new NotImplementedException();
+            test.AssertDelegate<T, TDelegate>(new TypeAccessLevelVerifier(AccessLevels.Public));
         }
 
         public static void AssertInterface<T>(this StructureTest test, params ITypeVerifier[] verifiers)
         {
-            throw new NotImplementedException();
+            ITypeVerifier[] allVerifiers = verifiers.Union(new[] { new TypeIsInterfaceVerifier() }).ToArray();
+            test.AssertType(typeof(T), allVerifiers);
         }
 
         public static void AssertPublicInterface<T>(this StructureTest test)
         {
-            throw new NotImplementedException();
+            test.AssertInterface<T>(new TypeAccessLevelVerifier(AccessLevels.Public));
         }
 
         public static void AssertConstructor(this StructureTest test, ConstructorInfo constructorInfo, params IMemberVerifier[] verifiers)
@@ -58,21 +64,21 @@ namespace TestTools.Structure
 
         public static void AssertConstructor<TReturn>(this StructureTest test, Expression<Func<TReturn>> locator, params IMemberVerifier[] verifiers)
         {
-            NewExpression newExpression = locator.Body as NewExpression;
+            NewExpression newExpression = (NewExpression)locator.Body;
             ConstructorInfo constructorInfo = newExpression.Constructor;
             test.AssertConstructor(constructorInfo, verifiers);
         }
 
         public static void AssertConstructor<TPar1, TReturn>(this StructureTest test, Expression<Func<TPar1, TReturn>> locator, params IMemberVerifier[] verifiers)
         {
-            NewExpression newExpression = locator.Body as NewExpression;
+            NewExpression newExpression = (NewExpression)locator.Body;
             ConstructorInfo constructorInfo = newExpression.Constructor;
             test.AssertConstructor(constructorInfo, verifiers);
         }
 
         public static void AssertConstructor<TPar1, TPar2, TReturn>(this StructureTest test, Expression<Func<TPar1, TPar2, TReturn>> locator, params IMemberVerifier[] verifiers)
         {
-            NewExpression newExpression = locator.Body as NewExpression;
+            NewExpression newExpression = (NewExpression)locator.Body;
             ConstructorInfo constructorInfo = newExpression.Constructor;
             test.AssertConstructor(constructorInfo, verifiers);
         }
@@ -151,7 +157,7 @@ namespace TestTools.Structure
 
         public static void AssertPublicReadonlyProperty<TInstance, TProperty>(this StructureTest test, Expression<Func<TInstance, TProperty>> locator)
         {
-            test.AssertProperty(locator, new MemberAccessLevelVerifier(AccessLevels.Public), new PropertyIsReadonlyVerifier());
+            test.AssertProperty(locator, new PropertyIsReadonlyVerifier());
         }
 
         public static void AssertPublicWriteonlyProperty<TInstance, TProperty>(this StructureTest test, Expression<Func<TInstance, TProperty>> locator)
