@@ -6,6 +6,7 @@ using NSubstitute;
 using TestTools.Structure;
 using System.Linq.Expressions;
 using System.Reflection;
+using static TestTools_Tests.TestHelper;
 
 namespace TestTools_Tests.Structure
 {
@@ -43,12 +44,6 @@ namespace TestTools_Tests.Structure
         EventInfo ClassBEvent = typeof(ClassB).GetEvent("Event");
         MethodInfo ClassBVoidMethod = typeof(ClassB).GetMethod("VoidMethod", new Type[0]);
         PropertyInfo ClassBProperty = typeof(ClassB).GetProperty("Property");
-
-        public void AssertAreEqualExpressions(Expression expr1, Expression expr2)
-        {
-            // TODO develop a more robust comparison method
-            Assert.AreEqual(expr1.ToString(), expr2.ToString());
-        }
 
         [TestMethod("Visit correctly transforms ParameterExpression")]
         public void VisitCorrectlyTransformsParameterExpression()

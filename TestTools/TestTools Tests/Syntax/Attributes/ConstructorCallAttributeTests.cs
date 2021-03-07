@@ -5,6 +5,7 @@ using System.Text;
 using TestTools.Syntax;
 using System.Linq.Expressions;
 using System.Reflection;
+using static TestTools_Tests.TestHelper;
 
 namespace TestTools_Tests.Syntax
 {
@@ -21,14 +22,14 @@ namespace TestTools_Tests.Syntax
 
             public static Fixture CreateTestClass(int value) => new Fixture(value);
 
-            public static Fixture CreateClass(int value1, int value2) => throw new NotImplementedException();
+            public static Fixture CreateTestClass(int value1, int value2) => throw new NotImplementedException();
         }
 
         ConstructorInfo FixtureConstructor1 = typeof(Fixture).GetConstructor(new Type[0]);
         ConstructorInfo FixtureConstructor2 = typeof(Fixture).GetConstructor(new Type[] { typeof(int) });
-        MethodInfo FixtureCreateTestClass1 = typeof(MethodInfo).GetMethod("CreateTestClass", new Type[0]);
-        MethodInfo FixtureCreateTestClass2 = typeof(MethodInfo).GetMethod("CreateTestClass", new Type[] { typeof(int) });
-        MethodInfo FixtureCreateTestClass3 = typeof(MethodInfo).GetMethod("CreateTestClass", new Type[] { typeof(int), typeof(int) });
+        MethodInfo FixtureCreateTestClass1 = typeof(Fixture).GetMethod("CreateTestClass", new Type[0]);
+        MethodInfo FixtureCreateTestClass2 = typeof(Fixture).GetMethod("CreateTestClass", new Type[] { typeof(int) });
+        MethodInfo FixtureCreateTestClass3 = typeof(Fixture).GetMethod("CreateTestClass", new Type[] { typeof(int), typeof(int) });
 
         [TestMethod("Transform replaces method call expression without arguments with new expression")]
         public void Transform_ReplacesMethodCallWithoutArgumentsExpressionWithNewExpression()
@@ -41,7 +42,7 @@ namespace TestTools_Tests.Syntax
             
             Expression actual = new ConstructorCallAttribute().Transform(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Transform replaces method call expression with arguments with new expression")]
@@ -55,7 +56,7 @@ namespace TestTools_Tests.Syntax
 
             Expression actual = new ConstructorCallAttribute().Transform(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Transform throws ArgumentException if no constructor with equavilent parameter list is found")]

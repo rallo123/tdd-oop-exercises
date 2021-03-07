@@ -5,8 +5,9 @@ using System.Text;
 using System.Linq.Expressions;
 using System.Reflection;
 using TestTools.Syntax;
+using static TestTools_Tests.TestHelper;
 
-namespace TestTools_Tests.Syntax.Attributes
+namespace TestTools_Tests.Syntax
 {
     [TestClass]
     public class PropertySetAttributeTests
@@ -21,16 +22,16 @@ namespace TestTools_Tests.Syntax.Attributes
 
             public int SetProperty(int value) => Property = value;
 
-            public int GetNonExistentProperty() => throw new NotImplementedException();
+            public int SetNonExistentProperty(int value) => throw new NotImplementedException();
 
-            public int GetReadonlyProperty() => throw new NotImplementedException();
+            public int SetReadonlyProperty(int value) => throw new NotImplementedException();
         }
 
         readonly PropertyInfo FixtureProperty = typeof(Fixture).GetProperty("Property");
 
-        readonly MethodInfo FixtureSetProperty = typeof(MethodInfo).GetMethod("SetProperty", new Type[0]);
-        readonly MethodInfo FixtureSetNonExistentProperty = typeof(MethodInfo).GetMethod("GetNonExistentProperty", new Type[0]);
-        readonly MethodInfo FixtureReadonlyProperty = typeof(MethodInfo).GetMethod("GetReadonlyProperty", new Type[0]);
+        readonly MethodInfo FixtureSetProperty = typeof(Fixture).GetMethod("SetProperty", new Type[] { typeof(int) });
+        readonly MethodInfo FixtureSetNonExistentProperty = typeof(Fixture).GetMethod("SetNonExistentProperty", new Type[] { typeof(int) });
+        readonly MethodInfo FixtureReadonlyProperty = typeof(Fixture).GetMethod("SetReadonlyProperty", new Type[] { typeof(int) });
 
 
         [TestMethod("Transform replaces method-call expression with field expression")]
@@ -47,7 +48,7 @@ namespace TestTools_Tests.Syntax.Attributes
 
             Expression actual = new PropertySetAttribute("Property").Transform(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Transform throws ArgumentException if there is no property with name")]

@@ -5,8 +5,9 @@ using System.Text;
 using System.Linq.Expressions;
 using System.Reflection;
 using TestTools.Syntax;
+using static TestTools_Tests.TestHelper;
 
-namespace TestTools_Tests.Syntax.Attributes
+namespace TestTools_Tests.Syntax
 {
     [TestClass]
     public class FieldSetAttributeTests
@@ -15,14 +16,14 @@ namespace TestTools_Tests.Syntax.Attributes
         {
             public int Field;
 
-            public int SetField(int value) => Field = value;
+            public void SetField(int value) => Field = value;
 
-            public int GetNonExistentField() => throw new NotImplementedException();
+            public void GetNonExistentField(int value) => throw new NotImplementedException();
         }
 
         readonly FieldInfo FixtureField = typeof(Fixture).GetField("Field");
-        readonly MethodInfo FixtureSetField = typeof(MethodInfo).GetMethod("SetField", new Type[0]);
-        readonly MethodInfo FixutreSetNonExistentField = typeof(MethodInfo).GetMethod("SetNonExistentField", new Type[0]);
+        readonly MethodInfo FixtureSetField = typeof(Fixture).GetMethod("SetField", new Type[] { typeof(int) });
+        readonly MethodInfo FixutreSetNonExistentField = typeof(Fixture).GetMethod("GetNonExistentField", new Type[] { typeof(int) });
 
         [TestMethod("Transform replaces method-call expression with field expression")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForFieldEvents()
@@ -38,7 +39,7 @@ namespace TestTools_Tests.Syntax.Attributes
 
             Expression actual = new FieldSetAttribute("Field").Transform(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Transform throws ArgumentException if there is no field with name")]

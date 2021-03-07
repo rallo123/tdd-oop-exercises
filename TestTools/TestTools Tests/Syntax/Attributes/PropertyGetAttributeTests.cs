@@ -5,8 +5,9 @@ using System.Text;
 using System.Linq.Expressions;
 using System.Reflection;
 using TestTools.Syntax;
+using static TestTools_Tests.TestHelper;
 
-namespace TestTools_Tests.Syntax.Attributes
+namespace TestTools_Tests.Syntax
 {
     [TestClass]
     public class PropertyGetAttributeTests
@@ -26,9 +27,9 @@ namespace TestTools_Tests.Syntax.Attributes
 
         readonly PropertyInfo FixtureProperty = typeof(Fixture).GetProperty("Property");
 
-        readonly MethodInfo FixtureGetProperty = typeof(MethodInfo).GetMethod("GetProperty", new Type[0]);
-        readonly MethodInfo FixtureGetNonExistentProperty = typeof(MethodInfo).GetMethod("NonExistentProperty", new Type[0]);
-        readonly MethodInfo FixtureGetWriteonlyProperty = typeof(MethodInfo).GetMethod("GetWriteonlyProperty", new Type[0]);
+        readonly MethodInfo FixtureGetProperty = typeof(Fixture).GetMethod("GetProperty", new Type[0]);
+        readonly MethodInfo FixtureGetNonExistentProperty = typeof(Fixture).GetMethod("GetNonExistentProperty", new Type[0]);
+        readonly MethodInfo FixtureGetWriteonlyProperty = typeof(Fixture).GetMethod("GetWriteonlyProperty", new Type[0]);
 
         [TestMethod("Transform replaces method-call expression with property expression")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForFieldEvents()
@@ -43,7 +44,7 @@ namespace TestTools_Tests.Syntax.Attributes
 
             Expression actual = new PropertyGetAttribute("Property").Transform(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Transform throws ArgumentException if there is no property with name")]
@@ -58,7 +59,7 @@ namespace TestTools_Tests.Syntax.Attributes
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
 
-        [TestMethod("Transform throws ArgumentException on readonly property")]
+        [TestMethod("Transform throws ArgumentException on writeonly property")]
         public void Transform_ThrowsArgumentExceptionOnReadonlyProperty()
         {
             Expression instance = Expression.Parameter(typeof(Fixture), "instance");

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using TestTools.Syntax;
 
-namespace TestTools_Tests.Syntax.Attributes
+namespace TestTools_Tests.Syntax
 {
     [TestClass]
     public class EventAddAttributeTests
@@ -33,14 +33,14 @@ namespace TestTools_Tests.Syntax.Attributes
             public void AddNonExistentEvent(EventHandler handler) => PropertyEvent += handler;
         }
 
-        readonly MethodInfo DelegateCombine = typeof(Delegate).GetMethod("Combine");
+        readonly MethodInfo DelegateCombine = typeof(Delegate).GetMethod("Combine", new[] { typeof(Delegate), typeof(Delegate) } );
 
         readonly FieldInfo FixtureFieldEvent = typeof(Fixture).GetField("FieldEvent");
         readonly PropertyInfo FixturePropertyEvent = typeof(Fixture).GetProperty("PropertyEvent");
-        readonly MethodInfo FixtureAddFieldEvent = typeof(MethodInfo).GetMethod("AddFieldEvent", new Type[] { typeof(EventHandler) });
-        readonly MethodInfo FixtureAddFieldDelegate = typeof(MethodInfo).GetMethod("AddFieldDelegate", new Type[] { typeof(EventHandler) });
-        readonly MethodInfo FixtureAddPropertyEvent = typeof(MethodInfo).GetMethod("AddPropertyEvent", new Type[] { typeof(EventHandler) });
-        readonly MethodInfo FixtureAddNonExistentEvent = typeof(MethodInfo).GetMethod("AddNonExistentEvent", new Type[] { typeof(EventHandler) });
+        readonly MethodInfo FixtureAddFieldEvent = typeof(Fixture).GetMethod("AddFieldEvent", new Type[] { typeof(EventHandler) });
+        readonly MethodInfo FixtureAddFieldDelegate = typeof(Fixture).GetMethod("AddFieldDelegate", new Type[] { typeof(EventHandler) });
+        readonly MethodInfo FixtureAddPropertyEvent = typeof(Fixture).GetMethod("AddPropertyEvent", new Type[] { typeof(EventHandler) });
+        readonly MethodInfo FixtureAddNonExistentEvent = typeof(Fixture).GetMethod("AddNonExistentEvent", new Type[] { typeof(EventHandler) });
 
         [TestMethod("Transform replaces method-call expression with add-assign expression for field events")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForFieldEvents()

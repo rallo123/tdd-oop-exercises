@@ -5,8 +5,9 @@ using System.Text;
 using System.Linq.Expressions;
 using System.Reflection;
 using TestTools.Syntax;
+using static TestTools_Tests.TestHelper;
 
-namespace TestTools_Tests.Syntax.Attributes
+namespace TestTools_Tests.Syntax
 {
     [TestClass]
     public class EventRemoveAttributeTests
@@ -33,9 +34,9 @@ namespace TestTools_Tests.Syntax.Attributes
 
         readonly FieldInfo FixtureFieldEvent = typeof(Fixture).GetField("FieldEvent");
         readonly PropertyInfo FixturePropertyEvent = typeof(Fixture).GetProperty("PropertyEvent");
-        readonly MethodInfo FixtureRemoveField = typeof(MethodInfo).GetMethod("RemoveField", new Type[] { typeof(EventHandler) });
-        readonly MethodInfo FixtureRemovePropertyEvent = typeof(MethodInfo).GetMethod("RemovePropertyEvent", new Type[] { typeof(EventHandler) });
-        readonly MethodInfo FixtureRemoveNonExistentEvent = typeof(MethodInfo).GetMethod("RemoveNonExistentEvent", new Type[] { typeof(EventHandler) });
+        readonly MethodInfo FixtureRemoveField = typeof(Fixture).GetMethod("RemoveField", new Type[] { typeof(EventHandler) });
+        readonly MethodInfo FixtureRemovePropertyEvent = typeof(Fixture).GetMethod("RemovePropertyEvent", new Type[] { typeof(EventHandler) });
+        readonly MethodInfo FixtureRemoveNonExistentEvent = typeof(Fixture).GetMethod("RemoveNonExistentEvent", new Type[] { typeof(EventHandler) });
 
         [TestMethod("Transform replaces method-call expression with add-assign expression for field events")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForFieldEvents()
@@ -53,7 +54,7 @@ namespace TestTools_Tests.Syntax.Attributes
 
             Expression actual = new EventRemoveAttribute("FieldEvent").Transform(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Transform replaces method-call expression with add-assign expression for property events")]
@@ -72,7 +73,7 @@ namespace TestTools_Tests.Syntax.Attributes
 
             Expression actual = new EventRemoveAttribute("PropertyEvent").Transform(input);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Transform throws ArgumentException if there is no field or property with name")]
