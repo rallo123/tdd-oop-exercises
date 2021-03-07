@@ -20,7 +20,8 @@ namespace TestTools.Structure
 
         public override void Verify(Type originalType, Type translatedType)
         {
-            Verifier.VerifyIsSubclassOf(translatedType, _type);
+            Type baseType = Service.TranslateType(_type);
+            Verifier.VerifyIsSubclassOf(translatedType, baseType);
         }
     }
 }

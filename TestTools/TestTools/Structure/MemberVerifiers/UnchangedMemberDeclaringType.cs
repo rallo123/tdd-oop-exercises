@@ -17,14 +17,14 @@ namespace TestTools.Structure
         {
             if (originalMember is MethodInfo originalMethod)
             {
-                Type type = TypeTranslator.Translate(originalMethod.DeclaringType);
+                Type type = Service.TranslateType(originalMethod.DeclaringType);
                 Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Method });
                 Verifier.VerifyDeclaringType((MethodInfo)translatedMember, type);
             }
             else if (originalMember is PropertyInfo originalProperty)
             {
-                Type type1 = TypeTranslator.Translate(originalProperty.GetMethod.DeclaringType);
-                Type type2 = TypeTranslator.Translate(originalProperty.SetMethod.DeclaringType);
+                Type type1 = Service.TranslateType(originalProperty.GetMethod.DeclaringType);
+                Type type2 = Service.TranslateType(originalProperty.SetMethod.DeclaringType);
 
                 Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Field, MemberTypes.Property });
 

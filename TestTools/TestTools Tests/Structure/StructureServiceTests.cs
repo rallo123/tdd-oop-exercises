@@ -83,57 +83,6 @@ namespace TestTools_Tests.Structure
             verifier2.Received().Verify(typeToVerify, typeToVerify);
         }
 
-        [TestMethod("VerifyType(Type, ITypeVerifier[], TypeVerificationAspect[]) uses subset of all type verifiers")]
-        public void VerifyTypeOverloadUsesSubsetOfAllTypeVerifiers()
-        {
-            Type typeToVerify = typeof(object);
-
-            ITypeVerifier verifier1 = Substitute.For<ITypeVerifier>();
-            verifier1.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
-            ITypeVerifier verifier2 = Substitute.For<ITypeVerifier>();
-            verifier2.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
-
-            service.VerifyType(typeToVerify, new[] { verifier1, verifier2 }, TypeVerificationAspect.AccessLevel);
-
-            verifier1.Received().Verify(typeToVerify, typeToVerify);
-            verifier2.DidNotReceive().Verify(typeToVerify, typeToVerify);
-        }
-
-        [TestMethod("VerifyType(Type) uses DefaultTypeVerifiers")]
-        public void VerifyTypeOverloadUsesDefaultTypeVerifiers()
-        {
-            Type typeToVerify = typeof(object);
-
-            ITypeVerifier verifier = Substitute.For<ITypeVerifier>();
-            verifier.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
-            service.DefaultTypeVerifiers = new[] { verifier };
-
-            service.VerifyType(typeToVerify);
-
-            verifier.Received().Verify(typeToVerify, typeToVerify);
-        }
-
-        [TestMethod("VerifyType(Type, TypeVerificationAspects) uses subset of DefaultTypeVerifiers")]
-        public void VerifyTypeOverloadUsesSubsetOfDefaultTypeVerifiers()
-        {
-            Type typeToVerify = typeof(object);
-
-            ITypeVerifier verifier1 = Substitute.For<ITypeVerifier>();
-            verifier1.Aspects.Returns(new[] { TypeVerificationAspect.AccessLevel });
-            ITypeVerifier verifier2 = Substitute.For<ITypeVerifier>();
-            verifier2.Aspects.Returns(new[] { TypeVerificationAspect.IsSubclassOf });
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
-            service.DefaultTypeVerifiers = new[] { verifier1, verifier2 };
-
-            service.VerifyType(typeToVerify, TypeVerificationAspect.AccessLevel);
-
-
-            verifier1.Received().Verify(typeToVerify, typeToVerify);
-            verifier2.DidNotReceive().Verify(typeToVerify, typeToVerify);
-        }
-
         [TestMethod("TranslateMember uses MemberTranslator if no custom translator is defined on member")]
         public void TranslateMemberUsesMemberTranslatorIfNoCustomTranslatorIsDefinedOnMember()
         {
@@ -205,56 +154,6 @@ namespace TestTools_Tests.Structure
 
             verifier1.Received().Verify(propertyToVerify, propertyToVerify);
             verifier2.Received().Verify(propertyToVerify, propertyToVerify);
-        }
-
-        [TestMethod("VerifyMember(MemberInfo, IMemberVerifier[], MemberVerificationAspect[]) uses subset of all type verifiers")]
-        public void VerifyMemberOverloadUsesSubsetOfAllTypeVerifiers()
-        {
-            PropertyInfo propertyToVerify = typeof(string).GetProperty("Length");
-
-            IMemberVerifier verifier1 = Substitute.For<IMemberVerifier>();
-            verifier1.Aspects.Returns(new[] { MemberVerificationAspect.PropertyType });
-            IMemberVerifier verifier2 = Substitute.For<IMemberVerifier>();
-            verifier2.Aspects.Returns(new[] { MemberVerificationAspect.PropertyIsStatic });
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
-
-            service.VerifyMember(propertyToVerify, new[] { verifier1, verifier2 }, MemberVerificationAspect.PropertyType);
-
-            verifier1.Received().Verify(propertyToVerify, propertyToVerify);
-            verifier2.DidNotReceive().Verify(propertyToVerify, propertyToVerify);
-        }
-
-        [TestMethod("VerifyMember(MemberInfo) uses DefaultMemberVerifiers")]
-        public void VerifyMemberOverloadUsesDefaultMemberVerifiers()
-        {
-            PropertyInfo propertyToVerify = typeof(string).GetProperty("Length");
-            // The verifier must have an aspect as StructureService depends on aspect to use the verifier
-            IMemberVerifier verifier = Substitute.For<IMemberVerifier>();
-            verifier.Aspects.Returns(new[] { MemberVerificationAspect.PropertyType });
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
-            service.DefaultMemberVerifiers = new[] { verifier };
-
-            service.VerifyMember(propertyToVerify);
-
-            verifier.Received().Verify(propertyToVerify, propertyToVerify);
-        }
-
-        [TestMethod("VerifyMember(MemberInfo, TypeVerificationAspects) uses subset of DefaultMemberVerifiers")]
-        public void VerifyMemberOverloadUsesSubsetOfDefaultMemberVerifiers()
-        {
-            PropertyInfo propertyToVerify = typeof(string).GetProperty("Length");
-
-            IMemberVerifier verifier1 = Substitute.For<IMemberVerifier>();
-            verifier1.Aspects.Returns(new[] { MemberVerificationAspect.PropertyType });
-            IMemberVerifier verifier2 = Substitute.For<IMemberVerifier>();
-            verifier2.Aspects.Returns(new[] { MemberVerificationAspect.PropertyIsStatic });
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure");
-            service.DefaultMemberVerifiers = new[] { verifier1, verifier2 };
-
-            service.VerifyMember(propertyToVerify, MemberVerificationAspect.PropertyType);
-
-            verifier1.Received().Verify(propertyToVerify, propertyToVerify);
-            verifier2.DidNotReceive().Verify(propertyToVerify, propertyToVerify);
         }
     }
 }

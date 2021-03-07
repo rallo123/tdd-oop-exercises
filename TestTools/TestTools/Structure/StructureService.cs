@@ -8,7 +8,7 @@ using TestTools.Helpers;
 
 namespace TestTools.Structure
 {
-    public class StructureService
+    public class StructureService : IStructureService
     {
         string FromNamespace { get; set; }
 
@@ -19,24 +19,6 @@ namespace TestTools.Structure
         public ITypeTranslator TypeTranslator { get; set; } = new SameNameTypeTranslator();
 
         public IMemberTranslator MemberTranslator { get; set; } = new SameNameMemberTranslator();
-
-        public ICollection<ITypeVerifier> DefaultTypeVerifiers { get; set; } = new List<ITypeVerifier>()
-        {
-            new UnchangedTypeAccessLevelVerifier(),
-            new UnchangedTypeIsAbstractVerifier(),
-            new UnchangedTypeIsStaticVerifier()
-        };
-
-        public ICollection<IMemberVerifier> DefaultMemberVerifiers { get; set; } = new List<IMemberVerifier>()
-        {
-            new UnchangedFieldTypeVerifier(),
-            new UnchangedMemberAccessLevelVerifier(),
-            new UnchangedMemberDeclaringType(),
-            new UnchangedMemberIsStaticVerifier(),
-            new UnchangedMemberIsVirtualVerifier(),
-            new UnchangedMemberTypeVerifier(),
-            new UnchangedPropertyTypeVerifier()
-        };
 
         public ICollection<TypeVerificationAspect> TypeVerificationOrder { get; set; } = new[]
         {
@@ -80,15 +62,25 @@ namespace TestTools.Structure
 
         public Type TranslateType(Type type)
         {
-            if (type.Namespace != FromNamespace)
-                return type;
+            Type translatedType;
 
-            ITypeTranslator translator = type.GetCustomTranslator() ?? TypeTranslator;
+            if (type.Namespace == FromNamespace)
+            {
+                ITypeTranslator translator = type.GetCustomTranslator() ?? TypeTranslator;
+                translator.TargetNamespace = ToNamespace;
+                translator.Verifier = StructureVerifier;
 
-            translator.TargetNamespace = ToNamespace;
-            translator.Verifier = StructureVerifier;
-
-            return translator.Translate(type);
+                translatedType = translator.Translate(type);
+            }
+            else translatedType = type;
+            
+            // TODO add validation so that TypeArguments must match
+            if (type.IsGenericType)
+            {
+                Type[] typeArguments = type.GetGenericArguments().Select(TranslateType).ToArray();
+                return translatedType.GetGenericTypeDefinition().MakeGenericType(typeArguments);
+            }
+            return translatedType;
         }
 
         public MemberInfo TranslateMember(MemberInfo memberInfo)
@@ -117,16 +109,6 @@ namespace TestTools.Structure
             return translator.Translate(memberInfo);
         }
 
-        public void VerifyType(Type original)
-        {
-            VerifyType(original, DefaultTypeVerifiers.ToArray());
-        }
-
-        public void VerifyType(Type original, params TypeVerificationAspect[] aspects) 
-        {
-            VerifyType(original, DefaultTypeVerifiers.ToArray(), aspects);
-        }
-
         public void VerifyType(Type original, ITypeVerifier[] verifiers)
         {
             Type translated = TranslateType(original);
@@ -139,41 +121,10 @@ namespace TestTools.Structure
                 if (verifier != null)
                 {
                     verifier.Verifier = StructureVerifier;
-                    verifier.TypeTranslator = TypeTranslator;
+                    verifier.Service = this;
                     verifier.Verify(original, translated);
                 }
             }
-        }
-
-        public void VerifyType(Type original, ITypeVerifier[] verifiers, params TypeVerificationAspect[] aspects)
-        {
-            Type translated = TranslateType(original);
-
-            foreach (TypeVerificationAspect aspect in TypeVerificationOrder)
-            {
-                if (!aspects.Contains(aspect))
-                    continue;
-
-                ITypeVerifier defaultVerifier = verifiers.FirstOrDefault(ver => ver.Aspects.Contains(aspect));
-                ITypeVerifier verifier = original.GetCustomVerifier(aspect) ?? defaultVerifier;
-
-                if (verifier != null)
-                {
-                    verifier.Verifier = StructureVerifier;
-                    verifier.TypeTranslator = TypeTranslator;
-                    verifier.Verify(original, translated);
-                }
-            }
-        }
-
-        public void VerifyMember(MemberInfo original)
-        {
-            VerifyMember(original, DefaultMemberVerifiers.ToArray());
-        }
-
-        public void VerifyMember(MemberInfo original, params MemberVerificationAspect[] aspects)
-        {
-            VerifyMember(original, DefaultMemberVerifiers.ToArray(), aspects);
         }
 
         public void VerifyMember(MemberInfo original, IMemberVerifier[] verifiers)
@@ -189,29 +140,7 @@ namespace TestTools.Structure
                 if (verifier != null)
                 {
                     verifier.Verifier = StructureVerifier;
-                    verifier.TypeTranslator = TypeTranslator;
-                    verifier.Verify(original, translatedMember);
-                }
-            }
-        }
-
-        public void VerifyMember(MemberInfo original, IMemberVerifier[] verifiers, params MemberVerificationAspect[] aspects)
-        {
-            Type translatedType = TranslateType(original.DeclaringType);
-            MemberInfo translatedMember = TranslateMember(translatedType, original);
-
-            foreach (MemberVerificationAspect aspect in MemberVerificationOrder)
-            {
-                if (!aspects.Contains(aspect))
-                    continue;
-
-                IMemberVerifier defaultVerifier = verifiers.FirstOrDefault(ver => ver.Aspects.Contains(aspect));
-                IMemberVerifier verifier = original.GetCustomVerifier(aspect) ?? defaultVerifier;
-
-                if (verifier != null)
-                {
-                    verifier.Verifier = StructureVerifier;
-                    verifier.TypeTranslator = TypeTranslator;
+                    verifier.Service = this;
                     verifier.Verify(original, translatedMember);
                 }
             }

@@ -8,7 +8,8 @@ namespace TestTools.Structure.Attributes
     public class ReadonlyFieldAttribute : Attribute, IMemberVerifier
     {
         public StructureVerifier Verifier { get; set; }
-        public ITypeTranslator TypeTranslator { get; set; }
+
+        public IStructureService Service { get; set; }
 
         public MemberVerificationAspect[] Aspects => new[] {  
             MemberVerificationAspect.MemberType,

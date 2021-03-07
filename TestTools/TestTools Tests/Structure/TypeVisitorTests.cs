@@ -32,9 +32,6 @@ namespace TestTools_Tests.Structure
             }
         }
 
-        ITypeTranslator typeTranslator;
-        IMemberTranslator memberTranslator;
-
         ConstructorInfo ClassAConstructor = typeof(ClassA).GetConstructor(new Type[0]);
         FieldInfo ClassAField = typeof(ClassA).GetField("Field");
         EventInfo ClassAEvent = typeof(ClassA).GetEvent("Event");
@@ -56,14 +53,12 @@ namespace TestTools_Tests.Structure
         [TestMethod("Visit correctly transforms ParameterExpression")]
         public void VisitCorrectlyTransformsParameterExpression()
         {
-            ITypeTranslator translator = Substitute.For<ITypeTranslator>();
-            translator.Translate(typeof(ClassA)).Returns(typeof(ClassB));
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
+            IStructureService service = Substitute.For<IStructureService>();
+            service.TranslateType(typeof(ClassA)).Returns(typeof(ClassB));
+            TypeVisitor visitor = new TypeVisitor(service)
             {
-                TypeTranslator = translator,
-                DefaultTypeVerifiers = new ITypeVerifier[0]
+                TypeVerifiers = new ITypeVerifier[0]
             };
-            TypeVisitor visitor = new TypeVisitor(service);
 
             Expression input = Expression.Parameter(typeof(ClassA));
             Expression expected = Expression.Parameter(typeof(ClassB));
@@ -76,18 +71,14 @@ namespace TestTools_Tests.Structure
         [TestMethod("Visit correctly transforms NewExpression")]
         public void VisitCorrectlyTransformsNewExpression()
         {
-            ITypeTranslator typeTranslator = Substitute.For<ITypeTranslator>();
-            typeTranslator.Translate(typeof(ClassA)).Returns(typeof(ClassB));
-            IMemberTranslator memberTranslator = Substitute.For<IMemberTranslator>();
-            memberTranslator.Translate(ClassAConstructor).Returns(ClassBConstructor);
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
+            IStructureService service = Substitute.For<IStructureService>();
+            service.TranslateType(typeof(ClassA)).Returns(typeof(ClassB));
+            service.TranslateMember(ClassAConstructor).Returns(ClassBConstructor);
+            TypeVisitor visitor = new TypeVisitor(service)
             {
-                TypeTranslator = typeTranslator,
-                MemberTranslator = memberTranslator,
-                DefaultTypeVerifiers = new ITypeVerifier[0],
-                DefaultMemberVerifiers = new IMemberVerifier[0]
+                TypeVerifiers = new ITypeVerifier[0],
+                MemberVerifiers = new IMemberVerifier[0]
             };
-            TypeVisitor visitor = new TypeVisitor(service);
 
             Expression input = Expression.New(ClassAConstructor);
             Expression expected = Expression.New(ClassBConstructor);
@@ -100,18 +91,14 @@ namespace TestTools_Tests.Structure
         [TestMethod("Visit correctly transforms MethodCallExpression")]
         public void VisitCorrectlyTransformsMethodCallExpression()
         {
-            ITypeTranslator typeTranslator = Substitute.For<ITypeTranslator>();
-            typeTranslator.Translate(typeof(ClassA)).Returns(typeof(ClassB));
-            IMemberTranslator memberTranslator = Substitute.For<IMemberTranslator>();
-            memberTranslator.Translate(ClassAVoidMethod).Returns(ClassBVoidMethod);
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
+            IStructureService service = Substitute.For<IStructureService>();
+            service.TranslateType(typeof(ClassA)).Returns(typeof(ClassB));
+            service.TranslateMember(ClassAVoidMethod).Returns(ClassBVoidMethod);
+            TypeVisitor visitor = new TypeVisitor(service)
             {
-                TypeTranslator = typeTranslator,
-                MemberTranslator = memberTranslator,
-                DefaultTypeVerifiers = new ITypeVerifier[0],
-                DefaultMemberVerifiers = new IMemberVerifier[0]
+                TypeVerifiers = new ITypeVerifier[0],
+                MemberVerifiers = new IMemberVerifier[0]
             };
-            TypeVisitor visitor = new TypeVisitor(service);
 
             Expression input = Expression.Call(Expression.Parameter(typeof(ClassA)), ClassAVoidMethod);
             Expression expected = Expression.Call(Expression.Parameter(typeof(ClassB)), ClassBVoidMethod);
@@ -124,18 +111,14 @@ namespace TestTools_Tests.Structure
         [TestMethod("Visit correctly transforms MemberExpression for field")]
         public void VisitCorrectlyTransformMemberExpressionForField()
         {
-            ITypeTranslator typeTranslator = Substitute.For<ITypeTranslator>();
-            typeTranslator.Translate(typeof(ClassA)).Returns(typeof(ClassB));
-            IMemberTranslator memberTranslator = Substitute.For<IMemberTranslator>();
-            memberTranslator.Translate(ClassAField).Returns(ClassBField);
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
+            IStructureService service = Substitute.For<IStructureService>();
+            service.TranslateType(typeof(ClassA)).Returns(typeof(ClassB));
+            service.TranslateMember(ClassAField).Returns(ClassBField);
+            TypeVisitor visitor = new TypeVisitor(service)
             {
-                TypeTranslator = typeTranslator,
-                MemberTranslator = memberTranslator,
-                DefaultTypeVerifiers = new ITypeVerifier[0],
-                DefaultMemberVerifiers = new IMemberVerifier[0]
+                TypeVerifiers = new ITypeVerifier[0],
+                MemberVerifiers = new IMemberVerifier[0]
             };
-            TypeVisitor visitor = new TypeVisitor(service);
 
             Expression input = Expression.Field(Expression.Parameter(typeof(ClassA)), ClassAField);
             Expression expected = Expression.Field(Expression.Parameter(typeof(ClassB)), ClassBField);
@@ -148,18 +131,14 @@ namespace TestTools_Tests.Structure
         [TestMethod("Visit correctly transforms MemberExpression for property")]
         public void VisitCorrectlyTransformMemberExpressionForProperty()
         {
-            ITypeTranslator typeTranslator = Substitute.For<ITypeTranslator>();
-            typeTranslator.Translate(typeof(ClassA)).Returns(typeof(ClassB));
-            IMemberTranslator memberTranslator = Substitute.For<IMemberTranslator>();
-            memberTranslator.Translate(ClassAProperty).Returns(ClassBProperty);
-            StructureService service = new StructureService("TestTools_Tests.Structure", "TestTools_Tests.Structure")
+            IStructureService service = Substitute.For<IStructureService>();
+            service.TranslateType(typeof(ClassA)).Returns(typeof(ClassB));
+            service.TranslateMember(ClassAProperty).Returns(ClassBProperty);
+            TypeVisitor visitor = new TypeVisitor(service)
             {
-                TypeTranslator = typeTranslator,
-                MemberTranslator = memberTranslator,
-                DefaultTypeVerifiers = new ITypeVerifier[0],
-                DefaultMemberVerifiers = new IMemberVerifier[0]
+                TypeVerifiers = new ITypeVerifier[0],
+                MemberVerifiers = new IMemberVerifier[0]
             };
-            TypeVisitor visitor = new TypeVisitor(service);
 
             Expression input = Expression.Property(Expression.Parameter(typeof(ClassA)), ClassAProperty);
             Expression expected = Expression.Property(Expression.Parameter(typeof(ClassB)), ClassBProperty);

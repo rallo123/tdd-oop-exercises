@@ -32,10 +32,6 @@ namespace TestTools.Helpers
         // Inspired by https://bradhe.wordpress.com/2010/07/27/how-to-tell-if-a-type-implements-an-interface-in-net/
         public static bool IsImplementationOf(this Type type, Type interfaceType)
         {
-            if (interfaceType.IsGenericType)
-            {
-                return type.GetType().GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == interfaceType.GetGenericTypeDefinition());
-            }
             return type.GetInterfaces().Any(interfaceType.Equals);
         }
 

@@ -8,7 +8,7 @@ namespace TestTools.Structure
     {
         public StructureVerifier Verifier { get; set; }
 
-        public ITypeTranslator TypeTranslator { get; set; }
+        public IStructureService Service { get; set; }
 
         public abstract TypeVerificationAspect[] Aspects { get; }
 

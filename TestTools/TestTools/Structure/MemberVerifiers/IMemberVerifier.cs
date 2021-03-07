@@ -11,7 +11,7 @@ namespace TestTools.Structure
         
         StructureVerifier Verifier { get; set; }
 
-        ITypeTranslator TypeTranslator { get; set; }
+        IStructureService Service { get; set; }
 
         void Verify(MemberInfo originalMember, MemberInfo translatedMember);
     }

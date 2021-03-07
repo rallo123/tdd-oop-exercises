@@ -7,7 +7,7 @@ namespace TestTools.Structure
     public interface ITypeVerifier
     {
         StructureVerifier Verifier { get; set; }
-        ITypeTranslator TypeTranslator { get; set; }
+        IStructureService Service { get; set; }
         TypeVerificationAspect[] Aspects { get; }
         void Verify(Type originalType, Type translatedType);
     }

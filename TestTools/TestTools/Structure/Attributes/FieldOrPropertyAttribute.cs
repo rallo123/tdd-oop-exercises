@@ -9,9 +9,9 @@ namespace TestTools.Structure.Attributes
     {
         public StructureVerifier Verifier { get; set; }
 
-        public ITypeTranslator TypeTranslator { get; set; }
-
         public MemberVerificationAspect[] Aspects => new[] { MemberVerificationAspect.MemberType };
+
+        public IStructureService Service { get; set; }
 
         public void Verify( MemberInfo originalMember, MemberInfo translatedMember)
         {

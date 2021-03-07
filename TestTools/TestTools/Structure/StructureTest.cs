@@ -12,9 +12,9 @@ namespace TestTools.Structure
     public class StructureTest
     {
         Action _executeAction;
-        StructureService _structureService;
+        IStructureService _structureService;
 
-        public StructureTest(StructureService structureService) 
+        public StructureTest(IStructureService structureService) 
         {
             _structureService = structureService;
         }

@@ -8,7 +8,7 @@ namespace TestTools
 {
     public class TestFactory
     {
-        public StructureService StructureService { get; set; } 
+        public IStructureService StructureService { get; set; } 
 
         public UnitTestConfiguration DefaultConfiguration { get; set; } = new UnitTestConfiguration();
 
