@@ -25,10 +25,6 @@ namespace TestTools_Tests.Syntax
             public void RemoveNonExistentDelegate(Action handler) => throw new NotImplementedException();
         }
 
-        readonly MethodInfo DelegateRemove = typeof(Delegate).GetMethod("Remove");
-
-        readonly FieldInfo FixtureFieldDelegate = typeof(Fixture).GetField("FieldDelegate");
-        readonly PropertyInfo FixturePropertyDelegate = typeof(Fixture).GetProperty("PropertyDelegate");
         readonly MethodInfo FixtureRemoveField = typeof(Fixture).GetMethod("RemoveFieldDelegate", new Type[] { typeof(Action) });
         readonly MethodInfo FixtureRemovePropertyDelegate = typeof(Fixture).GetMethod("RemovePropertyDelegate", new Type[] { typeof(Action) });
         readonly MethodInfo FixtureRemoveNonExistentDelegate = typeof(Fixture).GetMethod("RemoveNonExistentDelegate", new Type[] { typeof(Action) });
@@ -36,52 +32,50 @@ namespace TestTools_Tests.Syntax
         [TestMethod("Transform replaces method-call expression with add-assign expression for field events")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForFieldEvents()
         {
-            Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-            Expression handler = Expression.Parameter(typeof(Action), "handler");
-
-            // instance.RemoveFieldDelegate(handler);
+            // Creating the expression "instance.RemoveFieldDelegate(handler)"
+            ParameterExpression instance = Expression.Parameter(typeof(Fixture), "instance");
+            ParameterExpression handler = Expression.Parameter(typeof(Action), "handler");
             Expression input = Expression.Call(instance, FixtureRemoveField, handler);
 
-            // instance.FieldDelegate = (Action)Deletate.Combine(instance.FieldDelegate, handler)
-            Expression field = Expression.Field(instance, FixtureFieldDelegate);
-            Expression call = Expression.Call(DelegateRemove, field, handler);
-            Expression castedCall = Expression.Convert(call, typeof(Action));
-            Expression expected = Expression.Assign(field, castedCall);
+            // Validating that DelegateAddAttribute creates expression unsubscribing to FieldDelegate
+            Expression output = new DelegateRemoveAttribute("FieldDelegate").Transform(input);
+            Action<Fixture, Action> removeFieldDelegate = Expression.Lambda<Action<Fixture, Action>>(output, new[] { instance, handler }).Compile();
 
-            Expression actual = new DelegateRemoveAttribute("FieldDelegate").Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
+            Fixture fixture = new Fixture();
+            Action action = () => { };
+            fixture.FieldDelegate += action;
+            removeFieldDelegate(fixture, action);
+            Assert.IsNull(fixture.FieldDelegate);
         }
 
         [TestMethod("Transform replaces method-call expression with add-assign expression for property events")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForPropertyEvents()
         {
-            Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-            Expression handler = Expression.Parameter(typeof(Action), "handler");
-
-            // instance.RemovePropertyDelegate(handler);
+            // Creating the expression "instance.RemovePropertyDelegate(handler)"
+            ParameterExpression instance = Expression.Parameter(typeof(Fixture), "instance");
+            ParameterExpression handler = Expression.Parameter(typeof(Action), "handler");
             Expression input = Expression.Call(instance, FixtureRemovePropertyDelegate, handler);
 
-            // instance.PropertyDelegate = (Action)Deletate.Remove(instance.PropertyDelegate, handler)
-            Expression property = Expression.Property(instance, FixturePropertyDelegate);
-            Expression call = Expression.Call(DelegateRemove, property, handler);
-            Expression castedCall = Expression.Convert(call, typeof(Action));
-            Expression expected = Expression.Assign(property, castedCall);
+            // Validating that DelegateAddAttribute creates expression unsubscribing to PropertyDelegate
+            Expression output = new DelegateRemoveAttribute("PropertyDelegate").Transform(input);
+            Action<Fixture, Action> removePropertyDelegate = Expression.Lambda<Action<Fixture, Action>>(output, new[] { instance, handler }).Compile();
 
-            Expression actual = new DelegateRemoveAttribute("PropertyDelegate").Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
+            Fixture fixture = new Fixture();
+            Action action = () => { };
+            fixture.PropertyDelegate += action;
+            removePropertyDelegate(fixture, action);
+            Assert.IsNull(fixture.PropertyDelegate);
         }
 
         [TestMethod("Transform throws ArgumentException if there is no field or property with name")]
         public void Transform_ThrowsArgumentException_IfThereIsNoFieldOrPropertyWithName()
         {
+            // Creating the expression "instance.RemoveNonExistentDelegate(handler)"
             Expression instance = Expression.Parameter(typeof(Fixture), "instance");
             Expression handler = Expression.Parameter(typeof(Action), "handler");
-
-            // instance.RemoveNonExistentDelegate(handler);
             Expression input = Expression.Call(instance, FixtureRemoveNonExistentDelegate, handler);
 
+            // Validating that DelegateRemoveAttribute fails on non-existent field or property
             DelegateRemoveAttribute attribute = new DelegateRemoveAttribute("NonExistentDelegate");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }

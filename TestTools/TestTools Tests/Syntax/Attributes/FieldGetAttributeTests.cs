@@ -16,39 +16,37 @@ namespace TestTools_Tests.Syntax
         {
             public int Field;
 
-            public int GetField() => Field;
+            public int GetField() => throw new NotImplementedException();
 
             public int GetNonExistentField() => throw new NotImplementedException();
         }
 
-        readonly FieldInfo FixtureField = typeof(Fixture).GetField("Field");
         readonly MethodInfo FixtureGetField = typeof(Fixture).GetMethod("GetField", new Type[0]);
         readonly MethodInfo FixtureGetNonExistentField = typeof(Fixture).GetMethod("GetNonExistentField", new Type[0]);
 
         [TestMethod("Transform replaces method-call expression with field expression")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForFieldEvents()
         {
-            Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-
-            // instance.GetField()
+            // Creating the expression "instance.GetField()"
+            ParameterExpression instance = Expression.Parameter(typeof(Fixture), "instance");
             Expression input = Expression.Call(instance, FixtureGetField);
 
-            // instance.Field
-            Expression expected = Expression.Field(instance, FixtureField);
+            // Validating that FieldGetAttribute creates expression reading Field
+            Expression output = new FieldGetAttribute("Field").Transform(input);
+            Func<Fixture, int> getField = Expression.Lambda<Func<Fixture, int>>(output, new[] { instance }).Compile();
 
-            Expression actual = new FieldGetAttribute("Field").Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
+            Fixture fixture = new Fixture() { Field = 5 };
+            Assert.AreEqual(5, getField(fixture));
         }
 
         [TestMethod("Transform throws ArgumentException if there is no field with name")]
         public void Transform_ThrowsArgumentException_IfThereIsNoFieldOrPropertyWithName()
         {
+            // Creating the expression "instance.GetNonExistentField()"
             Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-
-            // instance.GetNonExistentField()
             Expression input = Expression.Call(instance, FixtureGetNonExistentField);
 
+            // Validating that FieldGetAttribute fails on non-existent field
             FieldGetAttribute attribute = new FieldGetAttribute("NonExistentField");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }

@@ -14,85 +14,82 @@ namespace TestTools_Tests.Syntax
     {
         class Fixture
         {
-            public void VoidMethod()
+            public int IntMethod()
             {
-                throw new NotImplementedException();
+                return 1;
             }
 
-            public void VoidMethod(int value)
+            public int IntMethod(int value)
             {
-                throw new NotImplementedException();
+                return value;
             }
 
-            public void CallVoidMethod() => VoidMethod();
+            public int CallIntMethod() => throw new NotImplementedException();
 
-            public void CallVoidMethod(int value) => VoidMethod(value);
+            public int CallIntMethod(int value) => throw new NotImplementedException();
 
-            public int CallVoidMethodAsInt() => throw new NotImplementedException();
+            public void CallIntMethodAsVoid() => throw new NotImplementedException();
 
-            public int CallVoidMethod(int value1, int value2) => throw new NotImplementedException();
+            public int CallIntMethod(int value1, int value2) => throw new NotImplementedException();
         }
 
-        MethodInfo FixtureVoidMethod1 = typeof(Fixture).GetMethod("VoidMethod", new Type[0]);
-        MethodInfo FixtureVoidMethod2 = typeof(Fixture).GetMethod("VoidMethod", new Type[] { typeof(int) });
-        MethodInfo FixtureCallVoidMethod1 = typeof(Fixture).GetMethod("CallVoidMethod", new Type[0]);
-        MethodInfo FixtureCallVoidMethod2 = typeof(Fixture).GetMethod("CallVoidMethod", new Type[] { typeof(int) });
-        MethodInfo FixtureCallVoidMethod3 = typeof(Fixture).GetMethod("CallVoidMethod", new Type[] { typeof(int), typeof(int) });
-        MethodInfo FixtureCallVoidMethodAsInt = typeof(Fixture).GetMethod("CallVoidMethodAsInt", new Type[0]);
+        MethodInfo FixtureCallIntMethod1 = typeof(Fixture).GetMethod("CallIntMethod", new Type[0]);
+        MethodInfo FixtureCallIntMethod2 = typeof(Fixture).GetMethod("CallIntMethod", new Type[] { typeof(int) });
+        MethodInfo FixtureCallIntMethod3 = typeof(Fixture).GetMethod("CallIntMethod", new Type[] { typeof(int), typeof(int) });
+        MethodInfo FixtureCallIntMethodAsVoid = typeof(Fixture).GetMethod("CallIntMethodAsVoid", new Type[0]);
 
         [TestMethod("Transform replaces method-call expression without arguments with method-call expression")]
         public void Transform_ReplacesMethodCallWithoutArgumentsExpressionWithMethodExpression()
         {
-            Expression instance = Expression.Parameter(typeof(Fixture), "instance");
+            // Creating the expression "instance.CallVoidMethod()"
+            ParameterExpression instance = Expression.Parameter(typeof(Fixture), "instance");
+            Expression input = Expression.Call(instance, FixtureCallIntMethod1);
 
-            // instance.CallVoidMethod()
-            Expression input = Expression.Call(instance, FixtureCallVoidMethod1);
+            // Validating that MethodCallAttribute creates expression calling IntMethod()
+            Expression output = new MethodCallAttribute("IntMethod").Transform(input);
+            Func<Fixture, int> callIntMethod = Expression.Lambda<Func<Fixture, int>>(output, new[] { instance }).Compile();
 
-            // instance.ViodMethod()
-            Expression expected = Expression.Call(instance, FixtureVoidMethod1);
-            
-            Expression actual = new MethodCallAttribute("VoidMethod").Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
+            Fixture fixture = new Fixture();
+            Assert.AreEqual(1, callIntMethod(fixture));
         }
 
         [TestMethod("Transform replaces method-call expression with arguments with method-call expression")]
         public void Transform_ReplacesMethodCallExpressionWithArgumentsWithMethodCallExpression()
         {
-            Expression instance = Expression.Parameter(typeof(Fixture), "instance");
+            // Creating the expression "instance.CallIntMethod(5)"
+            ParameterExpression instance = Expression.Parameter(typeof(Fixture), "instance");
+            ParameterExpression value = Expression.Parameter(typeof(int), "value");
+            Expression input = Expression.Call(instance, FixtureCallIntMethod2, value);
 
-            // instance.CallVoidMethod(5)
-            Expression input = Expression.Call(instance, FixtureCallVoidMethod2, Expression.Constant(5));
+            // Validating that MethodCallAttribute creates expression calling IntMethod(int)
+            Expression output = new MethodCallAttribute("IntMethod").Transform(input);
+            Func<Fixture, int, int> callIntMethod = Expression.Lambda<Func<Fixture, int, int>>(output, new[] { instance, value }).Compile();
 
-            // instance.VoidMethod(5)
-            Expression expected = Expression.Call(instance, FixtureVoidMethod2, Expression.Constant(5));
-
-            Expression actual = new MethodCallAttribute("VoidMethod").Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
+            Fixture fixture = new Fixture();
+            Assert.AreEqual(5, callIntMethod(fixture, 5));
         }
 
-        [TestMethod("Transform throws ArgumentException if no constructor with equavilent parameter list is found")]
+        [TestMethod("Transform throws ArgumentException if no method with equavilent parameter list is found")]
         public void Transform_ThrowsArgumentException_IfNoConstructorWithEquavilentParameterListIsFound()
         {
+            // Creating the expression "Fixture.CallIntMethod(5, 5)"
             Expression instance = Expression.Parameter(typeof(Fixture), "instance");
+            Expression input = Expression.Call(instance, FixtureCallIntMethod3, Expression.Constant(5), Expression.Constant(5));
 
-            // Fixture.CallVoidMethod(5, 5)
-            Expression input = Expression.Call(instance, FixtureCallVoidMethod3, Expression.Constant(5), Expression.Constant(5));
-
-            MethodCallAttribute attribute = new MethodCallAttribute("VoidMethod");
+            // Validating that MethodCallAttribute fails on non-matching method
+            MethodCallAttribute attribute = new MethodCallAttribute("IntMethod");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
 
         [TestMethod("Transform throws ArgumentException if method type is not matched")]
         public void Transform_ThrowsArgumetnException_IfMethodReturnTypeIsNotMatched()
         {
+            // Creating the expression "Fixture.CallIntMethodAsVoid()"
             Expression instance = Expression.Parameter(typeof(Fixture), "instance");
+            Expression input = Expression.Call(instance, FixtureCallIntMethodAsVoid);
 
-            // Fixture.CallVoidMethodAsInt()
-            Expression input = Expression.Call(instance, FixtureCallVoidMethodAsInt);
-
-            MethodCallAttribute attribute = new MethodCallAttribute("VoidMethod");
+            // Validating that MethodCallAttribute fails if return types do not match
+            MethodCallAttribute attribute = new MethodCallAttribute("IntMethod");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
     }

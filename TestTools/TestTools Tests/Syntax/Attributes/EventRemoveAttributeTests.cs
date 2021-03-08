@@ -14,77 +14,48 @@ namespace TestTools_Tests.Syntax
     {
         class Fixture
         {
-            EventHandler _propertyEvent;
+            public event EventHandler Event;
 
-            public event EventHandler FieldEvent;
+            public void RemoveEvent(EventHandler handler) => throw new NotImplementedException();
 
-            public event EventHandler PropertyEvent { 
-                add => _propertyEvent += value; 
-                remove => _propertyEvent -= value; 
-            }
+            public void RemoveNonExistentEvent(EventHandler handler) => throw new NotImplementedException();
 
-            public void RemoveFieldEvent(EventHandler handler) => FieldEvent -= handler;
-
-            public void RemovePropertyEvent(EventHandler handler) => PropertyEvent -= handler;
-
-            public void RemoveNonExistentEvent(EventHandler handler) => PropertyEvent += handler;
+            public void TriggerEvent() => Event?.Invoke(this, new EventArgs());
         }
 
-        readonly MethodInfo DelegateRemove = typeof(Delegate).GetMethod("Remove");
-
-        readonly FieldInfo FixtureFieldEvent = typeof(Fixture).GetField("FieldEvent");
-        readonly PropertyInfo FixturePropertyEvent = typeof(Fixture).GetProperty("PropertyEvent");
-        readonly MethodInfo FixtureRemoveField = typeof(Fixture).GetMethod("RemoveField", new Type[] { typeof(EventHandler) });
-        readonly MethodInfo FixtureRemovePropertyEvent = typeof(Fixture).GetMethod("RemovePropertyEvent", new Type[] { typeof(EventHandler) });
+        readonly MethodInfo FixtureRemoveEvent = typeof(Fixture).GetMethod("RemoveEvent", new Type[] { typeof(EventHandler) });
         readonly MethodInfo FixtureRemoveNonExistentEvent = typeof(Fixture).GetMethod("RemoveNonExistentEvent", new Type[] { typeof(EventHandler) });
 
-        [TestMethod("Transform replaces method-call expression with add-assign expression for field events")]
+        [TestMethod("Transform replaces method-call expression with unsubscribe expression")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForFieldEvents()
         {
-            Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-            Expression handler = Expression.Parameter(typeof(EventHandler), "handler");
+            // Creating the expression "instance.RemoveEvent(handler)"
+            ParameterExpression instance = Expression.Parameter(typeof(Fixture), "instance");
+            ParameterExpression handler = Expression.Parameter(typeof(EventHandler), "handler");
+            Expression input = Expression.Call(instance, FixtureRemoveEvent, handler);
 
-            // instance.RemoveFieldEvent(handler);
-            Expression input = Expression.Call(instance, FixtureRemoveField, handler);
+            // Validating that EventRemoveAttribute creates expression unsubscribing to Event
+            Expression output = new EventRemoveAttribute("Event").Transform(input);
+            Action<Fixture, EventHandler> removeEvent = Expression.Lambda<Action<Fixture, EventHandler>>(output, new[] { instance, handler }).Compile();
 
-            // instance.FieldEvent = Deletate.Combine(instance.FieldEvent, handler)
-            Expression field = Expression.Field(instance, FixtureFieldEvent);
-            Expression call = Expression.Call(DelegateRemove, field, handler);
-            Expression expected = Expression.Assign(field, call);
-
-            Expression actual = new EventRemoveAttribute("FieldEvent").Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
+            bool eventEmitted = false;
+            Fixture fixture = new Fixture();
+            EventHandler eventHandler = (sender, e) => eventEmitted = true;
+            fixture.Event += eventHandler;
+            removeEvent(fixture, eventHandler);
+            fixture.TriggerEvent();
+            Assert.IsFalse(eventEmitted);
         }
 
-        [TestMethod("Transform replaces method-call expression with add-assign expression for property events")]
-        public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForPropertyEvents()
-        {
-            Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-            Expression handler = Expression.Parameter(typeof(EventHandler), "handler");
-
-            // instance.RemovePropertyEvent(handler);
-            Expression input = Expression.Call(instance, FixtureRemovePropertyEvent, handler);
-
-            // instance.PropertyEvent = Deletate.Remove(instance.PropertyEvent, handler)
-            Expression property = Expression.Property(instance, FixturePropertyEvent);
-            Expression call = Expression.Call(DelegateRemove, property, handler);
-            Expression expected = Expression.Assign(property, call);
-
-            Expression actual = new EventRemoveAttribute("PropertyEvent").Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
-        }
-
-        [TestMethod("Transform throws ArgumentException if there is no field or property with name")]
+        [TestMethod("Transform throws ArgumentException if there is no event with name")]
         public void Transform_ThrowsArgumentException_IfThereIsNoFieldOrPropertyWithName()
         {
+            // instance.RemoveNonExistentEvent(handler);
             Expression instance = Expression.Parameter(typeof(Fixture), "instance");
             Expression handler = Expression.Parameter(typeof(EventHandler), "handler");
-
-            // instance.RemoveNonExistentEvent(handler);
             Expression input = Expression.Call(instance, FixtureRemoveNonExistentEvent, handler);
 
+            // Validating that EventRemoveAttribute fails on non-existent event
             EventRemoveAttribute attribute = new EventRemoveAttribute("NonExistentEvent");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }

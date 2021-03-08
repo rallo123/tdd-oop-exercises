@@ -18,14 +18,12 @@ namespace TestTools_Tests.Syntax
 
             public int WriteonlyProperty { set { } }
 
-            public int GetProperty() => Property;
+            public int GetProperty() => throw new NotImplementedException();
 
             public int GetNonExistentProperty() => throw new NotImplementedException();
 
             public int GetWriteonlyProperty() => throw new NotImplementedException();
         }
-
-        readonly PropertyInfo FixtureProperty = typeof(Fixture).GetProperty("Property");
 
         readonly MethodInfo FixtureGetProperty = typeof(Fixture).GetMethod("GetProperty", new Type[0]);
         readonly MethodInfo FixtureGetNonExistentProperty = typeof(Fixture).GetMethod("GetNonExistentProperty", new Type[0]);
@@ -34,27 +32,26 @@ namespace TestTools_Tests.Syntax
         [TestMethod("Transform replaces method-call expression with property expression")]
         public void Transform_ReplacesMethodCallExpressionWithAddAssignExpression_ForFieldEvents()
         {
-            Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-
-            // instance.GetProperty()
+            // Creating the expression "instance.GetProperty()"
+            ParameterExpression instance = Expression.Parameter(typeof(Fixture), "instance");
             Expression input = Expression.Call(instance, FixtureGetProperty);
 
-            // instance.Property
-            Expression expected = Expression.Property(instance, FixtureProperty);
+            // Validating that PropertyGetAttribute creates expression reading Property
+            Expression output = new PropertyGetAttribute("Property").Transform(input);
+            Func<Fixture, int> getProperty = Expression.Lambda<Func<Fixture, int>>(output, new[] { instance }).Compile();
 
-            Expression actual = new PropertyGetAttribute("Property").Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
+            Fixture fixture = new Fixture() { Property = 5 };
+            Assert.AreEqual(5, getProperty(fixture));
         }
 
         [TestMethod("Transform throws ArgumentException if there is no property with name")]
         public void Transform_ThrowsArgumentException_IfThereIsNoFieldOrPropertyWithName()
         {
+            // Creating the expression "instance.GetNonExistentProperty()"
             Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-
-            // instance.GetNonExistentProperty()
             Expression input = Expression.Call(instance, FixtureGetNonExistentProperty);
 
+            // Validating that PropertyGetAttribute fails on non-existent property
             PropertyGetAttribute attribute = new PropertyGetAttribute("NonExistentProperty");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
@@ -62,12 +59,12 @@ namespace TestTools_Tests.Syntax
         [TestMethod("Transform throws ArgumentException on writeonly property")]
         public void Transform_ThrowsArgumentExceptionOnReadonlyProperty()
         {
+            // Creating the expression "instance.GetWriteonlyProperty()"
             Expression instance = Expression.Parameter(typeof(Fixture), "instance");
-
-            // instance.GetWriteonlyProperty()
             Expression input = Expression.Call(instance, FixtureGetWriteonlyProperty);
 
-            PropertyGetAttribute attribute = new PropertyGetAttribute("ReadonlyProperty");
+            // Validating that PropertyGetAttribute fails on non-readable property
+            PropertyGetAttribute attribute = new PropertyGetAttribute("WriteonlyProperty");
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }
     }

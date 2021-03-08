@@ -14,19 +14,25 @@ namespace TestTools_Tests.Syntax
     {
         class Fixture
         {
-            public Fixture() { }
+            public int Value { get; }
 
-            public Fixture(int value) { }
+            public Fixture() 
+            {
+                Value = 1;
+            }
 
-            public static Fixture CreateTestClass() => new Fixture();
+            public Fixture(int value) 
+            {
+                Value = value;
+            }
 
-            public static Fixture CreateTestClass(int value) => new Fixture(value);
+            public static Fixture CreateTestClass() => throw new NotImplementedException();
+
+            public static Fixture CreateTestClass(int value) => throw new NotImplementedException();
 
             public static Fixture CreateTestClass(int value1, int value2) => throw new NotImplementedException();
         }
 
-        ConstructorInfo FixtureConstructor1 = typeof(Fixture).GetConstructor(new Type[0]);
-        ConstructorInfo FixtureConstructor2 = typeof(Fixture).GetConstructor(new Type[] { typeof(int) });
         MethodInfo FixtureCreateTestClass1 = typeof(Fixture).GetMethod("CreateTestClass", new Type[0]);
         MethodInfo FixtureCreateTestClass2 = typeof(Fixture).GetMethod("CreateTestClass", new Type[] { typeof(int) });
         MethodInfo FixtureCreateTestClass3 = typeof(Fixture).GetMethod("CreateTestClass", new Type[] { typeof(int), typeof(int) });
@@ -34,37 +40,38 @@ namespace TestTools_Tests.Syntax
         [TestMethod("Transform replaces method call expression without arguments with new expression")]
         public void Transform_ReplacesMethodCallWithoutArgumentsExpressionWithNewExpression()
         {
-            // Fixture.CreateTestClass()
+            // Creating the expression "Fixture.CreateTestClass()"
             Expression input = Expression.Call(FixtureCreateTestClass1);
 
-            // new Fixture()
-            Expression expected = Expression.New(FixtureConstructor1);
-            
-            Expression actual = new ConstructorCallAttribute().Transform(input);
+            // Validating that ConstructorCallAttribute creates expression calling Fixture()
+            Expression output = new ConstructorCallAttribute().Transform(input);
+            Func<Fixture> func = Expression.Lambda<Func<Fixture>>(output).Compile();
+            Fixture fixture = func();
 
-            AssertAreEqualExpressions(expected, actual);
+            Assert.AreEqual(fixture.Value, 1);
         }
 
         [TestMethod("Transform replaces method call expression with arguments with new expression")]
         public void Transform_ReplacesMethodCallExpressionWithArgumentsWithNewExpression()
         {
-            // Fixture.CreateTestClass(5)
+            // Creating the expression "Fixture.CreateTestClass(5)"
             Expression input = Expression.Call(FixtureCreateTestClass2, Expression.Constant(5));
 
-            // new Fixture(5)
-            Expression expected = Expression.New(FixtureConstructor2, Expression.Constant(5));
+            // Validating that ConstructorCallAttribute creates expression calling Fixture(5)
+            Expression output = new ConstructorCallAttribute().Transform(input);
+            Func<Fixture> createFixture = Expression.Lambda<Func<Fixture>>(output).Compile();
+            Fixture fixture = createFixture();
 
-            Expression actual = new ConstructorCallAttribute().Transform(input);
-
-            AssertAreEqualExpressions(expected, actual);
+            Assert.AreEqual(fixture.Value, 5);
         }
 
         [TestMethod("Transform throws ArgumentException if no constructor with equavilent parameter list is found")]
         public void Transform_ThrowsArgumentException_IfNoConstructorWithEquavilentParameterListIsFound()
         {
-            // Fixture.CreateTestClass(5, 5)
+            // Creating the expression "Fixture.CreateTestClass(5, 5)"
             Expression input = Expression.Call(FixtureCreateTestClass3, Expression.Constant(5), Expression.Constant(5));
 
+            // Validating that ConstructorCallAttribute fails on non-existent delegate
             ConstructorCallAttribute attribute = new ConstructorCallAttribute();
             Assert.ThrowsException<ArgumentException>(() => attribute.Transform(input));
         }

@@ -28,8 +28,20 @@ namespace TestTools.Syntax
             if (eventInfo == null)
                 throw new ArgumentException($"Class {type.Name} does not contain event {EventName}");
 
-            // Transforming the method call to a event subscription
-            throw new NotImplementedException();
+            // Transforming the method call to an event unsubscription expression
+            // "obj.GetType().GetEvent(EventName).RemoveMethod.Invoke(obj, new object[] { handler })"
+            MethodInfo getType = typeof(object).GetMethod("GetType");
+            MethodInfo getEvent = typeof(Type).GetMethod("GetEvent", new[] { typeof(string) });
+            PropertyInfo removeMethod = typeof(EventInfo).GetProperty("RemoveMethod");
+            MethodInfo invoke = typeof(MethodInfo).GetMethod("Invoke", new[] { typeof(object), typeof(object[]) });
+
+            Expression getTypeExpression = Expression.Call(methodCall.Object, getType);
+            Expression getEventExpression = Expression.Call(getTypeExpression, getEvent, Expression.Constant(EventName));
+            Expression removeMethodExpression = Expression.Property(getEventExpression, removeMethod);
+            Expression arrayExpression = Expression.NewArrayInit(typeof(object), methodCall.Arguments[0]);
+            Expression invokeExpression = Expression.Call(removeMethodExpression, invoke, methodCall.Object, arrayExpression);
+
+            return invokeExpression;
         }
     }
 }
