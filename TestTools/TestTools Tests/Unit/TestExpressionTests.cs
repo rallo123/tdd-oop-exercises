@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using TestTools.Unit;
+using static TestTools_Tests.TestHelper;
 
 namespace TestTools_Tests.Unit
 {
     [TestClass]
     public class TestExpressionTests
     {
-        #region Constructor Methods Tests
         [TestMethod("Expr with equal arguments returns equal TestExpressions"), TestCategory("Constructor Methods")]
         public void Expr_WithSameParameter_AreEqual()
         {
             var expr1 = TestExpression.Expr(() => 5);
             var expr2 = TestExpression.Expr(() => 5);
 
-            Assert.AreEqual(expr1, expr2);
+            AssertAreEqualExpressions(expr1, expr2);
         }
 
         [TestMethod("Expr inserts 1 variable into TestExpression"), TestCategory("Constructor Methods")]
@@ -29,7 +29,7 @@ namespace TestTools_Tests.Unit
             var variable = TestExpression.Var<int>("a");
             var actual = TestExpression.Expr(variable, a => a);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Expr inserts 2 variable into TestExpression"), TestCategory("Constructor Methods")]
@@ -45,7 +45,7 @@ namespace TestTools_Tests.Unit
             var variable2 = TestExpression.Var<int>("b");
             var actual = TestExpression.Expr(variable1, variable2, (a, b) => a + b);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Expr inserts 3 variable into TestExpression"), TestCategory("Constructor Methods")]
@@ -57,7 +57,7 @@ namespace TestTools_Tests.Unit
             var addition2 = Expression.Add(
                 addition1,
                 Expression.Parameter(typeof(int), "c"));
-            var expression = Expression.Lambda<Action>(addition1);
+            var expression = Expression.Lambda<Action>(addition2);
             var expected = TestExpression.Expr(expression);
 
             var variable1 = TestExpression.Var<int>("a");
@@ -65,7 +65,7 @@ namespace TestTools_Tests.Unit
             var variable3 = TestExpression.Var<int>("c");
             var actual = TestExpression.Expr(variable1, variable2, variable3, (a, b, c) => a + b + c);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
         [TestMethod("Const with equal arguments returns equal TestExpressions"), TestCategory("Constructor Methods")]
@@ -74,7 +74,7 @@ namespace TestTools_Tests.Unit
             var expr1 = TestExpression.Const(5);
             var expr2 = TestExpression.Const(5);
 
-            Assert.AreEqual(expr1, expr2);
+            AssertAreEqualExpressions(expr1, expr2);
         }
 
         [TestMethod("Const(v) returns equal to Expr(() => v)"), TestCategory("Constructor Methods")]
@@ -83,126 +83,142 @@ namespace TestTools_Tests.Unit
             var expected = TestExpression.Expr(() => 5);
             var actual = TestExpression.Const(5);
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
-        [TestMethod("Var with equal arguments returns equal TestExpressions"), TestCategory("Constructor Methods")]
+        [TestMethod("Lambda with equal arguments returns equal TestExpressions"), TestCategory("Constructor Methods")]
         public void Var_WithEqualArguments_ReturnsEqualTestExpressions()
         {
             var expr1 = TestExpression.Var<int>("n");
             var expr2 = TestExpression.Var<int>("n");
 
-            Assert.AreEqual(expr1, expr2);
+            AssertAreEqualExpressions(expr1, expr2);
         }
-        #endregion
 
-        #region Operator Methods Tests
-        [TestMethod("Add returns TestExpression where + operator is applied on arguments"), TestCategory("Operator Methods")]
-        public void Add_ReturnsTestExpressionWherePlusOperatorIsAppliedOnArguments()
+        [TestMethod("Lambda(TestExpression) correctly creates lambda expression"), TestCategory("Constructor Methods")]
+        public void Lambda1_CorrectlyCreatesLambdaExpression()
         {
-            var expected = TestExpression.Expr(() => 5 + 7);
+            var constant = Expression.Constant(5);
+            var body = Expression.Lambda<Action>(constant);
+            var expected = new TestExpression<Action>(body);
 
-            var operand1 = TestExpression.Const(5);
-            var operand2 = TestExpression.Const(7);
-            var actual = TestExpression.Add(operand1, operand2);
+            var actual = TestExpression.Lambda((TestExpression)TestExpression.Const(5));
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
-        [TestMethod("AddAssign returns TestExpression where += operator is applied on arguments"), TestCategory("Operator Methods")]
-        public void AddAssign_ReturnsTestExpressionWhereAddAssignOperatorIsAppliedOnArguments()
+        [TestMethod("Lambda(TestExpression<T>) correctly creates lambda expression"), TestCategory("Constructor Methods")]
+        public void Lambda2_CorrectlyCreatesLambdaExpression()
         {
-            var assigment = Expression.AddAssign(
-                Expression.Parameter(typeof(int), "n"),
-                Expression.Constant(5));
-            var expression = Expression.Lambda<Action>(assigment);
-            var expected = TestExpression.Expr(expression);
+            var constant = Expression.Constant(5);
+            var body = Expression.Lambda<Func<int>>(constant);
+            var expected = new TestExpression<Func<int>>(body);
 
-            var operand1 = TestExpression.Var<int>("n");
-            var operand2 = TestExpression.Const(5);
-            var actual = TestExpression.AddAssign(operand1, operand2);
+            var actual = TestExpression.Lambda(TestExpression.Const(5));
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
-        [TestMethod("And returns TestExpression where && operator is applied on arguments"), TestCategory("Operator Methods")]
-        public void And_ReturnsTestExpressionWhereAndOperatorIsAppliedOnArguments()
+        [TestMethod("Lambda(Expression<Func<T1, TestExpression<T>>>) correctly creates lambda expression"), TestCategory("Constructor Methods")]
+        public void Lambda3_CorrectlyCreatesLambdaExpression()
         {
-            var expected = TestExpression.Expr(() => true && false);
+            var constant = Expression.Parameter(typeof(int), "variable");
+            var parameter = Expression.Parameter(typeof(int), "parameter");
+            var addition = Expression.Add(parameter, constant);
+            var body = Expression.Lambda<Action<int>>(addition, parameter);
+            var expected = new TestExpression<Action<int>>(body);
 
-            var operand1 = TestExpression.Const(true);
-            var operand2 = TestExpression.Const(false);
-            var actual = TestExpression.And(operand1, operand2);
+            var variable = TestExpression.Var<int>("variable");
+            var actual = TestExpression.Lambda<int>(parameter => (TestExpression)TestExpression.Expr(variable, b => parameter + b));
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
-        [TestMethod("Assign returns TestExpression where = operator is applied on arguments"), TestCategory("Operator Methods")]
-        public void Assign_ReturnsTestExpressionEqualToExpressionAssign()
+        [TestMethod("Lambda(Expression<Func<T1, TestExpression>>) correctly creates lambda expression"), TestCategory("Constructor Methods")]
+        public void Lambda4_CorrectlyCreatesLambdaExpression()
         {
-            var assigment = Expression.Assign(
-                Expression.Parameter(typeof(int), "n"),
-                Expression.Constant(5));
-            var expression = Expression.Lambda<Action>(assigment); 
-            var expected = TestExpression.Expr(expression);
+            var constant = Expression.Parameter(typeof(int), "variable");
+            var parameter = Expression.Parameter(typeof(int), "parameter");
+            var addition = Expression.Add(parameter, constant);
+            var body = Expression.Lambda<Func<int, int>>(addition, parameter);
+            var expected = new TestExpression<Func<int, int>>(body);
 
-            var operand1 = TestExpression.Var<int>("n");
-            var operand2 = TestExpression.Const(5);
-            var actual = TestExpression.Assign(operand1, operand2);
+            var variable = TestExpression.Var<int>("variable");
+            var actual = TestExpression.Lambda<int, int>(parameter => TestExpression.Expr(variable, b => parameter + b));
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
-        [TestMethod("Or returns TestExpression where || operator is applied on arguments"), TestCategory("Operator Methods")]
-        public void Or_ReturnsTestExpressionWhereOrOperatorIsAppliedOnArguments()
+        [TestMethod("Lambda(Expression<Func<T1, T2, TestExpression>>) correctly creates lambda expression"), TestCategory("Constructor Methods")]
+        public void Lambda5_CorrectlyCreatesLambdaExpression()
         {
-            var expected = TestExpression.Expr(() => true || false);
+            var constant = Expression.Parameter(typeof(int), "variable");
+            var parameter1 = Expression.Parameter(typeof(int), "parameter1");
+            var parameter2 = Expression.Parameter(typeof(int), "parameter2");
+            var addition1 = Expression.Add(parameter1, parameter2);
+            var addition2 = Expression.Add(addition1, constant);
+            var body = Expression.Lambda<Action<int, int>>(addition2, parameter1, parameter2);
+            var expected = new TestExpression<Action<int, int>>(body);
 
-            var operand1 = TestExpression.Const(true);
-            var operand2 = TestExpression.Const(false);
-            var actual = TestExpression.Or(operand1, operand2);
+            var variable = TestExpression.Var<int>("variable");
+            var actual = TestExpression.Lambda<int, int>((parameter1, parameter2) => (TestExpression)TestExpression.Expr(variable, b => parameter1 + parameter2 + b));
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
-        [TestMethod("Not returns TestExpression where ! operator is applied on arguments"), TestCategory("Operator Methods")]
-        public void Not_ReturnsTestExpressionWhereNotOperatorIsAppliedOnArguments()
+        [TestMethod("Lambda(Expression<Func<T1, T2, TestExpression<T>>>) correctly creates lambda expression"), TestCategory("Constructor Methods")]
+        public void Lambda6_CorrectlyCreatesLambdaExpression()
         {
-            var expected = TestExpression.Expr(() => !true);
+            var constant = Expression.Parameter(typeof(int), "variable");
+            var parameter1 = Expression.Parameter(typeof(int), "parameter1");
+            var parameter2 = Expression.Parameter(typeof(int), "parameter2");
+            var addition1 = Expression.Add(parameter1, parameter2);
+            var addition2 = Expression.Add(addition1, constant);
+            var body = Expression.Lambda<Func<int, int, int>>(addition2, parameter1, parameter2);
+            var expected = new TestExpression<Func<int, int, int>>(body);
 
-            var operand = TestExpression.Const(true);
-            var actual = TestExpression.Not(operand);
+            var variable = TestExpression.Var<int>("variable");
+            var actual = TestExpression.Lambda<int, int, int>((parameter1, parameter2) => TestExpression.Expr(variable, b => parameter1 + parameter2 + b));
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
-        [TestMethod("Subtract returns TestExpression where - operator is applied on arguments"), TestCategory("Operator Methods")]
-        public void Subtract_ReturnsTestExpressionWhereSubtractOperatorIsAppliedOnArguments()
+        [TestMethod("Lambda(Expression<Func<T1, T2, T3, TestExpression>>) correctly creates lambda expression"), TestCategory("Constructor Methods")]
+        public void Lambda7_CorrectlyCreatesLambdaExpression()
         {
-            var expected = TestExpression.Expr(() => 5 - 7);
+            var constant = Expression.Parameter(typeof(int), "variable");
+            var parameter1 = Expression.Parameter(typeof(int), "parameter1");
+            var parameter2 = Expression.Parameter(typeof(int), "parameter2");
+            var parameter3 = Expression.Parameter(typeof(int), "parameter3");
+            var addition1 = Expression.Add(parameter1, parameter2);
+            var addition2 = Expression.Add(addition1, parameter3);
+            var addition3 = Expression.Add(addition2, constant);
+            var body = Expression.Lambda<Action<int, int, int>>(addition3, parameter1, parameter2, parameter3);
+            var expected = new TestExpression<Action<int, int, int>>(body);
 
-            var operand1 = TestExpression.Const(5);
-            var operand2 = TestExpression.Const(7);
-            var actual = TestExpression.Subtract(operand1, operand2);
+            var variable = TestExpression.Var<int>("variable");
+            var actual = TestExpression.Lambda<int, int, int>((parameter1, parameter2, parameter3) => (TestExpression)TestExpression.Expr(variable, b => parameter1 + parameter2 + parameter3 + b));
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
 
-        [TestMethod("SubtractAssign returns TestExpression where -= operator is applied on arguments"), TestCategory("Operator Methods")]
-        public void SubtractAssign_ReturnsTestExpressionWhereSubtractAssignOperatorIsAppliedOnArguments()
+        [TestMethod("Lambda(Expression<Func<T1, T2, T3, TestExpression<T>>>) correctly creates lambda expression"), TestCategory("Constructor Methods")]
+        public void Lambda8_CorrectlyCreatesLambdaExpression()
         {
-            var assigment = Expression.AddAssign(
-                Expression.Parameter(typeof(int), "n"),
-                Expression.Constant(5));
-            var expression = Expression.Lambda<Action>(assigment);
-            var expected = TestExpression.Expr(expression);
+            var constant = Expression.Parameter(typeof(int), "variable");
+            var parameter1 = Expression.Parameter(typeof(int), "parameter1");
+            var parameter2 = Expression.Parameter(typeof(int), "parameter2");
+            var parameter3 = Expression.Parameter(typeof(int), "parameter3");
+            var addition1 = Expression.Add(parameter1, parameter2);
+            var addition2 = Expression.Add(addition1, parameter3);
+            var addition3 = Expression.Add(addition2, constant);
+            var body = Expression.Lambda<Func<int, int, int, int>>(addition3, parameter1, parameter2, parameter3);
+            var expected = new TestExpression<Func<int, int, int, int>>(body);
 
-            var operand1 = TestExpression.Var<int>("n");
-            var operand2 = TestExpression.Const(5);
-            var actual = TestExpression.AddAssign(operand1, operand2);
+            var variable = TestExpression.Var<int>("variable");
+            var actual = TestExpression.Lambda<int, int, int, int>((parameter1, parameter2, parameter3) => TestExpression.Expr(variable, b => parameter1 + parameter2 + parameter3 + b));
 
-            Assert.AreEqual(expected, actual);
+            AssertAreEqualExpressions(expected, actual);
         }
-        #endregion
     }
 }

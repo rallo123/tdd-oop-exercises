@@ -8,6 +8,9 @@ namespace TestTools.Unit
     // For object members
     public class TestVariable<T> : TestExpression<T>
     {
-        internal TestVariable() {}
+        public TestVariable(ParameterExpression expression) 
+            : base(expression)
+        {
+        }
     }
 }

@@ -5,164 +5,330 @@ using System.Linq.Expressions;
 
 namespace TestTools.Unit
 {
+    // The TestExpression classes encapsulate System.Linq.Expression, and provide
+    // type-safe manipulation. This type-safety is needed in order to avoid
+    // flawed test code.
+
+    // TestExpression represents a void type expression
+    // TestExpression<T> represents a T type expression'
+
+    // TODO create a more generic solution for Lambda functions to remove code dublication
     public class TestExpression
     {
-        Expression Expression { get; }
+        public Expression Expression { get; }
 
-        protected TestExpression()
+        public TestExpression(Expression expression)
         {
-            throw new NotImplementedException();
+            Expression = expression;
         }
 
-        public static TestExpression<T> Add<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
+        public static TestExpression<T> Const<T>(T value)
         {
-            throw new NotImplementedException();
+            return new TestExpression<T>(Expression.Constant(value));
         }
-
-        public static TestExpression<T> AddAssign<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static TestExpression<bool> And(TestExpression<bool> leftSide, TestExpression<bool> rightSide)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static TestExpression<T> Assign<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static TestExpression<T> Const<T>(T value) => Expr(() => value);
         
         public static TestExpression Expr(Expression<Action> expression)
         {
-            throw new NotImplementedException();
+            return new TestExpression(expression.Body);
         }
 
         public static TestExpression Expr<T1>(TestVariable<T1> var, Expression<Action<T1>> expression)
         {
-            throw new NotImplementedException();
+            ParameterExpression parameter = expression.Parameters[0];
+            ReplacerVisitor replacer = new ReplacerVisitor(parameter, var.Expression);
+
+            Expression rewrittenExpression = replacer.Visit(expression);
+
+            return new TestExpression(rewrittenExpression);
         }
 
         public static TestExpression Expr<T1, T2>(TestVariable<T1> var1, TestVariable<T2> var2, Expression<Action<T1, T2>> expression)
         {
-            throw new NotImplementedException();
+            ParameterExpression parameter1 = expression.Parameters[0];
+            ParameterExpression parameter2 = expression.Parameters[1];
+
+            ReplacerVisitor replacer1 = new ReplacerVisitor(parameter1, var1.Expression);
+            ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
+
+            Expression rewrittenExpression = replacer2.Visit(replacer1.Visit(expression));
+
+            return new TestExpression(rewrittenExpression);
         }
 
         public static TestExpression Expr<T1, T2, T3>(TestVariable<T1> var1, TestVariable<T2> var2, TestVariable<T3> var3, Expression<Action<T1, T2, T3>> expression)
         {
-            throw new NotImplementedException();
+            ParameterExpression parameter1 = expression.Parameters[0];
+            ParameterExpression parameter2 = expression.Parameters[1];
+            ParameterExpression parameter3 = expression.Parameters[2];
+
+            ReplacerVisitor replacer1 = new ReplacerVisitor(parameter1, var1.Expression);
+            ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
+            ReplacerVisitor replacer3 = new ReplacerVisitor(parameter3, var3.Expression);
+
+            Expression rewrittenExpression = replacer3.Visit(replacer2.Visit(replacer1.Visit(expression)));
+
+            return new TestExpression(rewrittenExpression);
         }
 
         public static TestExpression<T> Expr<T>(Expression<Func<T>> expression)
         {
-            throw new NotImplementedException();
+            return new TestExpression<T>(expression.Body);
         }
 
         public static TestExpression<T> Expr<T1, T>(TestVariable<T1> var, Expression<Func<T1, T>> expression)
         {
-            throw new NotImplementedException();
+            ParameterExpression parameter = expression.Parameters[0];
+            ReplacerVisitor replacer = new ReplacerVisitor(parameter, var.Expression);
+
+            Expression rewrittenExpression = replacer.Visit(expression.Body);
+
+            return new TestExpression<T>(rewrittenExpression);
         }
 
         public static TestExpression<T> Expr<T1, T2, T>(TestVariable<T1> var1, TestVariable<T2> var2, Expression<Func<T1, T2, T>> expression)
         {
-            throw new NotImplementedException();
+            ParameterExpression parameter1 = expression.Parameters[0];
+            ParameterExpression parameter2 = expression.Parameters[1];
+
+            ReplacerVisitor replacer1 = new ReplacerVisitor(parameter1, var1.Expression);
+            ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
+
+            Expression rewrittenExpression = replacer2.Visit(replacer1.Visit(expression.Body));
+
+            return new TestExpression<T>(rewrittenExpression);
         }
 
         public static TestExpression<T> Expr<T1, T2, T3, T>(TestVariable<T1> var1, TestVariable<T2> var2, TestVariable<T3> var3, Expression<Func<T1, T2, T3, T>> expression)
         {
-            throw new NotImplementedException();
-        }
+            ParameterExpression parameter1 = expression.Parameters[0];
+            ParameterExpression parameter2 = expression.Parameters[1];
+            ParameterExpression parameter3 = expression.Parameters[2];
 
-        public static TestExpression<bool> Or(TestExpression<bool> leftSide, TestExpression<bool> rightSide)
-        {
-            throw new NotImplementedException();
-        }
+            ReplacerVisitor replacer1 = new ReplacerVisitor(parameter1, var1.Expression);
+            ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
+            ReplacerVisitor replacer3 = new ReplacerVisitor(parameter3, var3.Expression);
 
-        public static TestExpression<bool> Not(TestExpression<bool> expression)
-        {
-            throw new NotImplementedException();
+            Expression rewrittenExpression = replacer3.Visit(replacer2.Visit(replacer1.Visit(expression.Body)));
+
+            return new TestExpression<T>(rewrittenExpression);
         }
 
         public static TestExpression<Action> Lambda(TestExpression expression)
         {
-            throw new NotImplementedException();
+            Expression<Action> rewrittenExpression = Expression.Lambda<Action>(expression.Expression);
+
+            return new TestExpression<Action>(rewrittenExpression);
         }
 
         public static TestExpression<Action<T1>> Lambda<T1>(Expression<Func<T1, TestExpression>> expression)
         {
-            throw new NotImplementedException();
+            /* In order to access the TestExpression value, the expression needs
+             * to be evaluated and this requires that no unused parameters are 
+             * present at the evaluation time as this results in an error. 
+             * So to avoid this, the unused parameters are replaced with an default
+             * value, then everything is evaluated, and the default value is 
+             * replaced back to a parameter
+             */
+            ConstantExpression constant1 = Expression.Constant(default(T1));
+
+            ReplacerVisitor toReplacer = new ReplacerVisitor(expression.Parameters[0], constant1);
+            ReplacerVisitor backReplacer = new ReplacerVisitor(constant1, expression.Parameters[0]);
+
+            Expression body1 = toReplacer.Visit(expression.Body);
+            Expression<Func<TestExpression>> lambda1 = Expression.Lambda<Func<TestExpression>>(body1);
+            TestExpression testExpression = lambda1.Compile().Invoke();
+
+            Expression body2 = backReplacer.Visit(testExpression.Expression);
+            Expression<Action<T1>> lambda2 = Expression.Lambda<Action<T1>>(body2, expression.Parameters[0]);
+
+            return new TestExpression<Action<T1>>(lambda2);
         }
 
         public static TestExpression<Action<T1, T2>> Lambda<T1, T2>(Expression<Func<T1, T2, TestExpression>> expression)
         {
-            throw new NotImplementedException();
+            /* In order to access the TestExpression value, the expression needs
+             * to be evaluated and this requires that no unused parameters are 
+             * present at the evaluation time as this results in an error. 
+             * So to avoid this, the unused parameters are replaced with an default
+             * value, then everything is evaluated, and the default value is 
+             * replaced back to a parameter
+             */
+            ConstantExpression constant1 = Expression.Constant(default(T1));
+            ConstantExpression constant2 = Expression.Constant(default(T2));
+
+            ReplacerVisitor toReplacer1 = new ReplacerVisitor(expression.Parameters[0], constant1);
+            ReplacerVisitor toReplacer2 = new ReplacerVisitor(expression.Parameters[1], constant2);
+            ReplacerVisitor backReplacer1 = new ReplacerVisitor(constant1, expression.Parameters[0]);
+            ReplacerVisitor backReplacer2 = new ReplacerVisitor(constant2, expression.Parameters[1]);
+
+            Expression body1 = toReplacer2.Visit(toReplacer1.Visit(expression.Body));
+            Expression<Func<TestExpression>> lambda1 = Expression.Lambda<Func<TestExpression>>(body1);
+            TestExpression testExpression = lambda1.Compile().Invoke();
+
+            Expression body2 = backReplacer2.Visit(backReplacer1.Visit(testExpression.Expression));
+            Expression<Action<T1, T2>> lambda2 = Expression.Lambda<Action<T1, T2>>(body2, expression.Parameters[0], expression.Parameters[1]);
+
+            return new TestExpression<Action<T1, T2>>(lambda2);
         }
 
         public static TestExpression<Action<T1, T2, T3>> Lambda<T1, T2, T3>(Expression<Func<T1, T2, T3, TestExpression>> expression)
         {
-            throw new NotImplementedException();
+            /* In order to access the TestExpression value, the expression needs
+             * to be evaluated and this requires that no unused parameters are 
+             * present at the evaluation time as this results in an error. 
+             * So to avoid this, the unused parameters are replaced with an default
+             * value, then everything is evaluated, and the default value is 
+             * replaced back to a parameter
+             */
+            ConstantExpression constant1 = Expression.Constant(default(T1));
+            ConstantExpression constant2 = Expression.Constant(default(T2));
+            ConstantExpression constant3 = Expression.Constant(default(T3));
+
+            ReplacerVisitor toReplacer1 = new ReplacerVisitor(expression.Parameters[0], constant1);
+            ReplacerVisitor toReplacer2 = new ReplacerVisitor(expression.Parameters[1], constant2);
+            ReplacerVisitor toReplacer3 = new ReplacerVisitor(expression.Parameters[2], constant3);
+            ReplacerVisitor backReplacer1 = new ReplacerVisitor(constant1, expression.Parameters[0]);
+            ReplacerVisitor backReplacer2 = new ReplacerVisitor(constant2, expression.Parameters[1]);
+            ReplacerVisitor backReplacer3 = new ReplacerVisitor(constant3, expression.Parameters[2]);
+
+            Expression body1 = toReplacer3.Visit(toReplacer2.Visit(toReplacer1.Visit(expression.Body)));
+            Expression<Func<TestExpression>> lambda1 = Expression.Lambda<Func<TestExpression>>(body1);
+            TestExpression testExpression = lambda1.Compile().Invoke();
+
+            Expression body2 = backReplacer3.Visit(backReplacer2.Visit(backReplacer1.Visit(testExpression.Expression)));
+            Expression<Action<T1, T2, T3>> lambda2 = Expression.Lambda<Action<T1, T2, T3>>(body2, expression.Parameters[0], expression.Parameters[1], expression.Parameters[2]);
+
+            return new TestExpression<Action<T1, T2, T3>>(lambda2);
         }
 
         public static TestExpression<Func<T>> Lambda<T>(TestExpression<T> expression)
         {
-            throw new NotImplementedException();
+            Expression<Func<T>> rewrittenExpression = Expression.Lambda<Func<T>>(expression.Expression);
+
+            return new TestExpression<Func<T>>(rewrittenExpression);
         }
 
-        public static TestExpression<Func<T1, T>> Lambda<T1, T>(Expression<Func<T1, TestExpression>> expression)
+        public static TestExpression<Func<T1, T>> Lambda<T1, T>(Expression<Func<T1, TestExpression<T>>> expression)
         {
-            throw new NotImplementedException();
+            /* In order to access the TestExpression value, the expression needs
+             * to be evaluated and this requires that no unused parameters are 
+             * present at the evaluation time as this results in an error. 
+             * So to avoid this, the unused parameters are replaced with an default
+             * value, then everything is evaluated, and the default value is 
+             * replaced back to a parameter
+             */
+            ConstantExpression constant1 = Expression.Constant(default(T1));
+
+            ReplacerVisitor toReplacer = new ReplacerVisitor(expression.Parameters[0], constant1);
+            ReplacerVisitor backReplacer = new ReplacerVisitor(constant1, expression.Parameters[0]);
+
+            Expression body1 = toReplacer.Visit(expression.Body);
+            Expression<Func<TestExpression<T>>> lambda1 = Expression.Lambda<Func<TestExpression<T>>>(body1);
+            TestExpression<T> testExpression = lambda1.Compile().Invoke();
+
+            Expression body2 = backReplacer.Visit(testExpression.Expression);
+            Expression<Func<T1, T>> lambda2 = Expression.Lambda<Func<T1, T>>(body2, expression.Parameters[0]);
+
+            return new TestExpression<Func<T1, T>>(lambda2);
         }
 
-        public static TestExpression<Func<T1, T2, T>> Lambda<T1, T2, T>(Expression<Func<T1, T2, TestExpression>> expression)
+        public static TestExpression<Func<T1, T2, T>> Lambda<T1, T2, T>(Expression<Func<T1, T2, TestExpression<T>>> expression)
         {
-            throw new NotImplementedException();
+            /* In order to access the TestExpression value, the expression needs
+             * to be evaluated and this requires that no unused parameters are 
+             * present at the evaluation time as this results in an error. 
+             * So to avoid this, the unused parameters are replaced with an default
+             * value, then everything is evaluated, and the default value is 
+             * replaced back to a parameter
+             */
+            ConstantExpression constant1 = Expression.Constant(default(T1));
+            ConstantExpression constant2 = Expression.Constant(default(T2));
+
+            ReplacerVisitor toReplacer1 = new ReplacerVisitor(expression.Parameters[0], constant1);
+            ReplacerVisitor toReplacer2 = new ReplacerVisitor(expression.Parameters[1], constant2);
+            ReplacerVisitor backReplacer1 = new ReplacerVisitor(constant1, expression.Parameters[0]);
+            ReplacerVisitor backReplacer2 = new ReplacerVisitor(constant2, expression.Parameters[1]);
+
+            Expression body1 = toReplacer2.Visit(toReplacer1.Visit(expression.Body));
+            Expression<Func<TestExpression<T>>> lambda1 = Expression.Lambda<Func<TestExpression<T>>>(body1);
+            TestExpression<T> testExpression = lambda1.Compile().Invoke();
+
+            Expression body2 = backReplacer2.Visit(backReplacer1.Visit(testExpression.Expression));
+            Expression<Func<T1, T2, T>> lambda2 = Expression.Lambda<Func<T1, T2, T>>(body2, expression.Parameters[0], expression.Parameters[1]);
+
+            return new TestExpression<Func<T1, T2, T>>(lambda2);
         }
 
-        public static TestExpression<Func<T1, T2, T3, T>> Lambda<T1, T2, T3, T>(Expression<Func<T1, T2, T3, TestExpression>> expression)
+        public static TestExpression<Func<T1, T2, T3, T>> Lambda<T1, T2, T3, T>(Expression<Func<T1, T2, T3, TestExpression<T>>> expression)
         {
-            throw new NotImplementedException();
+            /* In order to access the TestExpression value, the expression needs
+             * to be evaluated and this requires that no unused parameters are 
+             * present at the evaluation time as this results in an error. 
+             * So to avoid this, the unused parameters are replaced with an default
+             * value, then everything is evaluated, and the default value is 
+             * replaced back to a parameter
+             */
+            ConstantExpression constant1 = Expression.Constant(default(T1));
+            ConstantExpression constant2 = Expression.Constant(default(T2));
+            ConstantExpression constant3 = Expression.Constant(default(T3));
+
+            ReplacerVisitor toReplacer1 = new ReplacerVisitor(expression.Parameters[0], constant1);
+            ReplacerVisitor toReplacer2 = new ReplacerVisitor(expression.Parameters[1], constant2);
+            ReplacerVisitor toReplacer3 = new ReplacerVisitor(expression.Parameters[2], constant3);
+            ReplacerVisitor backReplacer1 = new ReplacerVisitor(constant1, expression.Parameters[0]);
+            ReplacerVisitor backReplacer2 = new ReplacerVisitor(constant2, expression.Parameters[1]);
+            ReplacerVisitor backReplacer3 = new ReplacerVisitor(constant3, expression.Parameters[2]);
+
+            Expression body1 = toReplacer3.Visit(toReplacer2.Visit(toReplacer1.Visit(expression.Body)));
+            Expression<Func<TestExpression<T>>> lambda1 = Expression.Lambda<Func<TestExpression<T>>>(body1);
+            TestExpression<T> testExpression = lambda1.Compile().Invoke();
+
+            Expression body2 = backReplacer3.Visit(backReplacer2.Visit(backReplacer1.Visit(testExpression.Expression)));
+            Expression<Func<T1, T2, T3, T>> lambda2 = Expression.Lambda<Func<T1, T2, T3, T>>(body2, expression.Parameters[0], expression.Parameters[1], expression.Parameters[2]);
+
+            return new TestExpression<Func<T1, T2, T3, T>>(lambda2);
         }
 
-        public static TestExpression<T> Subtract<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
+        public static TestVariable<T> Var<T>()
         {
-            throw new NotImplementedException();
-        }
-
-        public static TestExpression<T> SutractAssign<T>(TestExpression<T> leftSide, TestExpression<T> rightSide)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static TestExpression<T> Var<T>()
-        {
-            throw new NotImplementedException();
+            ParameterExpression expression = Expression.Parameter(typeof(T));
+            return new TestVariable<T>(expression);
         }
 
         public static TestVariable<T> Var<T>(string name)
         {
-            throw new NotImplementedException();
+            ParameterExpression expression = Expression.Parameter(typeof(T), name);
+            return new TestVariable<T>(expression);
         }
 
-        public override bool Equals(object obj)
+        private class ReplacerVisitor : ExpressionVisitor
         {
-            TestExpression other = obj as TestExpression;
-            return Object.Equals(this.Expression, other?.Expression);
-        }
+            Expression _oldValue;
+            Expression _newValue;
 
-        public override int GetHashCode()
-        {
-            return Expression.GetHashCode();
+            public ReplacerVisitor(Expression oldValue, Expression newValue)
+            {
+                _oldValue = oldValue;
+                _newValue = newValue;
+            }
+
+            public override Expression Visit(Expression node)
+            {
+                if (node == _oldValue)
+                {
+                    return _newValue;
+                }
+                return base.Visit(node);
+            }
         }
     }
 
     public class TestExpression<T> : TestExpression
     {
-        protected TestExpression()
+        public TestExpression(Expression expression) : base(expression)
         {
-            throw new NotImplementedException();
+            if (expression.Type != typeof(T))
+                throw new ArgumentException($"expression.Type is not {typeof(T).Name}");
         }
     }
 }
