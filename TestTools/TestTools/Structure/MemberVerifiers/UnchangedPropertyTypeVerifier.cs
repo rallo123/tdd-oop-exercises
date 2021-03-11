@@ -11,14 +11,14 @@ namespace TestTools.Structure
 
         public override void Verify(MemberInfo originalMember, MemberInfo translatedMember)
         {
-            FieldInfo translatedProperty = translatedMember as FieldInfo;
+            PropertyInfo originalProperty = originalMember as PropertyInfo;
 
             Verifier.VerifyMemberType(translatedMember, new MemberTypes[] { MemberTypes.Field, MemberTypes.Property });
 
-            if (originalMember is FieldInfo originalField)
-                Verifier.VerifyFieldType(translatedProperty, originalField.FieldType);
-            else if (originalMember is PropertyInfo originalProperty)
-                Verifier.VerifyFieldType(translatedProperty, originalProperty.PropertyType);
+            if (translatedMember is FieldInfo translatedField)
+                Verifier.VerifyFieldType(translatedField, originalProperty.PropertyType);
+            else if (translatedMember is PropertyInfo translatedProperty)
+                Verifier.VerifyPropertyType(translatedProperty, originalProperty.PropertyType);
             else throw new NotImplementedException();
         }
     }
