@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace TestTools.Unit
@@ -32,17 +33,17 @@ namespace TestTools.Unit
             return new TestExpression(expression.Body);
         }
 
-        public static TestExpression Expr<T1>(TestVariable<T1> var, Expression<Action<T1>> expression)
+        public static TestExpression Expr<T1>(TestExpression<T1> var, Expression<Action<T1>> expression)
         {
             ParameterExpression parameter = expression.Parameters[0];
             ReplacerVisitor replacer = new ReplacerVisitor(parameter, var.Expression);
 
-            Expression rewrittenExpression = replacer.Visit(expression);
+            Expression rewrittenExpression = replacer.Visit(expression.Body);
 
             return new TestExpression(rewrittenExpression);
         }
 
-        public static TestExpression Expr<T1, T2>(TestVariable<T1> var1, TestVariable<T2> var2, Expression<Action<T1, T2>> expression)
+        public static TestExpression Expr<T1, T2>(TestExpression<T1> var1, TestExpression<T2> var2, Expression<Action<T1, T2>> expression)
         {
             ParameterExpression parameter1 = expression.Parameters[0];
             ParameterExpression parameter2 = expression.Parameters[1];
@@ -50,12 +51,12 @@ namespace TestTools.Unit
             ReplacerVisitor replacer1 = new ReplacerVisitor(parameter1, var1.Expression);
             ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
 
-            Expression rewrittenExpression = replacer2.Visit(replacer1.Visit(expression));
+            Expression rewrittenExpression = replacer2.Visit(replacer1.Visit(expression.Body));
 
             return new TestExpression(rewrittenExpression);
         }
 
-        public static TestExpression Expr<T1, T2, T3>(TestVariable<T1> var1, TestVariable<T2> var2, TestVariable<T3> var3, Expression<Action<T1, T2, T3>> expression)
+        public static TestExpression Expr<T1, T2, T3>(TestExpression<T1> var1, TestExpression<T2> var2, TestExpression<T3> var3, Expression<Action<T1, T2, T3>> expression)
         {
             ParameterExpression parameter1 = expression.Parameters[0];
             ParameterExpression parameter2 = expression.Parameters[1];
@@ -65,7 +66,64 @@ namespace TestTools.Unit
             ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
             ReplacerVisitor replacer3 = new ReplacerVisitor(parameter3, var3.Expression);
 
-            Expression rewrittenExpression = replacer3.Visit(replacer2.Visit(replacer1.Visit(expression)));
+            Expression rewrittenExpression = replacer3.Visit(replacer2.Visit(replacer1.Visit(expression.Body)));
+
+            return new TestExpression(rewrittenExpression);
+        }
+
+        public static TestExpression Expr<T1, T2, T3, T4>(TestExpression<T1> var1, TestExpression<T2> var2, TestExpression<T3> var3, TestExpression<T4> var4, Expression<Action<T1, T2, T3, T4>> expression)
+        {
+            ParameterExpression parameter1 = expression.Parameters[0];
+            ParameterExpression parameter2 = expression.Parameters[1];
+            ParameterExpression parameter3 = expression.Parameters[2];
+            ParameterExpression parameter4 = expression.Parameters[3];
+
+            ReplacerVisitor replacer1 = new ReplacerVisitor(parameter1, var1.Expression);
+            ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
+            ReplacerVisitor replacer3 = new ReplacerVisitor(parameter3, var3.Expression);
+            ReplacerVisitor replacer4 = new ReplacerVisitor(parameter4, var4.Expression);
+
+            Expression rewrittenExpression = replacer4.Visit(replacer3.Visit(replacer2.Visit(replacer1.Visit(expression.Body))));
+
+            return new TestExpression(rewrittenExpression);
+        }
+
+        public static TestExpression Expr<T1, T2, T3, T4, T5>(TestExpression<T1> var1, TestExpression<T2> var2, TestExpression<T3> var3, TestExpression<T4> var4, TestExpression<T5> var5,  Expression<Action<T1, T2, T3, T4, T5>> expression)
+        {
+            ParameterExpression parameter1 = expression.Parameters[0];
+            ParameterExpression parameter2 = expression.Parameters[1];
+            ParameterExpression parameter3 = expression.Parameters[2];
+            ParameterExpression parameter4 = expression.Parameters[3];
+            ParameterExpression parameter5 = expression.Parameters[4];
+
+            ReplacerVisitor replacer1 = new ReplacerVisitor(parameter1, var1.Expression);
+            ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
+            ReplacerVisitor replacer3 = new ReplacerVisitor(parameter3, var3.Expression);
+            ReplacerVisitor replacer4 = new ReplacerVisitor(parameter4, var4.Expression);
+            ReplacerVisitor replacer5 = new ReplacerVisitor(parameter5, var5.Expression);
+
+            Expression rewrittenExpression = replacer5.Visit(replacer4.Visit(replacer4.Visit(replacer3.Visit(replacer2.Visit(replacer1.Visit(expression.Body))))));
+
+            return new TestExpression(rewrittenExpression);
+        }
+
+        public static TestExpression Expr<T1, T2, T3, T4, T5, T6>(TestExpression<T1> var1, TestExpression<T2> var2, TestExpression<T3> var3, TestExpression<T4> var4, TestExpression<T5> var5, TestExpression<T6> var6, Expression<Action<T1, T2, T3, T4, T5, T6>> expression)
+        {
+            ParameterExpression parameter1 = expression.Parameters[0];
+            ParameterExpression parameter2 = expression.Parameters[1];
+            ParameterExpression parameter3 = expression.Parameters[2];
+            ParameterExpression parameter4 = expression.Parameters[3];
+            ParameterExpression parameter5 = expression.Parameters[4];
+            ParameterExpression parameter6 = expression.Parameters[5];
+
+            ReplacerVisitor replacer1 = new ReplacerVisitor(parameter1, var1.Expression);
+            ReplacerVisitor replacer2 = new ReplacerVisitor(parameter2, var2.Expression);
+            ReplacerVisitor replacer3 = new ReplacerVisitor(parameter3, var3.Expression);
+            ReplacerVisitor replacer4 = new ReplacerVisitor(parameter4, var4.Expression);
+            ReplacerVisitor replacer5 = new ReplacerVisitor(parameter5, var5.Expression);
+            ReplacerVisitor replacer6 = new ReplacerVisitor(parameter6, var6.Expression);
+
+            Expression rewrittenExpression = replacer6.Visit(replacer5.Visit(replacer4.Visit(replacer4.Visit(replacer3.Visit(replacer2.Visit(replacer1.Visit(expression.Body)))))));
 
             return new TestExpression(rewrittenExpression);
         }
@@ -75,7 +133,7 @@ namespace TestTools.Unit
             return new TestExpression<T>(expression.Body);
         }
 
-        public static TestExpression<T> Expr<T1, T>(TestVariable<T1> var, Expression<Func<T1, T>> expression)
+        public static TestExpression<T> Expr<T1, T>(TestExpression<T1> var, Expression<Func<T1, T>> expression)
         {
             ParameterExpression parameter = expression.Parameters[0];
             ReplacerVisitor replacer = new ReplacerVisitor(parameter, var.Expression);
@@ -85,7 +143,7 @@ namespace TestTools.Unit
             return new TestExpression<T>(rewrittenExpression);
         }
 
-        public static TestExpression<T> Expr<T1, T2, T>(TestVariable<T1> var1, TestVariable<T2> var2, Expression<Func<T1, T2, T>> expression)
+        public static TestExpression<T> Expr<T1, T2, T>(TestExpression<T1> var1, TestExpression<T2> var2, Expression<Func<T1, T2, T>> expression)
         {
             ParameterExpression parameter1 = expression.Parameters[0];
             ParameterExpression parameter2 = expression.Parameters[1];
@@ -98,7 +156,7 @@ namespace TestTools.Unit
             return new TestExpression<T>(rewrittenExpression);
         }
 
-        public static TestExpression<T> Expr<T1, T2, T3, T>(TestVariable<T1> var1, TestVariable<T2> var2, TestVariable<T3> var3, Expression<Func<T1, T2, T3, T>> expression)
+        public static TestExpression<T> Expr<T1, T2, T3, T>(TestExpression<T1> var1, TestExpression<T2> var2, TestExpression<T3> var3, Expression<Func<T1, T2, T3, T>> expression)
         {
             ParameterExpression parameter1 = expression.Parameters[0];
             ParameterExpression parameter2 = expression.Parameters[1];
@@ -320,6 +378,14 @@ namespace TestTools.Unit
                 }
                 return base.Visit(node);
             }
+            /*
+            protected override Expression VisitLambda<T>(Expression<T> node)
+            {
+                Expression body = Visit(node.Body);
+                ParameterExpression[] parameters = node.Parameters.Select(p => (ParameterExpression)Visit(p)).ToArray();
+                
+                return Expression.Lambda(body, parameters);
+            }*/
         }
     }
 

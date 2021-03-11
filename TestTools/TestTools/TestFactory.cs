@@ -19,7 +19,7 @@ namespace TestTools
 
         public UnitTest CreateTest()
         {
-            throw new NotImplementedException();
+            return new UnitTest(StructureService);
         }
 
         public StructureTest CreateStructureTest()

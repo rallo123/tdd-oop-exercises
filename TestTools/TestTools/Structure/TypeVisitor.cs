@@ -12,6 +12,8 @@ namespace TestTools.Structure
     {
         IStructureService _structureService;
 
+        Dictionary<ParameterExpression, ParameterExpression> _variableCache = new Dictionary<ParameterExpression, ParameterExpression>();
+
         public ITypeVerifier[] TypeVerifiers { get; set; } = new ITypeVerifier[]
         {
             new UnchangedTypeAccessLevelVerifier(),
@@ -136,8 +138,20 @@ namespace TestTools.Structure
         {
             _structureService.VerifyType(node.Type, TypeVerifiers);
 
-            Type translatedType = _structureService.TranslateType(node.Type);
-            return Expression.Parameter(translatedType, node.Name);
+            // To preserve the referential equality of parameter expressions 
+            // the function must return the exact same output for the same input.
+            // Not doing this would result in the expression not being compile-able.
+            if (!_variableCache.ContainsKey(node))
+            {
+                Random random = new Random();
+                Type translatedType = _structureService.TranslateType(node.Type);
+                ParameterExpression newParameter = Expression.Parameter(translatedType, random.Next().ToString());
+
+                _variableCache.Add(node, newParameter);
+
+                return newParameter;
+            }
+            return _variableCache[node];
         }
     }
 }
