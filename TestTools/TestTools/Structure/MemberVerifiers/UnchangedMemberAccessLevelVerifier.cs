@@ -59,7 +59,7 @@ namespace TestTools.Structure
             else if (translatedMember is MethodInfo originalMethod)
             {
                 AccessLevels accessLevel = ReflectionHelper.GetAccessLevel(originalMethod);
-                Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Constructor });
+                Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Method });
                 Verifier.VerifyAccessLevel((MethodInfo)translatedMember, new[] { accessLevel });
             }
             else throw new NotImplementedException();
