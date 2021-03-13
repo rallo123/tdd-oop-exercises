@@ -1,213 +1,286 @@
-﻿using Lecture_3;
+﻿using Lecture_3_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
+using TestTools.Unit;
+using static TestTools.Unit.TestExpression;
+using static Lecture_3_Tests.TestHelper;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_3_Tests
     {
-#pragma warning disable IDE1006 // Naming Stylesw
-        private ClassElement<Point> point => new ClassElement<Point>();
-        private PropertyElement<Point, double> pointX => point.Property<double>(new PropertyOptions("X") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Point, double> pointY => point.Property<double>(new PropertyOptions("Y") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private Point CreatePoint(double x, double y)
-        {
-            return point.Constructor<double, double>(new ConstructorOptions()).Invoke(x, y);
-        }
-
-        private ClassElement<Figure> figure => new ClassElement<Figure>(new ClassOptions() { IsAbstract = true });
-        private FuncMethodElement<Figure, double> figureCalculateArea => figure.FuncMethod<double>(new MethodOptions("CalculateArea") { IsPublic = true, IsAbstract = true });
-        private FuncMethodElement<Figure, Point, bool> figureContains => figure.FuncMethod<Point, bool>(new MethodOptions("Contains") { IsPublic = true, IsAbstract = true });
-
-        private ClassElement<Circle> circle => new ClassElement<Circle>(new ClassOptions() { BaseType = typeof(Figure) });
-        private PropertyElement<Circle, Point> circleCenter => circle.Property<Point>(new PropertyOptions("Center") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Circle, double> circleRadius => circle.Property<double>(new PropertyOptions("Radius") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<Circle, double> circleCalculateArea => circle.FuncMethod<double>(new MethodOptions("CalculateArea") { IsPublic = true });
-        private FuncMethodElement<Circle, Point, bool> circleContains => circle.FuncMethod<Point, bool>(new MethodOptions("Contains") { IsPublic = true });
-        private Circle CreateCircle(Point center = null, double? radius = null)
-        {
-            return circle.Constructor<Point, double>(new ConstructorOptions()).Invoke(center ?? new Point(0, 0), radius ?? 1);
-        } 
-
-        private ClassElement<Rectangle> rectangle => new ClassElement<Rectangle>(new ClassOptions() { BaseType = typeof(Figure) });
-        private PropertyElement<Rectangle, Point> rectangleP1 => rectangle.Property<Point>(new PropertyOptions("P1") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Rectangle, Point> rectangleP2 => rectangle.Property<Point>(new PropertyOptions("P2") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<Rectangle, double> rectangleCalculateArea => rectangle.FuncMethod<double>(new MethodOptions("CalculateArea") { IsPublic = true });
-        private FuncMethodElement<Rectangle, Point, bool> rectangleContains => rectangle.FuncMethod<Point, bool>(new MethodOptions("Contains") { IsPublic = true });
-        private Rectangle CreateRectangle(Point p1 = null, Point p2 = null)
-        {
-            return rectangle.Constructor<Point, Point>(new ConstructorOptions()).Invoke(p1 ?? new Point(0, 0), p2 ?? new Point(0, 0));
-        }
-        private void DoNothing(object par) { }
-#pragma warning restore IDE1006 // Naming Styles
-
-        /* Exercise 3A */
+        #region Exercise 3A
         [TestMethod("a. Figure is abstract class"), TestCategory("Exercise 3A")]
-        public void FigureIsAbstractClass() => DoNothing(figure);
+        public void FigureIsAbstractClass()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertAbstractClass<Figure>();
+            test.Execute();
+        }
 
         [TestMethod("b. Figure.CalculateArea() is abstract method"), TestCategory("Exercise 3A")]
-        public void FigureCalculateAreaIsAbstractMethod() => DoNothing(figureCalculateArea);
+        public void FigureCalculateAreaIsAbstractMethod()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertMethod<Figure, double>(
+                f => f.CalculateArea(), 
+                new MemberAccessLevelVerifier(AccessLevels.Public),
+                new MemberIsAbstractVerifier());
+            test.Execute();
+        }
 
         [TestMethod("c. Figure.Contains() is abstract method"), TestCategory("Exercise 3A")]
-        public void FigureContainsIsAbstractMethod() => DoNothing(figureContains);
+        public void FigureContainsIsAbstractMethod()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertMethod<Figure, Point, bool>(
+                (f, p) => f.Contains(p), 
+                new MemberAccessLevelVerifier(AccessLevels.Public),
+                new MemberIsAbstractVerifier());
+            test.Execute();
+        }
+        #endregion
 
-        /* Exercise 3B */
+        #region Exercise 3B
         [TestMethod("a. Circle is subclass of Figure"), TestCategory("Exercise 3B")]
-        public void CircleIsSubclassOfFigure() => DoNothing(circle);
+        public void CircleIsSubclassOfFigure() 
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertClass<Circle>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeBaseClassVerifier(typeof(Figure)));
+            test.Execute();
+        }
 
         [TestMethod("b. Rectangle is subclass of Figure"), TestCategory("Exercise 3B")]
-        public void RectangleIsSubclassOfFigure() => DoNothing(rectangle);
+        public void RectangleIsSubclassOfFigure()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertClass<Rectangle>(
+                new TypeAccessLevelVerifier(AccessLevels.Public),
+                new TypeBaseClassVerifier(typeof(Figure)));
+            test.Execute();
+        }
+        #endregion
 
-        /* Exercise 3C */
-        [TestMethod("a. Circle.Center is public Point property"), TestCategory("Exercise 3C")]
-        public void CenterIsPublicPointProperty() => DoNothing(circleCenter);
+        #region Exercise 3C
+        [TestMethod("a. Circle.Center is public read-only Point property"), TestCategory("Exercise 3C")]
+        public void CenterIsPublicPointProperty()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicReadonlyProperty<Circle, Point>(c => c.Center);
+            test.Execute();
+        }
 
-        [TestMethod("b. Circle.Radius is public double property"), TestCategory("Exercise 3C")]
-        public void RadiusIsPublicDoubleProperty() => DoNothing(circleRadius);
-        /*
-        [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("3C")]
-        public void CenterIgnoresAssigmentOfNull() => Assignment.Ignored(CreateCircle(), circleCenter, null);
+        [TestMethod("b. Circle.Radius is public read-only double property"), TestCategory("Exercise 3C")]
+        public void RadiusIsPublicDoubleProperty()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicReadonlyProperty<Circle, double>(c => c.Radius);
+            test.Execute();
+        }
 
-        [TestMethod("d. Circle(Point center, double radius) ignores radius = -1.0"), TestCategory("3C")]
-        public void RadiusIgnoresAssigmentOfMinusOne() => Assignment.Ignored(CreateCircle(), circleRadius, -1.0);
-        */
-        /* Exercise 3D */
-        [TestMethod("a. Rectangle.P1 is public Point property"), TestCategory("Exercise 3D")]
-        public void P1IsPublicPointProperty() => DoNothing(rectangleP1);
+        [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("Exercise 3C")]
+        public void CenterIgnoresAssigmentOfNull() 
+        {
+            Circle circle = new Circle(null, 1.0);
+            Assert.IsNotNull(circle.Center);
 
-        [TestMethod("b. Regtangle.P2 is public Point property"), TestCategory("Exercise 3D")]
-        public void P2IsPublicPointProperty() => DoNothing(rectangleP2);
-        
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Circle> _circle = test.CreateVariable<Circle>(nameof(_circle));
+            test.Arrange(_circle, Expr(() => new Circle(null, 1.0)));
+            test.Assert.IsNotNull(Expr(_circle, c => c.Center));
+            test.Execute();
+        }
+
+        [TestMethod("d. Circle(Point center, double radius) ignores radius = -1.0"), TestCategory("Exercise 3C")]
+        public void RadiusIgnoresAssigmentOfMinusOne() 
+        {
+            Circle circle = new Circle(new Point(0, 0), -1.0);
+            Assert.AreNotEqual(circle.Radius, -1.0, 0.001);
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Circle> _circle = test.CreateVariable<Circle>(nameof(_circle));
+            test.Arrange(_circle, Expr(() => new Circle(new Point(0, 0), -1.0)));
+            test.Assert.AreNotEqual(Expr(_circle, c => c.Radius), Const(-1.0), 0.001);
+            test.Execute();
+        }
+        #endregion
+
+        #region Exercise 3D
+        [TestMethod("a. Rectangle.P1 is public read-only Point property"), TestCategory("Exercise 3D")]
+        public void P1IsPublicPointProperty() 
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicReadonlyProperty<Rectangle, Point>(r => r.P1);
+            test.Execute();
+        }
+
+        [TestMethod("b. Regtangle.P2 is public read-only Point property"), TestCategory("Exercise 3D")]
+        public void P2IsPublicPointProperty() 
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicReadonlyProperty<Rectangle, Point>(r => r.P2);
+            test.Execute();
+        }
+
         [TestMethod("c. Rectangle(Point p1, Point p2) ignores p1 = null"), TestCategory("Exercise 3D")]
-        public void RectangleConstructorIgnoresP1ValueNull() => DoNothing(rectangleP1);
+        public void RectangleConstructorIgnoresP1ValueNull()
+        {
+            Rectangle rectangle = new Rectangle(null, new Point(1, 1));
+            Assert.IsNotNull(rectangle.P1);
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Rectangle> _rectangle = test.CreateVariable<Rectangle>(nameof(_rectangle));
+            test.Arrange(_rectangle, Expr(() => new Rectangle(null, new Point(1, 1))));
+            test.Assert.IsNotNull(Expr(_rectangle, r => r.P1));
+            test.Execute();
+        }
 
         [TestMethod("d. Rectangle(Point p1, Point p2) ignores p2 = null"), TestCategory("Exercise 3D")]
-        public void RegtangleConstructorIgnoresP1ValueNull() => DoNothing(rectangleP2);
+        public void RegtangleConstructorIgnoresP2ValueNull() 
+        {
+            Rectangle rectangle = new Rectangle(new Point(0, 0), null);
+            Assert.IsNotNull(rectangle.P2);
 
-        /* Exercise 3E */
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Rectangle> _rectangle = test.CreateVariable<Rectangle>(nameof(_rectangle));
+            test.Arrange(_rectangle, Expr(() => new Rectangle(new Point(0, 0), null)));
+            test.Assert.IsNotNull(Expr(_rectangle, r => r.P2));
+            test.Execute();
+        }
+        #endregion
+
+        #region Exercise 3E
         [TestMethod("a. Circle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
         public void CircleCalculateAreaReturnsExpectedOutput()
         {
-            double r = 42.3;
-            Circle instance = CreateCircle(radius: r);
-            double actualArea = circleCalculateArea.Invoke(instance);
-            double expectedArea = Math.Pow(r, 2) * Math.PI;
-
-            if (Math.Abs(actualArea - expectedArea) > 0.3)
-            {
-                string message = string.Format(
-                    "Circle.CalculateArea() returns {0} instead of {1} for Radius = {2}",
-                    actualArea,
-                    expectedArea,
-                    r
-                );
-                throw new AssertFailedException(message);
-            }
+            double expectedValue = 42.3 * 42.3 * Math.PI;
+            
+            Circle circle = new Circle(new Point(0, 0), 42.3);
+            Assert.AreEqual(circle.CalculateArea(), expectedValue, 0.001);
+            
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Circle> _circle = test.CreateVariable<Circle>(nameof(_circle));
+            test.Arrange(_circle, Expr(() => new Circle(new Point(0, 0), 42.3)));
+            test.Assert.AreEqual(Expr(_circle, c => c.CalculateArea()), Const(expectedValue), 0.001);
+            test.Execute();
         }
 
         [TestMethod("b. Circle.Contains(Point p) returns true for point within circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnTrueForPointWithinCircle()
         {
-            Circle circle = CreateCircle(CreatePoint(2, 3), 1);
+            Circle circle = new Circle(new Point(2, 3), 1);
+            Assert.IsTrue(circle.Contains(new Point(2.5, 3)));
 
-            if (!circleContains.Invoke(circle, CreatePoint(2.5, 3)))
-            {
-                string message = string.Format(
-                    "Circle.Contains(Point p) returns false instead if true for Center = (2, 3), Radius = 1 & p = (2.5, 3)"
-                );
-                throw new AssertFailedException(message);
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Circle> _circle = test.CreateVariable<Circle>(nameof(_circle));
+            test.Arrange(_circle, Expr(() => new Circle(new Point(2, 3), 1)));
+            test.Assert.IsTrue(Expr(_circle, c => c.Contains(new Point(2.5, 3))));
+            test.Execute();
         }
 
         [TestMethod("c. Circle.Contains(Point p) returns true for point on perimeter of circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnTrueForPointOnPerimeterOfCircle()
         {
-            Circle circle = CreateCircle(CreatePoint(2, 3), 1);
+            Circle circle = new Circle(new Point(2, 3), 1);
+            Assert.IsTrue(circle.Contains(new Point(3, 3)));
 
-            if (!circleContains.Invoke(circle, CreatePoint(3, 3)))
-            {
-                string message = string.Format(
-                    "Circle.Contains(Point p) returns false instead if true for Center = (2, 3), Radius = 1 & p = (3, 3)"
-                );
-                throw new AssertFailedException(message);
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Circle> _circle = test.CreateVariable<Circle>(nameof(_circle));
+            test.Arrange(_circle, Expr(() => new Circle(new Point(2, 3), 1)));
+            test.Assert.IsTrue(Expr(_circle, c => c.Contains(new Point(3, 3))));
+            test.Execute();
         }
         
         [TestMethod("d. Circle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
         public void CircleContainsReturnFalseForPointOutsideOfCircle()
         {
-            Circle circle = CreateCircle(CreatePoint(2, 3), 1);
+            Circle circle = new Circle(new Point(2, 3), 1);
+            Assert.IsFalse(circle.Contains(new Point(4, 3)));
 
-            if (circleContains.Invoke(circle, CreatePoint(4, 3)))
-            {
-                string message = string.Format(
-                    "Circle.Contains(Point p) returns false instead if true for Center = (2, 3), Radius = 1 & p = (4, 3)"
-                );
-                throw new AssertFailedException(message);
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Circle> _circle = test.CreateVariable<Circle>(nameof(_circle));
+            test.Arrange(_circle, Expr(() => new Circle(new Point(2, 3), 1)));
+            test.Assert.IsFalse(Expr(_circle, c => c.Contains(new Point(4, 3))));
+            test.Execute();
         }
 
         [TestMethod("e. Rectangle.CalculateArea() returns expected output"), TestCategory("Exercise 3E")]
         public void RectangleCalculateAreaReturnsExpectedOutput()
         {
-            Rectangle instance = CreateRectangle(CreatePoint(0, 0), CreatePoint(2, 3));
-            double actualArea = rectangleCalculateArea.Invoke(instance);
-            double expectedArea = 2 * 3;
+            Rectangle rectangle = new Rectangle(new Point(0, 0), new Point(2, 3));
+            Assert.AreEqual(rectangle.CalculateArea(), 6, 0.001);
 
-            if (actualArea != expectedArea)
-            {
-                string message = string.Format(
-                    "Rectangle.CalculateArea() returns {0} instead of {1} for P1 = (0, 0) & P2 = (2, 3)",
-                    actualArea,
-                    expectedArea
-                );
-                throw new AssertFailedException(message);
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Rectangle> _rectangle = test.CreateVariable<Rectangle>(nameof(_rectangle));
+            test.Arrange(_rectangle, Expr(() => new Rectangle(new Point(0, 0), new Point(2, 3))));
+            test.Assert.AreEqual(Expr(_rectangle, r => r.CalculateArea()), Const(6.0), 0.001);
+            test.Execute();
         }
 
         [TestMethod("f. Rectangle.Contains(Point p) returns true for point within rectangle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnTrueForPointWithinRectangle()
         {
-            Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));
+            Rectangle rectangle = new Rectangle(new Point(2, 3), new Point(3, 5));
+            Assert.IsTrue(rectangle.Contains(new Point(2.5, 3)));
 
-            if (!rectangleContains.Invoke(rect, CreatePoint(2.5, 3)))
-            {
-                string message = string.Format(
-                    "Rectangle.Contains(Point p) returns false instead if true for P1 = (2, 3), P2 = (3, 5) & p = (2.5, 3)"
-                );
-                throw new AssertFailedException(message);
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Rectangle> _rectangle = test.CreateVariable<Rectangle>(nameof(_rectangle));
+            test.Arrange(_rectangle, Expr(() => new Rectangle(new Point(2, 3), new Point(3, 5))));
+            test.Assert.IsTrue(Expr(_rectangle, r => r.Contains(new Point(2.5, 3))));
+            test.Execute();
         }
 
         [TestMethod("g. Rectangle.Contains(Point p) returns true for point on perimeter of rectangle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnTrueForPointOnPerimeterOfRectangle()
         {
-            Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));
+            Rectangle rectangle = new Rectangle(new Point(2, 3), new Point(3, 5));
+            Assert.IsTrue(rectangle.Contains(new Point(3, 3)));
 
-            if (!rectangleContains.Invoke(rect, CreatePoint(3, 3)))
-            {
-                string message = string.Format(
-                    "Rectangle.Contains(Point p) returns false instead if true for P1 = (2, 3), P2 = (3, 5) & p = (3, 3)"
-                );
-                throw new AssertFailedException(message);
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Rectangle> _rectangle = test.CreateVariable<Rectangle>(nameof(_rectangle));
+            test.Arrange(_rectangle, Expr(() => new Rectangle(new Point(2, 3), new Point(3, 5))));
+            test.Assert.IsTrue(Expr(_rectangle, r => r.Contains(new Point(3, 3))));
+            test.Execute();
         }
 
         [TestMethod("h. Rectangle.Contains(Point p) returns false for point outside of circle"), TestCategory("Exercise 3E")]
         public void RectangleContainsReturnFalseForPointOutsideOfRectangle()
         {
-            Rectangle rect = CreateRectangle(CreatePoint(2, 3), CreatePoint(3, 5));
+            Rectangle rectangle = new Rectangle(new Point(2, 3), new Point(3, 5));
+            Assert.IsFalse(rectangle.Contains(new Point(4, 3)));
 
-            if (rectangleContains.Invoke(rect, CreatePoint(4, 3)))
-            {
-                string message = string.Format(
-                    "Circle.Contains(Point p) returns false instead if true for P1 = (2, 3), P2 = (3, 5) & p = (4, 3)"
-                );
-                throw new AssertFailedException(message);
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Rectangle> _rectangle = test.CreateVariable<Rectangle>(nameof(_rectangle));
+            test.Arrange(_rectangle, Expr(() => new Rectangle(new Point(2, 3), new Point(3, 5))));
+            test.Assert.IsFalse(Expr(_rectangle, r => r.Contains(new Point(4, 3))));
+            test.Execute();
         }
+        #endregion
     }
 }

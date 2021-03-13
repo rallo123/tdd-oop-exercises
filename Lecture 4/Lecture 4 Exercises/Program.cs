@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lecture_3
+namespace Lecture_4
 {
     public class Program
     {

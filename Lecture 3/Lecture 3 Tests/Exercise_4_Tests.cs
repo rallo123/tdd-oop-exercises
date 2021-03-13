@@ -1,72 +1,52 @@
-﻿using Lecture_3;
+﻿using Lecture_3_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestTools.Unit;
+using TestTools;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
+using static Lecture_3_Tests.TestHelper;
+using static TestTools.Unit.TestExpression;
 
 namespace Lecture_3_Tests
 {
     [TestClass]
     public class Exercise_4_Tests
     {
-#pragma warning disable IDE1006 // Naming Stylesw
-
-        private ClassElement<Employee> employee => new ClassElement<Employee>();
-        private PropertyElement<Employee, string> employeeTitle => employee.Property<string>(new PropertyOptions("Title") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<Employee, string> employeeToString => employee.FuncMethod<string>(new MethodOptions("ToString") { IsPublic = true });
-        private Employee CreateEmployee(string name, string title)
-        {
-            Employee instance = employee.Constructor<string>(new ConstructorOptions()).Invoke(name);
-            employeeTitle.Set(instance, title);
-            return instance;
-        }
-
-        private ClassElement<Manager> manager => new ClassElement<Manager>(new ClassOptions() { BaseType = typeof(Employee) });
-        private PropertyElement<Manager, string> managerTitle => manager.Property<string>(new PropertyOptions("Title") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<Manager, string> managerToString => manager.FuncMethod<string>(new MethodOptions("ToString") { IsPublic = true });
-
-        private Manager CreateManager(string name, string title)
-        {
-            Manager instance = manager.Constructor<string>(new ConstructorOptions()).Invoke(name);
-            managerTitle.Set(instance, title);
-            return instance;
-        }
-#pragma warning restore IDE1006 // Naming Styles
-
-
-        /* Exercise 4A */
+        #region Exercise 4A
         [TestMethod("a. Employee.ToString() returns expected output"), TestCategory("Exercise 4A")]
         public void EmployeeToStringReturnsExpectedOutput()
         {
-            string actual = employeeToString.Invoke(CreateEmployee("Joe Stevens", "Programmer"));
-            string expected = "Employee Joe Stevens (Programmer)";
-
-            if (actual == expected)
+            Employee employee = new Employee("Joe Stevens")
             {
-                string message = string.Format(
-                    "Employee.ToString() returns \"{0}\" instead of \"{1}\"",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
-        }
+                Title = "Programmer"
+            };
+            Assert.AreEqual(employee.ToString(), "Employee Joe Stevens (Programmer)");
 
-        /* Exercise 4B */
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
+            test.Arrange(_employee, Expr(() => new Employee("Joe Stevens") { Title = "Programmer" }));
+            test.Assert.AreEqual(Expr(_employee, e => e.ToString()), Const("Employee Joe Stevens (Programmer)"));
+            test.Execute();
+        }
+        #endregion
+
+        #region Exercise 4B
         [TestMethod("a. Manager.ToString() returns expected output"), TestCategory("Exercise 4B")]
         public void ManagerToStringReturnsExpectedOutput()
         {
-            string actual = managerToString.Invoke(CreateManager("Mary Stevens", "Software Engineer"));
-            string expected = "Manager Mary Stevens (Software Engineer)";
-
-            if (actual == expected)
+            Manager manager = new Manager("Mary Stevens")
             {
-                string message = string.Format(
-                    "Manager.ToString() returns \"{0}\" instead of \"{1}\"",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+                Title = "Software Engineer"
+            };
+            Assert.AreEqual(manager.ToString(), "Manager Mary Stevens (Software Engineer)");
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Manager> _manager = test.CreateVariable<Manager>(nameof(_manager));
+            test.Arrange(_manager, Expr(() => new Manager("Mary Stevens") { Title = "Software Engineer" }));
+            test.Assert.AreEqual(Expr(_manager, m => m.ToString()), Const("Manager Mary Stevens (Software Engineer)"));
+            test.Execute();
         }
+        #endregion
     }
 }

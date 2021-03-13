@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestTools.Syntax;
 
 namespace Lecture_3_Solutions
 {
@@ -64,5 +65,12 @@ namespace Lecture_3_Solutions
             if (Balance < 0)
                 Balance -= Balance + BorrowingRate;
         }
+
+        // TestTools Code
+        [PropertySet("BorrowingRate")]
+        public void SetBorrowingRate(decimal value) => BorrowingRate = value;
+
+        [PropertySet("SavingsRate")]
+        public void SetSavingsRate(decimal value) => SavingsRate = value;
     }
 }

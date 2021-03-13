@@ -1,113 +1,86 @@
-﻿using Lecture_4;
+﻿using Lecture_4_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
+using TestTools.Unit;
+using static Lecture_4_Tests.TestHelper;
+using static TestTools.Unit.TestExpression;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_4_Tests
 {
     [TestClass]
     public class Exercise_7_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
-        private ClassElement<NotOldEnoughException> notOldEnoughException => new ClassElement<NotOldEnoughException>(new ClassOptions() { BaseType = typeof(Exception) });
-        private PropertyElement<NotOldEnoughException, string> notOldEnoughExceptionMessage => notOldEnoughException.Property<string>(new PropertyOptions("Message") { GetMethod = new MethodOptions() { IsPublic = true } });
-
-        private ClassElement<Person> person => new ClassElement<Person>();
-        private PropertyElement<Person, double> personHeight => person.Property<double>(new PropertyOptions("Height") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Person, double> personWeight => person.Property<double>(new PropertyOptions("Weight") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private PropertyElement<Person, int> personAge => person.Property<int>(new PropertyOptions("Age") { GetMethod = new MethodOptions() { IsPublic = true }, SetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<Person, double> personCalculateBMI => person.FuncMethod<double>(new MethodOptions("CalculateBMI") { IsPublic = true });
-
-
-        private Person CreatePerson(string name = "Allan", double? height = null, double? weight = null, int? age = null)
+        #region Exercise 7A
+        [TestMethod("a. NotOldEnoughException's base class is Exception"), TestCategory("Exercise 7A")]
+        public void NotOldEnoughExceptionIsSubclassOfException()
         {
-            Person instance = person.Constructor<string>(new ConstructorOptions()).Invoke(name);
-
-            if (height != null)
-                personHeight.Set(instance, height);
-            if (weight != null)
-                personWeight.Set(instance, weight);
-            if (age != null)
-                personAge.Set(instance, age);
-
-            return instance;
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertClass<NotOldEnoughException>(new TypeBaseClassVerifier(typeof(Exception)));
+            test.Execute();
         }
+        #endregion
 
-        private void DoNothing(object par) { }
-#pragma warning restore IDE1006 // Naming Styles
-
-        /* Exercise 7A */
-        [TestMethod("a. NotOldEnoughException is subclass of Exception"), TestCategory("Exercise 7A")]
-        public void NotOldEnoughExceptionIsSubclassOfException() => DoNothing(notOldEnoughException);
-
-        /* Exercise 7B */
+        #region Exercise 7B
         [TestMethod("a. NotOldEnoughException() results in Message = \"Person is too young\""), TestCategory("Exercise 7B")]
         public void ParameterlessPersonConstructorAssignsMessageProperty()
         {
-            NotOldEnoughException exception = notOldEnoughException.Constructor(new ConstructorOptions()).Invoke();
+            NotOldEnoughException exception = new NotOldEnoughException();
+            Assert.AreEqual(exception.Message, "Person is too young");
 
-            string expected = "Person is too young";
-            string actual = notOldEnoughExceptionMessage.Get(exception);
-
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "NotOldEnoughException.Message is \"{0}\" instead of \"{1}\" after construction by NotOldEnoughException()",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<NotOldEnoughException> _exception = test.CreateVariable<NotOldEnoughException>();
+            test.Arrange(_exception, Expr(() => new NotOldEnoughException()));
+            test.Assert.AreEqual(Expr(_exception, e => e.Message), Const("Person is too young"));
+            test.Execute();
         }
+        #endregion
 
-        /* Exercise 7C */
+        #region Exercise 7C
         [TestMethod("d. NotOldEnoughException(string activity) results in Message = \"Person is too young to [activity]\""), TestCategory("Exercise 7C")]
         public void PersonConstructorAssignsMessageProperty()
         {
-            NotOldEnoughException exception = notOldEnoughException.Constructor<string>(new ConstructorOptions()).Invoke("do something");
+            NotOldEnoughException exception = new NotOldEnoughException("do something");
+            Assert.AreEqual(exception.Message, "Person is too young to do something");
 
-            string expected = "Person is too young to do something";
-            string actual = notOldEnoughExceptionMessage.Get(exception);
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<NotOldEnoughException> _exception = test.CreateVariable<NotOldEnoughException>();
+            test.Arrange(_exception, Expr(() => new NotOldEnoughException("do something")));
+            test.Assert.AreEqual(Expr(_exception, e => e.Message), Const("Person is too young to do something"));
+            test.Execute();
+        }
+        #endregion
 
-            if (actual != expected)
-            {
-                string message = string.Format(
-                    "NotOldEnoughException.Message is \"{0}\" instead of \"{1}\" after construction by NotOldEnoughException(\"do activity\")",
-                    actual,
-                    expected
-                );
-                throw new AssertFailedException(message);
-            }
+        #region Exercise 7D
+        [TestMethod("a. Person.Age is public int property"), TestCategory("Exercise 7D")]
+        public void PersonAgeIsPublicIntProperty()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicProperty<Person, int>(p => p.Age);
+            test.Execute();
         }
 
-        /* Exercise 7D */
-        [TestMethod("a. Person.Age is public int property"), TestCategory("Exercise 7D")]
-        public void PersonAgeIsPublicIntProperty() => DoNothing(personAge);
-
-        [TestMethod("b. Person.CalculateBMI() throws NotOldEnoughException for Height = 1.80, Weight = 80.0 & Age = 15"), TestCategory("Exercise 7D")]
+        [TestMethod("b. Person.CalculateBMI() throws NotOldEnoughException for Age = 15"), TestCategory("Exercise 7D")]
         public void PersonCalculateBMIThrowsNotOldEnoughException()
         {
-            Person person = CreatePerson(height: 1.80, weight: 80.0, age: 15);
+            Person person = new Person("abc")
+            {
+                Age = 15
+            };
+            Assert.ThrowsException<NotOldEnoughException>(() => person.CalculateBMI());
 
-            try
-            {
-                personCalculateBMI.Invoke(person);
-                throw new AssertFailedException("Person.CalculateBMI() does not throw on Height = 1.80, Weight = 80.0 & Age = 15");
-            }
-            catch (AssertFailedException ex)
-            {
-                if (ex.InnerException == null)
-                    throw ex;
-                if (ex.InnerException.GetType() != typeof(NotOldEnoughException))
-                {
-                    string message = string.Format(
-                        "Person.CalculateBMI() does not throws {0} instead of {1} on Height = 1.80, Weight = 80.0 & Age = 15",
-                        ex.InnerException.GetType().Name,
-                        "NotOldEnoughException"
-                    );
-                }
-            }
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Person> _person = test.CreateVariable<Person>();
+            test.Arrange(_person, Expr(() => new Person("abc") {  Age = 15 }));
+            test.Assert.ThrowsExceptionOn<NotOldEnoughException>(Expr(_person, p => p.CalculateBMI()));
+            test.Execute();
         }
+        #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestTools.Syntax;
 
 namespace Lecture_3_Solutions
 {
@@ -31,5 +32,9 @@ namespace Lecture_3_Solutions
         {
             return $"Manager {Name} ({Title})";
         }
+
+        // TestTools Code
+        [PropertySet("Bonus")]
+        public void SetBonus(decimal value) => Bonus = value; 
     }
 }

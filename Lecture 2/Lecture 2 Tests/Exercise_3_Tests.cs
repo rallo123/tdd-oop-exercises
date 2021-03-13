@@ -1,79 +1,146 @@
-﻿using Lecture_2;
+﻿using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestTools;
+using TestTools.Unit;
 using TestTools.Structure;
-using TestTools.Structure.Generic;
+using static TestTools.Unit.TestExpression;
+using static Lecture_2_Tests.TestHelper;
+using static TestTools.Helpers.StructureHelper;
 
 namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_3_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
-        private ClassElement<ImmutableNumber> immutableNumber => new ClassElement<ImmutableNumber>();
-        private PropertyElement<ImmutableNumber, int> immutableNumberValue => immutableNumber.Property<int>(new PropertyOptions("Value") { GetMethod = new MethodOptions() { IsPublic = true } });
-        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberAdd => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>(new MethodOptions("Add"));
-        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberSubtract => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>(new MethodOptions("Subtract"));
-        private FuncMethodElement<ImmutableNumber, ImmutableNumber, ImmutableNumber> immutableNumberMultiply => immutableNumber.FuncMethod<ImmutableNumber, ImmutableNumber>(new MethodOptions("Multiply"));
-        private ImmutableNumber CreateImmutableNumber(int value) => immutableNumber.Constructor<int>(new ConstructorOptions()).Invoke(value);
-
-        private void DoNothing(object par) { }
-        private void TestImmutableNumberOperation(Func<ImmutableNumber, ImmutableNumber, ImmutableNumber> operation, int op1, int op2, int expectedResult, string symbol = "?")
-        {
-            ImmutableNumber n1 = CreateImmutableNumber(op1);
-            ImmutableNumber n2 = CreateImmutableNumber(op2);
-
-            int actualResult = immutableNumberValue.Get(operation(n1, n2));
-
-            if (actualResult != expectedResult)
-                Assert.Fail($"Produces unexpected result, {op1} {symbol} {op2} = {actualResult}");
-        }
-#pragma warning restore IDE1006 // Naming Styles
-
-        public Exercise_3_Tests()
-        {
-            bool ImmutableNumberEquals(object obj1, object obj2) => immutableNumberValue.Get(obj1).Equals(immutableNumberValue.Get(obj2));
-            string ImmutableNumberToString(object obj) => $"immutable number {immutableNumberValue.Get(obj)}";
-
-            ObjectMethodRegistry.RegisterEquals(immutableNumber.Type, ImmutableNumberEquals);
-            ObjectMethodRegistry.RegisterToString(immutableNumber.Type, ImmutableNumberToString);
-        }
-
-        /* Exercise 3A */
+        #region Exercise 3A
         [TestMethod("a. ImmutableNumber.Value is public readonly int property"), TestCategory("Exercise 3A")]
-        public void ValueIsPublicReadonlyProperty() => DoNothing(immutableNumberValue);
+        public void ValueIsPublicReadonlyProperty()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicReadonlyProperty<ImmutableNumber, int>(n => n.Value);
+            test.Execute();
+        }
+        #endregion
 
-        /* Exercise 3B */
+        #region Exercise 3B
         [TestMethod("a. ImmutableNumber.Number constructor takes int as argument"), TestCategory("Exercise 3B")]
-        public void ImmutableNumberConstructorTakesIntAsArgument() => DoNothing(CreateImmutableNumber(0));
+        public void ImmutableNumberConstructorTakesIntAsArgument() 
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicConstructor<int, ImmutableNumber>(i => new ImmutableNumber(i));
+            test.Execute();
+        }
 
         [TestMethod("b. ImmutableNumber constructor with int as argument sets value property"), TestCategory("Exercise 3B")]
         public void ImmutableNumberConstructorWithIntAsArgumentSetsValueProperty()
         {
-            ImmutableNumber n = CreateImmutableNumber(2);
+            ImmutableNumber number = new ImmutableNumber(2);
+            Assert.AreEqual(number.Value, 2);
 
-            if (immutableNumberValue.Get(n) != 2)
-                Assert.Fail("ImmutableNumber constructor ImmutableNumber(int par) does not set value");
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<ImmutableNumber> _number = test.CreateVariable<ImmutableNumber>(nameof(_number));
+            test.Arrange(_number, Expr(() => new ImmutableNumber(2)));
+            test.Assert.AreEqual(Expr(_number, n => n.Value), Const(2));
+            test.Execute();
+        }
+        #endregion
+
+        #region Exercise 2C
+        [TestMethod("a. ImmutableNumber.Add takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
+        public void AddTakesImmutableNumberAsArgumentAndReturnsImmutableNumber()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Add(n2));
+            test.Execute();
         }
 
-        /* Exercise 2C*/
-        [TestMethod("a. ImmutableNumber.Add takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void AddTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberAdd);
-
         [TestMethod("b. ImmutableNumber.Add performs 1 + 2 = 3"), TestCategory("Exercise 3C")]
-        public void AddProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberAdd.Invoke(n1, n2), 1, 2, 3, symbol: "+");
+        public void AddProducesExpectedResult() 
+        {
+            ImmutableNumber number1 = new ImmutableNumber(1);
+            ImmutableNumber number2 = new ImmutableNumber(2);
+
+            ImmutableNumber number3 = number1.Add(number2);
+
+            Assert.AreEqual(number3.Value, 3);
+            
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<ImmutableNumber> _number1 = test.CreateVariable<ImmutableNumber>(nameof(_number1));
+            TestVariable<ImmutableNumber> _number2 = test.CreateVariable<ImmutableNumber>(nameof(_number2));
+            TestVariable<ImmutableNumber> _number3 = test.CreateVariable<ImmutableNumber>(nameof(_number3));
+            test.Arrange(_number1, Expr(() => new ImmutableNumber(1)));
+            test.Arrange(_number2, Expr(() => new ImmutableNumber(2)));
+            test.Arrange(_number3, Expr(_number1, _number2, (n1, n2) => n1.Add(n2)));
+            test.Assert.AreEqual(Expr(_number3, n => n.Value), Const(3));
+            test.Execute();
+        }
 
         [TestMethod("c. ImmutableNumber.Subtract takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void SubtractTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberSubtract);
+        public void SubtractTakesImmutableNumberAsArgumentAndReturnsImmutableNumber() 
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Subtract(n2));
+            test.Execute();
+        }
 
         [TestMethod("d. ImmutableNumber.Subtract performs 8 - 3 = 5"), TestCategory("Exercise 3C")]
-        public void SubstractProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberSubtract.Invoke(n1, n2), 8, 3, 5, symbol: "-");
+        public void SubstractProducesExpectedResult() 
+        {
+            ImmutableNumber number1 = new ImmutableNumber(8);
+            ImmutableNumber number2 = new ImmutableNumber(3);
+
+            ImmutableNumber number3 = number1.Subtract(number2);
+
+            Assert.AreEqual(number3.Value, 5);
+            
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<ImmutableNumber> _number1 = test.CreateVariable<ImmutableNumber>(nameof(_number1));
+            TestVariable<ImmutableNumber> _number2 = test.CreateVariable<ImmutableNumber>(nameof(_number2));
+            TestVariable<ImmutableNumber> _number3 = test.CreateVariable<ImmutableNumber>(nameof(_number3));
+            test.Arrange(_number1, Expr(() => new ImmutableNumber(8)));
+            test.Arrange(_number2, Expr(() => new ImmutableNumber(3)));
+            test.Arrange(_number3, Expr(_number1, _number2, (n1, n2) => n1.Subtract(n2)));
+            test.Assert.AreEqual(Expr(_number3, n => n.Value), Const(5));
+            test.Execute();
+        }
 
         [TestMethod("e. ImmutableNumber.Multiply takes ImmutableNumber as argument and returns ImmutableNumber"), TestCategory("Exercise 3C")]
-        public void MultiplyTakesImmutableAsArgumentAndReturnsNothing() => DoNothing(immutableNumberMultiply);
+        public void MultiplyTakesImmutableAsArgumentAndReturnsNothing()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicMethod<ImmutableNumber, ImmutableNumber, ImmutableNumber>((n1, n2) => n1.Multiply(n2));
+            test.Execute();
+        }
 
         [TestMethod("f. ImmutableNumber.Multiply performs 2 * 3 = 6"), TestCategory("Exercise 3C")]
-        public void MultiplyProducesExpectedResult() => TestImmutableNumberOperation((n1, n2) => immutableNumberMultiply.Invoke(n1, n2), 2, 3, 6, symbol: "*");
+        public void MultiplyProducesExpectedResult() {
+            ImmutableNumber number1 = new ImmutableNumber(2);
+            ImmutableNumber number2 = new ImmutableNumber(3);
+
+            ImmutableNumber number3 = number1.Multiply(number2);
+
+            Assert.AreEqual(number3.Value, 6);
+            
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<ImmutableNumber> _number1 = test.CreateVariable<ImmutableNumber>(nameof(_number1));
+            TestVariable<ImmutableNumber> _number2 = test.CreateVariable<ImmutableNumber>(nameof(_number2));
+            TestVariable<ImmutableNumber> _number3 = test.CreateVariable<ImmutableNumber>(nameof(_number3));
+            test.Arrange(_number1, Expr(() => new ImmutableNumber(2)));
+            test.Arrange(_number2, Expr(() => new ImmutableNumber(3)));
+            test.Arrange(_number3, Expr(_number1, _number2, (n1, n2) => n1.Multiply(n2)));
+            test.Assert.AreEqual(Expr(_number3, n => n.Value), Const(6));
+            test.Execute();
+        }
+        #endregion
     }
 }
