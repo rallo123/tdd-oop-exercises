@@ -53,6 +53,7 @@ namespace Lecture_6_Tests
         [TestMethod("b. CarListSorter.Sort does not sort array if Comparer = null"), TestCategory("5B")]
         public void CarListSorterSortDoesNotSort()
         {
+            // FAILS AT THE MOMENT AND MORE WORK IS NEEDED ON THIS
             CarSorter sorter = new CarSorter();
             Car[] carsBefore = new Car[]
             {
@@ -93,6 +94,7 @@ namespace Lecture_6_Tests
         [TestMethod("c. CarListSorter.Sort sorts according to price if Comparer = new CarPriceComparer()"), TestCategory("5B")]
         public void CarListSorterSorts()
         {
+            // FAILS AT THE MOMENT AND MORE WORK IS NEEDED ON THIS
             CarSorter sorter = new CarSorter() 
             {
                 Comparer = new CarPriceComparer()

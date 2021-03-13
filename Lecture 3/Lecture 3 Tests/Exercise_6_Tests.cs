@@ -28,6 +28,7 @@ namespace Lecture_3_Tests
         [TestMethod("FileExplorer.PrintDirectory(DirectoryInfo info) prints correct output"), TestCategory("Exercise 6A")]
         public void FileExplorerPrintDirectoryPrintsCorrectOutput()
         {
+            // FAILS DUE TO AN UNKNOWN REASON
             DirectoryInfo directoryInfo = new DirectoryInfo("../../../");
             FileExplorer explorer = new FileExplorer();
 

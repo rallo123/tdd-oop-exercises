@@ -7,27 +7,31 @@ namespace Lecture_6_Solutions
 {
     public class TextFile : IDisposable
     {
-        FileStream stream;
+        bool _isDisposed = false;
+        StreamReader _reader;
 
         public TextFile(string path)
         {
-            stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            _reader = new StreamReader(stream, Encoding.UTF8);
         }
 
         public string Content
         {
             get
             {
-                using var sr = new StreamReader(stream, Encoding.UTF8);
-                return sr.ReadToEnd();
+                if (!_isDisposed)
+                {
+                    return _reader.ReadToEnd();
+                }
+                return null;
             }
         }
 
         public void Dispose()
         {
-            stream.Flush();
-            stream.Close();
-            stream.Dispose();
+            _reader.Dispose();
+            _isDisposed = true;
         }
     }
 }

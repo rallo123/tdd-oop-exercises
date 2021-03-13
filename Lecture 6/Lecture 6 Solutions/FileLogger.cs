@@ -11,7 +11,7 @@ namespace Lecture_6_Solutions
 
         public FileLogger(string path)
         {
-            stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            stream = new FileStream(path, FileMode.Append, FileAccess.Write);
         }
 
         public void Log(string message)

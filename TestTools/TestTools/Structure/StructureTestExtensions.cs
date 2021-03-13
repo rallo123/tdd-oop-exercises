@@ -22,7 +22,7 @@ namespace TestTools.Structure
 
         public static void AssertAbstractClass<T>(this StructureTest test)
         {
-            test.AssertClass<T>(new TypeIsStaticVerifier(true));
+            test.AssertClass<T>(new TypeIsAbstractVerifier(true));
         }
 
         public static void AssertPublicClass<T>(this StructureTest test)

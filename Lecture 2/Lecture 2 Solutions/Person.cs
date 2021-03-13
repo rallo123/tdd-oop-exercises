@@ -7,8 +7,8 @@ namespace Lecture_2_Solutions
 {
     public class Person
     {
-        private string _firstName;
-        private string _lastName;
+        private string _firstName = "Unknown";
+        private string _lastName = "Unknown";
         private int _age;
         private Person _mother;
         private Person _father;

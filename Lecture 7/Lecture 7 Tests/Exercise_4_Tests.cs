@@ -63,7 +63,7 @@ namespace Lecture_7_Tests
             repository.Add(new Dog());
             repository.Add(new Dog());
 
-            Assert.AreEqual(repository.GetAll().Count, 1);
+            Assert.AreEqual(repository.GetAll().Count, 2);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();

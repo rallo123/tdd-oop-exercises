@@ -26,14 +26,32 @@ namespace TestTools.Structure
         internal void FailMemberNotFound(Type targetType, string[] vs)
         {
             if (vs.Length == 1)
-                throw new AssertFailedException($"Target {targetType} does not contain member ${vs[0]}");
+                throw new AssertFailedException($"{targetType} does not contain member {vs[0]}");
             else throw new NotImplementedException();
+        }
+
+        internal void FailMethodNotFound(Type targetType, MethodInfo methodInfo)
+        {
+            string message = string.Format(
+                "{0} does not contain member {1}",
+                FormatHelper.FormatType(targetType),
+                FormatHelper.FormatMethod(methodInfo));
+            throw new InvalidStructureException(message);
+        }
+
+        internal void FailConstructorNotFound(Type targetType, ConstructorInfo constructorInfo)
+        {
+            string message = string.Format(
+                "{0} does not contain member {1}",
+                FormatHelper.FormatType(targetType),
+                FormatHelper.FormatConstructor(constructorInfo));
+            throw new InvalidStructureException(message);
         }
 
         internal void FailTypeNotFound(string @namespace, string[] name)
         {
             if (name.Length == 1)
-                throw new AssertFailedException($"Namespace {@namespace} does not contain type ${name[0]}");
+                throw new AssertFailedException($"Namespace {@namespace} does not contain type {name[0]}");
             else throw new NotImplementedException();
         }
 
@@ -376,9 +394,7 @@ namespace TestTools.Structure
 
         public virtual void VerifyIsStatic(Type type, bool isStatic)
         {
-            bool typeIsStatic = type.IsAbstract && type.IsSealed;
-            
-            if (typeIsStatic == isStatic)
+            if (type.IsStatic() == isStatic)
                 return;
 
             string template = isStatic ? "{0} must be static" : "{0} cannot be static";
@@ -478,7 +494,7 @@ namespace TestTools.Structure
         {
             string template, message;
 
-            if (GetMethod && propertyInfo.GetMethod.IsAbstract != isVirtual)
+            if (GetMethod && propertyInfo.GetMethod.IsVirtual != isVirtual)
             {
                 template = isVirtual ? "{0}.{1} get accessor must be virtual" : "{0}.{1} get accessor cannot be virtual";
                 message = string.Format(
@@ -488,7 +504,7 @@ namespace TestTools.Structure
 
                 throw new InvalidStructureException(message);
             }
-            else if (SetMethod && propertyInfo.SetMethod.IsAbstract != isVirtual)
+            else if (SetMethod && propertyInfo.SetMethod.IsVirtual != isVirtual)
             {
                 template = isVirtual ? "{0}.{1} set accessor must be virtual" : "{0}.{1} set accessor cannot be virtual";
                 message = string.Format(

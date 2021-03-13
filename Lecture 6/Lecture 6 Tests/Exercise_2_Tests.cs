@@ -87,7 +87,7 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car = test.CreateVariable<Car>();
             test.Arrange(_car, Expr(() => new Car("", "", 0.0M)));
-            test.Assert.IsTrue(Expr(_car, c => c.CompareTo(null) < 0));
+            test.Assert.IsTrue(Expr(_car, c => c.CompareTo(null) > 0));
             test.Execute();
         }
 
@@ -100,7 +100,7 @@ namespace Lecture_6_Tests
             TestVariable<Car> _car2 = test.CreateVariable<Car>();
             test.Arrange(_car1, Expr(() => new Car("", "", 0.0M)));
             test.Arrange(_car2, Expr(() => new Car("", "", 0.0M)));
-            test.Assert.IsTrue(Expr(_car1, _car2, (c1, c2) => c2.CompareTo(c1) < 0));
+            test.Assert.IsTrue(Expr(_car1, _car2, (c1, c2) => c2.CompareTo(c1) > 0));
             test.Execute();
         }
         #endregion
@@ -126,7 +126,7 @@ namespace Lecture_6_Tests
             TestVariable<CarPriceComparer> _comparer = test.CreateVariable<CarPriceComparer>();
             test.Arrange(_car, Expr(() => new Car("", "", 0.0M)));
             test.Arrange(_comparer, Expr(() => new CarPriceComparer()));
-            test.Assert.IsTrue(Expr(_comparer, _car, (c1, c2) => c1.Compare(c2, null) < 0));
+            test.Assert.IsTrue(Expr(_comparer, _car, (c1, c2) => c1.Compare(c2, null) > 0));
             test.Execute();
         }
 
@@ -140,6 +140,7 @@ namespace Lecture_6_Tests
             TestVariable<CarPriceComparer> _comparer = test.CreateVariable<CarPriceComparer>();
             test.Arrange(_car1, Expr(() => new Car("", "", 0.0M)));
             test.Arrange(_car2, Expr(() => new Car("", "", 1.0M)));
+            test.Arrange(_comparer, Expr(() => new CarPriceComparer()));
             test.Assert.IsTrue(Expr(_comparer, _car1, _car2, (c1, c2, c3) => c1.Compare(c2, c3) < 0));
             test.Execute();
         }
@@ -181,7 +182,7 @@ namespace Lecture_6_Tests
             TestVariable<CarMakeModelPriceComparer> _comparer = test.CreateVariable<CarMakeModelPriceComparer>();
             test.Arrange(_car, Expr(() => new Car("", "", 0.0M)));
             test.Arrange(_comparer, Expr(() => new CarMakeModelPriceComparer()));
-            test.Assert.IsTrue(Expr(_comparer, _car, (c1, c2) => c1.Compare(c2, null) < 0));
+            test.Assert.IsTrue(Expr(_comparer, _car, (c1, c2) => c1.Compare(c2, null) > 0));
             test.Execute();
         }
 
@@ -239,7 +240,7 @@ namespace Lecture_6_Tests
             TestVariable<Car> _car2 = test.CreateVariable<Car>();
             TestVariable<CarMakeModelPriceComparer> _comparer = test.CreateVariable<CarMakeModelPriceComparer>();
             test.Arrange(_car1, Expr(() => new Car("Audi", "A3", 0.0M)));
-            test.Arrange(_car2, Expr(() => new Car("BMW", "A3", 0.0M)));
+            test.Arrange(_car2, Expr(() => new Car("Audi", "A3", 0.0M)));
             test.Arrange(_comparer, Expr(() => new CarMakeModelPriceComparer()));
             test.Assert.IsTrue(Expr(_comparer, _car1, _car2, (c1, c2, c3) => c1.Compare(c2, c3) == 0));
             test.Execute();

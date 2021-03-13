@@ -40,8 +40,7 @@ namespace Lecture_6_Tests
         private void TestSetup()
         {
             IFileSystem fs = new FileSystem();
-            fs.File.Create("/file.txt");
-            fs.File.WriteAllText("/file.txt", "content of file");
+            fs.File.WriteAllText("./file.txt", "content of file");
         }
 
         [TestMethod("TestFile.Content reads file content correctly"), TestCategory("7B")]
@@ -49,7 +48,7 @@ namespace Lecture_6_Tests
         {
             TestSetup();
 
-            TextFile file = new TextFile("/file.txt");
+            TextFile file = new TextFile("./file.txt");
             Assert.AreEqual(file.Content, "content of file");
             file.Dispose();
 
@@ -57,7 +56,7 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<TextFile> _file = test.CreateVariable<TextFile>();
             TestSetup();
-            test.Arrange(_file, Expr(() => new TextFile("/file.txt")));
+            test.Arrange(_file, Expr(() => new TextFile("./file.txt")));
             test.Assert.IsTrue(Expr(_file, f => f.Content == "content of file"));
             test.Act(Expr(_file, f => f.Dispose()));
             test.Execute();
@@ -79,7 +78,7 @@ namespace Lecture_6_Tests
         {
             TestSetup();
 
-            TextFile file = new TextFile("/file.txt");
+            TextFile file = new TextFile("./file.txt");
 
             file.Dispose();
 
@@ -88,7 +87,7 @@ namespace Lecture_6_Tests
             // TestTool Code
             UnitTest test = Factory.CreateTest();
             TestVariable<TextFile> _file = test.CreateVariable<TextFile>();
-            test.Arrange(_file, Expr(() => new TextFile("/file.txt")));
+            test.Arrange(_file, Expr(() => new TextFile("./file.txt")));
             test.Act(Expr(_file, f => f.Dispose()));
             test.Assert.IsNull(Expr(_file, f => f.Content));
             test.Execute();

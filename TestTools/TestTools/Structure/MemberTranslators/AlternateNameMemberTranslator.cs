@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Linq;
+using TestTools.Helpers;
 
 namespace TestTools.Structure
 {
@@ -19,7 +20,7 @@ namespace TestTools.Structure
         {
             string[] names = _alternateNames.Union(new[] { member.Name }).ToArray();
 
-            IEnumerable<MemberInfo> members = TargetType.GetMembers().Where(m => names.Contains(m.Name));
+            IEnumerable<MemberInfo> members = TargetType.GetAllMembers().Where(m => names.Contains(m.Name));
 
             if (!members.Any())
                 Verifier.FailMemberNotFound(TargetType, names);
@@ -35,10 +36,9 @@ namespace TestTools.Structure
                     if (parameterTypes1.SequenceEqual(parameterTypes2))
                         return methodBase2;
                 }
+                throw new NotImplementedException();
             }
             return members.First();
-
-            throw new NotImplementedException();
         }
     }
 }

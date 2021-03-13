@@ -19,8 +19,11 @@ namespace TestTools.Structure
             {
                 Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Property });
 
-                Verifier.VerifyIsVirtual((PropertyInfo)translatedMember, originalProperty.GetMethod.IsVirtual, GetMethod: true);
-                Verifier.VerifyIsVirtual((PropertyInfo)translatedMember, originalProperty.SetMethod.IsVirtual, SetMethod: true);
+                if (originalProperty.CanRead)
+                    Verifier.VerifyIsVirtual((PropertyInfo)translatedMember, originalProperty.GetMethod.IsVirtual, GetMethod: true);
+
+                if (originalProperty.CanWrite)
+                    Verifier.VerifyIsVirtual((PropertyInfo)translatedMember, originalProperty.SetMethod.IsVirtual, SetMethod: true);
             }
             else if (translatedMember is MethodInfo originalMethod)
             {

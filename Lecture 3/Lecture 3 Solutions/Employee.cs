@@ -8,10 +8,10 @@ namespace Lecture_3_Solutions
 {
     public class Employee
     {
-        private string _name;
-        private string _jobTitle;
+        private string _name = "Unknown";
+        private string _jobTitle = "Unknown";
         private decimal _monthlySalary;
-        private int _seniority;
+        private int _seniority = 1;
 
         public Employee(string name) {
             Name = name;
@@ -32,7 +32,7 @@ namespace Lecture_3_Solutions
             get { return _jobTitle; }
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value))
                     _jobTitle = value;
             }
         }

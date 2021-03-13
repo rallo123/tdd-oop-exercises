@@ -73,6 +73,5 @@ namespace Lecture_7_Solutions
 
             return _data[StartPosition];
         }
-
     }
 }

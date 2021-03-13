@@ -50,7 +50,7 @@ namespace Lecture_4_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<NotOldEnoughException> _exception = test.CreateVariable<NotOldEnoughException>();
             test.Arrange(_exception, Expr(() => new NotOldEnoughException("do something")));
-            test.Assert.AreEqual(Expr(_exception, e => e.Message), Const("Person is too to do something"));
+            test.Assert.AreEqual(Expr(_exception, e => e.Message), Const("Person is too young to do something"));
             test.Execute();
         }
         #endregion

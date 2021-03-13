@@ -47,7 +47,7 @@ namespace TestTools.Structure
                 MemberVerificationAspect.ConstructorAccessLevel);
 
             MemberInfo memberInfo = _structureService.TranslateMember(node.Constructor);
-            return Expression.New((ConstructorInfo)memberInfo, node.Arguments);
+            return Expression.New((ConstructorInfo)memberInfo, node.Arguments.Select(Visit));
         }
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
@@ -64,8 +64,19 @@ namespace TestTools.Structure
                 MemberVerificationAspect.MethodIsVirtual,
                 MemberVerificationAspect.MethodAccessLevel);
 
-            MemberInfo memberInfo = _structureService.TranslateMember(node.Method);
-            return Expression.Call(Visit(node.Object), (MethodInfo)memberInfo, node.Arguments.Select(Visit));
+            MethodInfo methodInfo = (MethodInfo)_structureService.TranslateMember(node.Method);
+            IEnumerable<Expression> methodArgs = node.Arguments.Select(Visit);
+            
+            // Constructing generic methods need to be constructed based on argument types
+            if (methodInfo.IsGenericMethod && !methodInfo.IsConstructedGenericMethod)
+            {
+                List<Type> typeArgs = new List<Type>();
+                foreach (var methodArg in methodArgs)
+                    typeArgs.Add(methodArg.Type);
+                methodInfo = methodInfo.MakeGenericMethod(typeArgs.ToArray());
+            }
+
+            return Expression.Call(Visit(node.Object), methodInfo, methodArgs);
         }
 
         protected override Expression VisitMember(MemberExpression node)

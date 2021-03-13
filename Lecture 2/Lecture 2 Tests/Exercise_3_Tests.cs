@@ -137,7 +137,7 @@ namespace Lecture_2_Tests
             TestVariable<ImmutableNumber> _number3 = test.CreateVariable<ImmutableNumber>(nameof(_number3));
             test.Arrange(_number1, Expr(() => new ImmutableNumber(2)));
             test.Arrange(_number2, Expr(() => new ImmutableNumber(3)));
-            test.Arrange(_number3, Expr(_number1, _number2, (n1, n2) => n1.Add(n2)));
+            test.Arrange(_number3, Expr(_number1, _number2, (n1, n2) => n1.Multiply(n2)));
             test.Assert.AreEqual(Expr(_number3, n => n.Value), Const(6));
             test.Execute();
         }

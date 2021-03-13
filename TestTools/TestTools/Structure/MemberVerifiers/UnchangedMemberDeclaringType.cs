@@ -23,19 +23,22 @@ namespace TestTools.Structure
             }
             else if (originalMember is PropertyInfo originalProperty)
             {
-                Type type1 = Service.TranslateType(originalProperty.GetMethod.DeclaringType);
-                Type type2 = Service.TranslateType(originalProperty.SetMethod.DeclaringType);
+                Type type1 = originalProperty.CanRead ? Service.TranslateType(originalProperty.GetMethod.DeclaringType) : null;
+                Type type2 = originalProperty.CanWrite ? Service.TranslateType(originalProperty.SetMethod.DeclaringType) : null;
 
                 Verifier.VerifyMemberType(translatedMember, new[] { MemberTypes.Field, MemberTypes.Property });
 
                 if (translatedMember is FieldInfo translatedField)
                 {
-                    Verifier.VerifyDeclaringType(translatedField, type1);
+                    Verifier.VerifyDeclaringType(translatedField, type1 ?? type2);
                 }
                 else if (translatedMember is PropertyInfo translatedProperty)
                 {
-                    Verifier.VerifyDeclaringType(translatedProperty, type1, GetMethod: true);
-                    Verifier.VerifyDeclaringType(translatedProperty, type2, SetMethod: true);
+                    if (type1 != null)
+                        Verifier.VerifyDeclaringType(translatedProperty, type1, GetMethod: true);
+                    
+                    if (type2 != null)
+                        Verifier.VerifyDeclaringType(translatedProperty, type2, SetMethod: true);
                 }
             }
             else throw new NotImplementedException();

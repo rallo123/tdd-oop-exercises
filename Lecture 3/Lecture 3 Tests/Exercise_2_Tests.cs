@@ -16,12 +16,12 @@ namespace Lecture_3_Tests
     public class Exercise_2_Tests 
     {   
         #region Exercise 2A
-        [TestMethod("a. Name is public string property"), TestCategory("Exercise 2A")]
+        [TestMethod("a. Name is public read-only string property"), TestCategory("Exercise 2A")]
         public void NameIsPublicStringProperty()
         {
             // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertPublicProperty<Employee, string>(e => e.Name);
+            test.AssertPublicReadonlyProperty<Employee, string>(e => e.Name);
             test.Execute();
         }
 
@@ -200,13 +200,13 @@ namespace Lecture_3_Tests
                 MonthlySalary = 34000M, 
                 Seniority = 1 
             };
-            Assert.AreEqual(employee.CalculateYearlySalary(), 0M);
+            Assert.AreEqual(employee.CalculateYearlySalary(), 40800M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
             test.Arrange(_employee, Expr(() => new Employee("abc") { MonthlySalary = 34000M, Seniority = 1 }));
-            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(40800M)); ;
             test.Execute();
         }
 
@@ -218,13 +218,13 @@ namespace Lecture_3_Tests
                 MonthlySalary = 15340,
                 Seniority = 2
             };
-            Assert.AreEqual(employee.CalculateYearlySalary(), 0M);
+            Assert.AreEqual(employee.CalculateYearlySalary(), 18408M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
             test.Arrange(_employee, Expr(() => new Employee("abc") { MonthlySalary = 15340, Seniority = 2 }));
-            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(18408M)); ;
             test.Execute();
         }
 
@@ -236,13 +236,13 @@ namespace Lecture_3_Tests
                 MonthlySalary = 20000,
                 Seniority = 3
             };
-            Assert.AreEqual(employee.CalculateYearlySalary(), 0M);
+            Assert.AreEqual(employee.CalculateYearlySalary(), 24000M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
             test.Arrange(_employee, Expr(() => new Employee("abc") { MonthlySalary = 20000, Seniority = 3 }));
-            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(24000M)); ;
             test.Execute();
         }
 
@@ -254,13 +254,13 @@ namespace Lecture_3_Tests
                 MonthlySalary = 20000,
                 Seniority = 6
             };
-            Assert.AreEqual(employee.CalculateYearlySalary(), 0M);
+            Assert.AreEqual(employee.CalculateYearlySalary(), 96000M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
             test.Arrange(_employee, Expr(() => new Employee("abc") { MonthlySalary = 20000, Seniority = 6 }));
-            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(96000M)); ;
             test.Execute();
         }
 
@@ -272,13 +272,13 @@ namespace Lecture_3_Tests
                 MonthlySalary = 12300,
                 Seniority = 7
             };
-            Assert.AreEqual(employee.CalculateYearlySalary(), 0M);
+            Assert.AreEqual(employee.CalculateYearlySalary(), 103320M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
             test.Arrange(_employee, Expr(() => new Employee("abc") { MonthlySalary = 12300, Seniority = 7 }));
-            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(0M));
+            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(103320M));
             test.Execute();
         }
 
@@ -290,13 +290,13 @@ namespace Lecture_3_Tests
                 MonthlySalary = 35250,
                 Seniority = 10
             };
-            Assert.AreEqual(employee.CalculateYearlySalary(), 0M);
+            Assert.AreEqual(employee.CalculateYearlySalary(), 296100M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
             test.Arrange(_employee, Expr(() => new Employee("abc") { MonthlySalary = 35250, Seniority = 10 }));
-            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(0M));
+            test.Assert.AreEqual(Expr(_employee, e => e.CalculateYearlySalary()), Const(296100M));
             test.Execute();
         }
         #endregion
@@ -363,13 +363,13 @@ namespace Lecture_3_Tests
                 Bonus = 0,
                 Seniority = 1
             };
-            Assert.AreEqual(manager.CalculateYearlySalary(), 0);
+            Assert.AreEqual(manager.CalculateYearlySalary(), 42300M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Manager> _manager = test.CreateVariable<Manager>(nameof(_manager));
             test.Arrange(_manager, Expr(() => new Manager("abc") { MonthlySalary = 35250, Bonus = 0, Seniority = 1 }));
-            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(42300M)); ;
             test.Execute();
         }
 
@@ -382,13 +382,13 @@ namespace Lecture_3_Tests
                 Bonus = 500,
                 Seniority = 2
             };
-            Assert.AreEqual(manager.CalculateYearlySalary(), 0);
+            Assert.AreEqual(manager.CalculateYearlySalary(), 18908M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Manager> _manager = test.CreateVariable<Manager>(nameof(_manager));
             test.Arrange(_manager, Expr(() => new Manager("abc") { MonthlySalary = 15340, Bonus = 500, Seniority = 2 }));
-            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(18908M)); ;
             test.Execute();
         }
 
@@ -401,13 +401,13 @@ namespace Lecture_3_Tests
                 Bonus = 1000,
                 Seniority = 3
             };
-            Assert.AreEqual(manager.CalculateYearlySalary(), 0);
+            Assert.AreEqual(manager.CalculateYearlySalary(), 32800M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Manager> _manager = test.CreateVariable<Manager>(nameof(_manager));
             test.Arrange(_manager, Expr(() => new Manager("abc") { MonthlySalary = 26500, Bonus = 1000, Seniority = 3 }));
-            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(32800M)); ;
             test.Execute();
         }
 
@@ -420,14 +420,14 @@ namespace Lecture_3_Tests
                 Bonus = 300,
                 Seniority = 6
             };
-            Assert.AreEqual(manager.CalculateYearlySalary(), 0);
+            Assert.AreEqual(manager.CalculateYearlySalary(), 96300M);
 
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Manager> _manager = test.CreateVariable<Manager>(nameof(_manager));
             test.Arrange(_manager, Expr(() => new Manager("abc") { MonthlySalary = 20000, Bonus = 300, Seniority = 6 }));
-            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(96300M)); ;
             test.Execute();
         }
 
@@ -440,13 +440,13 @@ namespace Lecture_3_Tests
                 Bonus = 3000,
                 Seniority = 7
             };
-            Assert.AreEqual(manager.CalculateYearlySalary(), 0);
+            Assert.AreEqual(manager.CalculateYearlySalary(), 106320M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Manager> _manager = test.CreateVariable<Manager>(nameof(_manager));
             test.Arrange(_manager, Expr(() => new Manager("abc") { MonthlySalary = 12300, Bonus = 3000, Seniority = 7 }));
-            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(106320M)); ;
             test.Execute();
         }
 
@@ -459,13 +459,13 @@ namespace Lecture_3_Tests
                 Bonus = 34000,
                 Seniority = 10
             };
-            Assert.AreEqual(manager.CalculateYearlySalary(), 0);
+            Assert.AreEqual(manager.CalculateYearlySalary(), 330100M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Manager> _manager = test.CreateVariable<Manager>(nameof(_manager));
             test.Arrange(_manager, Expr(() => new Manager("abc") { MonthlySalary = 35250, Bonus = 34000, Seniority = 10 }));
-            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_manager, e => e.CalculateYearlySalary()), Const(330100M)); ;
             test.Execute();
         }
         #endregion
@@ -595,7 +595,7 @@ namespace Lecture_3_Tests
 
             company.Hire(employee);
 
-            Assert.AreEqual(company.CalculateYearlySalaryCosts(), 0M);
+            Assert.AreEqual(company.CalculateYearlySalaryCosts(), 144000M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -604,7 +604,7 @@ namespace Lecture_3_Tests
             test.Arrange(_company, Expr(() => new Company()));
             test.Arrange(_employee, Expr(() => new Employee("Allan Walker") { MonthlySalary = 30000M, Seniority = 4 }));
             test.Act(Expr(_company, _employee, (c, e) => c.Hire(e)));
-            test.Assert.AreEqual(Expr(_company, c => c.CalculateYearlySalaryCosts()), Const(0M)); ;
+            test.Assert.AreEqual(Expr(_company, c => c.CalculateYearlySalaryCosts()), Const(144000M)); ;
             test.Execute();
         }
 
@@ -626,7 +626,7 @@ namespace Lecture_3_Tests
             company.Hire(employee1);
             company.Hire(employee2);
 
-            Assert.AreEqual(company.CalculateYearlySalaryCosts(), 0M);
+            Assert.AreEqual(company.CalculateYearlySalaryCosts(), 396000M);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -638,7 +638,7 @@ namespace Lecture_3_Tests
             test.Arrange(_employee2, Expr(() => new Employee("Amy Walker") { MonthlySalary = 30000M, Seniority = 7 }));
             test.Act(Expr(_company, _employee1, (c, e) => c.Hire(e)));
             test.Act(Expr(_company, _employee2, (c, e) => c.Hire(e)));
-            test.Assert.AreEqual(Expr(_company, c => c.CalculateYearlySalaryCosts()), Const(0M));
+            test.Assert.AreEqual(Expr(_company, c => c.CalculateYearlySalaryCosts()), Const(396000M));
             test.Execute();
         }
         #endregion

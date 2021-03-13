@@ -122,7 +122,7 @@ namespace Lecture_4_Tests
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
-            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.64, Weight = 47.0 }));
+            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.64, Weight = 47.0, Age = 18 }));
             test.Assert.AreEqual(Expr(_person, p => p.GetClassification()), Const("under-weight"));
             test.Execute();
         }
@@ -141,7 +141,7 @@ namespace Lecture_4_Tests
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
-            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.73, Weight = 58.0 }));
+            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.73, Weight = 58.0, Age = 18 }));
             test.Assert.AreEqual(Expr(_person, p => p.GetClassification()), Const("normal weight"));
             test.Execute();
         }
@@ -160,7 +160,7 @@ namespace Lecture_4_Tests
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
-            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.70, Weight = 74.0 }));
+            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.70, Weight = 74.0, Age = 18 }));
             test.Assert.AreEqual(Expr(_person, p => p.GetClassification()), Const("over-weight"));
             test.Execute();
         }
@@ -179,7 +179,7 @@ namespace Lecture_4_Tests
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
-            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.85, Weight = 120.0 }));
+            test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.85, Weight = 120.0, Age = 18 }));
             test.Assert.AreEqual(Expr(_person, p => p.GetClassification()), Const("obese"));
             test.Execute();
         }

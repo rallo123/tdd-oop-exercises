@@ -4,22 +4,22 @@ using System.Text;
 
 namespace TestTools.Structure
 {
-    public class TypeIsStaticVerifier : TypeVerifier
+    public class TypeIsAbstractVerifier : TypeVerifier
     {
-        bool _isStatic;
+        bool _isAbstract;
 
-        public TypeIsStaticVerifier(bool isStatic = true)
+        public TypeIsAbstractVerifier(bool isAbstract = true)
         {
-            _isStatic = isStatic;
+            _isAbstract = isAbstract;
         }
 
         public override TypeVerificationAspect[] Aspects => new[] {
-            TypeVerificationAspect.IsStatic 
+            TypeVerificationAspect.IsAbstract
         };
 
         public override void Verify(Type originalType, Type translatedType)
         {
-            Verifier.VerifyIsStatic(translatedType, _isStatic);
+            Verifier.VerifyIsAbstract(translatedType, _isAbstract);
         }
     }
 }

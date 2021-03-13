@@ -15,7 +15,12 @@ namespace Lecture_2_Tests
     {
         private string CreateName(int length)
         {
-            throw new NotImplementedException();
+            string buffer = "";
+
+            for (int i = 0; i < length; i++)
+                buffer += "a";
+
+            return buffer;
         }
 
         #region Exercise 1A
@@ -188,14 +193,14 @@ namespace Lecture_2_Tests
         {
             Person person = new Person();
             person.Age = -1;
-            Assert.AreEqual(person.Age, -1);
+            Assert.AreEqual(person.Age, 0);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
             test.Act(Expr(_person, p => p.SetAge(-1)));
-            test.Assert.AreEqual(Expr(_person, p => p.Age), Const(-1));
+            test.Assert.AreEqual(Expr(_person, p => p.Age), Const(0));
             test.Execute();
         }
         #endregion
@@ -354,13 +359,13 @@ namespace Lecture_2_Tests
             test.Execute();
         }
 
-        [TestMethod("c. PersonGenerator.GenerateFamily generates Waren Rich (36) as father"), TestCategory("Exercise 1D")]
+        [TestMethod("c. PersonGenerator.GenerateFamily generates Warren Rich (36) as father"), TestCategory("Exercise 1D")]
         public void GenerateFamilyCreatesRobinRichAsFather()
         {
             PersonGenerator generator = new PersonGenerator();
             Person father = generator.GenerateFamily().Father;
 
-            Assert.AreEqual(father.FirstName, "Warran");
+            Assert.AreEqual(father.FirstName, "Warren");
             Assert.AreEqual(father.LastName, "Rich");
             Assert.AreEqual(father.Age, 36);
 
@@ -424,11 +429,11 @@ namespace Lecture_2_Tests
         public void GenerateFamilyCreatesElsaJohnsonAsGrandMother()
         {
             PersonGenerator generator = new PersonGenerator();
-            Person grandFather = generator.GenerateFamily();
+            Person grandMother = generator.GenerateFamily().Father.Mother;
 
-            Assert.AreEqual(grandFather.FirstName, "Elsa");
-            Assert.AreEqual(grandFather.LastName, "Johnson");
-            Assert.AreEqual(grandFather.Age, 65);
+            Assert.AreEqual(grandMother.FirstName, "Elsa");
+            Assert.AreEqual(grandMother.LastName, "Johnson");
+            Assert.AreEqual(grandMother.Age, 65);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -460,7 +465,7 @@ namespace Lecture_2_Tests
             {
                 FirstName = "Adam",
                 LastName = "Smith",
-                Age = 66
+                Age = 36
             };
             PersonPrinter printer = new PersonPrinter();
 
@@ -497,14 +502,14 @@ namespace Lecture_2_Tests
             // Extended MSTest 
             Person person = new Person()
             {
-                FirstName = "Warren",
+                FirstName = "Robin",
                 LastName = "Rich",
-                Age = 36,
+                Age = 10,
                 Mother = new Person()
                 {
-                    FirstName = "Warren",
-                    LastName = "Rich",
-                    Age = 36
+                    FirstName = "Anna",
+                    LastName = "Smith",
+                    Age = 38
                 },
                 Father = new Person()
                 {
@@ -529,7 +534,6 @@ namespace Lecture_2_Tests
 
             string expectedOutput = string.Join(
                 Environment.NewLine,
-                "Adam Smith (36)",
                 "Robin Rich (10)",
                 "Warren Rich (36)",
                 "Gustav Rich (66)",
@@ -541,31 +545,36 @@ namespace Lecture_2_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>("person");
             TestVariable<PersonPrinter> _printer = test.CreateVariable<PersonPrinter>("printer");
-            test.Arrange(_person, Expr(() => new Person() { 
+            test.Arrange(_person, Expr(() => new Person()
+            {
+                FirstName = "Robin",
+                LastName = "Rich",
+                Age = 10,
+                Mother = new Person()
+                {
+                    FirstName = "Anna",
+                    LastName = "Smith",
+                    Age = 38
+                },
+                Father = new Person()
+                {
                     FirstName = "Warren",
-                    LastName = "Rich", 
-                    Age = 36, 
-                    Mother = new Person() { 
-                        FirstName = "Warren", 
-                        LastName = "Rich", 
-                        Age = 36 
+                    LastName = "Rich",
+                    Age = 36,
+                    Mother = new Person()
+                    {
+                        FirstName = "Elsa",
+                        LastName = "Johnson",
+                        Age = 65
                     },
-                    Father = new Person() { 
-                        FirstName = "Warren", 
-                        LastName = "Rich", 
-                        Age = 36, 
-                        Mother = new Person() { 
-                            FirstName = "Elsa", 
-                            LastName = "Johnson", 
-                            Age = 65 
-                        }, 
-                        Father = new Person() { 
-                            FirstName = "Gustav",
-                            LastName = "Rich", 
-                            Age = 66 
-                        } 
+                    Father = new Person()
+                    {
+                        FirstName = "Gustav",
+                        LastName = "Rich",
+                        Age = 66
                     }
-                }));
+                }
+            }));
             test.ConsoleAssert.WritesOut(
                 Lambda(Expr(_printer, _person, (p1, p2) => p1.PrintFamily(p2))),
                 Const(expectedOutput));
@@ -614,8 +623,8 @@ namespace Lecture_2_Tests
             test.Arrange(_mother, Expr(() => new Person() { Age = 37 }));
             test.Arrange(_father, Expr(() => new Person() { Age = 37 }));
             test.Arrange(_child, Expr(_mother, _father, (p1, p2) => new Person(p1, p2)));
-            test.Assert.AreSame(Expr(_child, p => p.Mother), Expr(_mother, p => p));
-            test.Assert.AreSame(Expr(_child, p => p.Father), Expr(_father, p => p));
+            test.Assert.AreSame(Expr(_child, p => p.Mother), _mother);
+            test.Assert.AreSame(Expr(_child, p => p.Father), _father);
             test.Execute();
         }
         #endregion

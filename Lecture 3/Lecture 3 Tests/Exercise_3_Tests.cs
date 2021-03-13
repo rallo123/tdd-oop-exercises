@@ -90,7 +90,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("3C")]
+        [TestMethod("c. Circle(Point center, double radius) ignores center = null"), TestCategory("Exercise 3C")]
         public void CenterIgnoresAssigmentOfNull() 
         {
             Circle circle = new Circle(null, 1.0);
@@ -104,7 +104,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Circle(Point center, double radius) ignores radius = -1.0"), TestCategory("3C")]
+        [TestMethod("d. Circle(Point center, double radius) ignores radius = -1.0"), TestCategory("Exercise 3C")]
         public void RadiusIgnoresAssigmentOfMinusOne() 
         {
             Circle circle = new Circle(new Point(0, 0), -1.0);
@@ -272,7 +272,7 @@ namespace Lecture_3_Tests
         public void RectangleContainsReturnFalseForPointOutsideOfRectangle()
         {
             Rectangle rectangle = new Rectangle(new Point(2, 3), new Point(3, 5));
-            Assert.IsTrue(rectangle.Contains(new Point(4, 3)));
+            Assert.IsFalse(rectangle.Contains(new Point(4, 3)));
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();

@@ -85,12 +85,12 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("g. Temperature.Kelvin equals 0 after Temperature.Celcius = -275.15"), TestCategory("1A")]
+        [TestMethod("g. Temperature.Kelvin equals 0 after Temperature.Celcius = -273.15"), TestCategory("1A")]
         public void TemperatureKelvinEquals0AfterTemperatureCelciusAssignmentOfMinus275()
         {
             Temperature temperature = new Temperature();
 
-            temperature.Celcius = -275.15;
+            temperature.Celcius = -273.15;
 
             Assert.AreEqual(temperature.Kelvin, 0, 0.001);
 
@@ -98,7 +98,7 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Temperature> _temperature = test.CreateVariable<Temperature>();
             test.Arrange(_temperature, Expr(() => new Temperature()));
-            test.Act(Expr(_temperature, t => t.SetCelcius(-275.15)));
+            test.Act(Expr(_temperature, t => t.SetCelcius(-273.15)));
             test.Assert.AreEqual(Expr(_temperature, t => t.Kelvin), Const(0.0), 0.001);
             test.Execute();
         }

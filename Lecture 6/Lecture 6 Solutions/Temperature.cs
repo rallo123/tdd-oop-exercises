@@ -13,7 +13,7 @@ namespace Lecture_6_Solutions
         {
             get { return _value + 273.15; }
             set {
-                double valueInKelvin = value - 273.15;
+                double valueInKelvin = value + 273.15;
 
                 if (valueInKelvin < 0)
                     throw new ArgumentException($"Value {value}C is below absolute zero");
@@ -23,10 +23,10 @@ namespace Lecture_6_Solutions
 
         public double Fahrenheit
         {
-            get { return _value * 9 / 5 + 32; }
+            get { return (_value - 273.15) * 9 / 5 + 32; }
             set
             {
-                double valueInKelvin = (value - 32) * 5 / 9;
+                double valueInKelvin = (value - 32) * 5 / 9 + 273.15;
 
                 if (valueInKelvin < 0)
                     throw new ArgumentException($"Value {value}C is below absolute zero");
