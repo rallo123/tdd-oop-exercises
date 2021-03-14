@@ -36,16 +36,24 @@ namespace TestTools.Unit
         {
             TextReader OriginalReader;
 
-            public string Buffer { get; set; } = "";
+            string _buffer = "";
+
+            public string Buffer
+            {
+                get => _buffer;
+                set {
+                    if (string.IsNullOrEmpty(value))
+                        Console.SetIn(OriginalReader);
+
+                    _buffer = value;
+                }
+            }
 
             public override int Read()
             {
                 char charToRead = Buffer[0];
 
                 Buffer = Buffer.Substring(1);
-
-                if (Buffer.Length == 0)
-                    Console.SetIn(OriginalReader);
 
                 return (int)charToRead;
             }
@@ -54,7 +62,7 @@ namespace TestTools.Unit
             {
                 // Read-in existing Console.In content
                 if (Console.KeyAvailable)
-                    Buffer += Console.In.ReadToEnd();
+                    Buffer = Console.In.ReadToEnd();
 
                 // Take control of Console.In
                 OriginalReader = Console.In;

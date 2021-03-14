@@ -49,16 +49,16 @@ namespace Lecture_8_Tests
         [TestMethod("a. Customer.ID emits PropertyChanged event on new value"), TestCategory("Exercise 5B")]
         public void CustomerIDEmitsPropertyChangedEvent()
         {
-            // MSTest Extended
+            bool isCalled = false;
             Customer customer = new Customer()
             {
                 ID = 0
             };
-            DelegateAssert.IsInvoked<PropertyChangedEventHandler>(handler => customer.PropertyChanged += handler); 
+            customer.PropertyChanged += (sender, e) => isCalled = true;
 
             customer.ID = 1;
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The Customer.ID event is never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -72,16 +72,16 @@ namespace Lecture_8_Tests
         [TestMethod("b. Customer.ID does not emit PropertyChanged event on same value"), TestCategory("Exercise 5B")]
         public void CustomerIDDoesNotEmitPropertyChangedEvent()
         {
-            // MSTest Extended
+            bool isCalled = false;
             Customer customer = new Customer()
             {
                 ID = 0
             };
-            DelegateAssert.IsNotInvoked<PropertyChangedEventHandler>(handler => customer.PropertyChanged += handler);
+            customer.PropertyChanged += (sender, e) => isCalled = true;
 
             customer.ID = 0;
 
-            DelegateAssert.Verify();
+            Assert.IsFalse(isCalled, "The Customer.ID event is emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -95,16 +95,16 @@ namespace Lecture_8_Tests
         [TestMethod("c. Customer.FirstName emits PropertyChanged event on new value"), TestCategory("Exercise 5B")]
         public void CustomerFirstNameEmitsPropertyChangedEvent()
         {
-            // MSTest Extended
+            bool isCalled = false;
             Customer customer = new Customer()
             {
                 FirstName = "abc"
             };
-            DelegateAssert.IsInvoked<PropertyChangedEventHandler>(handler => customer.PropertyChanged += handler);
+            customer.PropertyChanged += (sender, e) => isCalled = true;
 
             customer.FirstName = "bcd";
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The Customer.ID event is never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -118,16 +118,16 @@ namespace Lecture_8_Tests
         [TestMethod("d. Customer.FirstName does not emit PropertyChanged event on same value"), TestCategory("Exercise 5B")]
         public void CustomerFirstNameDoesNotEmitPropertyChangedEvent()
         {
-            // MSTest Extended
+            bool isCalled = false;
             Customer customer = new Customer()
             {
                 FirstName = "abc"
             };
-            DelegateAssert.IsNotInvoked<PropertyChangedEventHandler>(handler => customer.PropertyChanged += handler);
+            customer.PropertyChanged += (sender, e) => isCalled = true;
 
             customer.FirstName = "abc";
-            
-            DelegateAssert.Verify();
+
+            Assert.IsFalse(isCalled, "The Customer.ID event is emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -141,16 +141,16 @@ namespace Lecture_8_Tests
         [TestMethod("e. Customer.LastName emits PropertyChanged event on new value"), TestCategory("Exercise 5B")]
         public void CustomerLastNameEmitsPropertyChangedEvent()
         {
-            // MSTest Extended
+            bool isCalled = false;
             Customer customer = new Customer()
             {
                 LastName = "abc"
             };
-            DelegateAssert.IsInvoked<PropertyChangedEventHandler>(handler => customer.PropertyChanged += handler);
+            customer.PropertyChanged += (sender, e) => isCalled = true;
 
             customer.LastName = "bcd";
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The Customer.ID event is never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -164,16 +164,16 @@ namespace Lecture_8_Tests
         [TestMethod("f. Customer.LastName does not emit PropertyChanged event on same value"), TestCategory("Exercise 5B")]
         public void CustomerLastNameDoesNotEmitPropertyChangedEvent()
         {
-            // MSTest Extended
+            bool isCalled = false;
             Customer customer = new Customer()
             {
                 LastName = "abc"
             };
-            DelegateAssert.IsNotInvoked<PropertyChangedEventHandler>(handler => customer.PropertyChanged += handler);
+            customer.PropertyChanged += (sender, e) => isCalled = true;
 
             customer.LastName = "abc";
 
-            DelegateAssert.Verify();
+            Assert.IsFalse(isCalled, "The Customer.ID event is emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();

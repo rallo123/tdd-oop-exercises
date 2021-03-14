@@ -19,13 +19,13 @@ namespace Lecture_9_Solutions
         public void Add(T item)
         {
             _data.Add(item);
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
         }
 
         public void Clear()
         {
             _data.Clear();
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         public bool Contains(T item)
@@ -47,7 +47,7 @@ namespace Lecture_9_Solutions
         {
             bool wasRemoved = _data.Remove(item);
             if (wasRemoved)
-                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
             return wasRemoved;
         }
 

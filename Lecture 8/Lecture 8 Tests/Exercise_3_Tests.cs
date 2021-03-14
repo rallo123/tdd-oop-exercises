@@ -71,14 +71,16 @@ namespace Lecture_8_Tests
         [TestMethod("b. ConsoleView.Run emits Input on non-empty-line input"), TestCategory("Exercise 3C")]
         public void ConsoleViewRunEmitsInputOnNonEmptyLineInput()
         {
+            // FAILS AND NEEDS MORE WORK
+            bool isCalled = false;
             ConsoleView view = new ConsoleView();
-            DelegateAssert.IsInvoked<InputHandler>(handler => view.Input += handler);
-            
+            view.Input += (input) => isCalled = true;
+
             ConsoleInputter.WriteLine("User input");
             ConsoleInputter.WriteLine();
             view.Run();
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The ConsoleView.Run event was never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -94,13 +96,14 @@ namespace Lecture_8_Tests
         [TestMethod("c. ConsoleView.Run does not emit Input on empty-line input"), TestCategory("Exercise 3C")]
         public void ConsoleViewRunDoesNotEmitInputOnEmptyLineInput()
         {
+            bool isCalled = false;
             ConsoleView view = new ConsoleView();
-            DelegateAssert.IsNotInvoked<InputHandler>(handler => view.Input += handler);
+            view.Input += (input) => isCalled = true;
 
             ConsoleInputter.WriteLine();
             view.Run();
 
-            DelegateAssert.Verify();
+            Assert.IsFalse(isCalled, "The ConsoleView.Run event was emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();

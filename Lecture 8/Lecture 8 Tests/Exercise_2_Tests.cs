@@ -189,16 +189,16 @@ namespace Lecture_8_Tests
         [TestMethod("c. BankAccount.Withdraw(decimal amount) emits LowBalance if Balance goes below threshold"), TestCategory("Exercise 2E")]
         public void BankAccountWithdrawEmitsLowBalance()
         {
-            // MSTest Extended
+            bool isCalled = false;
             BankAccount account = new BankAccount()
             {
                 LowBalanceThreshold = 0
             };
-            DelegateAssert.IsInvoked<BalanceChangeHandler>(handler => account.LowBalance += handler);
+            account.LowBalance += (currentBalance) => isCalled = true;
 
             account.Withdraw(50);
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The BankAccout.LowBalance event was never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -213,15 +213,16 @@ namespace Lecture_8_Tests
         public void BankAccountDepositEmitsHighBalance()
         {
             // MSTest Extended
+            bool isCalled = false;
             BankAccount account = new BankAccount()
             {
                 HighBalanceThreshold = 0
             };
-            DelegateAssert.IsInvoked<BalanceChangeHandler>(handler => account.HighBalance += handler);
+            account.HighBalance += (currentBalance) => isCalled = true; 
 
             account.Deposit(50);
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The BankAccout.HighBalance event was never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();

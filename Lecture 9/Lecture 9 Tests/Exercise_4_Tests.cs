@@ -40,12 +40,13 @@ namespace Lecture_9_Tests
         [TestMethod("b. ObservableCollection<T>.Add(T elem) emits CollectionChanged event"), TestCategory("Exercise 4B")]
         public void ObservableCollectionAddEmitsCollectionChangedEvents()
         {
+            bool isCalled = false;
             ObservableCollection<int> collection = new ObservableCollection<int>();
-            DelegateAssert.IsInvoked<NotifyCollectionChangedEventHandler>(handler => collection.CollectionChanged += handler);
+            collection.CollectionChanged += (sender, e) => isCalled = true;
 
             collection.Add(5);
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The ObservableCollection<T>.CollectionChanged event is never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -59,12 +60,13 @@ namespace Lecture_9_Tests
         [TestMethod("c. ObservableCollection<T>.Clear() emits CollectionChanged event"), TestCategory("Exercise 4B")]
         public void ObservableCollectionClearEmitsCollectionChangedEvent()
         {
+            bool isCalled = false;
             ObservableCollection<int> collection = new ObservableCollection<int>() { 1 };
-            DelegateAssert.IsInvoked<NotifyCollectionChangedEventHandler>(handler => collection.CollectionChanged += handler);
+            collection.CollectionChanged += (sender, e) => isCalled = true;
 
             collection.Clear();
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The ObservableCollection<T>.CollectionChanged event is never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -78,12 +80,13 @@ namespace Lecture_9_Tests
         [TestMethod("d. ObservableCollection<T>.Remove(T elem) emits CollectionChanged event"), TestCategory("Exercise 4B")]
         public void ObservableCollectionRemoveEmitsCollectionChangedEvent()
         {
+            bool isCalled = false;
             ObservableCollection<int> collection = new ObservableCollection<int>() { 1 };
-            DelegateAssert.IsInvoked<NotifyCollectionChangedEventHandler>(handler => collection.CollectionChanged += handler);
+            collection.CollectionChanged += (sender, e) => isCalled = true;
 
             collection.Remove(1);
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The ObservableCollection<T>.CollectionChanged event is never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
