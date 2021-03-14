@@ -16,25 +16,12 @@ namespace Lecture_6_Tests
     public class Exercise_2_Tests 
     {
         #region Exercise 2A
-        [TestMethod("a. Car.ID is public read-only int property"), TestCategory("2A")]
+        [TestMethod("a. Car.ID is public int property"), TestCategory("2A")]
         public void CarIDIsPublicReadOnlyIntProperty()
         {
             // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertPublicReadonlyProperty<Car, int>(c => c.ID);
-            test.Execute();
-        }
-
-        [TestMethod("b. Car.ID increases by 1 for each new person"), TestCategory("2A")]
-        public void CarIDIncreasesBy1ForEachNewPerson()
-        {
-            // TestTools Code
-            UnitTest test = Factory.CreateTest();
-            TestVariable<Car> _car1 = test.CreateVariable<Car>();
-            TestVariable<Car> _car2 = test.CreateVariable<Car>();
-            test.Arrange(_car1, Expr(() => new Car("", "", 0.0M)));
-            test.Arrange(_car2, Expr(() => new Car("", "", 0.0M)));
-            test.Assert.IsTrue(Expr(_car1, _car2, (c1, c2) => c1.ID + 1 == c2.ID));
+            test.AssertPublicProperty<Car, int>(c => c.ID);
             test.Execute();
         }
         #endregion
@@ -98,8 +85,8 @@ namespace Lecture_6_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car1 = test.CreateVariable<Car>();
             TestVariable<Car> _car2 = test.CreateVariable<Car>();
-            test.Arrange(_car1, Expr(() => new Car("", "", 0.0M)));
-            test.Arrange(_car2, Expr(() => new Car("", "", 0.0M)));
+            test.Arrange(_car1, Expr(() => new Car("", "", 0.0M) { ID = 0 }));
+            test.Arrange(_car2, Expr(() => new Car("", "", 0.0M) { ID = 1 }));
             test.Assert.IsTrue(Expr(_car1, _car2, (c1, c2) => c2.CompareTo(c1) > 0));
             test.Execute();
         }

@@ -65,15 +65,28 @@ namespace TestTools.Structure
                 MemberVerificationAspect.MethodAccessLevel);
 
             MethodInfo methodInfo = (MethodInfo)_structureService.TranslateMember(node.Method);
-            IEnumerable<Expression> methodArgs = node.Arguments.Select(Visit);
+            ParameterInfo[] methodPars = methodInfo.GetParameters();
+            Expression[] methodArgs = node.Arguments.Select(Visit).ToArray();
             
             // Constructing generic methods need to be constructed based on argument types
             if (methodInfo.IsGenericMethod && !methodInfo.IsConstructedGenericMethod)
             {
-                List<Type> typeArgs = new List<Type>();
-                foreach (var methodArg in methodArgs)
-                    typeArgs.Add(methodArg.Type);
-                methodInfo = methodInfo.MakeGenericMethod(typeArgs.ToArray());
+                Type[] typeArguments = methodInfo.GetGenericArguments();
+
+                for (int i = 0; i < typeArguments.Length; i++) { 
+                    for (int j = 0; j < methodArgs.Length; j++)
+                    {
+                        Type temp = methodArgs[j].Type.GetGenericArguments(methodPars[j].ParameterType, typeArguments[i]);
+
+                        if (temp != null)
+                        {
+                            typeArguments[i] = temp;
+                            break;
+                        }
+                    }
+                }
+
+                methodInfo = methodInfo.MakeGenericMethod(typeArguments);
             }
 
             return Expression.Call(Visit(node.Object), methodInfo, methodArgs);

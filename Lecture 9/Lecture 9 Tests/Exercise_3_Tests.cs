@@ -16,7 +16,7 @@ namespace Lecture_9_Tests
     public class Exercise_3_Tests
     {
         #region Exercise 3A
-        [TestMethod("a. Product.ID is a public property")]
+        [TestMethod("a. Product.ID is a public property"), TestCategory("Exercise 3A")]
         public void ProductIDISAPublicProperty()
         {
             // TestTools Code
@@ -25,7 +25,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Product.Name is a public property")]
+        [TestMethod("b. Product.Name is a public property"), TestCategory("Exercise 3A")]
         public void ProductTitleIsAPublicProperty()
         {
             // TestTools Code
@@ -34,7 +34,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Product.Category is a public property")]
+        [TestMethod("c. Product.Category is a public property"), TestCategory("Exercise 3A")]
         public void ProductCategoryIsAPublicProperty()
         {
             // TestTools Code
@@ -43,7 +43,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Product.Price is a public property")]
+        [TestMethod("d. Product.Price is a public property"), TestCategory("Exercise 3A")]
         public void StudentAgeIsAPublicProperty()
         {
             // TestTools Code
@@ -52,7 +52,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("e. Product.Equals equates products with same ID")]
+        [TestMethod("e. Product.Equals equates products with same ID"), TestCategory("Exercise 3A")]
         public void ProductEqualsEquatesProductsWithSameID()
         {
             Product product1 = new Product() { ID = 5 };
@@ -70,7 +70,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("f. Product.Equals does not equate products with different ID")]
+        [TestMethod("f. Product.Equals does not equate products with different ID"), TestCategory("Exercise 3A")]
         public void ProductEqualsDoesNotEquateProductsWithDifferentID()
         {
             Product product1 = new Product() { ID = 4 };
@@ -88,7 +88,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("g. Product.GetHashCode equates products with same ID")]
+        [TestMethod("g. Product.GetHashCode equates products with same ID"), TestCategory("Exercise 3A")]
         public void ProductGetHashCodeEquatesProductsWithSameID()
         {
             Product product1 = new Product() { ID = 5 };
@@ -106,7 +106,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("h. Product.GetHashCode does not equate products with different ID")]
+        [TestMethod("h. Product.GetHashCode does not equate products with different ID"), TestCategory("Exercise 3A")]
         public void ProductGetHashCodeDoesNotEquateProductsWithDifferentID()
         {
             Product product1 = new Product() { ID = 4 };
@@ -126,7 +126,7 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 3B
-        [TestMethod("a. ProductRepository.Add(Product p) is a public method")]
+        [TestMethod("a. ProductRepository.Add(Product p) is a public method"), TestCategory("Exercise 3B")]
         public void ProductRepositoryAddIsAPublicMethod()
         {
             // TestTools Code
@@ -135,7 +135,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ProductRepository.Update(Product p) is a public method")]
+        [TestMethod("b. ProductRepository.Update(Product p) is a public method"), TestCategory("Exercise 3B")]
         public void ProductRepositoryUpdateIsAPublicMethod()
         {
             // TestTools Code
@@ -144,7 +144,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ProductRepository.Delete(Product p) is a public method")]
+        [TestMethod("c. ProductRepository.Delete(Product p) is a public method"), TestCategory("Exercise 3B")]
         public void ProductRepositoryDeleteIsAPublicMethod()
         {
             // TestTools Code
@@ -155,7 +155,7 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 3C
-        [TestMethod("a. ProductRepository implements IEnumerable<T>")]
+        [TestMethod("a. ProductRepository implements IEnumerable<T>"), TestCategory("Exercise 3C")]
         public void ProductRepositoryImplementsIEnumerable()
         {
             // TestTools Code
@@ -164,7 +164,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ProductRepository.Add(Product p) adds product")]
+        [TestMethod("b. ProductRepository.Add(Product p) adds product"), TestCategory("Exercise 3C")]
         public void ProductRepositoryAddAddsProduct()
         {
             ProductRepository repository = new ProductRepository();
@@ -185,7 +185,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ProductRepository.Add(Product p) adds product, which cannot be affected")]
+        [TestMethod("c. ProductRepository.Add(Product p) adds product, which cannot be affected"), TestCategory("Exercise 3C")]
         public void ProductRepositoryAddAddsProduct2()
         {
             Product product = new Product() { Name = "Name" };
@@ -206,7 +206,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("d. ProductRepository.Update(Product p) updates product, which cannot be affected")]
+        [TestMethod("d. ProductRepository.Update(Product p) updates product, which cannot be affected"), TestCategory("Exercise 3C")]
         public void ProductRepositoryUpdatesProduct()
         {
             Product product = new Product() { Name = "Name" };
@@ -223,14 +223,13 @@ namespace Lecture_9_Tests
             TestVariable<Product> _product = test.CreateVariable<Product>();
             test.Arrange(_product, Expr(() => new Product() { Name = "Name" }));
             test.Arrange(_repository, Expr(_product, p => new ProductRepository() { p }));
-            test.Act(Expr(_repository, _product, (r, p) => r.Add(p)));
             test.Act(Expr(_product, p => p.SetName("NewName")));
             test.Act(Expr(_repository, _product, (r, p) => r.Update(p)));
             test.Assert.AreEqual(Expr(_repository, r => r.First().Name), Const("NewName"));
             test.Execute();
         }
 
-        [TestMethod("e. ProductRepository.Delete(Product p) removes product again")]
+        [TestMethod("e. ProductRepository.Delete(Product p) removes product again"), TestCategory("Exercise 3C")]
         public void ProductRepositoryDeleteRemovesProductAgain()
         {
             ProductRepository repository = new ProductRepository();
@@ -255,7 +254,7 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 3D
-        [TestMethod("a. ProductRepository.GetProductByID(int id) is a public method")]
+        [TestMethod("a. ProductRepository.GetProductByID(int id) is a public method"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetProductByIDIsAPublicMethod()
         {
             // TestTools Code
@@ -264,7 +263,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ProductRepository.GetLeastExpensiveProduct() is a public method")]
+        [TestMethod("b. ProductRepository.GetLeastExpensiveProduct() is a public method"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetLeastExpensiveProductIsAPublicMethod()
         {
             // TestTools Code
@@ -273,7 +272,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ProductRepository.GetMostExpensiveProduct() is a public method")]
+        [TestMethod("c. ProductRepository.GetMostExpensiveProduct() is a public method"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetMostExpensiveProductIsAPublicMethod()
         {
             // TestTools Code
@@ -282,7 +281,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("d. ProductRepository.GetAverageProductPrice() is a public method")]
+        [TestMethod("d. ProductRepository.GetAverageProductPrice() is a public method"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetAverageProductPriceIsAPublicMethod()
         {
             // TestTools Code
@@ -291,7 +290,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("e. ProductRepository.GetProductsInCategory(string category) is a public method")]
+        [TestMethod("e. ProductRepository.GetProductsInCategory(string category) is a public method"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetProductsInCategoryIsAPublicMethod()
         {
             // TestTools Code
@@ -300,7 +299,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("f. ProductRepository.GetProductCategories() is a public method")]
+        [TestMethod("f. ProductRepository.GetProductCategories() is a public method"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetProductCategoriesIsAPublicMethod()
         {
             // TestTools Code
@@ -309,7 +308,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("g. ProductRepository.GetProductByID(int id) returns correctly")]
+        [TestMethod("g. ProductRepository.GetProductByID(int id) returns correctly"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetProductByIDReturnsCorrectly()
         {
             Product product = new Product() { ID = 5 };
@@ -327,7 +326,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("h. ProductRepository.GetLeastExpensiveProduct() returns correctly")]
+        [TestMethod("h. ProductRepository.GetLeastExpensiveProduct() returns correctly"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetLeastExpensiveProductReturnsCorrectly()
         {
             Product leastExpensiveProduct = new Product() { ID = 4, Price = 10M };
@@ -354,7 +353,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("i. ProductRepository.GetMostExpensiveProduct() returns correctly")]
+        [TestMethod("i. ProductRepository.GetMostExpensiveProduct() returns correctly"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetMostExpensiveProductReturnsCorrectly()
         {
             Product leastExpensiveProduct = new Product() { ID = 4, Price = 10M };
@@ -381,7 +380,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("i. ProductRepository.GetAverageProductPrice() returns correctly")]
+        [TestMethod("i. ProductRepository.GetAverageProductPrice() returns correctly"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetAverageProductPriceReturnsCorrectly()
         {
             Product leastExpensiveProduct = new Product() { ID = 4, Price = 10M };
@@ -408,7 +407,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("j. ProductRepository.GetProductsInCategory(string category) returns correctly")]
+        [TestMethod("j. ProductRepository.GetProductsInCategory(string category) returns correctly"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetProductsInCategoryReturnsCorrectly()
         {
             Product product1 = new Product() { ID = 4, Category = "Food" };
@@ -440,7 +439,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("k. ProductRepository.GetProductCategories() returns correctly")]
+        [TestMethod("k. ProductRepository.GetProductCategories() returns correctly"), TestCategory("Exercise 3D")]
         public void ProductRepositoryGetProductCategoriesReturnsCorrectly()
         {
             Product product1 = new Product() { ID = 4, Category = "Food" };

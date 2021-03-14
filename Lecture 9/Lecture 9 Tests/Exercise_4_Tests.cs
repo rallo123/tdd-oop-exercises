@@ -17,7 +17,7 @@ namespace Lecture_9_Tests
     public class Exercise_4_Tests
     {
         #region Exercise 4A
-        [TestMethod("a. ObservableCollection<T> implements ICollection")]
+        [TestMethod("a. ObservableCollection<T> implements ICollection"), TestCategory("Exercise 4A")]
         public void ObservableCollectionImplementsICollection()
         {
             // TestTools Code
@@ -28,7 +28,7 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 4B
-        [TestMethod("a. ObservableCollection<T> implements INotifyCollectionChanged")]
+        [TestMethod("a. ObservableCollection<T> implements INotifyCollectionChanged"), TestCategory("Exercise 4B")]
         public void ObservableCollectionImplementsINotifyCollectionChanged()
         {
             // TestTools Code
@@ -37,7 +37,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ObservableCollection<T>.Add(T elem) emits CollectionChanged event")]
+        [TestMethod("b. ObservableCollection<T>.Add(T elem) emits CollectionChanged event"), TestCategory("Exercise 4B")]
         public void ObservableCollectionAddEmitsCollectionChangedEvents()
         {
             ObservableCollection<int> collection = new ObservableCollection<int>();
@@ -56,7 +56,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ObservableCollection<T>.Clear() emits CollectionChanged event")]
+        [TestMethod("c. ObservableCollection<T>.Clear() emits CollectionChanged event"), TestCategory("Exercise 4B")]
         public void ObservableCollectionClearEmitsCollectionChangedEvent()
         {
             ObservableCollection<int> collection = new ObservableCollection<int>() { 1 };
@@ -75,7 +75,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("d. ObservableCollection<T>.Remove(T elem) emits CollectionChanged event")]
+        [TestMethod("d. ObservableCollection<T>.Remove(T elem) emits CollectionChanged event"), TestCategory("Exercise 4B")]
         public void ObservableCollectionRemoveEmitsCollectionChangedEvent()
         {
             ObservableCollection<int> collection = new ObservableCollection<int>() { 1 };

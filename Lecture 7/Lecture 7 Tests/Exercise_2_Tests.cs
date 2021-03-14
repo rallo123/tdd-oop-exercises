@@ -137,14 +137,14 @@ namespace Lecture_7_Tests
         public void MyQueueEnqueueThrowsInvalidOperationException()
         {
             // FAILS AND REQUIRES MORE WORK
-            MyQueue<int> queue = new MyQueue<int>(1);
+            MyQueue<int> queue = new MyQueue<int>(2);
             queue.Enqueue(1);
             Assert.ThrowsException<InvalidOperationException>(() => queue.Enqueue(2));
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> _queue = test.CreateVariable<MyQueue<int>>();
-            test.Arrange(_queue, Expr(() => new MyQueue<int>(0)));
+            test.Arrange(_queue, Expr(() => new MyQueue<int>(2)));
             test.Act(Expr(_queue, q => q.Enqueue(1)));
             test.Assert.ThrowsExceptionOn<InvalidOperationException>(Expr(_queue, q => q.Enqueue(2)));
             test.Execute();

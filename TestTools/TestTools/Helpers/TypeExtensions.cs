@@ -56,5 +56,33 @@ namespace TestTools.Helpers
             }
             return true;
         }
+
+        public static Type GetGenericArguments(this Type type, Type typeTemplate, Type typeArgument)
+        {
+            if (typeTemplate == typeArgument)
+                return type;
+
+            // Example, int[] & T[] => T = int
+            if (type.IsArray && type.IsArray)
+            {
+                return GetGenericArguments(type.GetElementType(), typeTemplate.GetElementType(), typeArgument);
+            }
+
+            if (type.IsGenericType && typeTemplate.IsGenericType)
+            {
+                Type result; 
+                Type[] typeArgs = type.GetGenericArguments();
+                Type[] typeTemplateArgs = typeTemplate.GetGenericArguments();
+
+                for(int i = 0; i < typeArgs.Length; i++)
+                {
+                    result = GetGenericArguments(typeArgs[i], typeTemplateArgs[i], typeArgument);
+
+                    if (result != null)
+                        return result;
+                }
+            }
+            return null;
+        }
     }
 }

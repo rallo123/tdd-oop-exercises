@@ -16,7 +16,7 @@ namespace Lecture_9_Tests
     public class Exercise_1_Tests
     {
         #region Exercise 1A
-        [TestMethod("SortedCollection<T> implements ICollection<T>")]
+        [TestMethod("SortedCollection<T> implements ICollection<T>"), TestCategory("Exercise 1A")]
         public void SortedCollectionImplementsICollections()
         {
             // TestTools Code
@@ -26,7 +26,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>.Add(T elem) adds element in correct order")]
+        [TestMethod("SortedCollection<T>.Add(T elem) adds element in correct order"), TestCategory("Exercise 1A")]
         public void SortedCollectionAddAddsElementInOrder()
         {
             SortedCollection<int> collection = new SortedCollection<int>();
@@ -48,7 +48,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>.Clear() removes all elements")]
+        [TestMethod("SortedCollection<T>.Clear() removes all elements"), TestCategory("Exercise 1A")]
         public void SortedCollectionClearRemovesAllElements()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3 };
@@ -66,7 +66,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>.Contains(T elem) returns true if element in collection")]
+        [TestMethod("SortedCollection<T>.Contains(T elem) returns true if element in collection"), TestCategory("Exercise 1A")]
         public void SortedCollectionContainsReturnsTrue()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3 };
@@ -80,7 +80,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>.Contains(T elem) returns false if element is not in collection")]
+        [TestMethod("SortedCollection<T>.Contains(T elem) returns false if element is not in collection"), TestCategory("Exercise 1A")]
         public void SortedCollectionContainsReturnsFalse()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3 };
@@ -94,7 +94,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>.CopyTo(T[] arr, int i) copies elements to array")]
+        [TestMethod("SortedCollection<T>.CopyTo(T[] arr, int i) copies elements to array"), TestCategory("Exercise 1A")]
         public void SortedCollectionCopyToCopiesElementsToArray()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 2, 3, 5 };
@@ -115,7 +115,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>.Remove(T elem) removes element")]
+        [TestMethod("SortedCollection<T>.Remove(T elem) removes element"), TestCategory("Exercise 1A")]
         public void SortedCollectionRemoveRemovesElement()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3 };
@@ -135,16 +135,16 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 1B
-        [TestMethod("SortedCollection<T>[int index] is a readonly property")]
+        [TestMethod("SortedCollection<T>[int index] is a readonly property"), TestCategory("Exercise 1B")]
         public void SortedCollectionIsAReadonlyProperty()
         {
             // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
-            test.AssertPublicProperty<SortedCollection<int>, int>(GetIndexProperty<SortedCollection<int>>());
+            test.AssertPublicReadonlyProperty(GetIndexProperty<SortedCollection<int>>());
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>[int index] returns correct element")]
+        [TestMethod("SortedCollection<T>[int index] returns correct element"), TestCategory("Exercise 1B")]
         public void SortedCollectionReturnsCorrectElement()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3 };
@@ -161,7 +161,7 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 1C
-        [TestMethod("SortedCollection<T>.GetAll() returns enumeration of collection")]
+        [TestMethod("SortedCollection<T>.GetAll() returns enumeration of collection"), TestCategory("Exercise 1C")]
         public void SortCollectionGetAllReturnsEnumerationOfCollection()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3 };
@@ -175,11 +175,11 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>.GetAllReversed() returns reversed enumeration of collection")]
+        [TestMethod("SortedCollection<T>.GetAllReversed() returns reversed enumeration of collection"), TestCategory("Exercise 1C")]
         public void SortedCollectionGetAllReversedReturnsReversedEnumerationOfCollection()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3 };
-            Assert.IsTrue(collection.GetAll().SequenceEqual(new int[] { 3, 2, 1 }));
+            Assert.IsTrue(collection.GetAllReversed().SequenceEqual(new int[] { 3, 2, 1 }));
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -191,7 +191,7 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 1D
-        [TestMethod("SortedCollection<T>.GetAll(Predicate<T> p) returns enumeration of collection")]
+        [TestMethod("SortedCollection<T>.GetAll(Predicate<T> p) returns enumeration of collection"), TestCategory("Exercise 1D")]
         public void SortCollectionGetAllReturnsEnumerationOfCollection2()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3, 4 };
@@ -205,7 +205,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("SortedCollection<T>.GetAllReversed(Predicate<T> p) returns reversed enumeration of collection")]
+        [TestMethod("SortedCollection<T>.GetAllReversed(Predicate<T> p) returns reversed enumeration of collection"), TestCategory("Exercise 1D")]
         public void SortedCollectionGetAllReversedReturnsReversedEnumerationOfCollection2()
         {
             SortedCollection<int> collection = new SortedCollection<int>() { 1, 2, 3, 4 };

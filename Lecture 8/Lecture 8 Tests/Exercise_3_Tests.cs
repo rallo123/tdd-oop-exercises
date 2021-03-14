@@ -16,7 +16,7 @@ namespace Lecture_8_Tests
     public class Exercise_3_Tests
     {
         #region Exercise 3A
-        [TestMethod("ConsoleView.Run() is a public method"), TestCategory("3A")]
+        [TestMethod("ConsoleView.Run() is a public method"), TestCategory("Exercise 3A")]
         public void ConsoleViewRunIsAPublicMethod()
         {
             // TestTools Code
@@ -25,8 +25,8 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("BankAccount.Run() returns on empty line input"), TestCategory("3A")]
-        public void BankAccount()
+        [TestMethod("ConsoleView.Run() returns on empty line input"), TestCategory("Exercise 3A")]
+        public void ConsoleViewRunReturnsOnEmptyLineInput()
         {
             // MSTest Extended
             ConsoleView view = new ConsoleView();
@@ -45,7 +45,7 @@ namespace Lecture_8_Tests
         #endregion
 
         #region exercise 3B
-        [TestMethod("InputHandler is public delegate"), TestCategory("3B")]
+        [TestMethod("InputHandler is public delegate"), TestCategory("Exercise 3B")]
         public void InputHandlerIsPublicDelegate()
         {
             // TestTools Code
@@ -56,7 +56,7 @@ namespace Lecture_8_Tests
         #endregion
 
         #region Exercise 3C
-        [TestMethod("a. ConsoleView.Input is public event"), TestCategory("3C")]
+        [TestMethod("a. ConsoleView.Input is public event"), TestCategory("Exercise 3C")]
         public void ConsoleViewInputIsPublicEvent()
         {
             // TestTools Code
@@ -68,7 +68,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ConsoleView.Run emits Input on non-empty-line input"), TestCategory("3C")]
+        [TestMethod("b. ConsoleView.Run emits Input on non-empty-line input"), TestCategory("Exercise 3C")]
         public void ConsoleViewRunEmitsInputOnNonEmptyLineInput()
         {
             ConsoleView view = new ConsoleView();
@@ -91,7 +91,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ConsoleView.Run does not emit Input on empty-line input"), TestCategory("3C")]
+        [TestMethod("c. ConsoleView.Run does not emit Input on empty-line input"), TestCategory("Exercise 3C")]
         public void ConsoleViewRunDoesNotEmitInputOnEmptyLineInput()
         {
             ConsoleView view = new ConsoleView();

@@ -219,7 +219,7 @@ namespace Lecture_9_Tests
             Student oldestStudent = new Student() { Age = 23 };
 
             course.Enroll(youngestStudent);
-            course.Disenroll(oldestStudent);
+            course.Enroll(oldestStudent);
 
             Assert.AreEqual(course.GetOldestStudent(), oldestStudent);
 
@@ -245,7 +245,7 @@ namespace Lecture_9_Tests
             Student oldestStudent = new Student() { Age = 23 };
 
             course.Enroll(youngestStudent);
-            course.Disenroll(oldestStudent);
+            course.Enroll(oldestStudent);
 
             Assert.AreEqual(course.GetAverageStudentAge(), 21.0);
 
