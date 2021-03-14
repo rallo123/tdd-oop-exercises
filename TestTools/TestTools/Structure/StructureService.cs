@@ -64,6 +64,12 @@ namespace TestTools.Structure
         {
             Type translatedType;
 
+            if (type.IsArray)
+            {
+                Type elementType = TranslateType(type.GetElementType());
+                return elementType.MakeArrayType();
+            }
+
             if (type.Namespace == FromNamespace)
             {
                 ITypeTranslator translator = type.GetCustomTranslator() ?? TypeTranslator;
@@ -73,10 +79,10 @@ namespace TestTools.Structure
                 translatedType = translator.Translate(type);
             }
             else translatedType = type;
-            
-            // TODO add validation so that TypeArguments must match
+
             if (type.IsGenericType)
             {
+                // TODO add validation so that TypeArguments must match
                 Type[] typeArguments = type.GetGenericArguments().Select(TranslateType).ToArray();
                 return translatedType.GetGenericTypeDefinition().MakeGenericType(typeArguments);
             }

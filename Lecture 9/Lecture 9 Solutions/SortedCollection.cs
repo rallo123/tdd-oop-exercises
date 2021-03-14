@@ -41,16 +41,17 @@ namespace Lecture_9_Solutions
 
         public void Add(T item)
         {
-            int index = 0; 
+            int index = _data.Count;
 
-            for(int i = 0; i < _data.Count; i++)
+            for (int i = 0; i < _data.Count; i++)
             {
-                if (_data[i].CompareTo(item) > 1)
+                if (_data[i].CompareTo(item) > 0)
                 {
                     index = i;
                     break;
-                }
+                }  
             }
+
             _data.Insert(index, item);
         }
 

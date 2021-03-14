@@ -9,10 +9,8 @@ namespace Lecture_6_Solutions
         string _make;
         string _model;
         decimal _price;
-        
-        static int _lastID;
-        
-        public int ID { get; } = _lastID++;
+
+        public int ID { get; set; }
         
         public string Make {
             get { return _make; }

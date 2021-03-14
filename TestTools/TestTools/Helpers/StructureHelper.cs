@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 
 namespace TestTools.Helpers
 {
@@ -25,7 +26,15 @@ namespace TestTools.Helpers
 
         public static PropertyInfo GetIndexProperty<TInstance>()
         {
-            throw new NotImplementedException();
+            // Based on https://stackoverflow.com/questions/1347936/identifying-a-custom-indexer-using-reflection-in-c-sharp
+            foreach (PropertyInfo info in typeof(TInstance).GetAllMembers().OfType<PropertyInfo>())
+            {
+                if (info.GetIndexParameters().Length > 0)
+                {
+                    return info;
+                }
+            }
+            throw new ArgumentException($"{typeof(TInstance).Name} does not contain an index property");
         }
     }
 }

@@ -90,6 +90,9 @@ namespace TestTools.Unit
             BlockExpression block3 = (BlockExpression)TypeVisitor.Visit(block2);
 
             Expression.Lambda<Action>(block3).Compile().Invoke();
+
+            // Delegate.Verify is called everytime to avoid having to call Verify explicitly everytime
+            TestTools.Unit.DelegateAssert.Verify();
         }
 
         // Based on Microsoft.VisualStudio.TestTools.UnitTesting.Assert

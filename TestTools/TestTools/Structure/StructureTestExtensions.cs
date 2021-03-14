@@ -155,6 +155,11 @@ namespace TestTools.Structure
             test.AssertProperty(locator, new MemberAccessLevelVerifier(AccessLevels.Public));
         }
 
+        public static void AssertPublicReadonlyProperty(this StructureTest test, PropertyInfo propertyInfo)
+        {
+            test.AssertProperty(propertyInfo, new PropertyIsReadonlyVerifier());
+        }
+
         public static void AssertPublicReadonlyProperty<TInstance, TProperty>(this StructureTest test, Expression<Func<TInstance, TProperty>> locator)
         {
             test.AssertProperty(locator, new PropertyIsReadonlyVerifier());

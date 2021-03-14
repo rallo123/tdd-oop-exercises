@@ -16,7 +16,7 @@ namespace Lecture_8_Tests
     public class Exercise_2_Tests
     {
         #region Exercise 2A
-        [TestMethod("BankAccount.Balance is a public read-only Balance"), TestCategory("2A")]
+        [TestMethod("BankAccount.Balance is a public read-only Balance"), TestCategory("Exercise 2A")]
         public void BankAccountBalanceIsAPublicReadonlyBalance()
         {
             // TestTools Code
@@ -25,7 +25,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("BankAccount.Balance is initialized as 0M"), TestCategory("2A")]
+        [TestMethod("BankAccount.Balance is initialized as 0M"), TestCategory("Exercise 2A")]
         public void BankBalanceIsInitializedAs0M()
         {
             BankAccount account = new BankAccount();
@@ -41,7 +41,7 @@ namespace Lecture_8_Tests
         #endregion
 
         #region Exercise 2B
-        [TestMethod("BankAccount.LowBalanceThreshold is a public property")]
+        [TestMethod("BankAccount.LowBalanceThreshold is a public property"), TestCategory("Exercise 2B")]
         public void BankAccountLowBalanceThresholdsIsAPublicProperty()
         {
             // TestTools Code
@@ -50,7 +50,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("BankAccount.HighBalanceThreshold is a public property")]
+        [TestMethod("BankAccount.HighBalanceThreshold is a public property"), TestCategory("Exercise 2B")]
         public void BankAccountHighBalanceThresholdsIsAPublicProperty()
         {
             // TestTools Code
@@ -59,7 +59,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("BankAccount.LowBalanceThreshold assigned above HighBalanceThreshold throws ArgumentException"), TestCategory("2A")]
+        [TestMethod("BankAccount.LowBalanceThreshold assigned above HighBalanceThreshold throws ArgumentException"), TestCategory("Exercise 2B")]
         public void BankAccountLowBalanceThresholdBelowHighBalanceThresholdThrowsArgumentException()
         {
             BankAccount account = new BankAccount()
@@ -76,7 +76,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("BankAccount.HighBalanceThreshold assigned below LowBalanceThreshold throws ArgumentException"), TestCategory("2A")]
+        [TestMethod("BankAccount.HighBalanceThreshold assigned below LowBalanceThreshold throws ArgumentException"), TestCategory("Exercise 2B")]
         public void BankAccountHighBalanceThresholdBelowLowBalanceThresholdThrowsArgumentException()
         {
             BankAccount account = new BankAccount()
@@ -95,7 +95,7 @@ namespace Lecture_8_Tests
         #endregion
 
         #region exercise 2C
-        [TestMethod("BankAccount.Deposit(decimal amount) is a public method")]
+        [TestMethod("BankAccount.Deposit(decimal amount) is a public method"), TestCategory("Exercise 2C")]
         public void BankAccountDepositIsAPublicMehtod()
         {
             // TestTools Code
@@ -104,7 +104,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("BankAccount.Withdraw(decimal amount) is a public method")]
+        [TestMethod("BankAccount.Withdraw(decimal amount) is a public method"), TestCategory("Exercise 2C")]
         public void BankAccountWithdrawIsAPublicMehtod()
         {
             // TestTools Code
@@ -113,7 +113,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("BankAccount.Deposit(50) adds 50 to Balance")]
+        [TestMethod("BankAccount.Deposit(50) adds 50 to Balance"), TestCategory("Exercise 2C")]
         public void BankAccountDepositAddsToBalance()
         {
             BankAccount account = new BankAccount();
@@ -131,7 +131,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("BankAccount.Withdraw(50) takes 50 from Balance")]
+        [TestMethod("BankAccount.Withdraw(50) takes 50 from Balance"), TestCategory("Exercise 2C")]
         public void BankAccountWithdrawTakesFromBalance()
         {
             BankAccount account = new BankAccount();
@@ -151,7 +151,7 @@ namespace Lecture_8_Tests
         #endregion
 
         #region Exercise 2D
-        [TestMethod("BalanceChangedHandler is public delegate")]
+        [TestMethod("BalanceChangedHandler is public delegate"), TestCategory("Exercise 2D")]
         public void BalanceChangeHandlerIsPublicDelegate()
         {
             // TestTools Code
@@ -162,7 +162,7 @@ namespace Lecture_8_Tests
         #endregion
 
         #region Exercise 2E
-        [TestMethod("a. BankAccount.LowBalance is public event"), TestCategory("2E")]
+        [TestMethod("a. BankAccount.LowBalance is public event"), TestCategory("Exercise 2E")]
         public void BankAccountMinEventIsPublicEvent()
         {
             // TestTools Code
@@ -174,7 +174,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("b. BankAccount.HighBalance is public event"), TestCategory("2E")]
+        [TestMethod("b. BankAccount.HighBalance is public event"), TestCategory("Exercise 2E")]
         public void BankAccountHighBalanceMinEvent()
         {
             // TestTools Code
@@ -186,19 +186,19 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("c. BankAccount.Withdraw(decimal amount) emits LowBalance if Balance goes below threshold"), TestCategory("2E")]
+        [TestMethod("c. BankAccount.Withdraw(decimal amount) emits LowBalance if Balance goes below threshold"), TestCategory("Exercise 2E")]
         public void BankAccountWithdrawEmitsLowBalance()
         {
-            // MSTest Extended
+            bool isCalled = false;
             BankAccount account = new BankAccount()
             {
                 LowBalanceThreshold = 0
             };
-            DelegateAssert.IsInvoked<BalanceChangeHandler>(handler => account.LowBalance += handler);
+            account.LowBalance += (currentBalance) => isCalled = true;
 
             account.Withdraw(50);
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The BankAccout.LowBalance event was never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -209,19 +209,20 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("d. BankAccount.Deposit(decimal amount) emits HighBalance if Balance goes below threshold"), TestCategory("2E")]
+        [TestMethod("d. BankAccount.Deposit(decimal amount) emits HighBalance if Balance goes below threshold"), TestCategory("Exercise 2E")]
         public void BankAccountDepositEmitsHighBalance()
         {
             // MSTest Extended
+            bool isCalled = false;
             BankAccount account = new BankAccount()
             {
                 HighBalanceThreshold = 0
             };
-            DelegateAssert.IsInvoked<BalanceChangeHandler>(handler => account.HighBalance += handler);
+            account.HighBalance += (currentBalance) => isCalled = true; 
 
             account.Deposit(50);
 
-            DelegateAssert.Verify();
+            Assert.IsTrue(isCalled, "The BankAccout.HighBalance event was never emitted");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();

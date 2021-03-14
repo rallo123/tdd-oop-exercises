@@ -187,7 +187,7 @@ namespace TestTools.Unit
              * value, then everything is evaluated, and the default value is 
              * replaced back to a parameter
              */
-            ConstantExpression constant1 = Expression.Constant(default(T1));
+            UnaryExpression constant1 = Expression.Convert(Expression.Constant(default(T1)), typeof(T1));
 
             ReplacerVisitor toReplacer = new ReplacerVisitor(expression.Parameters[0], constant1);
             ReplacerVisitor backReplacer = new ReplacerVisitor(constant1, expression.Parameters[0]);
@@ -211,8 +211,8 @@ namespace TestTools.Unit
              * value, then everything is evaluated, and the default value is 
              * replaced back to a parameter
              */
-            ConstantExpression constant1 = Expression.Constant(default(T1));
-            ConstantExpression constant2 = Expression.Constant(default(T2));
+            UnaryExpression constant1 = Expression.Convert(Expression.Constant(default(T1)), typeof(T1));
+            UnaryExpression constant2 = Expression.Convert(Expression.Constant(default(T2)), typeof(T2));
 
             ReplacerVisitor toReplacer1 = new ReplacerVisitor(expression.Parameters[0], constant1);
             ReplacerVisitor toReplacer2 = new ReplacerVisitor(expression.Parameters[1], constant2);
@@ -238,9 +238,9 @@ namespace TestTools.Unit
              * value, then everything is evaluated, and the default value is 
              * replaced back to a parameter
              */
-            ConstantExpression constant1 = Expression.Constant(default(T1));
-            ConstantExpression constant2 = Expression.Constant(default(T2));
-            ConstantExpression constant3 = Expression.Constant(default(T3));
+            UnaryExpression constant1 = Expression.Convert(Expression.Constant(default(T1)), typeof(T1));
+            UnaryExpression constant2 = Expression.Convert(Expression.Constant(default(T2)), typeof(T2));
+            UnaryExpression constant3 = Expression.Convert(Expression.Constant(default(T3)), typeof(T3));
 
             ReplacerVisitor toReplacer1 = new ReplacerVisitor(expression.Parameters[0], constant1);
             ReplacerVisitor toReplacer2 = new ReplacerVisitor(expression.Parameters[1], constant2);
@@ -275,7 +275,7 @@ namespace TestTools.Unit
              * value, then everything is evaluated, and the default value is 
              * replaced back to a parameter
              */
-            ConstantExpression constant1 = Expression.Constant(default(T1));
+            UnaryExpression constant1 = Expression.Convert(Expression.Constant(default(T1)), typeof(T1));
 
             ReplacerVisitor toReplacer = new ReplacerVisitor(expression.Parameters[0], constant1);
             ReplacerVisitor backReplacer = new ReplacerVisitor(constant1, expression.Parameters[0]);
@@ -299,8 +299,8 @@ namespace TestTools.Unit
              * value, then everything is evaluated, and the default value is 
              * replaced back to a parameter
              */
-            ConstantExpression constant1 = Expression.Constant(default(T1));
-            ConstantExpression constant2 = Expression.Constant(default(T2));
+            UnaryExpression constant1 = Expression.Convert(Expression.Constant(default(T1)), typeof(T1));
+            UnaryExpression constant2 = Expression.Convert(Expression.Constant(default(T2)), typeof(T2));
 
             ReplacerVisitor toReplacer1 = new ReplacerVisitor(expression.Parameters[0], constant1);
             ReplacerVisitor toReplacer2 = new ReplacerVisitor(expression.Parameters[1], constant2);
@@ -326,9 +326,9 @@ namespace TestTools.Unit
              * value, then everything is evaluated, and the default value is 
              * replaced back to a parameter
              */
-            ConstantExpression constant1 = Expression.Constant(default(T1));
-            ConstantExpression constant2 = Expression.Constant(default(T2));
-            ConstantExpression constant3 = Expression.Constant(default(T3));
+            UnaryExpression constant1 = Expression.Convert(Expression.Constant(default(T1)), typeof(T1));
+            UnaryExpression constant2 = Expression.Convert(Expression.Constant(default(T2)), typeof(T2));
+            UnaryExpression constant3 = Expression.Convert(Expression.Constant(default(T3)), typeof(T3));
 
             ReplacerVisitor toReplacer1 = new ReplacerVisitor(expression.Parameters[0], constant1);
             ReplacerVisitor toReplacer2 = new ReplacerVisitor(expression.Parameters[1], constant2);
@@ -359,6 +359,12 @@ namespace TestTools.Unit
             return new TestVariable<T>(expression);
         }
 
+        public static TestExpression<T> Assign<T>(TestExpression<T> left, TestExpression<T> right)
+        {
+            Expression assignment = Expression.Assign(left.Expression, right.Expression);
+            return new TestExpression<T>(assignment);
+        }
+
         private class ReplacerVisitor : ExpressionVisitor
         {
             Expression _oldValue;
@@ -378,14 +384,6 @@ namespace TestTools.Unit
                 }
                 return base.Visit(node);
             }
-            /*
-            protected override Expression VisitLambda<T>(Expression<T> node)
-            {
-                Expression body = Visit(node.Body);
-                ParameterExpression[] parameters = node.Parameters.Select(p => (ParameterExpression)Visit(p)).ToArray();
-                
-                return Expression.Lambda(body, parameters);
-            }*/
         }
     }
 

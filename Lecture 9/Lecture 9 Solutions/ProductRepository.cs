@@ -12,6 +12,9 @@ namespace Lecture_9_Solutions
 
         public void Add(Product product)
         {
+            if (_products.Contains(product))
+                throw new ArgumentException("Product has already been added, use ProductRepository.Update instead");
+
             _products.Add((Product)product.Clone());
         }
 

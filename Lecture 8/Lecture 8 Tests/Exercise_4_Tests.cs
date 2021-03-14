@@ -16,7 +16,7 @@ namespace Lecture_8_Tests
     public class Exercise_4_Tests
     {
         #region Exercise 4B
-        [TestMethod("a. ConsoleController.HandleInput(string input) is a public method"), TestCategory("4B")]
+        [TestMethod("a. ConsoleController.HandleInput(string input) is a public method"), TestCategory("Exercise 4B")]
         public void ConsoleViewRunIsAPublicMethod()
         {
             // TestTools Code
@@ -25,7 +25,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ConsoleController.HandleInput(\"Echo Hello world\") echos"), TestCategory("4B")]
+        [TestMethod("b. ConsoleController.HandleInput(\"Echo Hello world\") echos"), TestCategory("Exercise 4B")]
         public void ConsoleControllerHandleInputEchos()
         {
             // MSTest Extended
@@ -42,12 +42,12 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ConsoleController.HandleInput(\"Reverse Hello world\") reverses"), TestCategory("4B")]
+        [TestMethod("c. ConsoleController.HandleInput(\"Reverse Hello world\") reverses"), TestCategory("Exercise 4B")]
         public void ConsoleControllerHandleInputReverses()
         {
             // MSTest Extended
             ConsoleController constroller = new ConsoleController();
-            ConsoleAssert.WritesOut(() => constroller.HandleInput("Reverse Hello world"), "dlroW olleH");
+            ConsoleAssert.WritesOut(() => constroller.HandleInput("Reverse Hello world"), "dlrow olleH");
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -55,11 +55,11 @@ namespace Lecture_8_Tests
             test.Arrange(_controller, Expr(() => new ConsoleController()));
             test.ConsoleAssert.WritesOut(
                 Lambda(Expr(_controller, c => c.HandleInput("Reverse Hello world"))),
-                Const("dlroW olleH"));
+                Const("dlrow olleH"));
             test.Execute();
         }
 
-        [TestMethod("d. ConsoleController.HandleInput(\"Greet world\") greets"), TestCategory("4B")]
+        [TestMethod("d. ConsoleController.HandleInput(\"Greet world\") greets"), TestCategory("Exercise 4B")]
         public void ConsoleControllerHandleInputGreets()
         {
             // MSTest Extended
@@ -76,7 +76,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("e. ConsoleController.HandleInput(\"NonExistentCommand Hello World\") errors"), TestCategory("4B")]
+        [TestMethod("e. ConsoleController.HandleInput(\"NonExistentCommand Hello World\") errors"), TestCategory("Exercise 4B")]
         public void ConsoleControllerHandleInputErrors()
         {
             ConsoleController controller = new ConsoleController();
@@ -94,7 +94,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("f. ConsoleController.HandleInput(\"Greet\") errors"), TestCategory("4B")]
+        [TestMethod("f. ConsoleController.HandleInput(\"Greet\") errors"), TestCategory("Exercise 4B")]
         public void ConsoleControllerHandleInputErrors2()
         {
             // MSTest Extended
@@ -113,7 +113,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("g. ConsoleController.HandleInput(\"\") errors"), TestCategory("4B")]
+        [TestMethod("g. ConsoleController.HandleInput(\"\") errors"), TestCategory("Exercise 4B")]
         public void ConsoleControllerHandleInputErrors3()
         {
             // MSTest Extended
@@ -134,7 +134,7 @@ namespace Lecture_8_Tests
         #endregion
 
         #region exercise 4C
-        [TestMethod("a. ConsoleController.AddCommand(string name, Action<string> action) is a public method"), TestCategory("4C")]
+        [TestMethod("a. ConsoleController.AddCommand(string name, Action<string> action) is a public method"), TestCategory("Exercise 4C")]
         public void ConsoleControllerAddCommand()
         {
             // TestTools Code
@@ -143,7 +143,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ConsoleController.AddCommand(\"SayGoodbye\", (s) => ...) adds command"), TestCategory("4C")]
+        [TestMethod("b. ConsoleController.AddCommand(\"SayGoodbye\", (s) => ...) adds command"), TestCategory("Exercise 4C")]
         public void ConsoleConstrollerAddCommandAddsCommand()
         {
             // MSTest Extended
@@ -176,7 +176,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ConsoleController.RemoveCommand(\"SayGoodbye\") removes command again"), TestCategory("4D")]
+        [TestMethod("c. ConsoleController.RemoveCommand(\"SayGoodbye\") removes command again"), TestCategory("Exercise 4D")]
         public void ConsoleControllerRemoveCommandRemovesCommand()
         {
             // MSTest Extended

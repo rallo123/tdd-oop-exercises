@@ -27,38 +27,38 @@ namespace Lecture_8_Solutions
 
             if (commandParts[0] == null)
             {
-                Console.WriteLine("Please enter a command");
+                Console.WriteLine("Please provide a command");
             }
-            else if (!_commands.ContainsKey(commandParts[0]))
+            else if (!_commands.ContainsKey(commandParts[0].ToLower()))
             {
                 Console.WriteLine($"Command {commandParts[0]} not found");
             }
             else if (commandParts[1] == null)
             {
-                Console.WriteLine($"Command {commandParts[0]} requires an argument");
+                Console.WriteLine("Please provide a command argument");
             }
             else _commands[commandParts[0].ToLower()].Invoke(commandParts[1]);
         }
 
         public void AddCommand(string name, Action<string> action)
         {
-            if (_commands.ContainsKey(name))
+            if (_commands.ContainsKey(name.ToLower()))
                 throw new ArgumentException();
-            _commands.Add(name, action);
+            _commands.Add(name.ToLower(), action);
         }
 
         public void RemoveCommand(string name)
         {
-            _commands.Remove(name);
+            _commands.Remove(name.ToLower());
         }
 
         private string[] parseCommand(string rawCommand)
         {
             string command;
             string arg;
-            string[] commandParts = rawCommand.Split('.', 2);
+            string[] commandParts = rawCommand.Split(' ', 2);
 
-            command = commandParts.Length > 0 ? commandParts[0] : null;
+            command = !string.IsNullOrEmpty(rawCommand) ? commandParts[0] : null;
             arg = commandParts.Length > 1 ? commandParts[1] : null;
 
             return new[] { command, arg };
