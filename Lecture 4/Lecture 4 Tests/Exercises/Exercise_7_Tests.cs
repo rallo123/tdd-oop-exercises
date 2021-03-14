@@ -28,13 +28,13 @@ namespace Lecture_4_Tests
         public void ParameterlessPersonConstructorAssignsMessageProperty()
         {
             NotOldEnoughException exception = new NotOldEnoughException();
-            Assert.AreEqual(exception.Message, "Person is too young");
+            Assert.AreEqual("Person is too young", exception.Message);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<NotOldEnoughException> _exception = test.CreateVariable<NotOldEnoughException>();
             test.Arrange(_exception, Expr(() => new NotOldEnoughException()));
-            test.Assert.AreEqual(Expr(_exception, e => e.Message), Const("Person is too young"));
+            test.Assert.AreEqual(Const("Person is too young"), Expr(_exception, e => e.Message));
             test.Execute();
         }
         #endregion
@@ -44,13 +44,13 @@ namespace Lecture_4_Tests
         public void PersonConstructorAssignsMessageProperty()
         {
             NotOldEnoughException exception = new NotOldEnoughException("do something");
-            Assert.AreEqual(exception.Message, "Person is too young to do something");
+            Assert.AreEqual("Person is too young to do something", exception.Message);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<NotOldEnoughException> _exception = test.CreateVariable<NotOldEnoughException>();
             test.Arrange(_exception, Expr(() => new NotOldEnoughException("do something")));
-            test.Assert.AreEqual(Expr(_exception, e => e.Message), Const("Person is too young to do something"));
+            test.Assert.AreEqual(Const("Person is too young to do something"), Expr(_exception, e => e.Message));
             test.Execute();
         }
         #endregion

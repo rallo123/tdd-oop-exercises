@@ -44,7 +44,7 @@ namespace Lecture_6_Tests
             PredictableRandom random = new PredictableRandom(5);
             Die die = new Die(random, 6);
 
-            Assert.AreEqual(die.Roll(), 5);
+            Assert.AreEqual(5, die.Roll());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -52,7 +52,7 @@ namespace Lecture_6_Tests
             TestVariable<Die> _die = test.CreateVariable<Die>();
             test.Arrange(_random, Expr(() => new PredictableRandom(5)));
             test.Arrange(_die, Expr(_random, (r) => new Die(r, 6)));
-            test.Assert.AreEqual(Expr(_die, d => d.Roll()), Const(5));
+            test.Assert.AreEqual(Const(5), Expr(_die, d => d.Roll()));
             test.Execute();
         }
 

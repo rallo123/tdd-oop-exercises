@@ -42,27 +42,27 @@ namespace Lecture_3_Tests
         public void BalanceIsInitilizedAs0()
         {
             BankAccount account = new BankAccount();
-            Assert.AreEqual(account.Balance, 0M);
+            Assert.AreEqual(0M, account.Balance);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
-            test.Assert.AreEqual(Expr(_account, a => a.Balance), Const(0M));
+            test.Assert.AreEqual(Const(0M), Expr(_account, a => a.Balance));
             test.Execute();
         }
 
-        [TestMethod("e. BankAccount.BorrowingRate is initalized as 0.6M"), TestCategory("Exercise 5A")]
+        [TestMethod("e. BankAccount.BorrowingRate is initalized as 0.06M"), TestCategory("Exercise 5A")]
         public void BorrowingRateIsInitilizedAs0Point6()
         {
             BankAccount account = new BankAccount();
-            Assert.AreEqual(account.BorrowingRate, 0.06M);
+            Assert.AreEqual(0.06M, account.BorrowingRate);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
-            test.Assert.AreEqual(Expr(_account, a => a.BorrowingRate), Const(0.06M));
+            test.Assert.AreEqual(Const(0.06M), Expr(_account, a => a.BorrowingRate));
             test.Execute();
         }
 
@@ -70,13 +70,13 @@ namespace Lecture_3_Tests
         public void SavingsRateIsInitilizedAs0Point2()
         {
             BankAccount account = new BankAccount();
-            Assert.AreEqual(account.SavingsRate, 0.02M);
+            Assert.AreEqual(0.02M, account.SavingsRate);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
-            test.Assert.AreEqual(Expr(_account, a => a.SavingsRate), Const(0.02M));
+            test.Assert.AreEqual(Const(0.02M), Expr(_account, a => a.SavingsRate));
             test.Execute();
         }
 
@@ -87,14 +87,14 @@ namespace Lecture_3_Tests
             
             account.BorrowingRate = 0.05M;
 
-            Assert.AreEqual(account.BorrowingRate, 0.06M);
+            Assert.AreEqual(0.06M, account.BorrowingRate);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
             test.Act(Expr(_account, a => a.SetBorrowingRate(0.05M)));
-            test.Assert.AreEqual(Expr(_account, a => a.BorrowingRate), Const(0.06M));
+            test.Assert.AreEqual(Const(0.06M), Expr(_account, a => a.BorrowingRate));
             test.Execute();
         }
 
@@ -105,14 +105,14 @@ namespace Lecture_3_Tests
 
             account.SavingsRate = 0.03M;
 
-            Assert.AreEqual(account.SavingsRate, 0.02M);
+            Assert.AreEqual(0.02M, account.SavingsRate);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
             test.Act(Expr(_account, a => a.SetSavingsRate(0.03M)));
-            test.Assert.AreEqual(Expr(_account, a => a.SavingsRate), Const(0.02M));
+            test.Assert.AreEqual(Const(0.02M), Expr(_account, a => a.SavingsRate));
             test.Execute();
         }
         #endregion
@@ -125,14 +125,14 @@ namespace Lecture_3_Tests
 
             account.Deposit(50M);
 
-            Assert.AreEqual(account.Balance, 50M);
+            Assert.AreEqual(50M, account.Balance);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
             test.Act(Expr(_account, a => a.Deposit(50M)));
-            test.Assert.AreEqual(Expr(_account, a => a.Balance), Const(50M));
+            test.Assert.AreEqual(Const(50M), Expr(_account, a => a.Balance));
             test.Execute();
         }
 
@@ -143,14 +143,14 @@ namespace Lecture_3_Tests
 
             account.Deposit(-1M);
 
-            Assert.AreEqual(account.Balance, 0);
+            Assert.AreEqual(0, account.Balance);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
             test.Act(Expr(_account, a => a.Deposit(-1M)));
-            test.Assert.AreEqual(Expr(_account, a => a.Balance), Const(0M));
+            test.Assert.AreEqual(Const(0M), Expr(_account, a => a.Balance));
             test.Execute();
         }
 
@@ -161,14 +161,14 @@ namespace Lecture_3_Tests
 
             account.Withdraw(50M);
 
-            Assert.AreEqual(account.Balance, -50M);
+            Assert.AreEqual(-50M, account.Balance);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
             test.Act(Expr(_account, a => a.Withdraw(50M)));
-            test.Assert.AreEqual(Expr(_account, a => a.Balance), Const(-50M));
+            test.Assert.AreEqual(Const(-50M), Expr(_account, a => a.Balance));
             test.Execute();
         }
 
@@ -179,14 +179,14 @@ namespace Lecture_3_Tests
 
             account.Deposit(-1M);
 
-            Assert.AreEqual(account.Balance, 0);
+            Assert.AreEqual(0, account.Balance);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>(nameof(_account));
             test.Arrange(_account, Expr(() => new BankAccount()));
             test.Act(Expr(_account, a => a.Withdraw(-1M)));
-            test.Assert.AreEqual(Expr(_account, a => a.Balance), Const(0M));
+            test.Assert.AreEqual(Const(0M), Expr(_account, a => a.Balance));
             test.Execute();
         }
         #endregion

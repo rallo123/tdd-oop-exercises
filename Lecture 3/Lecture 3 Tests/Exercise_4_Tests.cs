@@ -19,13 +19,13 @@ namespace Lecture_3_Tests
             {
                 Title = "Programmer"
             };
-            Assert.AreEqual(employee.ToString(), "Employee Joe Stevens (Programmer)");
+            Assert.AreEqual("Employee Joe Stevens (Programmer)", employee.ToString());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
             test.Arrange(_employee, Expr(() => new Employee("Joe Stevens") { Title = "Programmer" }));
-            test.Assert.AreEqual(Expr(_employee, e => e.ToString()), Const("Employee Joe Stevens (Programmer)"));
+            test.Assert.AreEqual(Const("Employee Joe Stevens (Programmer)", Expr(_employee, e => e.ToString())));
             test.Execute();
         }
         #endregion
@@ -38,13 +38,13 @@ namespace Lecture_3_Tests
             {
                 Title = "Software Engineer"
             };
-            Assert.AreEqual(manager.ToString(), "Manager Mary Stevens (Software Engineer)");
+            Assert.AreEqual("Manager Mary Stevens (Software Engineer)", manager.ToString());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Manager> _manager = test.CreateVariable<Manager>(nameof(_manager));
             test.Arrange(_manager, Expr(() => new Manager("Mary Stevens") { Title = "Software Engineer" }));
-            test.Assert.AreEqual(Expr(_manager, m => m.ToString()), Const("Manager Mary Stevens (Software Engineer)"));
+            test.Assert.AreEqual(Const("Manager Mary Stevens (Software Engineer)"), Expr(_manager, m => m.ToString()));
             test.Execute();
         }
         #endregion

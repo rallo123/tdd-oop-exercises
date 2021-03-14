@@ -37,13 +37,13 @@ namespace Lecture_7_Tests
         public void MyQueueConstructorSetsMaxCount()
         {
             MyQueue<int> queue = new MyQueue<int>(5);
-            Assert.AreEqual(queue.MaxCount, 5);
+            Assert.AreEqual(5, queue.MaxCount);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> _queue = test.CreateVariable<MyQueue<int>>();
             test.Arrange(_queue, Expr(() => new MyQueue<int>(5)));
-            test.Assert.AreEqual(Expr(_queue, q => q.MaxCount), Const(5));
+            test.Assert.AreEqual(Const(5), Expr(_queue, q => q.MaxCount));
             test.Execute();
         }
         #endregion
@@ -62,13 +62,13 @@ namespace Lecture_7_Tests
         public void MyQueueCountIsInitializedAs0()
         {
             MyQueue<int> queue = new MyQueue<int>(5);
-            Assert.AreEqual(queue.Count, 0);
+            Assert.AreEqual(0, queue.Count);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> _queue = test.CreateVariable<MyQueue<int>>();
             test.Arrange(_queue, Expr(() => new MyQueue<int>(5)));
-            test.Assert.AreEqual(Expr(_queue, q => q.Count), Const(0));
+            test.Assert.AreEqual(Const(0), Expr(_queue, q => q.Count));
             test.Execute();
         }
         #endregion
@@ -101,14 +101,14 @@ namespace Lecture_7_Tests
             
             queue.Enqueue(1);
 
-            Assert.AreEqual(queue.Count, 1);
+            Assert.AreEqual(1, queue.Count);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<MyQueue<int>> _queue = test.CreateVariable<MyQueue<int>>();
             test.Arrange(_queue, Expr(() => new MyQueue<int>(5)));
             test.Act(Expr(_queue, q => q.Enqueue(1)));
-            test.Assert.AreEqual(Expr(_queue, q => q.Count), Const(1));
+            test.Assert.AreEqual(Const(1), Expr(_queue, q => q.Count));
             test.Execute();
         }
 
@@ -121,7 +121,7 @@ namespace Lecture_7_Tests
             queue.Enqueue(1);
             queue.Dequeue();
             
-            Assert.AreEqual(queue.Count, 0);
+            Assert.AreEqual(0, queue.Count);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -129,7 +129,7 @@ namespace Lecture_7_Tests
             test.Arrange(_queue, Expr(() => new MyQueue<int>(5)));
             test.Act(Expr(_queue, q => q.Enqueue(1)));
             test.Act(Expr(_queue, q => q.Dequeue()));
-            test.Assert.AreEqual(Expr(_queue, q => q.Count), Const(0));
+            test.Assert.AreEqual(Const(0), Expr(_queue, q => q.Count));
             test.Execute();
         }
 
@@ -186,7 +186,7 @@ namespace Lecture_7_Tests
             queue.Enqueue(1);
             queue.Enqueue(2);
 
-            Assert.AreEqual(queue.Peek(), 1);
+            Assert.AreEqual(1, queue.Peek());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -194,7 +194,7 @@ namespace Lecture_7_Tests
             test.Arrange(_queue, Expr(() => new MyQueue<int>(5)));
             test.Act(Expr(_queue, q => q.Enqueue(1)));
             test.Act(Expr(_queue, q => q.Enqueue(2)));
-            test.Assert.AreEqual(Expr(_queue, q => q.Peek()), Const(1));
+            test.Assert.AreEqual(Const(1), Expr(_queue, q => q.Peek()));
             test.Execute();
         }
 
@@ -208,7 +208,7 @@ namespace Lecture_7_Tests
             queue.Enqueue(2);
             queue.Peek();
 
-            Assert.AreEqual(queue.Peek(), 1);
+            Assert.AreEqual(1, queue.Peek());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -217,7 +217,7 @@ namespace Lecture_7_Tests
             test.Act(Expr(_queue, q => q.Enqueue(1)));
             test.Act(Expr(_queue, q => q.Enqueue(2)));
             test.Act(Expr(_queue, q => q.Peek()));
-            test.Assert.AreEqual(Expr(_queue, q => q.Peek()), Const(1));
+            test.Assert.AreEqual(Const(1), Expr(_queue, q => q.Peek()));
             test.Execute();
         }
         #endregion

@@ -172,7 +172,7 @@ namespace Lecture_9_Tests
 
             course.Enroll(student);
 
-            Assert.AreEqual(course.GetStudentByID(5), student);
+            Assert.AreEqual(student, course.GetStudentByID(5));
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -221,7 +221,7 @@ namespace Lecture_9_Tests
             course.Enroll(youngestStudent);
             course.Enroll(oldestStudent);
 
-            Assert.AreEqual(course.GetOldestStudent(), oldestStudent);
+            Assert.AreEqual(oldestStudent, course.GetOldestStudent());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -247,7 +247,7 @@ namespace Lecture_9_Tests
             course.Enroll(youngestStudent);
             course.Enroll(oldestStudent);
 
-            Assert.AreEqual(course.GetAverageStudentAge(), 21.0);
+            Assert.AreEqual(21.0, course.GetAverageStudentAge());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -259,7 +259,7 @@ namespace Lecture_9_Tests
             test.Arrange(_oldestStudent, Expr(() => new Student() { Age = 23 }));
             test.Act(Expr(_course, _youngestStudent, (c, s) => c.Enroll(s)));
             test.Act(Expr(_course, _oldestStudent, (c, s) => c.Enroll(s)));
-            test.Assert.AreEqual(Expr(_course, _youngestStudent, (c, s) => c.GetAverageStudentAge()), Const(21.0));
+            test.Assert.AreEqual(Const(21.0), Expr(_course, _youngestStudent, (c, s) => c.GetAverageStudentAge()));
             test.Execute();
         }
         #endregion

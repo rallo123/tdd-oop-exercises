@@ -70,6 +70,9 @@ namespace Lecture_6_Tests
         [TestMethod("b. Car.CompareTo sorts null first"), TestCategory("2C")]
         public void CarCompareToSortsNullFirst()
         {
+            Car car = new Car("", "", 0.0M);
+            Assert.IsTrue(car.CompareTo(null) > 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car = test.CreateVariable<Car>();
@@ -81,6 +84,11 @@ namespace Lecture_6_Tests
         [TestMethod("c. Car.CompareTo sorts higher ID first"), TestCategory("2C")]
         public void CarCompareToSortsHigherIDFirst()
         {
+            Car car1 = new Car("", "", 0.0M) { ID = 0 };
+            Car car2 = new Car("", "", 0.0M) { ID = 1 };
+
+            Assert.IsTrue(car2.CompareTo(car1) > 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car1 = test.CreateVariable<Car>();
@@ -107,6 +115,11 @@ namespace Lecture_6_Tests
         [TestMethod("b. CarPriceComparer.Compare sorts null first"), TestCategory("2D")]
         public void CarPriceComparerCompareSortsNullFirst()
         {
+            Car car = new Car("", "", 0.0M);
+            CarPriceComparer comparer = new CarPriceComparer();
+
+            Assert.IsTrue(comparer.Compare(car, null) > 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car = test.CreateVariable<Car>();
@@ -120,6 +133,12 @@ namespace Lecture_6_Tests
         [TestMethod("c. CarPriceComparer.Compare sorts cars with higher Price first"), TestCategory("2D")]
         public void CarPriceComparerCompareSortsCarsWithHigherPriceFirst()
         {
+            Car car1 = new Car("", "", 0.0M);
+            Car car2 = new Car("", "", 1.0M);
+            CarPriceComparer comparer = new CarPriceComparer();
+
+            Assert.IsTrue(comparer.Compare(car1, car2) < 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car1 = test.CreateVariable<Car>();
@@ -135,6 +154,12 @@ namespace Lecture_6_Tests
         [TestMethod("d. CarPriceComparer.Compare does not sort cars if equal Price"), TestCategory("2D")]
         public void CarPriceComparerCompareDoesNotSortCarsIfEqualPrice()
         {
+            Car car1 = new Car("", "", 0.0M);
+            Car car2 = new Car("", "", 0.0M);
+            CarPriceComparer comparer = new CarPriceComparer();
+
+            Assert.IsTrue(comparer.Compare(car1, car2) == 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car1 = test.CreateVariable<Car>();
@@ -163,6 +188,11 @@ namespace Lecture_6_Tests
         [TestMethod("b. CarMakeModelPriceComparer.Compare sorts null first"), TestCategory("2E")]
         public void CarMakeModelPriceComparerCompareSortsNullFirst()
         {
+            Car car = new Car("", "", 0.0M);
+            CarMakeModelPriceComparer comparer = new CarMakeModelPriceComparer();
+
+            Assert.IsTrue(comparer.Compare(car, null) > 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car = test.CreateVariable<Car>();
@@ -176,6 +206,12 @@ namespace Lecture_6_Tests
         [TestMethod("c. CarMakeModelPriceComparer.Compare sorts according to Car.Make"), TestCategory("2E")]
         public void CarMakeModelPriceComparerCompareSortsAccordingToCarMake()
         {
+            Car car1 = new Car("Audi", "", 0.0M);
+            Car car2 = new Car("BMW", "", 0.0M);
+            CarMakeModelPriceComparer comparer = new CarMakeModelPriceComparer();
+
+            Assert.IsTrue(comparer.Compare(car1, car2) < 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car1 = test.CreateVariable<Car>();
@@ -191,6 +227,12 @@ namespace Lecture_6_Tests
         [TestMethod("d. CarMakeModelPriceComparer.Compare sorts according to Car.Model if Car.Make are equal"), TestCategory("2E")]
         public void CarMakeModelPriceComparerCompareSortsAccordingToCarModel()
         {
+            Car car1 = new Car("Audi", "A3", 0.0M);
+            Car car2 = new Car("Audi", "S3", 0.0M);
+            CarMakeModelPriceComparer comparer = new CarMakeModelPriceComparer();
+
+            Assert.IsTrue(comparer.Compare(car1, car2) < 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car1 = test.CreateVariable<Car>();
@@ -206,6 +248,12 @@ namespace Lecture_6_Tests
         [TestMethod("e. CarMakeModelPriceComparer.Compare sorts according to Car.Price if Car.Make and Car.Model are equal"), TestCategory("2E")]
         public void CarMakeModelPriceComparerCompareSortsAccordingToCarPrice()
         {
+            Car car1 = new Car("Audi", "A3", 0.0M);
+            Car car2 = new Car("Audi", "A3", 1.0M);
+            CarMakeModelPriceComparer comparer = new CarMakeModelPriceComparer();
+
+            Assert.IsTrue(comparer.Compare(car1, car2) < 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car1 = test.CreateVariable<Car>();
@@ -221,6 +269,12 @@ namespace Lecture_6_Tests
         [TestMethod("f. CarMakeModelPriceComparer.Compare does not sort if Car.Make, Car.Model and Car.Price are equal"), TestCategory("2E")]
         public void CarMakeModelPriceComparerCompareDoesNotSortIfEverythingIsEqual()
         {
+            Car car1 = new Car("Audi", "A3", 0.0M);
+            Car car2 = new Car("Audi", "A3", 0.0M);
+            CarMakeModelPriceComparer comparer = new CarMakeModelPriceComparer();
+
+            Assert.IsTrue(comparer.Compare(car1, car2) == 0);
+
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Car> _car1 = test.CreateVariable<Car>();

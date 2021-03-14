@@ -193,7 +193,7 @@ namespace Lecture_9_Tests
 
             product.Name = "NewName";
 
-            Assert.AreEqual(repository.First().Name, "Name");
+            Assert.AreEqual("Name", repository.First().Name);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -202,7 +202,7 @@ namespace Lecture_9_Tests
             test.Arrange(_product, Expr(() => new Product() { Name = "Name" }));
             test.Arrange(_repository, Expr(_product, p => new ProductRepository() { p }));
             test.Act(Expr(_product, p => p.SetName("NewName")));
-            test.Assert.AreEqual(Expr(_repository, r => r.First().Name), Const("Name"));
+            test.Assert.AreEqual(Const("Name"), Expr(_repository, r => r.First().Name));
             test.Execute();
         }
 
@@ -215,7 +215,7 @@ namespace Lecture_9_Tests
             product.Name = "NewName";
             repository.Update(product);
 
-            Assert.AreEqual(repository.First().Name, "NewName");
+            Assert.AreEqual("NewName", repository.First().Name);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -225,7 +225,7 @@ namespace Lecture_9_Tests
             test.Arrange(_repository, Expr(_product, p => new ProductRepository() { p }));
             test.Act(Expr(_product, p => p.SetName("NewName")));
             test.Act(Expr(_repository, _product, (r, p) => r.Update(p)));
-            test.Assert.AreEqual(Expr(_repository, r => r.First().Name), Const("NewName"));
+            test.Assert.AreEqual(Const("NewName"), Expr(_repository, r => r.First().Name));
             test.Execute();
         }
 
@@ -314,7 +314,7 @@ namespace Lecture_9_Tests
             Product product = new Product() { ID = 5 };
             ProductRepository repository = new ProductRepository() { product };
 
-            Assert.AreEqual(repository.GetProductByID(5), product);
+            Assert.AreEqual(product, repository.GetProductByID(5));
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -322,7 +322,7 @@ namespace Lecture_9_Tests
             TestVariable<Product> _product = test.CreateVariable<Product>();
             test.Arrange(_product, Expr(() => new Product() { ID = 5 }));
             test.Arrange(_repository, Expr(_product, p => new ProductRepository() { p }));
-            test.Assert.AreEqual(Expr(_repository, r => r.GetProductByID(5)), Expr(_product, p => p));
+            test.Assert.AreEqual(Expr(_product, p => p), Expr(_repository, r => r.GetProductByID(5)));
             test.Execute();
         }
 
@@ -337,7 +337,7 @@ namespace Lecture_9_Tests
                 mostExpensiveProduct
             };
 
-            Assert.AreEqual(repository.GetLeastExpensiveProduct(), leastExpensiveProduct);
+            Assert.AreEqual(leastExpensiveProduct, repository.GetLeastExpensiveProduct());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -349,7 +349,7 @@ namespace Lecture_9_Tests
             test.Arrange(_mostExpensiveProduct, Expr(() => new Product() { ID = 5, Price = 20M }));
             test.Act(Expr(_repository, _leastExpensiveProduct, (r, p) => r.Add(p)));
             test.Act(Expr(_repository, _mostExpensiveProduct, (r, p) => r.Add(p)));
-            test.Assert.AreEqual(Expr(_repository, r => r.GetLeastExpensiveProduct()), Expr(_leastExpensiveProduct, p => p));
+            test.Assert.AreEqual(Expr(_leastExpensiveProduct, p => p), Expr(_repository, r => r.GetLeastExpensiveProduct()));
             test.Execute();
         }
 
@@ -364,7 +364,7 @@ namespace Lecture_9_Tests
                 mostExpensiveProduct
             };
 
-            Assert.AreEqual(repository.GetMostExpensiveProduct(), mostExpensiveProduct);
+            Assert.AreEqual(mostExpensiveProduct, repository.GetMostExpensiveProduct());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -376,7 +376,7 @@ namespace Lecture_9_Tests
             test.Arrange(_mostExpensiveProduct, Expr(() => new Product() { ID = 5, Price = 20M }));
             test.Act(Expr(_repository, _leastExpensiveProduct, (r, p) => r.Add(p)));
             test.Act(Expr(_repository, _mostExpensiveProduct, (r, p) => r.Add(p)));
-            test.Assert.AreEqual(Expr(_repository, r => r.GetMostExpensiveProduct()), Expr(_mostExpensiveProduct, p => p));
+            test.Assert.AreEqual(Expr(_mostExpensiveProduct, p => p), Expr(_repository, r => r.GetMostExpensiveProduct()));
             test.Execute();
         }
 
@@ -391,7 +391,7 @@ namespace Lecture_9_Tests
                 mostExpensiveProduct
             };
 
-            Assert.AreEqual(repository.GetAverageProductPrice(), 15M);
+            Assert.AreEqual(15M, repository.GetAverageProductPrice());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -403,7 +403,7 @@ namespace Lecture_9_Tests
             test.Arrange(_product2, Expr(() => new Product() { ID = 5, Price = 20M }));
             test.Act(Expr(_repository, _product1, (r, p) => r.Add(p)));
             test.Act(Expr(_repository, _product2, (r, p) => r.Add(p)));
-            test.Assert.AreEqual(Expr(_repository, r => r.GetAverageProductPrice()), Const(15M));
+            test.Assert.AreEqual(Const(15M), Expr(_repository, r => r.GetAverageProductPrice()));
             test.Execute();
         }
 

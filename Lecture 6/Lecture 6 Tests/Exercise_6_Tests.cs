@@ -87,7 +87,6 @@ namespace Lecture_6_Tests
         [TestMethod("b. FileLogger.Log(string message) appends file"), TestCategory("6E")]
         public void FileLoggerAppendsFile()
         {
-            // FAILS AT THE MOMENT AND MORE WORK IS NEEDED ON THIS
             FileLoggerAppendsFileSetup();
             
             FileLogger logger = new FileLogger("./log.txt");
@@ -99,7 +98,7 @@ namespace Lecture_6_Tests
                 Environment.NewLine, 
                 "Customer Ryan Johnson was created", 
                 "Customer Ryan Johnson was deleted");
-            Assert.AreEqual(File.ReadAllText("./log.txt"), expectedContent);
+            Assert.AreEqual(expectedContent, File.ReadAllText("./log.txt"));
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -109,8 +108,8 @@ namespace Lecture_6_Tests
             test.Act(Expr(_logger, l => l.Log("Customer Ryan Johnson was deleted")));
             test.Act(Expr(_logger, l => l.Dispose()));
             test.Assert.AreEqual(
-                Expr(() => File.ReadAllText("./log.txt")), 
-                Const(expectedContent));
+                Const(expectedContent),
+                Expr(() => File.ReadAllText("./log.txt")));
             test.Execute();
         }
         #endregion
