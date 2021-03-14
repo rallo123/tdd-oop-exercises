@@ -42,14 +42,14 @@ namespace Lecture_7_Tests
             
             repository.Add(new Dog());
 
-            Assert.AreEqual(repository.GetAll().Count, 1);
+            Assert.AreEqual(1, repository.GetAll().Count);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Repository<Dog>> _repository = test.CreateVariable<Repository<Dog>>();
             test.Arrange(_repository, Expr(() => new Repository<Dog>()));
             test.Act(Expr(_repository, r => r.Add(new Dog())));
-            test.Assert.AreEqual(Expr(_repository, r => r.GetAll().Count), Const(1));
+            test.Assert.AreEqual(Const(1), Expr(_repository, r => r.GetAll().Count));
             test.Execute();
         }
         #endregion
@@ -63,7 +63,7 @@ namespace Lecture_7_Tests
             repository.Add(new Dog());
             repository.Add(new Dog());
 
-            Assert.AreEqual(repository.GetAll().Count, 2);
+            Assert.AreEqual(2, repository.GetAll().Count);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -71,7 +71,7 @@ namespace Lecture_7_Tests
             test.Arrange(_repository, Expr(() => new Repository<Dog>()));
             test.Act(Expr(_repository, r => r.Add(new Dog())));
             test.Act(Expr(_repository, r => r.Add(new Dog())));
-            test.Assert.AreEqual(Expr(_repository, r => r.GetAll().Count), Const(2));
+            test.Assert.AreEqual(Const(2), Expr(_repository, r => r.GetAll().Count));
             test.Execute();
         }
         #endregion
@@ -91,7 +91,7 @@ namespace Lecture_7_Tests
             dog.Name = "NewName";
             repository.Update(dog);
 
-            Assert.AreEqual(repository.GetAll().First().Name, "NewName");
+            Assert.AreEqual("NewName", repository.GetAll().First().Name);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -102,7 +102,7 @@ namespace Lecture_7_Tests
             test.Act(Expr(_repository, _dog, (r, d) => r.Add(d)));
             test.Act(Expr(_dog, d => d.SetName("NewName")));
             test.Act(Expr(_repository, _dog, (r, d) => r.Update(d)));
-            test.Assert.AreEqual(Expr(_repository, r => r.GetAll().First().Name), Const("NewName"));
+            test.Assert.AreEqual(Const("NewName"), Expr(_repository, r => r.GetAll().First().Name));
             test.Execute();
         }
         #endregion
@@ -117,7 +117,7 @@ namespace Lecture_7_Tests
             repository.Add(dog);
             repository.Delete(dog);
 
-            Assert.AreEqual(repository.GetAll().Count, 0);
+            Assert.AreEqual(0, repository.GetAll().Count);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -127,7 +127,7 @@ namespace Lecture_7_Tests
             test.Arrange(_dog, Expr(() => new Dog() { ID = 1 }));
             test.Act(Expr(_repository, _dog, (r, d) => r.Add(d)));
             test.Act(Expr(_repository, _dog, (r, d) => r.Delete(d)));
-            test.Assert.AreEqual(Expr(_repository, r => r.GetAll().Count), Const(0));
+            test.Assert.AreEqual(Const(0), Expr(_repository, r => r.GetAll().Count));
             test.Execute();
         }
         #endregion

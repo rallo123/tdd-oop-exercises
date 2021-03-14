@@ -112,10 +112,10 @@ namespace Lecture_7_Tests
 
             Dog dog2 = (Dog)dog1.Clone();
 
-            Assert.AreEqual(dog2.ID, 5);
-            Assert.AreEqual(dog2.Name, "Buddy");
-            Assert.AreEqual(dog2.Breed, "Labrador");
-            Assert.AreEqual(dog2.Age, 4);
+            Assert.AreEqual(5, dog2.ID);
+            Assert.AreEqual("Buddy", dog2.Name);
+            Assert.AreEqual("Labrador", dog2.Breed);
+            Assert.AreEqual(4, dog2.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -123,10 +123,10 @@ namespace Lecture_7_Tests
             TestVariable<Dog> _dog2 = test.CreateVariable<Dog>();
             test.Arrange(_dog1, Expr(() => new Dog() { ID = 5, Name = "Buddy", Breed = "Labrador", Age = 4 }));
             test.Arrange(_dog2, Expr(_dog1, d => (Dog)d.Clone()));
-            test.Assert.AreEqual(Expr(_dog2, d => d.ID), Const(5));
-            test.Assert.AreEqual(Expr(_dog2, d => d.Name), Const("Buddy"));
-            test.Assert.AreEqual(Expr(_dog2, d => d.Breed), Const("Labrador"));
-            test.Assert.AreEqual(Expr(_dog2, d => d.Age), Const(4));
+            test.Assert.AreEqual(Const(5), Expr(_dog2, d => d.ID));
+            test.Assert.AreEqual(Const("Buddy"), Expr(_dog2, d => d.Name));
+            test.Assert.AreEqual(Const("Labrador"), Expr(_dog2, d => d.Breed));
+            test.Assert.AreEqual(Const(4), Expr(_dog2, d => d.Age));
             test.Execute();
         }
         #endregion

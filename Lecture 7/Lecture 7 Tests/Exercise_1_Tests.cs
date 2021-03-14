@@ -52,13 +52,13 @@ namespace Lecture_7_Tests
         public void PairConstructorSetsFst()
         {
             Pair<string, int> pair = new Pair<string, int>("abc", 5);
-            Assert.AreEqual(pair.Fst, "abc");
+            Assert.AreEqual("abc", pair.Fst);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Pair<string, int>> _pair = test.CreateVariable<Pair<string, int>>();
             test.Arrange(_pair, Expr(() => new Pair<string, int>("abc", 5)));
-            test.Assert.AreEqual(Expr(_pair, p => p.Fst), Const("abc"));
+            test.Assert.AreEqual(Const("abc"), Expr(_pair, p => p.Fst));
             test.Execute();
         }
 
@@ -66,13 +66,13 @@ namespace Lecture_7_Tests
         public void PairConstructorSetsSnd()
         {
             Pair<string, int> pair = new Pair<string, int>("abc", 5);
-            Assert.AreEqual(pair.Snd, 5);
+            Assert.AreEqual(5, pair.Snd);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Pair<string, int>> _pair = test.CreateVariable<Pair<string, int>>();
             test.Arrange(_pair, Expr(() => new Pair<string, int>("abc", 5)));
-            test.Assert.AreEqual(Expr(_pair, p => p.Snd), Const(5));
+            test.Assert.AreEqual(Const(5), Expr(_pair, p => p.Snd));
             test.Execute();
         }
         #endregion
@@ -88,15 +88,15 @@ namespace Lecture_7_Tests
             test.Execute();
         }
         
-        [TestMethod("b. Pair.Swap() switches Fst and Snd values"), TestCategory("Exercise 1C")]
+        [TestMethod("b. Pair.Swap() switches Fst and Snd values around"), TestCategory("Exercise 1C")]
         public void PairSwapSwitchesFstAndSnd()
         {
             Pair<string, int> pair1 = new Pair<string, int>("abc", 5);
 
             Pair<int, string> pair2 = pair1.Swap();
 
-            Assert.AreEqual(pair2.Fst, 5);
-            Assert.AreEqual(pair2.Snd, "abc");
+            Assert.AreEqual(5, pair2.Fst);
+            Assert.AreEqual("abc", pair2.Snd);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -104,8 +104,8 @@ namespace Lecture_7_Tests
             TestVariable<Pair<int, string>> _pair2 = test.CreateVariable<Pair<int, string>>();
             test.Arrange(_pair1, Expr(() => new Pair<string, int>("abc", 5)));
             test.Arrange(_pair2, Expr(_pair1, p => p.Swap()));
-            test.Assert.AreEqual(Expr(_pair2, p => p.Fst), Const(5));
-            test.Assert.AreEqual(Expr(_pair2, p => p.Snd), Const("abc"));
+            test.Assert.AreEqual(Const(5), Expr(_pair2, p => p.Fst));
+            test.Assert.AreEqual(Const("abc"), Expr(_pair2, p => p.Snd));
             test.Execute();
         }
         #endregion
@@ -136,8 +136,8 @@ namespace Lecture_7_Tests
 
             Pair<double, int> pair2 = pair1.SetFst(7.0);
 
-            Assert.AreEqual(pair2.Fst, 7.0);
-            Assert.AreEqual(pair2.Snd, 5);
+            Assert.AreEqual(7.0, pair2.Fst);
+            Assert.AreEqual(5, pair2.Snd);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -145,8 +145,8 @@ namespace Lecture_7_Tests
             TestVariable<Pair<double, int>> _pair2 = test.CreateVariable<Pair<double, int>>();
             test.Arrange(_pair1, Expr(() => new Pair<string, int>("abc", 5)));
             test.Arrange(_pair2, Expr(_pair1, p => p.SetFst(7.0)));
-            test.Assert.AreEqual(Expr(_pair2, p => p.Fst), Const(7.0));
-            test.Assert.AreEqual(Expr(_pair2, p => p.Snd), Const(5));
+            test.Assert.AreEqual(Const(7.0), Expr(_pair2, p => p.Fst));
+            test.Assert.AreEqual(Const(5), Expr(_pair2, p => p.Snd));
             test.Execute();
         }
 
@@ -157,8 +157,8 @@ namespace Lecture_7_Tests
 
             Pair<string, double> pair2 = pair1.SetSnd(7.0);
 
-            Assert.AreEqual(pair2.Fst, "abc");
-            Assert.AreEqual(pair2.Snd, 7.0);
+            Assert.AreEqual("abc", pair2.Fst);
+            Assert.AreEqual(7.0, pair2.Snd);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -166,8 +166,8 @@ namespace Lecture_7_Tests
             TestVariable<Pair<string, double>> _pair2 = test.CreateVariable<Pair<string, double>>();
             test.Arrange(_pair1, Expr(() => new Pair<String, int>("abc", 5)));
             test.Arrange(_pair2, Expr(_pair1, p => p.SetSnd(7.0)));
-            test.Assert.AreEqual(Expr(_pair2, p => p.Fst), Const("abc"));
-            test.Assert.AreEqual(Expr(_pair2, p => p.Snd), Const(7.0));
+            test.Assert.AreEqual(Const("abc"), Expr(_pair2, p => p.Fst));
+            test.Assert.AreEqual(Const(7.0), Expr(_pair2, p => p.Snd));
             test.Execute();
         }
         #endregion

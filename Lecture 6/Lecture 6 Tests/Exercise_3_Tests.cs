@@ -125,13 +125,13 @@ namespace Lecture_6_Tests
         public void PredictableRandomNextReturns4A()
         {
             PredictableRandom random = new PredictableRandom(4);
-            Assert.AreEqual(random.Next(), 4);
+            Assert.AreEqual(4, random.Next());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<PredictableRandom> _random = test.CreateVariable<PredictableRandom>();
             test.Arrange(_random, Expr(() => new PredictableRandom(4)));
-            test.Assert.AreEqual(Expr(_random, r => r.Next()), Const(4));
+            test.Assert.AreEqual(Const(4), Expr(_random, r => r.Next()));
             test.Execute();
         }
 
@@ -139,13 +139,13 @@ namespace Lecture_6_Tests
         public void PredictableRandomNextReturns4B()
         {
             PredictableRandom random = new PredictableRandom(4);
-            Assert.AreEqual(random.Next(6), 4);
+            Assert.AreEqual(4, random.Next(6));
 
             //TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<PredictableRandom> _random = test.CreateVariable<PredictableRandom>();
             test.Arrange(_random, Expr(() => new PredictableRandom(4)));
-            test.Assert.AreEqual(Expr(_random, r => r.Next(6)), Const(4));
+            test.Assert.AreEqual(Const(4), Expr(_random, r => r.Next(6)));
             test.Execute();
         }
 
@@ -167,13 +167,13 @@ namespace Lecture_6_Tests
         public void PredictableRandomNextReturns4C()
         {
             PredictableRandom random = new PredictableRandom(4);
-            Assert.AreEqual(random.Next(1, 6), 4);
+            Assert.AreEqual(4, random.Next(1, 6));
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<PredictableRandom> _random = test.CreateVariable<PredictableRandom>();
             test.Arrange(_random, Expr(() => new PredictableRandom(4)));
-            test.Assert.AreEqual(Expr(_random, r => r.Next(1, 6)), Const(4));
+            test.Assert.AreEqual(Const(4), Expr(_random, r => r.Next(1, 6)));
             test.Execute();
         }
 

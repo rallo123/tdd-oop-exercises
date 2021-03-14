@@ -150,13 +150,13 @@ namespace Lecture_8_Tests
         public void ArrayFindReturnsCorrectly()
         {
             int[] array = new int[] { 0, 1, 2 };
-            Assert.AreEqual(ArrayHelper.Find(array, x => x == 1), 1);
+            Assert.AreEqual(1, ArrayHelper.Find(array, x => x == 1));
  
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<int[]> _array = test.CreateVariable<int[]>();
             test.Arrange(_array, Expr(() => new[] { 0, 1, 2 }));
-            test.Assert.AreEqual(Expr(_array, a => ArrayHelper.Find(a, x => x == 1)), Const(1));
+            test.Assert.AreEqual(Const(1), Expr(_array, a => ArrayHelper.Find(a, x => x == 1)));
             test.Execute();
         }
 

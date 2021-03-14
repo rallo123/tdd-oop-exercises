@@ -38,13 +38,13 @@ namespace Lecture_2_Tests
         public void ImmutableNumberConstructorWithIntAsArgumentSetsValueProperty()
         {
             ImmutableNumber number = new ImmutableNumber(2);
-            Assert.AreEqual(number.Value, 2);
+            Assert.AreEqual(2, number.Value);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<ImmutableNumber> _number = test.CreateVariable<ImmutableNumber>(nameof(_number));
             test.Arrange(_number, Expr(() => new ImmutableNumber(2)));
-            test.Assert.AreEqual(Expr(_number, n => n.Value), Const(2));
+            test.Assert.AreEqual(Const(2), Expr(_number, n => n.Value));
             test.Execute();
         }
         #endregion
@@ -67,7 +67,7 @@ namespace Lecture_2_Tests
 
             ImmutableNumber number3 = number1.Add(number2);
 
-            Assert.AreEqual(number3.Value, 3);
+            Assert.AreEqual(3, number3.Value);
             
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -77,7 +77,7 @@ namespace Lecture_2_Tests
             test.Arrange(_number1, Expr(() => new ImmutableNumber(1)));
             test.Arrange(_number2, Expr(() => new ImmutableNumber(2)));
             test.Arrange(_number3, Expr(_number1, _number2, (n1, n2) => n1.Add(n2)));
-            test.Assert.AreEqual(Expr(_number3, n => n.Value), Const(3));
+            test.Assert.AreEqual(Const(3), Expr(_number3, n => n.Value));
             test.Execute();
         }
 
@@ -98,7 +98,7 @@ namespace Lecture_2_Tests
 
             ImmutableNumber number3 = number1.Subtract(number2);
 
-            Assert.AreEqual(number3.Value, 5);
+            Assert.AreEqual(5, number3.Value);
             
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -108,7 +108,7 @@ namespace Lecture_2_Tests
             test.Arrange(_number1, Expr(() => new ImmutableNumber(8)));
             test.Arrange(_number2, Expr(() => new ImmutableNumber(3)));
             test.Arrange(_number3, Expr(_number1, _number2, (n1, n2) => n1.Subtract(n2)));
-            test.Assert.AreEqual(Expr(_number3, n => n.Value), Const(5));
+            test.Assert.AreEqual(Const(5), Expr(_number3, n => n.Value));
             test.Execute();
         }
 
@@ -128,7 +128,7 @@ namespace Lecture_2_Tests
 
             ImmutableNumber number3 = number1.Multiply(number2);
 
-            Assert.AreEqual(number3.Value, 6);
+            Assert.AreEqual(6, number3.Value);
             
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -138,7 +138,7 @@ namespace Lecture_2_Tests
             test.Arrange(_number1, Expr(() => new ImmutableNumber(2)));
             test.Arrange(_number2, Expr(() => new ImmutableNumber(3)));
             test.Arrange(_number3, Expr(_number1, _number2, (n1, n2) => n1.Multiply(n2)));
-            test.Assert.AreEqual(Expr(_number3, n => n.Value), Const(6));
+            test.Assert.AreEqual(Const(6), Expr(_number3, n => n.Value));
             test.Execute();
         }
         #endregion

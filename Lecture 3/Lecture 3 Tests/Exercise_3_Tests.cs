@@ -108,13 +108,13 @@ namespace Lecture_3_Tests
         public void RadiusIgnoresAssigmentOfMinusOne() 
         {
             Circle circle = new Circle(new Point(0, 0), -1.0);
-            Assert.AreNotEqual(circle.Radius, -1.0, 0.001);
+            Assert.AreNotEqual(-1.0, circle.Radius, 0.001);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Circle> _circle = test.CreateVariable<Circle>(nameof(_circle));
             test.Arrange(_circle, Expr(() => new Circle(new Point(0, 0), -1.0)));
-            test.Assert.AreNotEqual(Expr(_circle, c => c.Radius), Const(-1.0), 0.001);
+            test.Assert.AreNotEqual(Const(-1.0), Expr(_circle, c => c.Radius), 0.001);
             test.Execute();
         }
         #endregion
@@ -174,13 +174,13 @@ namespace Lecture_3_Tests
             double expectedValue = 42.3 * 42.3 * Math.PI;
             
             Circle circle = new Circle(new Point(0, 0), 42.3);
-            Assert.AreEqual(circle.CalculateArea(), expectedValue, 0.001);
+            Assert.AreEqual(expectedValue, circle.CalculateArea(), 0.001);
             
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Circle> _circle = test.CreateVariable<Circle>(nameof(_circle));
             test.Arrange(_circle, Expr(() => new Circle(new Point(0, 0), 42.3)));
-            test.Assert.AreEqual(Expr(_circle, c => c.CalculateArea()), Const(expectedValue), 0.001);
+            test.Assert.AreEqual(Const(expectedValue), Expr(_circle, c => c.CalculateArea()), 0.001);
             test.Execute();
         }
 
@@ -230,13 +230,13 @@ namespace Lecture_3_Tests
         public void RectangleCalculateAreaReturnsExpectedOutput()
         {
             Rectangle rectangle = new Rectangle(new Point(0, 0), new Point(2, 3));
-            Assert.AreEqual(rectangle.CalculateArea(), 6, 0.001);
+            Assert.AreEqual(6, rectangle.CalculateArea(), 0.001);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Rectangle> _rectangle = test.CreateVariable<Rectangle>(nameof(_rectangle));
             test.Arrange(_rectangle, Expr(() => new Rectangle(new Point(0, 0), new Point(2, 3))));
-            test.Assert.AreEqual(Expr(_rectangle, r => r.CalculateArea()), Const(6.0), 0.001);
+            test.Assert.AreEqual(Const(6.0), Expr(_rectangle, r => r.CalculateArea()), 0.001);
             test.Execute();
         }
 

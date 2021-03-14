@@ -92,14 +92,14 @@ namespace Lecture_6_Tests
 
             temperature.Celcius = -273.15;
 
-            Assert.AreEqual(temperature.Kelvin, 0, 0.001);
+            Assert.AreEqual(0.0, temperature.Kelvin, 0.001);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Temperature> _temperature = test.CreateVariable<Temperature>();
             test.Arrange(_temperature, Expr(() => new Temperature()));
             test.Act(Expr(_temperature, t => t.SetCelcius(-273.15)));
-            test.Assert.AreEqual(Expr(_temperature, t => t.Kelvin), Const(0.0), 0.001);
+            test.Assert.AreEqual(Const(0.0), Expr(_temperature, t => t.Kelvin), 0.001);
             test.Execute();
         }
 
@@ -110,14 +110,14 @@ namespace Lecture_6_Tests
 
             temperature.Fahrenheit = -459.67;
 
-            Assert.AreEqual(temperature.Kelvin, 0, 0.001);
+            Assert.AreEqual(0.0, temperature.Kelvin, 0.001);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Temperature> _temperature = test.CreateVariable<Temperature>();
             test.Arrange(_temperature, Expr(() => new Temperature()));
             test.Act(Expr(_temperature, t => t.SetFahrenheit(-459.67)));
-            test.Assert.AreEqual(Expr(_temperature, t => t.Kelvin), Const(0.0), 0.001);
+            test.Assert.AreEqual(Const(0.0), Expr(_temperature, t => t.Kelvin),  0.001);
             test.Execute();
         }
         #endregion

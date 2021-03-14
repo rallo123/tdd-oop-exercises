@@ -64,7 +64,7 @@ namespace Lecture_2_Tests
 
             number1.Add(number2);
 
-            Assert.AreEqual(number1.Value, 3);
+            Assert.AreEqual(3, number1.Value);
             
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -73,7 +73,7 @@ namespace Lecture_2_Tests
             test.Arrange(_number1, Expr(() => new Number(1)));
             test.Arrange(_number2, Expr(() => new Number(2)));
             test.Act(Expr(_number1, _number2, (n1, n2) => n1.Add(n2)));
-            test.Assert.AreEqual(Expr(_number1, n => n.Value), Const(3));
+            test.Assert.AreEqual(Const(3), Expr(_number1, n => n.Value));
             test.Execute();
         }
 
@@ -94,7 +94,7 @@ namespace Lecture_2_Tests
 
             number1.Subtract(number2);
 
-            Assert.AreEqual(number1.Value, 5);
+            Assert.AreEqual(5, number1.Value);
             
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -103,7 +103,7 @@ namespace Lecture_2_Tests
             test.Arrange(_number1, Expr(() => new Number(8)));
             test.Arrange(_number2, Expr(() => new Number(3)));
             test.Act(Expr(_number1, _number2, (n1, n2) => n1.Subtract(n2)));
-            test.Assert.AreEqual(Expr(_number1, n => n.Value), Const(5));
+            test.Assert.AreEqual(Const(5), Expr(_number1, n => n.Value));
             test.Execute();
         }
 
@@ -124,7 +124,7 @@ namespace Lecture_2_Tests
 
             number1.Multiply(number2);
 
-            Assert.AreEqual(number1.Value, 6);
+            Assert.AreEqual(6, number1.Value);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -133,7 +133,7 @@ namespace Lecture_2_Tests
             test.Arrange(_number1, Expr(() => new Number(2)));
             test.Arrange(_number2, Expr(() => new Number(3)));
             test.Act(Expr(_number1, _number2, (n1, n2) => n1.Multiply(n2)));
-            test.Assert.AreEqual(Expr(_number1, n => n.Value), Const(6));
+            test.Assert.AreEqual(Const(6), Expr(_number1, n => n.Value));
             test.Execute();
         }
         #endregion

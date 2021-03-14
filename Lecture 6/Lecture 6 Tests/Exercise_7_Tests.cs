@@ -49,7 +49,7 @@ namespace Lecture_6_Tests
             TestSetup();
 
             TextFile file = new TextFile("./file.txt");
-            Assert.AreEqual(file.Content, "content of file");
+            Assert.AreEqual("content of file", file.Content);
             file.Dispose();
 
             // TestTools Code
@@ -57,7 +57,7 @@ namespace Lecture_6_Tests
             TestVariable<TextFile> _file = test.CreateVariable<TextFile>();
             TestSetup();
             test.Arrange(_file, Expr(() => new TextFile("./file.txt")));
-            test.Assert.IsTrue(Expr(_file, f => f.Content == "content of file"));
+            test.Assert.AreEqual(Const("content of file"), Expr(_file, f => f.Content));
             test.Act(Expr(_file, f => f.Dispose()));
             test.Execute();
         }

@@ -120,14 +120,14 @@ namespace Lecture_8_Tests
 
             account.Deposit(50M);
 
-            Assert.AreEqual(account.Balance, 50M);
+            Assert.AreEqual(50M, account.Balance);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>();
             test.Arrange(_account, Expr(() => new BankAccount()));
             test.Act(Expr(_account, a => a.Deposit(50M)));
-            test.Assert.AreEqual(Expr(_account, a => a.Balance), Const(50M));
+            test.Assert.AreEqual(Const(50M), Expr(_account, a => a.Balance));
             test.Execute();
         }
 
@@ -138,14 +138,14 @@ namespace Lecture_8_Tests
 
             account.Withdraw(50M);
 
-            Assert.AreEqual(account.Balance, -50M);
+            Assert.AreEqual(-50M, account.Balance);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>();
             test.Arrange(_account, Expr(() => new BankAccount()));
             test.Act(Expr(_account, a => a.Withdraw(50M)));
-            test.Assert.AreEqual(Expr(_account, a => a.Balance), Const(-50M));
+            test.Assert.AreEqual(Const(-50M), Expr(_account, a => a.Balance));
             test.Execute();
         }
         #endregion

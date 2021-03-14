@@ -44,13 +44,13 @@ namespace Lecture_4_Tests
         public void PersonConstructorAssignsNameProperty()
         {
             Person person = new Person("abc");
-            Assert.AreEqual(person.Name, "abc");
+            Assert.AreEqual("abc", person.Name);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person("abc")));
-            test.Assert.AreEqual(Expr(_person, p => p.Name), Const("abc"));
+            test.Assert.AreEqual(Const("abc"), Expr(_person, p => p.Name));
             test.Execute();
         }
 
@@ -64,7 +64,7 @@ namespace Lecture_4_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person("abc")));
-            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(_person, p => p.SetHeight(-1.0)));// TestTools Code
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(_person, p => p.SetHeight(-1.0)));
             test.Execute();
         }
             
@@ -79,7 +79,7 @@ namespace Lecture_4_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person("abc")));
-            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(_person, p => p.SetWeight(-1.0)));// TestTools Code
+            test.Assert.ThrowsExceptionOn<ArgumentException>(Expr(_person, p => p.SetWeight(-1.0)));
             test.Execute();
         }
         #endregion
@@ -96,13 +96,13 @@ namespace Lecture_4_Tests
                 Weight = 80,
                 Age = 18
             };
-            Assert.AreEqual(person.CalculateBMI(), expectedBMI, 0.001);
+            Assert.AreEqual(expectedBMI, person.CalculateBMI(), 0.001);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.80, Weight = 80, Age = 18 }));
-            test.Assert.AreEqual(Expr(_person, p => p.CalculateBMI()), Const(expectedBMI), 0.001);
+            test.Assert.AreEqual(Const(expectedBMI), Expr(_person, p => p.CalculateBMI()), 0.001);
             test.Execute();
         }
         #endregion
@@ -117,13 +117,13 @@ namespace Lecture_4_Tests
                 Weight = 47.0,
                 Age = 18
             };
-            Assert.AreEqual(person.GetClassification(), "under-weight");
+            Assert.AreEqual("under-weight", person.GetClassification());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.64, Weight = 47.0, Age = 18 }));
-            test.Assert.AreEqual(Expr(_person, p => p.GetClassification()), Const("under-weight"));
+            test.Assert.AreEqual(Const("under-weight"), Expr(_person, p => p.GetClassification()));
             test.Execute();
         }
 
@@ -136,13 +136,13 @@ namespace Lecture_4_Tests
                 Weight = 58.0,
                 Age = 18
             };
-            Assert.AreEqual(person.GetClassification(), "normal weight");
+            Assert.AreEqual("normal weight", person.GetClassification());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.73, Weight = 58.0, Age = 18 }));
-            test.Assert.AreEqual(Expr(_person, p => p.GetClassification()), Const("normal weight"));
+            test.Assert.AreEqual(Const("normal weight"), Expr(_person, p => p.GetClassification()));
             test.Execute();
         }
 
@@ -155,13 +155,13 @@ namespace Lecture_4_Tests
                 Weight = 74,
                 Age = 18
             };
-            Assert.AreEqual(person.GetClassification(), "over-weight");
+            Assert.AreEqual("over-weight", person.GetClassification());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.70, Weight = 74.0, Age = 18 }));
-            test.Assert.AreEqual(Expr(_person, p => p.GetClassification()), Const("over-weight"));
+            test.Assert.AreEqual(Const("over-weight"), Expr(_person, p => p.GetClassification()));
             test.Execute();
         }
 
@@ -174,13 +174,13 @@ namespace Lecture_4_Tests
                 Weight = 120.0,
                 Age = 18
             };
-            Assert.AreEqual(person.GetClassification(), "obese");
+            Assert.AreEqual("obese", person.GetClassification());
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person("abc") { Height = 1.85, Weight = 120.0, Age = 18 }));
-            test.Assert.AreEqual(Expr(_person, p => p.GetClassification()), Const("obese"));
+            test.Assert.AreEqual(Const("obese"), Expr(_person, p => p.GetClassification()));
             test.Execute();
         }
         #endregion

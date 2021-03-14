@@ -54,13 +54,13 @@ namespace Lecture_2_Tests
         public void FirstNameIsInitializedAsUnnamed()
         {
             Person person = new Person();
-            Assert.AreEqual(person.FirstName, "Unknown");
+            Assert.AreEqual("Unknown", person.FirstName);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>();
             test.Arrange(_person, Expr(() => new Person()));
-            test.Assert.AreEqual(Expr(_person, p => p.FirstName), Const("Unknown"));
+            test.Assert.AreEqual(Const("Unknown"), Expr(_person, p => p.FirstName));
             test.Execute();
         }
 
@@ -68,13 +68,13 @@ namespace Lecture_2_Tests
         public void LastNameIsInitializedAsUnnamed()
         {
             Person person = new Person();
-            Assert.AreEqual(person.LastName, "Unknown");
+            Assert.AreEqual("Unknown", person.LastName);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
-            test.Assert.AreEqual(Expr(_person, p => p.LastName), Const("Unknown"));
+            test.Assert.AreEqual(Const("Unknown"), Expr(_person, p => p.LastName));
             test.Execute();
         }
 
@@ -83,14 +83,14 @@ namespace Lecture_2_Tests
         {
             Person person = new Person();
             person.FirstName = null;
-            Assert.AreEqual(person.FirstName, "Unknown");
+            Assert.AreEqual("Unknown", person.FirstName);
             
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
             test.Act(Expr(_person, p => p.SetFirstName(null)));
-            test.Assert.AreEqual(Expr(_person, p => p.FirstName), Const("Unknown"));
+            test.Assert.AreEqual(Const("Unknown"), Expr(_person, p => p.FirstName));
             test.Execute();
         }
 
@@ -99,14 +99,14 @@ namespace Lecture_2_Tests
         {
             Person person = new Person();
             person.LastName = null;
-            Assert.AreEqual(person.LastName, "Unknown");
+            Assert.AreEqual("Unknown", person.LastName);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
             test.Act(Expr(_person, p => p.SetLastName(null)));
-            test.Assert.AreEqual(Expr(_person, p => p.LastName), Const("Unknown"));
+            test.Assert.AreEqual(Const("Unknown"), Expr(_person, p => p.LastName));
             test.Execute();
         }
 
@@ -115,14 +115,14 @@ namespace Lecture_2_Tests
         {
             Person person = new Person();
             person.FirstName = "123456789";
-            Assert.AreEqual(person.FirstName, "Unknown");
+            Assert.AreEqual("Unknown", person.FirstName);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
             test.Act(Expr(_person, p => p.SetFirstName("123456789")));
-            test.Assert.AreEqual(Expr(_person, p => p.FirstName), Const("Unknown"));
+            test.Assert.AreEqual(Const("Unknown"), Expr(_person, p => p.FirstName));
             test.Execute();
         }
 
@@ -131,14 +131,14 @@ namespace Lecture_2_Tests
         {
             Person person = new Person();
             person.LastName = "123456789";
-            Assert.AreEqual(person.LastName, "Unknown");
+            Assert.AreEqual("Unknown", person.LastName);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
             test.Act(Expr(_person, p => p.SetLastName("123456789")));
-            test.Assert.AreEqual(Expr(_person, p => p.LastName), Const("Unknown"));
+            test.Assert.AreEqual(Const("Unknown"), Expr(_person, p => p.LastName));
             test.Execute();
         }
 
@@ -147,14 +147,14 @@ namespace Lecture_2_Tests
         {
             Person person = new Person();
             person.FirstName = CreateName(101);
-            Assert.AreEqual(person.FirstName, "Unknown");
+            Assert.AreEqual("Unknown", person.FirstName);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
             test.Act(Expr(_person, p => p.SetFirstName(CreateName(101))));
-            test.Assert.AreEqual(Expr(_person, p => p.FirstName), Const("Unknown"));
+            test.Assert.AreEqual(Const("Unknown"), Expr(_person, p => p.FirstName));
             test.Execute();
         }
 
@@ -163,14 +163,14 @@ namespace Lecture_2_Tests
         {
             Person person = new Person();
             person.LastName = CreateName(101);
-            Assert.AreEqual(person.LastName, "Unknown");
+            Assert.AreEqual("Unknown", person.LastName);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
             test.Act(Expr(_person, p => p.SetLastName(CreateName(101))));
-            test.Assert.AreEqual(Expr(_person, p => p.LastName), Const("Unknown"));
+            test.Assert.AreEqual(Const("Unknown"), Expr(_person, p => p.LastName));
             test.Execute();
         }
 
@@ -178,13 +178,13 @@ namespace Lecture_2_Tests
         public void AgeIsInitilizedAs0()
         {
             Person person = new Person();
-            Assert.AreEqual(person.Age, 0);
+            Assert.AreEqual(0, person.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
-            test.Assert.AreEqual(Expr(_person, p => p.Age), Const(0));
+            test.Assert.AreEqual(Const(0), Expr(_person, p => p.Age));
             test.Execute();
         }
 
@@ -193,14 +193,14 @@ namespace Lecture_2_Tests
         {
             Person person = new Person();
             person.Age = -1;
-            Assert.AreEqual(person.Age, 0);
+            Assert.AreEqual(0, person.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_person, Expr(() => new Person()));
             test.Act(Expr(_person, p => p.SetAge(-1)));
-            test.Assert.AreEqual(Expr(_person, p => p.Age), Const(0));
+            test.Assert.AreEqual(Const(0), Expr(_person, p => p.Age));
             test.Execute();
         }
         #endregion
@@ -310,9 +310,9 @@ namespace Lecture_2_Tests
             PersonGenerator generator = new PersonGenerator();
             Person person = generator.GeneratePerson();
 
-            Assert.AreEqual(person.FirstName, "Adam");
-            Assert.AreEqual(person.LastName, "Smith");
-            Assert.AreEqual(person.Age, 36);
+            Assert.AreEqual("Adam", person.FirstName);
+            Assert.AreEqual("Smith", person.LastName);
+            Assert.AreEqual(36, person.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -320,9 +320,9 @@ namespace Lecture_2_Tests
             TestVariable<Person> _person = test.CreateVariable<Person>(nameof(_person));
             test.Arrange(_generator, Expr(() => new PersonGenerator()));
             test.Arrange(_person, Expr(_generator, g => g.GeneratePerson()));
-            test.Assert.AreEqual(Expr(_person, p => p.FirstName), Const("Adam"));
-            test.Assert.AreEqual(Expr(_person, p => p.LastName), Const("Smith"));
-            test.Assert.AreEqual(Expr(_person, p => p.Age), Const(36));
+            test.Assert.AreEqual(Const("Adam"), Expr(_person, p => p.FirstName));
+            test.Assert.AreEqual(Const("Smith"), Expr(_person, p => p.LastName));
+            test.Assert.AreEqual(Const(36), Expr(_person, p => p.Age));
             test.Execute();
         }
         #endregion
@@ -343,9 +343,9 @@ namespace Lecture_2_Tests
             PersonGenerator generator = new PersonGenerator();
             Person person = generator.GenerateFamily();
 
-            Assert.AreEqual(person.FirstName, "Robin");
-            Assert.AreEqual(person.LastName, "Rich");
-            Assert.AreEqual(person.Age, 10);
+            Assert.AreEqual("Robin", person.FirstName);
+            Assert.AreEqual("Rich", person.LastName);
+            Assert.AreEqual(10, person.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -353,9 +353,9 @@ namespace Lecture_2_Tests
             TestVariable<Person> _child = test.CreateVariable<Person>(nameof(_child));
             test.Arrange(_generator, Expr(() => new PersonGenerator()));
             test.Arrange(_child, Expr(_generator, g => g.GenerateFamily()));
-            test.Assert.AreEqual(Expr(_child, p => p.FirstName), Const("Robin"));
-            test.Assert.AreEqual(Expr(_child, p => p.LastName), Const("Rich"));
-            test.Assert.AreEqual(Expr(_child, p => p.Age), Const(10));
+            test.Assert.AreEqual(Const("Robin"), Expr(_child, p => p.FirstName));
+            test.Assert.AreEqual(Const("Rich"), Expr(_child, p => p.LastName));
+            test.Assert.AreEqual(Const(10), Expr(_child, p => p.Age));
             test.Execute();
         }
 
@@ -365,9 +365,9 @@ namespace Lecture_2_Tests
             PersonGenerator generator = new PersonGenerator();
             Person father = generator.GenerateFamily().Father;
 
-            Assert.AreEqual(father.FirstName, "Warren");
-            Assert.AreEqual(father.LastName, "Rich");
-            Assert.AreEqual(father.Age, 36);
+            Assert.AreEqual("Warren", father.FirstName);
+            Assert.AreEqual("Rich", father.LastName);
+            Assert.AreEqual(36, father.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -375,9 +375,9 @@ namespace Lecture_2_Tests
             TestVariable<Person> _father = test.CreateVariable<Person>(nameof(_father));
             test.Arrange(_generator, Expr(() => new PersonGenerator()));
             test.Arrange(_father, Expr(_generator, g => g.GenerateFamily().Father));
-            test.Assert.AreEqual(Expr(_father, p => p.FirstName), Const("Warren"));
-            test.Assert.AreEqual(Expr(_father, p => p.LastName), Const("Rich"));
-            test.Assert.AreEqual(Expr(_father, p => p.Age), Const(36));
+            test.Assert.AreEqual(Const("Warren"), Expr(_father, p => p.FirstName));
+            test.Assert.AreEqual(Const("Rich"), Expr(_father, p => p.LastName));
+            test.Assert.AreEqual(Const(36), Expr(_father, p => p.Age));
             test.Execute();
         }
 
@@ -387,9 +387,9 @@ namespace Lecture_2_Tests
             PersonGenerator generator = new PersonGenerator();
             Person mother = generator.GenerateFamily().Mother;
 
-            Assert.AreEqual(mother.FirstName, "Anna");
-            Assert.AreEqual(mother.LastName, "Smith");
-            Assert.AreEqual(mother.Age, 38);
+            Assert.AreEqual("Anna", mother.FirstName);
+            Assert.AreEqual("Smith", mother.LastName);
+            Assert.AreEqual(38, mother.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -397,9 +397,9 @@ namespace Lecture_2_Tests
             TestVariable<Person> _mother = test.CreateVariable<Person>(nameof(_mother));
             test.Arrange(_generator, Expr(() => new PersonGenerator()));
             test.Arrange(_mother, Expr(_generator, g => g.GenerateFamily().Mother));
-            test.Assert.AreEqual(Expr(_mother, p => p.FirstName), Const("Anna"));
-            test.Assert.AreEqual(Expr(_mother, p => p.LastName), Const("Smith"));
-            test.Assert.AreEqual(Expr(_mother, p => p.Age), Const(38));
+            test.Assert.AreEqual(Const("Anna"), Expr(_mother, p => p.FirstName));
+            test.Assert.AreEqual(Const("Smith"), Expr(_mother, p => p.LastName));
+            test.Assert.AreEqual(Const(38), Expr(_mother, p => p.Age));
             test.Execute();
         }
 
@@ -409,9 +409,9 @@ namespace Lecture_2_Tests
             PersonGenerator generator = new PersonGenerator();
             Person grandFather = generator.GenerateFamily().Father.Father;
 
-            Assert.AreEqual(grandFather.FirstName, "Gustav");
-            Assert.AreEqual(grandFather.LastName, "Rich");
-            Assert.AreEqual(grandFather.Age, 66);
+            Assert.AreEqual("Gustav", grandFather.FirstName);
+            Assert.AreEqual("Rich", grandFather.LastName);
+            Assert.AreEqual(66, grandFather.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -419,9 +419,9 @@ namespace Lecture_2_Tests
             TestVariable<Person> _grandFather = test.CreateVariable<Person>(nameof(_grandFather));
             test.Arrange(_generator, Expr(() => new PersonGenerator()));
             test.Arrange(_grandFather, Expr(_generator, g => g.GenerateFamily().Father.Father));
-            test.Assert.AreEqual(Expr(_grandFather, p => p.FirstName), Const("Gustav"));
-            test.Assert.AreEqual(Expr(_grandFather, p => p.LastName), Const("Rich"));
-            test.Assert.AreEqual(Expr(_grandFather, p => p.Age), Const(66));
+            test.Assert.AreEqual(Const("Gustav"), Expr(_grandFather, p => p.FirstName));
+            test.Assert.AreEqual(Const("Rich"), Expr(_grandFather, p => p.LastName));
+            test.Assert.AreEqual(Const(66), Expr(_grandFather, p => p.Age));
             test.Execute();
         }
 
@@ -431,9 +431,9 @@ namespace Lecture_2_Tests
             PersonGenerator generator = new PersonGenerator();
             Person grandMother = generator.GenerateFamily().Father.Mother;
 
-            Assert.AreEqual(grandMother.FirstName, "Elsa");
-            Assert.AreEqual(grandMother.LastName, "Johnson");
-            Assert.AreEqual(grandMother.Age, 65);
+            Assert.AreEqual("Elsa", grandMother.FirstName);
+            Assert.AreEqual("Johnson", grandMother.LastName);
+            Assert.AreEqual(65, grandMother.Age);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -441,9 +441,9 @@ namespace Lecture_2_Tests
             TestVariable<Person> _grandMother = test.CreateVariable<Person>(nameof(_grandMother));
             test.Arrange(_generator, Expr(() => new PersonGenerator()));
             test.Arrange(_grandMother, Expr(_generator, g => g.GenerateFamily().Father.Mother));
-            test.Assert.AreEqual(Expr(_grandMother, p => p.FirstName), Const("Elsa"));
-            test.Assert.AreEqual(Expr(_grandMother, p => p.LastName), Const("Johnson"));
-            test.Assert.AreEqual(Expr(_grandMother, p => p.Age), Const(65));
+            test.Assert.AreEqual(Const("Elsa"), Expr(_grandMother, p => p.FirstName));
+            test.Assert.AreEqual(Const("Johnson"), Expr(_grandMother, p => p.LastName));
+            test.Assert.AreEqual(Const(65), Expr(_grandMother, p => p.Age));
             test.Execute();
         }
         #endregion
@@ -612,8 +612,8 @@ namespace Lecture_2_Tests
             Person father = new Person() { Age = 37 };
             Person child = new Person(mother, father);
 
-            Assert.AreSame(child.Mother, mother);
-            Assert.AreSame(child.Father, father);
+            Assert.AreSame(mother, child.Mother);
+            Assert.AreSame(father, child.Father);
 
             // TestTools Code
             UnitTest test = Factory.CreateTest();
@@ -623,8 +623,8 @@ namespace Lecture_2_Tests
             test.Arrange(_mother, Expr(() => new Person() { Age = 37 }));
             test.Arrange(_father, Expr(() => new Person() { Age = 37 }));
             test.Arrange(_child, Expr(_mother, _father, (p1, p2) => new Person(p1, p2)));
-            test.Assert.AreSame(Expr(_child, p => p.Mother), _mother);
-            test.Assert.AreSame(Expr(_child, p => p.Father), _father);
+            test.Assert.AreSame(_mother, Expr(_child, p => p.Mother));
+            test.Assert.AreSame(_father, Expr(_child, p => p.Father));
             test.Execute();
         }
         #endregion
