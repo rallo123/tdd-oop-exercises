@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Lecture_2
 {
-    public class Person
+    public class Person // Comment
     {
         string _firstName;
         string _lastName;
