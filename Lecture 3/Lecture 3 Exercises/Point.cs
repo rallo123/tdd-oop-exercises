@@ -11,7 +11,9 @@ namespace Lecture_3
 			X = x;
 			Y = y;
 		}
+
 		public double X { get; }
+
 		public double Y { get; }
 	}
 }

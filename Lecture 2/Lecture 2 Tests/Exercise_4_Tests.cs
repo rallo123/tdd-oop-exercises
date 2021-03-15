@@ -1,67 +1,89 @@
-﻿using Lecture_2;
+﻿using Lecture_2_Solutions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestTools.Structure.Generic;
+using TestTools.Structure;
+using TestTools.Unit;
+using static Lecture_2_Tests.TestHelper;
+using static TestTools.Unit.TestExpression;
 
 namespace Lecture_2_Tests
 {
     [TestClass]
     public class Exercise_4_Tests
     {
-#pragma warning disable IDE1006 // Naming Styles
-        private ClassElement<Number> number => new ClassElement<Number>();
-        private FuncMethodElement<Number, object, bool> numberEquals => number.FuncMethod<object, bool>("Equals");
-        private FuncMethodElement<Number, int> numberGetHashCode => number.FuncMethod<int>("GetHashCode");
-        private Number CreateNumber(int value) => number.Constructor<int>().Invoke(value);
-#pragma warning restore IDE1006 // Naming Styles
-
-        /* Exercise 4B */
+        #region Exercise 4B
         [TestMethod("a. Number.Equals does not equate 4 and 5"), TestCategory("Exercise 4B")]
         public void EqualsDoesNotEquateFourAndFive()
         {
-            Number four = CreateNumber(4);
-            Number five = CreateNumber(5);
+            Number number1 = new Number(4);
+            Number number2 = new Number(5);
 
-            bool isEquated = numberEquals.Invoke(four, five);
+            Assert.IsFalse(number1.Equals(number2));
 
-            if (isEquated)
-                throw new AssertFailedException("Number.Equals(Number n) equates 4 and 5");
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Number> _number1 = test.CreateVariable<Number>(nameof(_number1));
+            TestVariable<Number> _number2 = test.CreateVariable<Number>(nameof(_number2));
+            test.Arrange(_number1, Expr(() => new Number(4)));
+            test.Arrange(_number2, Expr(() => new Number(5)));
+            test.Assert.IsFalse(Expr(_number1, _number2, (n1, n2) => n1.Equals(n2)));
+            test.Execute();
         }
 
         [TestMethod("b. Number.Equals equates 5 and 5"), TestCategory("Exercise 4B")]
         public void EqualsEquatesFiveAndFive()
         {
-            Number five1 = CreateNumber(5);
-            Number five2 = CreateNumber(5);
+            Number number1 = new Number(5);
+            Number number2 = new Number(5);
 
-            bool isEquated = numberEquals.Invoke(five1, five2);
+            Assert.IsTrue(number1.Equals(number2));
 
-            if (!isEquated)
-                throw new AssertFailedException("Number.Equals(Number n) does not equate 5 and 5");
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Number> _number1 = test.CreateVariable<Number>(nameof(_number1));
+            TestVariable<Number> _number2 = test.CreateVariable<Number>(nameof(_number2));
+            test.Arrange(_number1, Expr(() => new Number(5)));
+            test.Arrange(_number2, Expr(() => new Number(5)));
+            test.Assert.IsTrue(Expr(_number1, _number2, (n1, n2) => n1.Equals(n2)));
+            test.Execute();
         }
+        #endregion
 
-        /* Exercise 4C */
+        #region Exercise 4C
         [TestMethod("a. Number.GetHashCode does not equate 4 and 5"), TestCategory("Exercise 4C")]
         public void GetHashCodeDoesNotEquateFourAndFive()
         {
-            Number four = CreateNumber(4);
-            Number five = CreateNumber(5);
+            Number number1 = new Number(4);
+            Number number2 = new Number(5);
 
-            bool isEquated = numberGetHashCode.Invoke(four) == numberGetHashCode.Invoke(five);
+            Assert.IsFalse(number1.GetHashCode() == number2.GetHashCode());
 
-            if (isEquated)
-                throw new AssertFailedException("Number.GetHashCode(Number n) equates 4 and 5");
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Number> _number1 = test.CreateVariable<Number>(nameof(_number1));
+            TestVariable<Number> _number2 = test.CreateVariable<Number>(nameof(_number2));
+            test.Arrange(_number1, Expr(() => new Number(4)));
+            test.Arrange(_number2, Expr(() => new Number(5)));
+            test.Assert.IsFalse(Expr(_number1, _number2, (n1, n2) => n1.GetHashCode() == n2.GetHashCode()));
+            test.Execute();
         }
 
         [TestMethod("b. Number.GetHashCode equates 5 and 5"), TestCategory("Exercise 4C")]
         public void GetHashCodeEquatesFiveAndFice()
         {
-            Number five1 = CreateNumber(5);
-            Number five2 = CreateNumber(5);
+            Number number1 = new Number(5);
+            Number number2 = new Number(5);
 
-            bool isEquated = numberGetHashCode.Invoke(five1) == numberGetHashCode.Invoke(five2);
+            Assert.IsTrue(number1.GetHashCode() == number2.GetHashCode());
 
-            if (!isEquated)
-                throw new AssertFailedException("Number.GetHashCode(Number n) does not equate 5 and 5");
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<Number> _number1 = test.CreateVariable<Number>(nameof(_number1));
+            TestVariable<Number> _number2 = test.CreateVariable<Number>(nameof(_number2));
+            test.Arrange(_number1, Expr(() => new Number(5)));
+            test.Arrange(_number2, Expr(() => new Number(5)));
+            test.Assert.IsTrue(Expr(_number1, _number2, (n1, n2) => n1.GetHashCode() == n2.GetHashCode()));
+            test.Execute();
         }
+        #endregion
     }
 }
