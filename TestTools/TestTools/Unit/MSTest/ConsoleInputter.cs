@@ -16,7 +16,7 @@ namespace TestTools.Unit
 
         public static void Write(string input)
         {
-            if (Console.In != InternalReader)
+            if (!InternalReader.HasCapturedConsoleIn)
                 InternalReader.CaptureConsoleIn();
 
             InternalReader.Buffer += input;
@@ -32,41 +32,61 @@ namespace TestTools.Unit
             Write(input + Environment.NewLine);
         }
 
+        // Erases any Console.In data 
+        public static void Clear()
+        {
+            /* Console.In.ReadToEnd may block if Console.In is an operating system 
+             * window */
+            if (Console.KeyAvailable)
+                Console.In.ReadToEnd();
+
+            /* Console.KeyAvailable does not work for BufferedReader, so this has 
+             * to be cleared separately */
+            if (InternalReader.HasCapturedConsoleIn)
+                InternalReader.Buffer = "";
+        }
+
         private class BufferedReader : TextReader
         {
-            TextReader OriginalReader;
+            TextReader _originalReader;
 
-            string _buffer = "";
+            public string Buffer { get; set; }
 
-            public string Buffer
-            {
-                get => _buffer;
-                set {
-                    if (string.IsNullOrEmpty(value))
-                        Console.SetIn(OriginalReader);
-
-                    _buffer = value;
-                }
-            }
+            public bool HasCapturedConsoleIn { get; private set; }
 
             public override int Read()
             {
+                if (Buffer == null || Buffer.Length == 0)
+                {
+                    // Releasing Console.In again 
+                    Console.SetIn(_originalReader);
+                    HasCapturedConsoleIn = false;
+
+                    /* Console.In.ReadToEnd() may continue to hit the this reader 
+                     * even after the Console.SetIn has been called, 
+                     * so all further reads are redirected to the OriginalReader 
+                     * which ensures that the Console.In is left empty when 
+                     * ReadToEnd returns */
+                    return Console.KeyAvailable ? _originalReader.Read() : -1;
+                }
+                    
                 char charToRead = Buffer[0];
-
                 Buffer = Buffer.Substring(1);
-
                 return (int)charToRead;
             }
 
             public void CaptureConsoleIn()
             {
-                // Read-in existing Console.In content
+                /* Read existing Console.In content to buffer, so that existing 
+                 * Console.In content is not erased or preceded by the incoming 
+                 * buffer content */
                 if (Console.KeyAvailable)
                     Buffer = Console.In.ReadToEnd();
 
-                // Take control of Console.In
-                OriginalReader = Console.In;
+                // Capturing Console.In
+                _originalReader = Console.In;
                 Console.SetIn(this);
+                HasCapturedConsoleIn = true;
             }
         }
     }
