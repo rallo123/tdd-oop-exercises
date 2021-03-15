@@ -30,7 +30,8 @@ namespace Lecture_8_Tests
         {
             // MSTest Extended
             ConsoleView view = new ConsoleView();
-            
+
+            ConsoleInputter.Clear();
             ConsoleInputter.WriteLine();
             view.Run();
 
@@ -38,6 +39,7 @@ namespace Lecture_8_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<ConsoleView> _view = test.CreateVariable<ConsoleView>();
             test.Arrange(_view, Expr(() => new ConsoleView()));
+            test.Act(Expr(() => ConsoleInputter.Clear()));
             test.Act(Expr(() => ConsoleInputter.WriteLine()));
             test.Act(Expr(_view, v => v.Run()));
             test.Execute();
@@ -71,11 +73,11 @@ namespace Lecture_8_Tests
         [TestMethod("b. ConsoleView.Run emits Input on non-empty-line input"), TestCategory("Exercise 3C")]
         public void ConsoleViewRunEmitsInputOnNonEmptyLineInput()
         {
-            // FAILS AND NEEDS MORE WORK
             bool isCalled = false;
             ConsoleView view = new ConsoleView();
             view.Input += (input) => isCalled = true;
 
+            ConsoleInputter.Clear();
             ConsoleInputter.WriteLine("User input");
             ConsoleInputter.WriteLine();
             view.Run();
@@ -87,6 +89,7 @@ namespace Lecture_8_Tests
             TestVariable<ConsoleView> _view = test.CreateVariable<ConsoleView>();
             test.Arrange(_view, Expr(() => new ConsoleView()));
             test.DelegateAssert.IsInvoked(Lambda<InputHandler>(handler => Expr(_view, v => v.AddInput(handler))));
+            test.Act(Expr(() => ConsoleInputter.Clear()));
             test.Act(Expr(() => ConsoleInputter.WriteLine("User input")));
             test.Act(Expr(() => ConsoleInputter.WriteLine()));
             test.Act(Expr(_view, v => v.Run()));
@@ -100,6 +103,7 @@ namespace Lecture_8_Tests
             ConsoleView view = new ConsoleView();
             view.Input += (input) => isCalled = true;
 
+            ConsoleInputter.Clear();
             ConsoleInputter.WriteLine();
             view.Run();
 
@@ -110,6 +114,7 @@ namespace Lecture_8_Tests
             TestVariable<ConsoleView> _view = test.CreateVariable<ConsoleView>();
             test.Arrange(_view, Expr(() => new ConsoleView()));
             test.DelegateAssert.IsNotInvoked(Lambda<InputHandler>(handler => Expr(_view, v => v.AddInput(handler))));
+            test.Act(Expr(() => ConsoleInputter.Clear()));
             test.Act(Expr(() => ConsoleInputter.WriteLine()));
             test.Act(Expr(_view, v => v.Run()));
             test.Execute();
