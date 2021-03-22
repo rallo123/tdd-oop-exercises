@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Lecture_2
 {
-    class Person
+    class ImmutableNumber
     {
-        string FirstName;
-        string LastName;
-        int Age;
+        int Value;
     }
 }
