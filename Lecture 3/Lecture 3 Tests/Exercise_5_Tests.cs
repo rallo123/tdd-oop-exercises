@@ -190,5 +190,73 @@ namespace Lecture_3_Tests
             test.Execute();
         }
         #endregion
+
+        #region Exercise 5C
+        [TestMethod("a. BankAccount.AccrueOrChargeInterest() is a public method"), TestCategory("Exercise 5C")]
+        public void BankAccountAccrueOrChargeInterestIsAPublicMethod()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertPublicMethod<BankAccount>(b => b.AccrueOrChargeInterest());
+            test.Execute();
+        }
+
+        [TestMethod("b. BankAccount.AccrueOrChargeInterest() charges BorrowingRate if Balance < 0"), TestCategory("Exercise 5C")]
+        public void BankAccountAccrueOrChargeInterestChargesBorrowingRateIfBalanceIsNegative()
+        {
+            BankAccount account = new BankAccount() { BorrowingRate = 0.1M };
+            account.Withdraw(50);
+
+            account.AccrueOrChargeInterest();
+
+            Assert.AreEqual(-45.0M, account.Balance);
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>();
+            test.Arrange(_account, Expr(() => new BankAccount() { BorrowingRate = 0.1M }));
+            test.Act(Expr(_account, a => a.Withdraw(50M)));
+            test.Act(Expr(_account, a => a.AccrueOrChargeInterest()));
+            test.Assert.AreEqual(Const(-45.0M), Expr(_account, a => a.Balance));
+            test.Execute();
+        }
+
+        [TestMethod("c. BankAccount.AccrueOrChargeInterest() does not affect Balance if Balance = 0"), TestCategory("Exercise 5C")]
+        public void BankAccountAccrueOrChargeInterestDoesNotAffectBalanceIfBalanceEqualsZero()
+        {
+            BankAccount account = new BankAccount();
+
+            account.AccrueOrChargeInterest();
+
+            Assert.AreEqual(0M, account.Balance);
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>();
+            test.Arrange(_account, Expr(() => new BankAccount()));
+            test.Act(Expr(_account, a => a.AccrueOrChargeInterest()));
+            test.Assert.AreEqual(Const(0M), Expr(_account, a => a.Balance));
+            test.Execute();
+        }
+
+        [TestMethod("d. BankAccount.AccrueOrChargeInterest() accrue SavingsRate if Balance > 0"), TestCategory("Exercise 5C")]
+        public void BankAccountAccrueOrChargeInterestAccrueSavingsRateIfBalanceIsPositive()
+        {
+            BankAccount account = new BankAccount() { SavingsRate = 0.01M };
+            account.Deposit(50);
+
+            account.AccrueOrChargeInterest();
+
+            Assert.AreEqual(50.5M, account.Balance);
+             
+            UnitTest test = Factory.CreateTest();
+            TestVariable<BankAccount> _account = test.CreateVariable<BankAccount>();
+            test.Arrange(_account, Expr(() => new BankAccount() { SavingsRate = 0.01M }));
+            test.Act(Expr(_account, a => a.Deposit(50M)));
+            test.Act(Expr(_account, a => a.AccrueOrChargeInterest()));
+            test.Assert.AreEqual(Const(50.5M), Expr(_account, a => a.Balance));
+            test.Execute();
+        }
+        #endregion
     }
 }

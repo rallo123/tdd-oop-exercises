@@ -34,7 +34,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Figure.Contains() is abstract method"), TestCategory("Exercise 3A")]
+        [TestMethod("c. Figure.Contains(Point p) is abstract method"), TestCategory("Exercise 3A")]
         public void FigureContainsIsAbstractMethod()
         {
             // TestTools Code

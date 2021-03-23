@@ -56,15 +56,15 @@ namespace Lecture_3_Solutions
 
         public virtual decimal CalculateYearlySalary()
         {
-            decimal seneorityBonus;
+            decimal seniorityBonus;
 
             if (Seniority >= 7)
-                seneorityBonus = 0.7M;
+                seniorityBonus = 0.7M;
             else if (Seniority >= 4)
-                seneorityBonus = 0.4M;
-            else seneorityBonus = 0.1M;
+                seniorityBonus = 0.4M;
+            else seniorityBonus = 0.1M;
 
-            return 12 * MonthlySalary * seneorityBonus;
+            return 12 * MonthlySalary * seniorityBonus;
         }
 
         public override string ToString()

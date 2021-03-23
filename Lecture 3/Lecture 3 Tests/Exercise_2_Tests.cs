@@ -61,7 +61,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("e. Employee constructor(string name) sets name property"), TestCategory("Exercise 2A")]
+        [TestMethod("f. Employee constructor(string name) sets name property"), TestCategory("Exercise 2A")]
         public void EmployeeConstructorNameSetsNameProperty()
         {
             Employee employee = new Employee("abc");
@@ -75,7 +75,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("f. Employee.MonthlySalary is initialized as 0"), TestCategory("Exercise 2A")]
+        [TestMethod("g. Employee.MonthlySalary is initialized as 0"), TestCategory("Exercise 2A")]
         public void MonthlySalaryIsInitializedAs0()
         {
             Employee employee = new Employee("abc");
@@ -89,7 +89,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("g. Employee.Seniority is initialized as 1"), TestCategory("Exercise 2A")]
+        [TestMethod("h. Employee.Seniority is initialized as 1"), TestCategory("Exercise 2A")]
         public void SenorityIsInitializedAs1()
         {
             Employee employee = new Employee("abc");
@@ -103,7 +103,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("h. Title ignores assignment of null"), TestCategory("Exercise 2A")]
+        [TestMethod("i. Title ignores assignment of null"), TestCategory("Exercise 2A")]
         public void TitleIgnoresAssignmentOfNull()
         {
             Employee employee = new Employee("abc");
@@ -118,7 +118,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
        
-        [TestMethod("i. Title ignores assignment of empty string"), TestCategory("Exercise 2A")]
+        [TestMethod("j. Title ignores assignment of empty string"), TestCategory("Exercise 2A")]
         public void TitleIgnoresAssignmentOfEmptyString()
         {
             Employee employee = new Employee("abc");
@@ -136,7 +136,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
         
-        [TestMethod("j. MonthlySalary ignores assignment of -1M"), TestCategory("Exercise 2A")]
+        [TestMethod("k. MonthlySalary ignores assignment of -1M"), TestCategory("Exercise 2A")]
         public void MonthlySalaryIgnoresAssignmentOfMinusOne()
         {
             Employee employee = new Employee("abc");
@@ -154,7 +154,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("k. Seniority ignores assignment of 0"), TestCategory("Exercise 2A")]
+        [TestMethod("l. Seniority ignores assignment of 0"), TestCategory("Exercise 2A")]
         public void SeniorityIgnoresAssignmentOfZero()
         {
             Employee employee = new Employee("abc");
@@ -172,7 +172,7 @@ namespace Lecture_3_Tests
             test.Execute();
         }
 
-        [TestMethod("l. Seniority ignores assigment of 11"), TestCategory("Exercise 2A")]
+        [TestMethod("m. Seniority ignores assigment of 11"), TestCategory("Exercise 2A")]
         public void SeniorityIgnoresAssignmentOfEleven()
         {
             Employee employee = new Employee("abc");

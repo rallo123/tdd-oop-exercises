@@ -63,7 +63,7 @@ namespace Lecture_3_Solutions
             if (Balance > 0)
                 Balance += Balance * SavingsRate;
             if (Balance < 0)
-                Balance -= Balance + BorrowingRate;
+                Balance -= Balance * BorrowingRate;
         }
 
         // TestTools Code
