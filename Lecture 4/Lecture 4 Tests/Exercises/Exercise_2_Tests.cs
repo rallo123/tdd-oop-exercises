@@ -54,7 +54,18 @@ namespace Lecture_4_Tests
             test.Execute();
         }
 
-        [TestMethod("e. Person.Height throws ArgumentException on assignment of -1.0"), TestCategory("Exercise 2A")]
+        [TestMethod("e. Person constructor throws ArgumentNullException if called with null"), TestCategory("Exercise 2A")]
+        public void PersonConstructorThrowsArgumentNullExceptionIfCalledWithNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => new Person(null));
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            test.Assert.ThrowsExceptionOn<ArgumentNullException>(Expr(() => new Person(null)));
+            test.Execute();
+        }
+
+        [TestMethod("f. Person.Height throws ArgumentException on assignment of -1.0"), TestCategory("Exercise 2A")]
         public void PersonHeightIgnoresAssignmentOfMinusOne()
         {
             Person person = new Person("abc");
@@ -69,7 +80,7 @@ namespace Lecture_4_Tests
         }
             
 
-        [TestMethod("f. Person.Weight throws ArgumentException on assignment of -1.0"), TestCategory("Exercise 2A")]
+        [TestMethod("g. Person.Weight throws ArgumentException on assignment of -1.0"), TestCategory("Exercise 2A")]
         public void PersonWeightIgnoresAssignmentOfMinusOne()
         {
             Person person = new Person("abc");

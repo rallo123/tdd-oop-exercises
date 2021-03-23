@@ -77,7 +77,7 @@ namespace Lecture_4_Tests
             // TestTools Code
             UnitTest test = Factory.CreateTest();
             TestVariable<Person> _person = test.CreateVariable<Person>();
-            test.Arrange(_person, Expr(() => new Person("abc") {  Age = 15 }));
+            test.Arrange(_person, Expr(() => new Person("abc") { Age = 15 }));
             test.Assert.ThrowsExceptionOn<NotOldEnoughException>(Expr(_person, p => p.CalculateBMI()));
             test.Execute();
         }
