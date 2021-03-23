@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Lecture_2
 {
-    class Person
+    class Number
     {
-        string FirstName;
-        string LastName;
-        int Age;
+        int Value;
     }
 }
