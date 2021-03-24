@@ -18,7 +18,7 @@ namespace Lecture_6_Tests
     public class Exercise_6_Tests 
     {
         #region Exercise 6A
-        [TestMethod("a.ILogger is an interface"), TestCategory("6A")]
+        [TestMethod("a.ILogger is an interface"), TestCategory("Exercise 6A")]
         public void ILoggerIsAnInterface()
         {
             // TestTools Code
@@ -27,7 +27,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("b.ILogger.Log(string message) is a method"), TestCategory("6A")]
+        [TestMethod("b.ILogger.Log(string message) is a method"), TestCategory("Exercise 6A")]
         public void ILoggerLogIsAMehthod()
         {
             // TestTools Code
@@ -38,7 +38,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 6B
-        [TestMethod("a. FileLogger's constructor takes string"), TestCategory("6B")]
+        [TestMethod("a. FileLogger's constructor takes string"), TestCategory("Exercise 6B")]
         public void DieConstructorTakesIRandomAndInt()
         {
             // TestTools Code
@@ -49,7 +49,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 6C
-        [TestMethod("a. FileLogger implements ILogger"), TestCategory("6C")]
+        [TestMethod("a. FileLogger implements ILogger"), TestCategory("Exercise 6C")]
         public void FileLoggerImplementILogger()
         {
             // TestTools Code
@@ -62,7 +62,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 6D
-        [TestMethod("a. FileLogger implements IDisposable"), TestCategory("6D")]
+        [TestMethod("a. FileLogger implements IDisposable"), TestCategory("Exercise 6D")]
         public void FileLoggerImplementIDisposable()
         {
             // TestTools Code
@@ -84,7 +84,7 @@ namespace Lecture_6_Tests
             File.WriteAllText(path, "Customer Ryan Johnson was created" + Environment.NewLine);
         }
 
-        [TestMethod("b. FileLogger.Log(string message) appends file"), TestCategory("6E")]
+        [TestMethod("a. FileLogger.Log(string message) appends file"), TestCategory("Exercise 6E")]
         public void FileLoggerAppendsFile()
         {
             FileLoggerAppendsFileSetup();
@@ -110,6 +110,24 @@ namespace Lecture_6_Tests
             test.Assert.AreEqual(
                 Const(expectedContent),
                 Expr(() => File.ReadAllText("./log.txt")));
+            test.Execute();
+        }
+        #endregion
+
+        #region Exercise 6F
+        [TestMethod("a. ConsoleLogger.Log(string message) writes to console"), TestCategory("Exercise 6F")]
+        public void ConsoleLoggerWritesToConsole()
+        {
+            ConsoleLogger logger = new ConsoleLogger();
+
+            string expectedWriteout = "Customer Ryan Johnson was deleted";
+            ConsoleAssert.WritesOut(() => logger.Log("Customer Ryan Johnson was deleted"), expectedWriteout);
+
+            // TestTools Code
+            UnitTest test = Factory.CreateTest();
+            TestVariable<ConsoleLogger> _logger = test.CreateVariable<ConsoleLogger>();
+            test.Arrange(_logger, Expr(() => new ConsoleLogger()));
+            test.ConsoleAssert.WritesOut(Lambda(Expr(_logger, l => l.Log("Customer Ryan Johnson was deleted"))), Const(expectedWriteout));
             test.Execute();
         }
         #endregion

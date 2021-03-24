@@ -17,7 +17,7 @@ namespace Lecture_6_Tests
     public class Exercise_7_Tests 
     {
         #region Exercise 7A
-        [TestMethod("TextFile constructor takes string"), TestCategory("7A")]
+        [TestMethod("a. TextFile constructor takes string"), TestCategory("Exercise 7A")]
         public void TextFileConstructorTakesString()
         {
             // TestTools Code
@@ -28,7 +28,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 7B
-        [TestMethod("TestFile.Content is public read-only string"), TestCategory("7B")]
+        [TestMethod("a. TestFile.Content is public read-only string"), TestCategory("Exercise 7B")]
         public void TestFileContentIsPublicReadOnlyString()
         {
             // TestTools Code
@@ -43,7 +43,7 @@ namespace Lecture_6_Tests
             fs.File.WriteAllText("./file.txt", "content of file");
         }
 
-        [TestMethod("TestFile.Content reads file content correctly"), TestCategory("7B")]
+        [TestMethod("b. TestFile.Content reads file content correctly"), TestCategory("Exercise 7B")]
         public void TestFileContentReadsFileContentCorrectly()
         {
             TestSetup();
@@ -64,7 +64,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 7C
-        [TestMethod("TextFile implements IDisposable"), TestCategory("7C")]
+        [TestMethod("a. TextFile implements IDisposable"), TestCategory("Exercise 7C")]
         public void TextFileImplementsIDisposable()
         {
             // TestTools Code
@@ -73,7 +73,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("TextFile.Content equals null after TextFile.Dispose()"), TestCategory("7C")]
+        [TestMethod("b. TextFile.Content equals null after TextFile.Dispose()"), TestCategory("Exercise 7C")]
         public void TextFileContentEqualsNullAfterDisposable()
         {
             TestSetup();

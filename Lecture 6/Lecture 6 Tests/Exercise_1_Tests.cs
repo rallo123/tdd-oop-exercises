@@ -16,7 +16,7 @@ namespace Lecture_6_Tests
     public class Exercise_1_Tests
     {
         #region Exercise 1A
-        [TestMethod("a. Temperature.Celcius is public double property"), TestCategory("1A")]
+        [TestMethod("a. Temperature.Celcius is public double property"), TestCategory("Exercise 1A")]
         public void TemperatureCelciusIsPublicDoubleProperty()
         {
             // TestTools Code
@@ -25,7 +25,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Temperature.Fahrenheit is public double property"), TestCategory("1A")]
+        [TestMethod("b. Temperature.Fahrenheit is public double property"), TestCategory("Exercise 1A")]
         public void TemperatureFahrenheitIsPublicDoubleProperty()
         {
             // TestTools Code
@@ -34,7 +34,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Temperature.Kelvin is public double property"), TestCategory("1A")]
+        [TestMethod("c. Temperature.Kelvin is public double property"), TestCategory("Exercise 1A")]
         public void TemperatureKelvinIsPublicDoubleProperty()
         {
             // TestTools Code
@@ -43,7 +43,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Temperature.Celcius = -276.0 throws ArgumentException"), TestCategory("1A")]
+        [TestMethod("d. Temperature.Celcius = -276.0 throws ArgumentException"), TestCategory("Exercise 1A")]
         public void TemperatureCelciusAssignmentOfMinus276ThrowsArgumentException()
         {
             Temperature temperature = new Temperature();
@@ -57,7 +57,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("e. Temperature.Fahrenheit = -460.0 throws ArgumentException"), TestCategory("1A")]
+        [TestMethod("e. Temperature.Fahrenheit = -460.0 throws ArgumentException"), TestCategory("Exercise 1A")]
         public void TemperatureFahrenheitAssignmentOfMinus460ThrowsArgumentException()
         {
             Temperature temperature = new Temperature();
@@ -71,7 +71,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("f. Temperature.Kelvin = -1 throws ArgumentException"), TestCategory("1A")]
+        [TestMethod("f. Temperature.Kelvin = -1 throws ArgumentException"), TestCategory("Exercise 1A")]
         public void TemperatureKelvinAssignmentOfMinus1ThrowsArgumentException()
         {
             Temperature temperature = new Temperature();
@@ -85,7 +85,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("g. Temperature.Kelvin equals 0 after Temperature.Celcius = -273.15"), TestCategory("1A")]
+        [TestMethod("g. Temperature.Kelvin equals 0 after Temperature.Celcius = -273.15"), TestCategory("Exercise 1A")]
         public void TemperatureKelvinEquals0AfterTemperatureCelciusAssignmentOfMinus275()
         {
             Temperature temperature = new Temperature();
@@ -103,7 +103,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("h. Temperature.Kelvin equals 0 after Temperature.Fahrenheit = -459.67"), TestCategory("1A")]
+        [TestMethod("h. Temperature.Kelvin equals 0 after Temperature.Fahrenheit = -459.67"), TestCategory("Exercise 1A")]
         public void TemperatureKelvinEquals0AfterTemperatureFahrenheitAssignmentOfMinus459()
         {
             Temperature temperature = new Temperature();
@@ -123,7 +123,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 1B
-        [TestMethod("a. Temperature implements IComparable"), TestCategory("1B")]
+        [TestMethod("a. Temperature implements IComparable"), TestCategory("Exercise 1B")]
         public void TemperatureImplementsIComparable()
         {
             // TestTools Code
@@ -132,7 +132,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Temperature.CompareTo sorts null first"), TestCategory("1B")]
+        [TestMethod("b. Temperature.CompareTo sorts null first"), TestCategory("Exercise 1B")]
         public void TemperatureCompareToSortsNullFirst()
         {
             Temperature temperature = new Temperature();
@@ -146,7 +146,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Temperature.CompareTo sorts higher temperature first"), TestCategory("1B")]
+        [TestMethod("c. Temperature.CompareTo sorts higher temperature first"), TestCategory("Exercise 1B")]
         public void TemperatureCompareToSortsHigherTemperatureFirst()
         {
             Temperature temperature1 = new Temperature() { Kelvin = 0 };
@@ -164,7 +164,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Temperature.CompareTo does not sort equal temperatures"), TestCategory("1B")]
+        [TestMethod("d. Temperature.CompareTo does not sort equal temperatures"), TestCategory("Exercise 1B")]
         public void Test1B4()
         {
             Temperature temperature1 = new Temperature() { Kelvin = 0 };
