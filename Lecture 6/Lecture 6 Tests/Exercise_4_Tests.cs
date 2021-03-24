@@ -16,7 +16,7 @@ namespace Lecture_6_Tests
     public class Exercise_4_Tests 
     {
         #region Exercise 4A
-        [TestMethod("a. Die constructor takes IRandom"), TestCategory("4A")]
+        [TestMethod("a. Die constructor takes IRandom"), TestCategory("Exercise 4A")]
         public void DieConstructorTakesIRandom()
         {
             // TestTools Code
@@ -27,7 +27,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 4B
-        [TestMethod("a. Die constructor takes IRandom and int"), TestCategory("4B")]
+        [TestMethod("a. Die constructor takes IRandom and int"), TestCategory("Exercise 4B")]
         public void DieConstructorTakesIRandomAndInt()
         {
             // TestTools Code
@@ -38,7 +38,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 4C
-        [TestMethod("a. Die.Roll returns 5 if constructed PredictablyRandom(5)"), TestCategory("4C")]
+        [TestMethod("a. Die.Roll returns 5 if constructed PredictablyRandom(5)"), TestCategory("Exercise 4C")]
         public void DieRollReturns5()
         {
             PredictableRandom random = new PredictableRandom(5);
@@ -56,7 +56,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Die.Roll returns a number between 1 and 6 if constructed with 6 sides and MyRandom"), TestCategory("4C")]
+        [TestMethod("b. Die.Roll returns a number between 1 and 6 if constructed with 6 sides and MyRandom"), TestCategory("Exercise 4C")]
         public void DieRollReturnsANumberBetween1And6()
         {
             MyRandom random = new MyRandom();
