@@ -17,7 +17,7 @@ namespace Lecture_9_Tests
     public class Exercise_4_Tests
     {
         #region Exercise 4A
-        [TestMethod("a. ObservableCollection<T> implements ICollection"), TestCategory("Exercise 4A")]
+        [TestMethod("a. ObservableCollection<T> implements ICollection<T>"), TestCategory("Exercise 4A")]
         public void ObservableCollectionImplementsICollection()
         {
             // TestTools Code
