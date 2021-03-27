@@ -126,7 +126,18 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 3B
-        [TestMethod("a. ProductRepository.Add(Product p) is a public method"), TestCategory("Exercise 3B")]
+        [TestMethod("a. ProductRepository implements IEnumerable<T>"), TestCategory("Exercise 3B")]
+        public void ProductRepositoryImplementsIEnumerable()
+        {
+            // TestTools Code
+            StructureTest test = Factory.CreateStructureTest();
+            test.AssertClass<ProductRepository>(new TypeIsSubclassOfVerifier(typeof(IEnumerable<Product>)));
+            test.Execute();
+        }
+        #endregion
+
+        #region Exercise 3C
+        [TestMethod("a. ProductRepository.Add(Product p) is a public method"), TestCategory("Exercise 3C")]
         public void ProductRepositoryAddIsAPublicMethod()
         {
             // TestTools Code
@@ -135,7 +146,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ProductRepository.Update(Product p) is a public method"), TestCategory("Exercise 3B")]
+        [TestMethod("b. ProductRepository.Update(Product p) is a public method"), TestCategory("Exercise 3C")]
         public void ProductRepositoryUpdateIsAPublicMethod()
         {
             // TestTools Code
@@ -144,7 +155,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ProductRepository.Delete(Product p) is a public method"), TestCategory("Exercise 3B")]
+        [TestMethod("c. ProductRepository.Delete(Product p) is a public method"), TestCategory("Exercise 3C")]
         public void ProductRepositoryDeleteIsAPublicMethod()
         {
             // TestTools Code
@@ -152,19 +163,8 @@ namespace Lecture_9_Tests
             test.AssertPublicMethod<ProductRepository, Product>((r, p) => r.Update(p));
             test.Execute();
         }
-        #endregion
 
-        #region Exercise 3C
-        [TestMethod("a. ProductRepository implements IEnumerable<T>"), TestCategory("Exercise 3C")]
-        public void ProductRepositoryImplementsIEnumerable()
-        {
-            // TestTools Code
-            StructureTest test = Factory.CreateStructureTest();
-            test.AssertClass<ProductRepository>(new TypeIsSubclassOfVerifier(typeof(IEnumerable<Product>)));
-            test.Execute();
-        }
-
-        [TestMethod("b. ProductRepository.Add(Product p) adds product"), TestCategory("Exercise 3C")]
+        [TestMethod("d. ProductRepository.Add(Product p) adds product"), TestCategory("Exercise 3C")]
         public void ProductRepositoryAddAddsProduct()
         {
             ProductRepository repository = new ProductRepository();
@@ -185,7 +185,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ProductRepository.Add(Product p) adds product, which cannot be affected"), TestCategory("Exercise 3C")]
+        [TestMethod("e. ProductRepository.Add(Product p) adds product, which cannot be affected"), TestCategory("Exercise 3C")]
         public void ProductRepositoryAddAddsProduct2()
         {
             Product product = new Product() { Name = "Name" };
@@ -206,7 +206,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("d. ProductRepository.Update(Product p) updates product, which cannot be affected"), TestCategory("Exercise 3C")]
+        [TestMethod("f. ProductRepository.Update(Product p) updates product, which cannot be affected"), TestCategory("Exercise 3C")]
         public void ProductRepositoryUpdatesProduct()
         {
             Product product = new Product() { Name = "Name" };
@@ -229,7 +229,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("e. ProductRepository.Delete(Product p) removes product again"), TestCategory("Exercise 3C")]
+        [TestMethod("g. ProductRepository.Delete(Product p) removes product again"), TestCategory("Exercise 3C")]
         public void ProductRepositoryDeleteRemovesProductAgain()
         {
             ProductRepository repository = new ProductRepository();

@@ -20,6 +20,9 @@ namespace Lecture_9_Solutions
 
         public void Update(Product product)
         {
+            if (!_products.Contains(product))
+                throw new ArgumentException("Product has not been added, use ProductRepository.Add instead");
+
             _products.Remove(product);
             _products.Add((Product)product.Clone());
         }
