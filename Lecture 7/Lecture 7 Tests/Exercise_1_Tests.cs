@@ -16,7 +16,7 @@ namespace Lecture_7_Tests
     public class Exercise_1_Tests
     {
         #region Exercise 1A
-        [TestMethod("a. Fst is public read-only T1 property"), TestCategory("Exercise 1A")]
+        [TestMethod("a. Pair<T1, T2>.Fst is public read-only T1 property"), TestCategory("Exercise 1A")]
         public void FstIsPublicReadOnlyT1Property()
         {
             // TestTools Code
@@ -26,7 +26,7 @@ namespace Lecture_7_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Snd is public read-only T2 property"), TestCategory("Exercise 1A")]
+        [TestMethod("b. Pair<T1, T2>.Snd is public read-only T2 property"), TestCategory("Exercise 1A")]
         public void SndIsPublicReadOnlyT2Property()
         {
             // TestTools Code
@@ -38,7 +38,7 @@ namespace Lecture_7_Tests
         #endregion
 
         #region Exercise 1B
-        [TestMethod("a. Pair has constructor that takes T1 argument and T2 argument"), TestCategory("Exercise 1B")]
+        [TestMethod("a. Pair<T1, T2> has constructor that takes T1 argument and T2 argument"), TestCategory("Exercise 1B")]
         public void PairHasCorrectConstructor()
         {
             // TestTools Code
@@ -48,7 +48,7 @@ namespace Lecture_7_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Pair constructor sets Fst"), TestCategory("Exercise 1B")]
+        [TestMethod("b. Pair<T1, T2> constructor sets Fst"), TestCategory("Exercise 1B")]
         public void PairConstructorSetsFst()
         {
             Pair<string, int> pair = new Pair<string, int>("abc", 5);
@@ -62,7 +62,7 @@ namespace Lecture_7_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Pair constructor sets Snd"), TestCategory("Exercise 1B")]
+        [TestMethod("c. Pair<T1, T2> constructor sets Snd"), TestCategory("Exercise 1B")]
         public void PairConstructorSetsSnd()
         {
             Pair<string, int> pair = new Pair<string, int>("abc", 5);
@@ -78,7 +78,7 @@ namespace Lecture_7_Tests
         #endregion
 
         #region Exercise 1C
-        [TestMethod("a. Pair.Swap() is public method"), TestCategory("Exercise 1C")]
+        [TestMethod("a. Pair<T1, T2>.Swap() is public method"), TestCategory("Exercise 1C")]
         public void PairSwapIsPublicMethod()
         {
             // TestTools Code
@@ -88,7 +88,7 @@ namespace Lecture_7_Tests
             test.Execute();
         }
         
-        [TestMethod("b. Pair.Swap() switches Fst and Snd values around"), TestCategory("Exercise 1C")]
+        [TestMethod("b. Pair<T1, T2>.Swap() switches Fst and Snd values around"), TestCategory("Exercise 1C")]
         public void PairSwapSwitchesFstAndSnd()
         {
             Pair<string, int> pair1 = new Pair<string, int>("abc", 5);
@@ -111,25 +111,27 @@ namespace Lecture_7_Tests
         #endregion
 
         #region Exercise 1D
-        [TestMethod("a. Pair.SetFst(C value) is public method"), TestCategory("Exercise 1D")]
+        [TestMethod("a. Pair<T1, T2>.SetFst<C>(C value) is public method"), TestCategory("Exercise 1D")]
         public void PairSetFstIsPublicMethod()
         {
             // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<Pair<string, int>, double, Pair<double, int>>((p, d) => p.SetFst(d));
+            test.AssertPublicMethod<Pair<string, int>, long, Pair<long, int>>((p, d) => p.SetFst(d));
             test.Execute();
         }
 
-        [TestMethod("b. Pair.SetSnd(C value) is public method"), TestCategory("Exercise 1D")]
+        [TestMethod("b. Pair<T1, T2>.SetSnd<C>(C value) is public method"), TestCategory("Exercise 1D")]
         public void PairSetSndIsPublicMethod()
         {
             // TestTools Code
             StructureTest test = Factory.CreateStructureTest();
             test.AssertPublicMethod<Pair<string, int>, double, Pair<string, double>>((p, d) => p.SetSnd(d));
+            test.AssertPublicMethod<Pair<string, int>, long, Pair<string, long>>((p, d) => p.SetSnd(d));
             test.Execute();
         }
 
-        [TestMethod("c. Pair.SetFst(C value) returns new Pair with Fst = value"), TestCategory("Exercise 1D")]
+        [TestMethod("c. Pair<T1, T2>.SetFst<C>(C value) returns new Pair with Fst = value"), TestCategory("Exercise 1D")]
         public void PairSetFstReturnsNewPair()
         {
             Pair<string, int> pair1 = new Pair<string, int>("abc", 5);
@@ -150,7 +152,7 @@ namespace Lecture_7_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Pair.SetSnd(C value) returns new Pair with Snd = value"), TestCategory("Exercise 1D")]
+        [TestMethod("c. Pair<T1, T2>.SetSnd<C>(C value) returns new Pair with Snd = value"), TestCategory("Exercise 1D")]
         public void PairSetSndReturnsNewPair()
         {
             Pair<string, int> pair1 = new Pair<string, int>("abc", 5);

@@ -13,7 +13,6 @@ namespace Lecture_7_Solutions
         {
         }
 
-
         public Repository(ILogger logger)
         {
             _logger = logger;
