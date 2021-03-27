@@ -147,7 +147,7 @@ namespace TestTools.Structure
         {
             MemberExpression newExpression = (MemberExpression)locator.Body;
             PropertyInfo propertyInfo = (PropertyInfo)newExpression.Member;
-            test.AssertMember(propertyInfo, verifiers);
+            test.AssertProperty(propertyInfo, verifiers);
         }
 
         public static void AssertPublicProperty<TInstance, TProperty>(this StructureTest test, PropertyInfo propertyInfo)
