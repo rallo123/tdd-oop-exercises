@@ -7,7 +7,6 @@ namespace Lecture_3_Solutions
     public class Company
     {
         private string _name;
-        
 
         public Company()
         {

@@ -81,6 +81,11 @@ namespace Lecture_7_Solutions
             return _id;
         }
 
+        public override string ToString()
+        {
+            return $"Dog {Name} ({ID})";
+        }
+
         // TestTools Code
         [PropertySet("ID")]
         public void SetID(int value) => ID = value;

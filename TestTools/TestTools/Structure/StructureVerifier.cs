@@ -26,7 +26,13 @@ namespace TestTools.Structure
         internal void FailMemberNotFound(Type targetType, string[] vs)
         {
             if (vs.Length == 1)
-                throw new AssertFailedException($"{targetType} does not contain member {vs[0]}");
+            {
+                string message = string.Format(
+                    "{0} does not contain member {1}",
+                    FormatHelper.FormatType(targetType),
+                    vs[0]);
+                throw new AssertFailedException(message);
+            }
             else throw new NotImplementedException();
         }
 
@@ -371,7 +377,7 @@ namespace TestTools.Structure
             if (fieldInfo.IsInitOnly == isInitOnly)
                 return;
 
-            string template = isInitOnly ? "{0}.{1} cannot be readonly" : "{0}.{1} must be readonly";
+            string template = isInitOnly ? "{0}.{1} must be readonly" : "{0}.{1} cannot be readonly";
             string message = string.Format(
                 template,
                 FormatHelper.FormatType(fieldInfo.DeclaringType),

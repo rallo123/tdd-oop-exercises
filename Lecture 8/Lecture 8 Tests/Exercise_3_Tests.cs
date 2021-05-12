@@ -16,7 +16,7 @@ namespace Lecture_8_Tests
     public class Exercise_3_Tests
     {
         #region Exercise 3A
-        [TestMethod("ConsoleView.Run() is a public method"), TestCategory("Exercise 3A")]
+        [TestMethod("a. ConsoleView.Run() is a public method"), TestCategory("Exercise 3A")]
         public void ConsoleViewRunIsAPublicMethod()
         {
             // TestTools Code
@@ -25,7 +25,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("ConsoleView.Run() returns on empty line input"), TestCategory("Exercise 3A")]
+        [TestMethod("b. ConsoleView.Run() returns on empty line input"), TestCategory("Exercise 3A")]
         public void ConsoleViewRunReturnsOnEmptyLineInput()
         {
             // MSTest Extended
@@ -47,7 +47,7 @@ namespace Lecture_8_Tests
         #endregion
 
         #region exercise 3B
-        [TestMethod("InputHandler is public delegate"), TestCategory("Exercise 3B")]
+        [TestMethod("a. InputHandler is public delegate"), TestCategory("Exercise 3B")]
         public void InputHandlerIsPublicDelegate()
         {
             // TestTools Code

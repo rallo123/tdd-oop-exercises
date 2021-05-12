@@ -223,7 +223,7 @@ namespace Lecture_2_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Person.Mother is initialized as null"), TestCategory("Exercise 1A")]
+        [TestMethod("c. Person.Mother is initialized as null"), TestCategory("Exercise 1B")]
         public void MotherIsInitilizedAsnull()
         {
             Person person = new Person();
@@ -237,7 +237,7 @@ namespace Lecture_2_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Person.Father is initialized as null"), TestCategory("Exercise 1A")]
+        [TestMethod("d. Person.Father is initialized as null"), TestCategory("Exercise 1B")]
         public void FatherIsInitilizedAsnull()
         {
             Person person = new Person();

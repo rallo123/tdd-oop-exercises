@@ -25,7 +25,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("b. ArrayHelper.Filter is a public method"), TestCategory("Exercise 1B")]
+        [TestMethod("b. ArrayHelper.Filter<T>(T[] array, Predicate<T> p) is a public method"), TestCategory("Exercise 1B")]
         public void ArrayHelperFilterIsAPublicMethod()
         {
             // TestTools Code
@@ -37,7 +37,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ArrayHelper.Map is a public method"), TestCategory("Exercise 1B")]
+        [TestMethod("c. ArrayHelper.Map<T1, T2>(T1[] array, Func<T1, T2> f) is a public method"), TestCategory("Exercise 1B")]
         public void ArrayHelperMapIsAPublicMethod()
         {
             // TestTools Code
@@ -49,7 +49,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("d. ArrayHelper.Sort is a public method"), TestCategory("Exercise 1B")]
+        [TestMethod("d. ArrayHelper.Sort<T>(T[] array, Func<T, T, int> f) is a public method"), TestCategory("Exercise 1B")]
         public void ArrayHelperSortIsPublicMethod()
         {
             // TestTools Code
@@ -61,7 +61,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("e. ArrayHelper.Find is a public method"), TestCategory("Exercise 1B")]
+        [TestMethod("e. ArrayHelper.Find<T>(T[] array, Predicate<T> p) is a public method"), TestCategory("Exercise 1B")]
         public void ArrayHelperFindIsAPublicMethod()
         {
             // TestTools Code
@@ -73,7 +73,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("f. ArrayHelper.Contains is a public method"), TestCategory("Exercise 1B")]
+        [TestMethod("f. ArrayHelper.Contains<T>(T[] array, Predicate<T> p) is a public method"), TestCategory("Exercise 1B")]
         public void ArrayContainsIsAPublicMethod()
         {
             // TestTools Code
@@ -85,7 +85,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("g. ArrayHelper.Filter can filter out negative numbers"), TestCategory("Exercise 1B")]
+        [TestMethod("g. ArrayHelper.Filter<T>(T[] array, Predicate<T> p) can filter out negative numbers"), TestCategory("Exercise 1B")]
         public void ArrayFilterReturnsCorrectly()
         {
             int[] input = new int[] { -2, -1, 0, 1, 2 };
@@ -105,7 +105,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("h. ArrayHelper.Map can convert multiply number by 2"), TestCategory("Exercise 1B")]
+        [TestMethod("h. ArrayHelper.Map<T1, T2>(T1[] array, Func<T1, T2> f) can convert multiply number by 2"), TestCategory("Exercise 1B")]
         public void ArrayMapReturnsCorrectly()
         {
             int[] input = new int[] { 0, 1, 2 };
@@ -125,7 +125,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("i. ArrayHelper.Sort can sort array of numbers"), TestCategory("Exercise 1B")]
+        [TestMethod("i. ArrayHelper.Sort<T>(T[] array, Func<T, T, int> f) can sort array of numbers"), TestCategory("Exercise 1B")]
         public void ArraySortReturnsCorrectly()
         {
             int[] input = new int[] { 0, 5, 4, 1, 3, 2 };
@@ -146,7 +146,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("j. ArrayHelper.Find can a number"), TestCategory("Exercise 1B")]
+        [TestMethod("j. ArrayHelper.Find<T>(T[] array, Predicate<T> p) can a number"), TestCategory("Exercise 1B")]
         public void ArrayFindReturnsCorrectly()
         {
             int[] array = new int[] { 0, 1, 2 };
@@ -160,7 +160,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("j. ArrayHelper.Contains returns true if predicate equals true"), TestCategory("Exercise 1B")]
+        [TestMethod("j. ArrayHelper.Contains<T>(T[] array, Predicate<T> p) returns true if predicate equals true"), TestCategory("Exercise 1B")]
         public void ArrayContainsReturnsTrue()
         {
             int[] array = new int[] { 0, 1, 2 };
@@ -174,7 +174,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("j. ArrayHelper.Contains returns false if predicate equals false"), TestCategory("Exercise 1B")]
+        [TestMethod("j. ArrayHelper.Contains<T>(T[] array, Predicate<T> p) returns false if predicate equals false"), TestCategory("Exercise 1B")]
         public void ArrayContainsReturnsFalse()
         {
             int[] array = new int[] { 0, 1, 2 };

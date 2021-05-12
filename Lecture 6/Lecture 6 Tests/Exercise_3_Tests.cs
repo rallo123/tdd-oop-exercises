@@ -16,7 +16,7 @@ namespace Lecture_6_Tests
     public class Exercise_3_Tests 
     {
         #region Exercise 3A
-        [TestMethod("a. IRandom is an interface"), TestCategory("3A")]
+        [TestMethod("a. IRandom is an interface"), TestCategory("Exercise 3A")]
         public void IRandomIsAnInterface()
         {
             // TestTools Code
@@ -25,7 +25,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("b. IRandom.Next() is a method"), TestCategory("3A")]
+        [TestMethod("b. IRandom.Next() is a method"), TestCategory("Exercise 3A")]
         public void IRandomNextOverloadTakesNothing()
         {
             // TestTools Code
@@ -34,7 +34,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("c. IRandom.Next(max) is a method"), TestCategory("3A")]
+        [TestMethod("c. IRandom.Next(max) is a method"), TestCategory("Exercise 3A")]
         public void IRandomNextOverloadTakesInt()
         {
             // TestTools Code
@@ -43,7 +43,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("d. IRandom.Next(min, max) is a method"), TestCategory("3A")]
+        [TestMethod("d. IRandom.Next(min, max) is a method"), TestCategory("Exercise 3A")]
         public void IRandomNextOverlaodTakes2Ints()
         {
             // TestTools Code
@@ -54,7 +54,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 3B
-        [TestMethod("a. MyRandom implements IRandom"), TestCategory("3B")]
+        [TestMethod("a. MyRandom implements IRandom"), TestCategory("Exercise 3B")]
         public void MyRandomImplementsIRandom()
         {
             // TestTools Code
@@ -63,7 +63,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("b. MyRandom.Next() does not return the same value twice (may randomly fail)"), TestCategory("3B")]
+        [TestMethod("b. MyRandom.Next() does not return the same value twice (may randomly fail)"), TestCategory("Exercise 3B")]
         public void MyRandomNextReturnsRandomNumber()
         {
             MyRandom random = new MyRandom();
@@ -77,7 +77,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("c. MyRandom.Next(6) returns a number lower or equal to 6"), TestCategory("3B")]
+        [TestMethod("c. MyRandom.Next(6) returns a number lower or equal to 6"), TestCategory("Exercise 3B")]
         public void MyRandomNextReturnsExpectedResult()
         {
             MyRandom random = new MyRandom();
@@ -91,7 +91,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("d. MyRandom.Next(1, 6) returns a number between 1 and 6"), TestCategory("3B")]
+        [TestMethod("d. MyRandom.Next(1, 6) returns a number between 1 and 6"), TestCategory("Exercise 3B")]
         public void MyRandomNextReturnsExpectedResult2()
         {
             MyRandom random = new MyRandom();
@@ -112,7 +112,7 @@ namespace Lecture_6_Tests
         #endregion
 
         #region Exercise 3C
-        [TestMethod("a. PredictableRandom implements IRandom"), TestCategory("3C")]
+        [TestMethod("a. PredictableRandom implements IRandom"), TestCategory("Exercise 3C")]
         public void PredictableRandomImplementsIRandom()
         {
             // TestTools Code
@@ -121,7 +121,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("b. PredictableRandom.Next() returns 4 if constructed with 4"), TestCategory("3C")]
+        [TestMethod("b. PredictableRandom.Next() returns 4 if constructed with 4"), TestCategory("Exercise 3C")]
         public void PredictableRandomNextReturns4A()
         {
             PredictableRandom random = new PredictableRandom(4);
@@ -135,7 +135,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("c. PredictableRandom.Next(6) returns 4 if constructed with 4"), TestCategory("3C")]
+        [TestMethod("c. PredictableRandom.Next(6) returns 4 if constructed with 4"), TestCategory("Exercise 3C")]
         public void PredictableRandomNextReturns4B()
         {
             PredictableRandom random = new PredictableRandom(4);
@@ -149,7 +149,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("d. PredictableRandom.Next(6) throws ArgumentException if constructed with 7"), TestCategory("3C")]
+        [TestMethod("d. PredictableRandom.Next(6) throws ArgumentException if constructed with 7"), TestCategory("Exercise 3C")]
         public void PredictableRandomNextThrowsOn6()
         {
             PredictableRandom random = new PredictableRandom(7);
@@ -163,7 +163,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("e. PredictableRandom.Next(1, 6) returns 4 if constructed with 4"), TestCategory("3C")]
+        [TestMethod("e. PredictableRandom.Next(1, 6) returns 4 if constructed with 4"), TestCategory("Exercise 3C")]
         public void PredictableRandomNextReturns4C()
         {
             PredictableRandom random = new PredictableRandom(4);
@@ -177,7 +177,7 @@ namespace Lecture_6_Tests
             test.Execute();
         }
 
-        [TestMethod("f. PredictableRandom.Next(1, 6) throws ArgumentException if constructed with 0"), TestCategory("3C")]
+        [TestMethod("f. PredictableRandom.Next(1, 6) throws ArgumentException if constructed with 0"), TestCategory("Exercise 3C")]
         public void PredictableRandomNextThrowsOn1And6()
         {
             PredictableRandom random = new PredictableRandom(0);

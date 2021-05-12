@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Lecture_1_Tests</RootNamespace>
+    <RootNamespace>Lecture_9_Tests</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>

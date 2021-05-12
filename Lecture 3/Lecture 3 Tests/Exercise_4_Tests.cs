@@ -11,8 +11,8 @@ namespace Lecture_3_Tests
     [TestClass]
     public class Exercise_4_Tests
     {
-        #region Exercise 4A
-        [TestMethod("a. Employee.ToString() returns expected output"), TestCategory("Exercise 4A")]
+        #region Exercise 4B
+        [TestMethod("a. Employee.ToString() returns expected output"), TestCategory("Exercise 4B")]
         public void EmployeeToStringReturnsExpectedOutput()
         {
             Employee employee = new Employee("Joe Stevens")
@@ -25,13 +25,13 @@ namespace Lecture_3_Tests
             UnitTest test = Factory.CreateTest();
             TestVariable<Employee> _employee = test.CreateVariable<Employee>(nameof(_employee));
             test.Arrange(_employee, Expr(() => new Employee("Joe Stevens") { Title = "Programmer" }));
-            test.Assert.AreEqual(Const("Employee Joe Stevens (Programmer)", Expr(_employee, e => e.ToString())));
+            test.Assert.AreEqual(Const("Employee Joe Stevens (Programmer)"), Expr(_employee, e => e.ToString()));
             test.Execute();
         }
         #endregion
 
-        #region Exercise 4B
-        [TestMethod("a. Manager.ToString() returns expected output"), TestCategory("Exercise 4B")]
+        #region Exercise 4C
+        [TestMethod("a. Manager.ToString() returns expected output"), TestCategory("Exercise 4C")]
         public void ManagerToStringReturnsExpectedOutput()
         {
             Manager manager = new Manager("Mary Stevens")

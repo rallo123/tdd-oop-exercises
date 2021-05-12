@@ -176,7 +176,7 @@ namespace Lecture_8_Tests
             test.Execute();
         }
 
-        [TestMethod("c. ConsoleController.RemoveCommand(\"SayGoodbye\") removes command again"), TestCategory("Exercise 4D")]
+        [TestMethod("a. ConsoleController.RemoveCommand(\"SayGoodbye\") removes command again"), TestCategory("Exercise 4D")]
         public void ConsoleControllerRemoveCommandRemovesCommand()
         {
             // MSTest Extended

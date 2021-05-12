@@ -15,9 +15,14 @@ namespace TestTools.Structure
         // StructureTest.AssertAbstractClass<T>(new TypeAccessLevel(AccessLevel.Public)),
         // which are fully equavilent however look different.
 
+        public static void AssertClass(this StructureTest test, Type type, params ITypeVerifier[] verifiers)
+        {
+            test.AssertType(type, verifiers);
+        }
+
         public static void AssertClass<T>(this StructureTest test, params ITypeVerifier[] verifiers)
         {
-            test.AssertType(typeof(T), verifiers);
+            test.AssertClass(typeof(T), verifiers);
         }
 
         public static void AssertAbstractClass<T>(this StructureTest test)
@@ -142,7 +147,7 @@ namespace TestTools.Structure
         {
             MemberExpression newExpression = (MemberExpression)locator.Body;
             PropertyInfo propertyInfo = (PropertyInfo)newExpression.Member;
-            test.AssertMember(propertyInfo, verifiers);
+            test.AssertProperty(propertyInfo, verifiers);
         }
 
         public static void AssertPublicProperty<TInstance, TProperty>(this StructureTest test, PropertyInfo propertyInfo)

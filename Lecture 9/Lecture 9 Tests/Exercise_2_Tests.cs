@@ -16,7 +16,7 @@ namespace Lecture_9_Tests
     public class Exercise_2_Tests
     {
         #region Exercise 2A
-        [TestMethod("a. Student.ID is a public property")]
+        [TestMethod("a. Student.ID is a public property"), TestCategory("Exercise 2A")]
         public void StudentIDIsAPublicProperty()
         {
             // TestTools Code
@@ -25,7 +25,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Student.FirstName is a public property")]
+        [TestMethod("b. Student.FirstName is a public property"), TestCategory("Exercise 2A")]
         public void StudentFirstNameIsAPublicProperty()
         {
             // TestTools Code
@@ -34,7 +34,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Student.LastName is a public property")]
+        [TestMethod("c. Student.LastName is a public property"), TestCategory("Exercise 2A")]
         public void StudentLastNameIsAPublicProperty()
         {
             // TestTools Code
@@ -43,7 +43,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Student.LastName is a public property")]
+        [TestMethod("d. Student.LastName is a public property"), TestCategory("Exercise 2A")]
         public void StudentAgeIsAPublicProperty()
         {
             // TestTools Code
@@ -54,7 +54,7 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 2B
-        [TestMethod("a. Course.Student is a readonly property")]
+        [TestMethod("a. Course.Student is a readonly property"), TestCategory("Exercise 2B")]
         public void CourseStudentIsAReadonlyProperty()
         {
             // TestTools Code
@@ -63,7 +63,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Course.Enroll(Student s) is a public method")]
+        [TestMethod("b. Course.Enroll(Student s) is a public method"), TestCategory("Exercise 2B")]
         public void CourseEnrollIsAPublicMethod()
         {
             // TestTools Code
@@ -72,7 +72,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Course.Disenroll(Student s) is a public method")]
+        [TestMethod("c. Course.Disenroll(Student s) is a public method"), TestCategory("Exercise 2B")]
         public void CourseDisenrollIsAPublicMethod()
         {
             // TestTools Code
@@ -81,7 +81,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Course.Enroll(Student s) adds student")]
+        [TestMethod("d. Course.Enroll(Student s) adds student"), TestCategory("Exercise 2B")]
         public void CourseEnrollAddsStudent()
         {
             Course course = new Course();
@@ -102,7 +102,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("e. Course.Disenroll(Student s) removes student again")]
+        [TestMethod("e. Course.Disenroll(Student s) removes student again"), TestCategory("Exercise 2B")]
         public void CourseDisenrollRemovesStudentAgain()
         {
             Course course = new Course();
@@ -128,7 +128,7 @@ namespace Lecture_9_Tests
         #endregion
 
         #region Exercise 2C
-        [TestMethod("a. Course.GetStudentByID(int id) is a public method")]
+        [TestMethod("a. Course.GetStudentByID(int id) is a public method"), TestCategory("Exercise 2C")]
         public void CourseGetStudentByIDIsAPublicMethod()
         {
             // TestTools Code
@@ -137,7 +137,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("b. Course.GetYoungestStudent() is a public method")]
+        [TestMethod("b. Course.GetYoungestStudent() is a public method"), TestCategory("Exercise 2C")]
         public void CourseGetYoungestStudentIsAPublicMethod()
         {
             // TestTools Code
@@ -146,7 +146,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("c. Course.GetOldestStudent() is a public method")]
+        [TestMethod("c. Course.GetOldestStudent() is a public method"), TestCategory("Exercise 2C")]
         public void CourseGetOldestStudentIsAPublicMethod()
         {
             // TestTools Code
@@ -155,7 +155,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("d. Course.GetAverageStudentAge() is a public method")]
+        [TestMethod("d. Course.GetAverageStudentAge() is a public method"), TestCategory("Exercise 2C")]
         public void CourseGetAverageStudentAgeIsAPublicMethod()
         {
             // TestTools Code
@@ -164,7 +164,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("e. Course.GetStudentByID(int id) returns correctly")]
+        [TestMethod("e. Course.GetStudentByID(int id) returns correctly"), TestCategory("Exercise 2C")]
         public void CourseGetStudentByIDReturnsCorrectly()
         {
             Course course = new Course();
@@ -185,7 +185,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("f. Course.GetYoungestStudent() returns correctly")]
+        [TestMethod("f. Course.GetYoungestStudent() returns correctly"), TestCategory("Exercise 2C")]
         public void CourseGetYoungestStudentReturnsCorrectly()
         {
             Course course = new Course();
@@ -211,7 +211,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("g. Course.GetOldestStudent() returns correctly")]
+        [TestMethod("g. Course.GetOldestStudent() returns correctly"), TestCategory("Exercise 2C")]
         public void CourseGetOldestStudentReturnsCorrectly()
         {
             Course course = new Course();
@@ -237,7 +237,7 @@ namespace Lecture_9_Tests
             test.Execute();
         }
 
-        [TestMethod("h. Course.GetAverageStudentAge() returns correctly")]
+        [TestMethod("h. Course.GetAverageStudentAge() returns correctly"), TestCategory("Exercise 2C")]
         public void CourseGetAverageStudentAgeReturnsCorrectly()
         {
             Course course = new Course();

@@ -8,10 +8,8 @@ namespace Lecture_7_Solutions
     {
         public static T Min<T>(T[] array) where T : IComparable
         {
-            if (array == null)
+            if (array == null || array.Length == 0)
                 throw new ArgumentNullException();
-            if (array.Length == 0)
-                return default(T);
 
             T lowestValue = array[0];
 
@@ -26,10 +24,8 @@ namespace Lecture_7_Solutions
 
         public static T Max<T>(T[] array) where T : IComparable
         {
-            if (array == null)
+            if (array == null || array.Length == 0)
                 throw new ArgumentNullException();
-            if (array.Length == 0)
-                return default(T);
 
             T highestValue = array[0];
 
