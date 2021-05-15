@@ -30,7 +30,7 @@ namespace TestTools.Structure
             {
                 foreach (var methodBase2 in members.OfType<MethodBase>())
                 {
-                    var parameterTypes1 = methodBase1.GetParameters().Select(p => p.ParameterType);
+                    var parameterTypes1 = methodBase1.GetParameters().Select(p => Service.TranslateType(p.ParameterType));
                     var parameterTypes2 = methodBase2.GetParameters().Select(p => p.ParameterType);
 
                     if (parameterTypes1.SequenceEqual(parameterTypes2))
