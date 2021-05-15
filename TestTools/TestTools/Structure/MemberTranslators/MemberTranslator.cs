@@ -11,6 +11,8 @@ namespace TestTools.Structure
 
         public StructureVerifier Verifier { get; set; }
 
+        public IStructureService Service { get; set; }
+
         public abstract MemberInfo Translate(MemberInfo member);
     }
 }

@@ -8,6 +8,7 @@ namespace TestTools.Structure
     public interface IMemberTranslator
     {
         Type TargetType { get; set; }
+        IStructureService Service { get; set; }
         StructureVerifier Verifier { get; set; }
         MemberInfo Translate(MemberInfo member);
     }
