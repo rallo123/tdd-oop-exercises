@@ -96,6 +96,7 @@ namespace TestTools.Structure
             
             IMemberTranslator translator = memberInfo.GetCustomTranslator() ?? MemberTranslator;
 
+            translator.Service = this;
             translator.Verifier = StructureVerifier;
             translator.TargetType = TranslateType(memberInfo.DeclaringType);
 
@@ -109,6 +110,7 @@ namespace TestTools.Structure
 
             IMemberTranslator translator = memberInfo.GetCustomTranslator() ?? MemberTranslator;
 
+            translator.Service = this;
             translator.Verifier = StructureVerifier;
             translator.TargetType = targetType;
 
