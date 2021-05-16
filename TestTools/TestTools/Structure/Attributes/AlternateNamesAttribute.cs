@@ -28,6 +28,7 @@ namespace TestTools.Structure
         }
 
         public StructureVerifier Verifier { get; set; }
+        public IStructureService Service { get; set; }
 
         public Type Translate(Type type) => _typeTranslator.Translate(type);
 
